@@ -1,15 +1,60 @@
 ***
-# Supervised Learning : Leveraging Ensemble Learning With Bagging, Boosting and Stacking
+# Supervised Learning : Leveraging Ensemble Learning With Bagging, Boosting, Stacking and Blending Approaches
 
 ***
-### [**John Pauline Pineda**](https://github.com/JohnPaulinePineda) <br> <br> *February 15, 2025*
+### [**John Pauline Pineda**](https://github.com/JohnPaulinePineda) <br> <br> *February 19, 2025*
 ***
 
 * [**1. Table of Contents**](#TOC)
+    * [1.1 Data Background](#1.1)
+    * [1.2 Data Description](#1.2)
+    * [1.3 Data Quality Assessment](#1.3)
+    * [1.4 Data Preprocessing](#1.4)
+        * [1.4.1 Data Cleaning](#1.4.1)
+        * [1.4.2 Missing Data Imputation](#1.4.2)
+        * [1.4.3 Outlier Treatment](#1.4.3)
+        * [1.4.4 Collinearity](#1.4.4)
+        * [1.4.5 Shape Transformation](#1.4.5)
+        * [1.4.6 Centering and Scaling](#1.4.6)
+        * [1.4.7 Data Encoding](#1.4.7)
+        * [1.4.8 Preprocessed Data Description](#1.4.8)
+    * [1.5 Data Exploration](#1.5)
+        * [1.5.1 Exploratory Data Analysis](#1.5.1)
+        * [1.5.2 Hypothesis Testing](#1.5.2)
+    * [1.6 Data Preprocessing Pipeline Development](#1.6)
+        * [1.6.1 Premodelling Data Description](#1.6.1)
+    * [1.7 Bagged Model Development](#1.7)
+        * [1.7.1 Random Forest](#1.7.1)
+        * [1.7.2 Extra Trees](#1.7.2)
+        * [1.7.3 Bagged Decision Trees](#1.7.3)
+        * [1.7.4 Bagged Logistic Regression](#1.7.4)
+        * [1.7.5 Bagged Support Vector Machine](#1.7.5)
+    * [1.8 Boosted Model Development](#1.8)
+        * [1.8.1 AdaBoost](#1.8.1)
+        * [1.8.2 Gradient Boosting](#1.8.2)
+        * [1.8.3 XGBoost](#1.8.3)
+        * [1.8.4 Light GBM](#1.8.4)
+        * [1.8.5 CatBoost](#1.8.5)
+    * [1.9 Stacked Model Development](#1.9)
+        * [1.9.1 Base Learner - K-Nearest Neighbors](#1.9.1)
+        * [1.9.2 Base Learner - Support Vector Machine](#1.9.2)
+        * [1.9.3 Base Learner - Random Forest](#1.9.3)
+        * [1.9.4 Base Learner - Neural Network](#1.9.4)
+        * [1.9.5 Base Learner - Decision Trees](#1.9.5)
+        * [1.9.6 Meta Learner - Logistic Regression](#1.9.6)
+    * [1.10 Blended Model Development](#1.10)
+        * [1.10.1 Base Learner - K-Nearest Neighbors](#1.10.1)
+        * [1.10.2 Base Learner - Support Vector Machine](#1.10.2)
+        * [1.10.3 Base Learner - Random Forest](#1.10.3)
+        * [1.10.4 Base Learner - Neural Network](#1.10.4)
+        * [1.10.5 Base Learner - Decision Trees](#1.10.5)
+        * [1.10.6 Meta Learner - Logistic Regression](#1.10.6)
+    * [1.7 Consolidated Findings](#1.7)
 * [**2. Summary**](#Summary)   
 * [**3. References**](#References)
 
 ***
+
 
 # 1. Table of Contents <a class="anchor" id="TOC"></a>
 
@@ -56,8 +101,8 @@
 * **[Article]** [Mastering Ensemble Techniques in Machine Learning: Bagging, Boosting, Bayes Optimal Classifier, and Stacking](https://rahuljain788.medium.com/mastering-ensemble-techniques-in-machine-learning-bagging-boosting-bayes-optimal-classifier-and-c1dd8052f53f) by Rahul Jain (Medium)
 * **[Article]** [Ensemble Learning: Bagging, Boosting, Stacking](https://ai.plainenglish.io/ml-tutorial-19-ensemble-learning-bagging-boosting-stacking-5a926db20ec5) by Ayşe Kübra Kuyucu (Medium)
 * **[Article]** [Ensemble: Boosting, Bagging, and Stacking Machine Learning](https://medium.com/@senozanAleyna/ensemble-boosting-bagging-and-stacking-machine-learning-6a09c31df778) by Aleyna Şenozan (Medium)
-* **[Article]** [Boosting, Stacking, and Bagging for Ensemble Models for Time Series Analysis with Python](https://medium.com/@abhishekjainindore24/different-types-of-ensemble-techniques-bagging-boosting-stacking-voting-blending-b04355a03c93) by Kyle Jones (Medium)
-* **[Article]** [Different types of Ensemble Techniques — Bagging, Boosting, Stacking, Voting, Blending](https://machinelearningmastery.com/stacking-ensemble-machine-learning-with-python/) by Abhishek Jain (Medium)
+* **[Article]** [Boosting, Stacking, and Bagging for Ensemble Models for Time Series Analysis with Python](https://medium.com/@kylejones_47003/boosting-stacking-and-bagging-for-ensemble-models-for-time-series-analysis-with-python-d74ab9026782) by Kyle Jones (Medium)
+* **[Article]** [Different types of Ensemble Techniques — Bagging, Boosting, Stacking, Voting, Blending](https://medium.com/@abhishekjainindore24/different-types-of-ensemble-techniques-bagging-boosting-stacking-voting-blending-b04355a03c93) by Abhishek Jain (Medium)
 * **[Article]** [Mastering Ensemble Techniques in Machine Learning: Bagging, Boosting, Bayes Optimal Classifier, and Stacking](https://rahuljain788.medium.com/mastering-ensemble-techniques-in-machine-learning-bagging-boosting-bayes-optimal-classifier-and-c1dd8052f53f) by Rahul Jain (Medium)
 * **[Article]** [Understanding Ensemble Methods: Bagging, Boosting, and Stacking](https://divyabhagat.medium.com/understanding-ensemble-methods-bagging-boosting-and-stacking-7683c493ac19) by Divya bhagat (Medium)
 * **[Video Tutorial]** [BAGGING vs. BOOSTING vs STACKING in Ensemble Learning | Machine Learning](https://www.youtube.com/watch?v=j9jGLwPa6_E) by Gate Smashers (YouTube)
