@@ -2,7 +2,7 @@
 # Supervised Learning : Leveraging Ensemble Learning With Bagging, Boosting, Stacking and Blending Approaches
 
 ***
-### [**John Pauline Pineda**](https://github.com/JohnPaulinePineda) <br> <br> *February 19, 2025*
+### [**John Pauline Pineda**](https://github.com/JohnPaulinePineda) <br> <br> *February 22, 2025*
 ***
 
 * [**1. Table of Contents**](#TOC)
@@ -49,7 +49,7 @@
         * [1.10.4 Base Learner - Neural Network](#1.10.4)
         * [1.10.5 Base Learner - Decision Trees](#1.10.5)
         * [1.10.6 Meta Learner - Logistic Regression](#1.10.6)
-    * [1.7 Consolidated Findings](#1.7)
+    * [1.11 Consolidated Findings](#1.11)
 * [**2. Summary**](#Summary)   
 * [**3. References**](#References)
 
@@ -57,6 +57,94 @@
 
 
 # 1. Table of Contents <a class="anchor" id="TOC"></a>
+
+## 1.1. Data Background <a class="anchor" id="1.1"></a>
+
+## 1.2. Data Description <a class="anchor" id="1.2"></a>
+
+## 1.3. Data Quality Assessment <a class="anchor" id="1.3"></a>
+
+## 1.4. Data Preprocessing <a class="anchor" id="1.4"></a>
+
+### 1.4.1 Data Cleaning <a class="anchor" id="1.4.1"></a>
+
+### 1.4.2 Missing Data Imputation <a class="anchor" id="1.4.2"></a>
+
+### 1.4.3 Outlier Treatment <a class="anchor" id="1.4.3"></a>
+
+### 1.4.4 Collinearity <a class="anchor" id="1.4.4"></a>
+
+### 1.4.5 Shape Transformation <a class="anchor" id="1.4.5"></a>
+
+### 1.4.6 Centering and Scaling <a class="anchor" id="1.4.6"></a>
+
+### 1.4.7 Data Encoding <a class="anchor" id="1.4.7"></a>
+
+### 1.4.8 Preprocessed Data Description <a class="anchor" id="1.4.8"></a>
+
+## 1.5. Data Exploration <a class="anchor" id="1.5"></a>
+
+### 1.5.1 Exploratory Data Analysis <a class="anchor" id="1.5.1"></a>
+
+### 1.5.2 Hypothesis Testing <a class="anchor" id="1.5.2"></a>
+
+## 1.6. Data Preprocessing Pipeling Development <a class="anchor" id="1.6"></a>
+
+### 1.6.1 Premodelling Data Description <a class="anchor" id="1.6.1"></a>
+
+## 1.7. Bagged Model Development <a class="anchor" id="1.7"></a>
+
+### 1.7.1 Random Forest <a class="anchor" id="1.7.1"></a>
+
+### 1.7.2 Extra Trees <a class="anchor" id="1.7.2"></a>
+
+### 1.7.3 Bagged Decision Trees <a class="anchor" id="1.7.3"></a>
+
+### 1.7.4 Bagged Logistic Regression <a class="anchor" id="1.7.4"></a>
+
+### 1.7.5 Bagged Support Vector Machine <a class="anchor" id="1.7.5"></a>
+
+## 1.8. Boosted Model Development <a class="anchor" id="1.8"></a>
+
+### 1.8.1 AdaBoost <a class="anchor" id="1.8.1"></a>
+
+### 1.8.2 Gradient Boosting <a class="anchor" id="1.8.2"></a>
+
+### 1.8.3 XGBoost <a class="anchor" id="1.8.3"></a>
+
+### 1.8.4 Light GBM <a class="anchor" id="1.8.4"></a>
+
+### 1.8.5 CatBoost <a class="anchor" id="1.8.5"></a>
+
+## 1.9. Stacked Model Development <a class="anchor" id="1.9"></a>
+
+### 1.9.1 Base Learner - K-Nearest Neighbors <a class="anchor" id="1.9.1"></a>
+
+### 1.9.2 Base Learner - Support Vector Machine <a class="anchor" id="1.9.2"></a>
+
+### 1.9.3 Base Learner - Random Forest <a class="anchor" id="1.9.3"></a>
+
+### 1.9.4 Base Learner - Neural Network <a class="anchor" id="1.9.4"></a>
+
+### 1.9.5 Base Learner - Decision Trees <a class="anchor" id="1.9.5"></a>
+
+### 1.9.6 Meta Learner - Logistic Regression <a class="anchor" id="1.9.6"></a>
+
+## 1.10. Blended Model Development <a class="anchor" id="1.10"></a>
+
+### 1.10.1 Base Learner - K-Nearest Neighbors <a class="anchor" id="1.10.1"></a>
+
+### 1.10.2 Base Learner - Support Vector Machine <a class="anchor" id="1.10.2"></a>
+
+### 1.10.3 Base Learner - Random Forest <a class="anchor" id="1.10.3"></a>
+
+### 1.10.4 Base Learner - Neural Network <a class="anchor" id="1.10.4"></a>
+
+### 1.10.5 Base Learner - Decision Trees <a class="anchor" id="1.10.5"></a>
+
+### 1.10.6 Meta Learner - Logistic Regression <a class="anchor" id="1.10.6"></a>
+
+## 1.11. Consolidated Summary<a class="anchor" id="1.11"></a>
 
 # 2. Summary <a class="anchor" id="Summary"></a>
 
