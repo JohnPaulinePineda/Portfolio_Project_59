@@ -26,7 +26,7 @@
     * [1.7 Bagged Model Development](#1.7)
         * [1.7.1 Random Forest](#1.7.1)
         * [1.7.2 Extra Trees](#1.7.2)
-        * [1.7.3 Bagged Decision Trees](#1.7.3)
+        * [1.7.3 Bagged Decision Tree](#1.7.3)
         * [1.7.4 Bagged Logistic Regression](#1.7.4)
         * [1.7.5 Bagged Support Vector Machine](#1.7.5)
     * [1.8 Boosted Model Development](#1.8)
@@ -38,16 +38,16 @@
     * [1.9 Stacked Model Development](#1.9)
         * [1.9.1 Base Learner - K-Nearest Neighbors](#1.9.1)
         * [1.9.2 Base Learner - Support Vector Machine](#1.9.2)
-        * [1.9.3 Base Learner - Random Forest](#1.9.3)
+        * [1.9.3 Base Learner - Ridge Classifier](#1.9.3)
         * [1.9.4 Base Learner - Neural Network](#1.9.4)
-        * [1.9.5 Base Learner - Decision Trees](#1.9.5)
+        * [1.9.5 Base Learner - Decision Tree](#1.9.5)
         * [1.9.6 Meta Learner - Logistic Regression](#1.9.6)
     * [1.10 Blended Model Development](#1.10)
         * [1.10.1 Base Learner - K-Nearest Neighbors](#1.10.1)
         * [1.10.2 Base Learner - Support Vector Machine](#1.10.2)
-        * [1.10.3 Base Learner - Random Forest](#1.10.3)
+        * [1.10.3 Base Learner - Ridge Classifier](#1.10.3)
         * [1.10.4 Base Learner - Neural Network](#1.10.4)
-        * [1.10.5 Base Learner - Decision Trees](#1.10.5)
+        * [1.10.5 Base Learner - Decision Tree](#1.10.5)
         * [1.10.6 Meta Learner - Logistic Regression](#1.10.6)
     * [1.11 Consolidated Findings](#1.11)
 * [**2. Summary**](#Summary)   
@@ -58,7 +58,48 @@
 
 # 1. Table of Contents <a class="anchor" id="TOC"></a>
 
+This project explores different **Ensemble Learning** approaches which combine the predictions from multiple models in an effort to achieve better predictive performance using various helpful packages in <mark style="background-color: #CCECFF"><b>Python</b></mark>. The ensemble frameworks applied in the analysis were grouped into three classes including the **Bagging Approach** which fits many individual learners on different samples of the same dataset and averages the predictions; **Boosting Approach** which adds ensemble members sequentially that correct the predictions made by prior models and outputs a weighted average of the predictions;  and **Stacking or Blending Approach** which consolidates many different and diverse learners on the same data and uses another model to learn how to best combine the predictions. Bagged models applied were the **Random Forest**, **Extra Trees**, **Bagged Decision Tree**, **Bagged Logistic Regression** and **Bagged Support Vector Machine** algorithms. Boosting models included the **AdaBoost**, **Stochastic Gradient Boosting**, **Extreme Gradient Boosting**, **Light Gradient Boosting Machines** and **CatBoost** algorithms.  Individual base learners including the **K-Nearest Neighbors**, **Support Vector Machine**, **Ridge Classifier**, **Neural Network** and **Decision Tree** algorithms were stacked or blended together as contributors to the **Logistic Regression** meta-model. The resulting predictions derived from all ensemble learning models were independtly evaluated on a test set based on accuracy and F1 score metrics. All results were consolidated in a [<span style="color: #FF0000"><b>Summary</b></span>](#Summary) presented at the end of the document. 
+
+[Ensemble Learning](https://www.manning.com/books/ensemble-methods-for-machine-learning) is a machine learning technique that improves predictive accuracy by combining multiple models to leverage their collective strengths. Traditional machine learning models often struggle with either high bias, which leads to overly simplistic predictions, or high variance, which makes them too sensitive to fluctuations in the data. Ensemble learning addresses these challenges by aggregating the outputs of several models, creating a more robust and reliable predictor. In classification problems, this can be done through majority voting, weighted averaging, or more advanced meta-learning techniques. The key advantage of ensemble learning is its ability to reduce both bias and variance, leading to better generalization on unseen data. However, this comes at the cost of increased computational complexity and interpretability, as managing multiple models requires more resources and makes it harder to explain predictions.
+
+[Bagging](https://www.manning.com/books/ensemble-methods-for-machine-learning), or Bootstrap Aggregating, is an ensemble learning technique that reduces model variance by training multiple instances of the same algorithm on different randomly sampled subsets of the training data. The fundamental problem bagging aims to solve is overfitting, particularly in high-variance models. By generating multiple bootstrap samples—random subsets created through sampling with replacement — bagging ensures that each model is trained on slightly different data, making the overall prediction more stable. In classification problems, the final output is obtained by majority voting among the individual models, while in regression, their predictions are averaged. Bagging is particularly effective when dealing with noisy datasets, as it smooths out individual model errors. However, its effectiveness is limited for low-variance models, and the requirement to train multiple models increases computational cost.
+
+[Boosting](https://www.manning.com/books/ensemble-methods-for-machine-learning) is an ensemble learning method that builds a strong classifier by training models sequentially, where each new model focuses on correcting the mistakes of its predecessors. Boosting assigns higher weights to misclassified instances, ensuring that subsequent models pay more attention to these hard-to-classify cases. The motivation behind boosting is to reduce both bias and variance by iteratively refining weak learners — models that perform only slightly better than random guessing — until they collectively form a strong classifier. In classification tasks, predictions are refined by combining weighted outputs of multiple weak models, typically decision stumps or shallow trees. This makes boosting highly effective in uncovering complex patterns in data. However, the sequential nature of boosting makes it computationally expensive compared to bagging, and it is more prone to overfitting if the number of weak learners is too high.
+
+[Stacking](https://www.manning.com/books/ensemble-methods-for-machine-learning), or stacked generalization, is an advanced ensemble method that improves predictive performance by training a meta-model to learn the optimal way to combine multiple base models using their out-of-fold predictions. Unlike traditional ensemble techniques such as bagging and boosting, which aggregate predictions through simple rules like averaging or majority voting, stacking introduces a second-level model that intelligently learns how to integrate diverse base models. The process starts by training multiple classifiers on the training dataset. However, instead of directly using their predictions, stacking employs k-fold cross-validation to generate out-of-fold predictions. Specifically, each base model is trained on a subset of the training data while leaving out a validation fold, and predictions on that unseen fold are recorded. This process is repeated across all folds, ensuring that each instance in the training data receives predictions from models that never saw it during training. These out-of-fold predictions are then used as input features for a meta-model, which learns the best way to combine them into a final decision. The advantage of stacking is that it allows different models to complement each other, capturing diverse aspects of the data that a single model might miss. This often results in superior classification accuracy compared to individual models or simpler ensemble approaches. However, stacking is computationally expensive, requiring multiple training iterations for base models and the additional meta-model. It also demands careful tuning to prevent overfitting, as the meta-model’s complexity can introduce new sources of error. Despite these challenges, stacking remains a powerful technique in applications where maximizing predictive performance is a priority.
+
+[Blending](https://www.manning.com/books/ensemble-methods-for-machine-learning) is an ensemble technique that enhances classification accuracy by training a meta-model on a holdout validation set, rather than using out-of-fold predictions like stacking. This simplifies implementation while maintaining the benefits of combining multiple base models. The process of blending starts by training base models on the full training dataset. Instead of applying cross-validation to obtain out-of-fold predictions, blending reserves a small portion of the training data as a holdout set. The base models make predictions on this unseen holdout set, and these predictions are then used as input features for a meta-model, which learns how to optimally combine them into a final classification decision. Since the meta-model is trained on predictions from unseen data, it avoids the risk of overfitting that can sometimes occur when base models are evaluated on the same data they were trained on. Blending is motivated by its simplicity and ease of implementation compared to stacking, as it eliminates the need for repeated k-fold cross-validation to generate training data for the meta-model. However, one drawback is that the meta-model has access to fewer training examples, as a portion of the data is withheld for validation rather than being used for training. This can limit the generalization ability of the final model, especially if the holdout set is too small. Despite this limitation, blending remains a useful approach in applications where a quick and effective ensemble method is needed without the computational overhead of stacking.
+
+
 ## 1.1. Data Background <a class="anchor" id="1.1"></a>
+
+An open [Thyroid Disease Dataset](https://www.kaggle.com/datasets/jainaru/thyroid-disease-data/data) from [Kaggle](https://www.kaggle.com/) (with all credits attributed to [Jai Naru](https://www.kaggle.com/jainaru) and [Abuchi Onwuegbusi](https://www.kaggle.com/datasets/abuchionwuegbusi/thyroid-cancer-recurrence-prediction/data)) was used for the analysis as consolidated from the following primary sources: 
+1. Reference Repository entitled **Differentiated Thyroid Cancer Recurrence** from [UC Irvine Machine Learning Repository](https://archive.ics.uci.edu/dataset/915/differentiated+thyroid+cancer+recurrence)
+2. Research Paper entitled **Machine Learning for Risk Stratification of Thyroid Cancer Patients: a 15-year Cohort Study** from the [European Archives of Oto-Rhino-Laryngology](https://link.springer.com/article/10.1007/s00405-023-08299-w)
+
+This study hypothesized that the various clinicopathological characteristics influence differentiated thyroid cancer recurrence between patients.
+
+The dichotomous categorical variable for the study is:
+* <span style="color: #FF0000">Recurred</span> - Status of the patient (Yes, Recurrence of differentiated thyroid cancer | No, No recurrence of differentiated thyroid cancer)
+
+The predictor variables for the study are:
+* <span style="color: #FF0000">Age</span> - Patient's age (Years)
+* <span style="color: #FF0000">Gender</span> - Patient's sex (M | F)
+* <span style="color: #FF0000">Smoking</span> - Indication of smoking (Yes | No)
+* <span style="color: #FF0000">Hx Smoking</span> - Indication of smoking history (Yes | No)
+* <span style="color: #FF0000">Hx Radiotherapy</span> - Indication of radiotherapy history for any condition (Yes | No)
+* <span style="color: #FF0000">Thyroid Function</span> - Status of thyroid function (Clinical Hyperthyroidism, Hypothyroidism | Subclinical Hyperthyroidism, Hypothyroidism | Euthyroid)
+* <span style="color: #FF0000">Physical Examination</span> - Findings from physical examination including palpation of the thyroid gland and surrounding structures (Normal | Diffuse Goiter | Multinodular Goiter | Single Nodular Goiter Left, Right)
+* <span style="color: #FF0000">Adenopathy</span> - Indication of enlarged lymph nodes in the neck region (Yes | No)
+* <span style="color: #FF0000">Pathology</span> - Specific thyroid cancer type as determined by pathology examination of biopsy samples (Follicular | Hurthel Cell | Micropapillary | Papillary)
+* <span style="color: #FF0000">Focality</span> - Indication if the cancer is limited to one location or present in multiple locations (Uni-Focal | Multi-Focal)
+* <span style="color: #FF0000">Risk</span> - Risk category of the cancer based on various factors, such as tumor size, extent of spread, and histological type (Low | Intermediate | High)
+* <span style="color: #FF0000">T</span> - Tumor classification based on its size and extent of invasion into nearby structures (T1a | T1b | T2 | T3a | T3b | T4a | T4b)
+* <span style="color: #FF0000">N</span> - Nodal classification indicating the involvement of lymph nodes (N0 | N1a | N1b)
+* <span style="color: #FF0000">M</span> - Metastasis classification indicating the presence or absence of distant metastases (M0 | M1)
+* <span style="color: #FF0000">Stage</span> - Overall stage of the cancer, typically determined by combining T, N, and M classifications (I | II | III | IVa | IVb)
+* <span style="color: #FF0000">Response</span> - Cancer's response to treatment (Biochemical Incomplete | Indetermindate | Excellent | Structural Incomplete)
+
 
 ## 1.2. Data Description <a class="anchor" id="1.2"></a>
 
@@ -98,7 +139,7 @@
 
 ### 1.7.2 Extra Trees <a class="anchor" id="1.7.2"></a>
 
-### 1.7.3 Bagged Decision Trees <a class="anchor" id="1.7.3"></a>
+### 1.7.3 Bagged Decision Tree <a class="anchor" id="1.7.3"></a>
 
 ### 1.7.4 Bagged Logistic Regression <a class="anchor" id="1.7.4"></a>
 
@@ -122,11 +163,11 @@
 
 ### 1.9.2 Base Learner - Support Vector Machine <a class="anchor" id="1.9.2"></a>
 
-### 1.9.3 Base Learner - Random Forest <a class="anchor" id="1.9.3"></a>
+### 1.9.3 Base Learner - Ridge Classifier <a class="anchor" id="1.9.3"></a>
 
 ### 1.9.4 Base Learner - Neural Network <a class="anchor" id="1.9.4"></a>
 
-### 1.9.5 Base Learner - Decision Trees <a class="anchor" id="1.9.5"></a>
+### 1.9.5 Base Learner - Decision Tree <a class="anchor" id="1.9.5"></a>
 
 ### 1.9.6 Meta Learner - Logistic Regression <a class="anchor" id="1.9.6"></a>
 
@@ -136,11 +177,11 @@
 
 ### 1.10.2 Base Learner - Support Vector Machine <a class="anchor" id="1.10.2"></a>
 
-### 1.10.3 Base Learner - Random Forest <a class="anchor" id="1.10.3"></a>
+### 1.10.3 Base Learner - Ridge Classifier <a class="anchor" id="1.10.3"></a>
 
 ### 1.10.4 Base Learner - Neural Network <a class="anchor" id="1.10.4"></a>
 
-### 1.10.5 Base Learner - Decision Trees <a class="anchor" id="1.10.5"></a>
+### 1.10.5 Base Learner - Decision Tree <a class="anchor" id="1.10.5"></a>
 
 ### 1.10.6 Meta Learner - Logistic Regression <a class="anchor" id="1.10.6"></a>
 
@@ -153,6 +194,7 @@
 * **[Book]** [Applied Predictive Modeling](http://appliedpredictivemodeling.com/) by Max Kuhn and Kjell Johnson
 * **[Book]** [An Introduction to Statistical Learning](https://www.statlearning.com/) by Gareth James, Daniela Witten, Trevor Hastie and Rob Tibshirani
 * **[Book]** [Ensemble Methods: Foundations and Algorithms](https://www.taylorfrancis.com/books/mono/10.1201/b12207/ensemble-methods-zhi-hua-zhou) by Zhi-Hua Zhou
+* **[Book]** [Effective XGBoost: Optimizing, Tuning, Understanding, and Deploying Classification Models (Treading on Python)](https://www.taylorfrancis.com/books/mono/10.1201/b12207/ensemble-methods-zhi-hua-zhou) by Matt Harrison, Edward Krueger, Alex Rook, Ronald Legere and Bojan Tunguz
 * **[Python Library API]** [NumPy](https://numpy.org/doc/) by NumPy Team
 * **[Python Library API]** [pandas](https://pandas.pydata.org/docs/) by Pandas Team
 * **[Python Library API]** [seaborn](https://seaborn.pydata.org/) by Seaborn Team
