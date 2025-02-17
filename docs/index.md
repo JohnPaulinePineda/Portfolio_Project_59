@@ -90,7 +90,7 @@ The predictor variables for the study are:
 * <span style="color: #FF0000">Hx Radiotherapy</span> - Indication of radiotherapy history for any condition (Yes | No)
 * <span style="color: #FF0000">Thyroid Function</span> - Status of thyroid function (Clinical Hyperthyroidism, Hypothyroidism | Subclinical Hyperthyroidism, Hypothyroidism | Euthyroid)
 * <span style="color: #FF0000">Physical Examination</span> - Findings from physical examination including palpation of the thyroid gland and surrounding structures (Normal | Diffuse Goiter | Multinodular Goiter | Single Nodular Goiter Left, Right)
-* <span style="color: #FF0000">Adenopathy</span> - Indication of enlarged lymph nodes in the neck region (Yes | No)
+* <span style="color: #FF0000">Adenopathy</span> - Indication of enlarged lymph nodes in the neck region (No | Right | Extensive | Left | Bilateral | Posterior)
 * <span style="color: #FF0000">Pathology</span> - Specific thyroid cancer type as determined by pathology examination of biopsy samples (Follicular | Hurthel Cell | Micropapillary | Papillary)
 * <span style="color: #FF0000">Focality</span> - Indication if the cancer is limited to one location or present in multiple locations (Uni-Focal | Multi-Focal)
 * <span style="color: #FF0000">Risk</span> - Risk category of the cancer based on various factors, such as tumor size, extent of spread, and histological type (Low | Intermediate | High)
@@ -102,6 +102,848 @@ The predictor variables for the study are:
 
 
 ## 1.2. Data Description <a class="anchor" id="1.2"></a>
+
+
+```python
+##################################
+# Loading Python Libraries
+##################################
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import itertools
+import os
+%matplotlib inline
+
+```
+
+
+```python
+##################################
+# Defining file paths
+##################################
+DATASETS_ORIGINAL_PATH = r"datasets\original"
+
+```
+
+
+```python
+##################################
+# Loading the dataset
+# from the DATASETS_ORIGINAL_PATH
+##################################
+thyroid_cancer = pd.read_csv(os.path.join("..", DATASETS_ORIGINAL_PATH, "Thyroid_Diff.csv"))
+
+```
+
+
+```python
+##################################
+# Performing a general exploration of the dataset
+##################################
+print('Dataset Dimensions: ')
+display(thyroid_cancer.shape)
+
+```
+
+    Dataset Dimensions: 
+    
+
+
+    (383, 17)
+
+
+
+```python
+##################################
+# Listing the column names and data types
+##################################
+print('Column Names and Data Types:')
+display(thyroid_cancer.dtypes)
+
+```
+
+    Column Names and Data Types:
+    
+
+
+    Age                      int64
+    Gender                  object
+    Smoking                 object
+    Hx Smoking              object
+    Hx Radiotherapy         object
+    Thyroid Function        object
+    Physical Examination    object
+    Adenopathy              object
+    Pathology               object
+    Focality                object
+    Risk                    object
+    T                       object
+    N                       object
+    M                       object
+    Stage                   object
+    Response                object
+    Recurred                object
+    dtype: object
+
+
+
+```python
+##################################
+# Renaming the column names
+# to replace blanks with undercores
+##################################
+thyroid_cancer.columns = thyroid_cancer.columns.str.replace(" ", "_")
+```
+
+
+```python
+##################################
+# Taking a snapshot of the dataset
+##################################
+thyroid_cancer.head()
+
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Age</th>
+      <th>Gender</th>
+      <th>Smoking</th>
+      <th>Hx_Smoking</th>
+      <th>Hx_Radiotherapy</th>
+      <th>Thyroid_Function</th>
+      <th>Physical_Examination</th>
+      <th>Adenopathy</th>
+      <th>Pathology</th>
+      <th>Focality</th>
+      <th>Risk</th>
+      <th>T</th>
+      <th>N</th>
+      <th>M</th>
+      <th>Stage</th>
+      <th>Response</th>
+      <th>Recurred</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>27</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-left</td>
+      <td>No</td>
+      <td>Micropapillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1a</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Indeterminate</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>34</td>
+      <td>F</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Multinodular goiter</td>
+      <td>No</td>
+      <td>Micropapillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1a</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>30</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Micropapillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1a</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>62</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Micropapillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1a</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>62</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Multinodular goiter</td>
+      <td>No</td>
+      <td>Micropapillary</td>
+      <td>Multi-Focal</td>
+      <td>Low</td>
+      <td>T1a</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+##################################
+# Selecting categorical columns (both object and categorical types)
+# and listing the unique categorical levels
+##################################
+cat_cols = thyroid_cancer.select_dtypes(include=["object", "category"]).columns
+for col in cat_cols:
+    print(f"Categorical | Object Column: {col}")
+    print(thyroid_cancer[col].unique())  
+    print("-" * 40)
+    
+```
+
+    Categorical | Object Column: Gender
+    ['F' 'M']
+    ----------------------------------------
+    Categorical | Object Column: Smoking
+    ['No' 'Yes']
+    ----------------------------------------
+    Categorical | Object Column: Hx_Smoking
+    ['No' 'Yes']
+    ----------------------------------------
+    Categorical | Object Column: Hx_Radiotherapy
+    ['No' 'Yes']
+    ----------------------------------------
+    Categorical | Object Column: Thyroid_Function
+    ['Euthyroid' 'Clinical Hyperthyroidism' 'Clinical Hypothyroidism'
+     'Subclinical Hyperthyroidism' 'Subclinical Hypothyroidism']
+    ----------------------------------------
+    Categorical | Object Column: Physical_Examination
+    ['Single nodular goiter-left' 'Multinodular goiter'
+     'Single nodular goiter-right' 'Normal' 'Diffuse goiter']
+    ----------------------------------------
+    Categorical | Object Column: Adenopathy
+    ['No' 'Right' 'Extensive' 'Left' 'Bilateral' 'Posterior']
+    ----------------------------------------
+    Categorical | Object Column: Pathology
+    ['Micropapillary' 'Papillary' 'Follicular' 'Hurthel cell']
+    ----------------------------------------
+    Categorical | Object Column: Focality
+    ['Uni-Focal' 'Multi-Focal']
+    ----------------------------------------
+    Categorical | Object Column: Risk
+    ['Low' 'Intermediate' 'High']
+    ----------------------------------------
+    Categorical | Object Column: T
+    ['T1a' 'T1b' 'T2' 'T3a' 'T3b' 'T4a' 'T4b']
+    ----------------------------------------
+    Categorical | Object Column: N
+    ['N0' 'N1b' 'N1a']
+    ----------------------------------------
+    Categorical | Object Column: M
+    ['M0' 'M1']
+    ----------------------------------------
+    Categorical | Object Column: Stage
+    ['I' 'II' 'IVB' 'III' 'IVA']
+    ----------------------------------------
+    Categorical | Object Column: Response
+    ['Indeterminate' 'Excellent' 'Structural Incomplete'
+     'Biochemical Incomplete']
+    ----------------------------------------
+    Categorical | Object Column: Recurred
+    ['No' 'Yes']
+    ----------------------------------------
+    
+
+
+```python
+##################################
+# Correcting a category level
+##################################
+thyroid_cancer["Pathology"] = thyroid_cancer["Pathology"].replace("Hurthel cell", "Hurthle Cell")
+```
+
+
+```python
+##################################
+# Setting the levels of the categorical variables
+##################################
+thyroid_cancer['Recurred'] = thyroid_cancer['Recurred'].astype('category')
+thyroid_cancer['Recurred'] = thyroid_cancer['Recurred'].cat.set_categories(['No', 'Yes'], ordered=True)
+thyroid_cancer['Gender'] = thyroid_cancer['Gender'].astype('category')
+thyroid_cancer['Gender'] = thyroid_cancer['Gender'].cat.set_categories(['M', 'F'], ordered=True)
+thyroid_cancer['Hx_Smoking'] = thyroid_cancer['Hx_Smoking'].astype('category')
+thyroid_cancer['Hx_Smoking'] = thyroid_cancer['Hx_Smoking'].cat.set_categories(['No', 'Yes'], ordered=True)
+thyroid_cancer['Hx_Radiotherapy'] = thyroid_cancer['Hx_Radiotherapy'].astype('category')
+thyroid_cancer['Hx_Radiotherapy'] = thyroid_cancer['Hx_Radiotherapy'].cat.set_categories(['No', 'Yes'], ordered=True)
+thyroid_cancer['Thyroid_Function'] = thyroid_cancer['Thyroid_Function'].astype('category')
+thyroid_cancer['Thyroid_Function'] = thyroid_cancer['Thyroid_Function'].cat.set_categories(['Euthyroid', 'Subclinical Hypothyroidism', 'Subclinical Hyperthyroidism', 'Clinical Hypothyroidism', 'Clinical Hyperthyroidism'], ordered=True)
+thyroid_cancer['Physical_Examination'] = thyroid_cancer['Physical_Examination'].astype('category')
+thyroid_cancer['Physical_Examination'] = thyroid_cancer['Physical_Examination'].cat.set_categories(['Normal', 'Single nodular goiter-left', 'Single nodular goiter-right', 'Multinodular goiter', 'Diffuse goiter'], ordered=True)
+thyroid_cancer['Adenopathy'] = thyroid_cancer['Adenopathy'].astype('category')
+thyroid_cancer['Adenopathy'] = thyroid_cancer['Adenopathy'].cat.set_categories(['No', 'Left', 'Right', 'Bilateral' 'Posterior', 'Extensive'], ordered=True)
+thyroid_cancer['Pathology'] = thyroid_cancer['Pathology'].astype('category')
+thyroid_cancer['Pathology'] = thyroid_cancer['Pathology'].cat.set_categories(['Hurthle Cell', 'Micropapillary', 'Papillary', 'Follicular'], ordered=True)
+thyroid_cancer['Focality'] = thyroid_cancer['Focality'].astype('category')
+thyroid_cancer['Focality'] = thyroid_cancer['Focality'].cat.set_categories(['Uni-Focal', 'Multi-Focal'], ordered=True)
+thyroid_cancer['Risk'] = thyroid_cancer['Risk'].astype('category')
+thyroid_cancer['Risk'] = thyroid_cancer['Risk'].cat.set_categories(['Low', 'Intermediate', 'High'], ordered=True)
+thyroid_cancer['T'] = thyroid_cancer['T'].astype('category')
+thyroid_cancer['T'] = thyroid_cancer['T'].cat.set_categories(['T1a', 'T1b', 'T2', 'T3a', 'T3b', 'T4a', 'T4b'], ordered=True)
+thyroid_cancer['N'] = thyroid_cancer['N'].astype('category')
+thyroid_cancer['N'] = thyroid_cancer['N'].cat.set_categories(['N0', 'N1a', 'N1b'], ordered=True)
+thyroid_cancer['M'] = thyroid_cancer['M'].astype('category')
+thyroid_cancer['M'] = thyroid_cancer['M'].cat.set_categories(['M0', 'M1'], ordered=True)
+thyroid_cancer['Stage'] = thyroid_cancer['Stage'].astype('category')
+thyroid_cancer['Stage'] = thyroid_cancer['Stage'].cat.set_categories(['I', 'II', 'III', 'IVA', 'IVB'], ordered=True)
+thyroid_cancer['Response'] = thyroid_cancer['Response'].astype('category')
+thyroid_cancer['Response'] = thyroid_cancer['Response'].cat.set_categories(['Indeterminate', 'Structural Incomplete', 'Biochemical Incomplete', 'Excellent'], ordered=True)
+
+```
+
+
+```python
+##################################
+# Performing a general exploration of the numeric variables
+##################################
+print('Numeric Variable Summary:')
+display(thyroid_cancer.describe(include='number').transpose())
+
+```
+
+    Numeric Variable Summary:
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Age</th>
+      <td>383.0</td>
+      <td>40.866841</td>
+      <td>15.134494</td>
+      <td>15.0</td>
+      <td>29.0</td>
+      <td>37.0</td>
+      <td>51.0</td>
+      <td>82.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Performing a general exploration of the categorical variables
+##################################
+print('Categorical Variable Summary:')
+display(thyroid_cancer.describe(include='category').transpose())
+
+```
+
+    Categorical Variable Summary:
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>unique</th>
+      <th>top</th>
+      <th>freq</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Gender</th>
+      <td>383</td>
+      <td>2</td>
+      <td>F</td>
+      <td>312</td>
+    </tr>
+    <tr>
+      <th>Hx_Smoking</th>
+      <td>383</td>
+      <td>2</td>
+      <td>No</td>
+      <td>355</td>
+    </tr>
+    <tr>
+      <th>Hx_Radiotherapy</th>
+      <td>383</td>
+      <td>2</td>
+      <td>No</td>
+      <td>376</td>
+    </tr>
+    <tr>
+      <th>Thyroid_Function</th>
+      <td>383</td>
+      <td>5</td>
+      <td>Euthyroid</td>
+      <td>332</td>
+    </tr>
+    <tr>
+      <th>Physical_Examination</th>
+      <td>383</td>
+      <td>5</td>
+      <td>Single nodular goiter-right</td>
+      <td>140</td>
+    </tr>
+    <tr>
+      <th>Adenopathy</th>
+      <td>349</td>
+      <td>4</td>
+      <td>No</td>
+      <td>277</td>
+    </tr>
+    <tr>
+      <th>Pathology</th>
+      <td>383</td>
+      <td>4</td>
+      <td>Papillary</td>
+      <td>287</td>
+    </tr>
+    <tr>
+      <th>Focality</th>
+      <td>383</td>
+      <td>2</td>
+      <td>Uni-Focal</td>
+      <td>247</td>
+    </tr>
+    <tr>
+      <th>Risk</th>
+      <td>383</td>
+      <td>3</td>
+      <td>Low</td>
+      <td>249</td>
+    </tr>
+    <tr>
+      <th>T</th>
+      <td>383</td>
+      <td>7</td>
+      <td>T2</td>
+      <td>151</td>
+    </tr>
+    <tr>
+      <th>N</th>
+      <td>383</td>
+      <td>3</td>
+      <td>N0</td>
+      <td>268</td>
+    </tr>
+    <tr>
+      <th>M</th>
+      <td>383</td>
+      <td>2</td>
+      <td>M0</td>
+      <td>365</td>
+    </tr>
+    <tr>
+      <th>Stage</th>
+      <td>383</td>
+      <td>5</td>
+      <td>I</td>
+      <td>333</td>
+    </tr>
+    <tr>
+      <th>Response</th>
+      <td>383</td>
+      <td>4</td>
+      <td>Excellent</td>
+      <td>208</td>
+    </tr>
+    <tr>
+      <th>Recurred</th>
+      <td>383</td>
+      <td>2</td>
+      <td>No</td>
+      <td>275</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Performing a general exploration of the categorical variable levels
+##################################
+for col in cat_cols:
+    print(f"Column: {col}")
+    print("Absolute Frequencies:")
+    print(thyroid_cancer[col].value_counts())
+    print("\nNormalized Frequencies:")
+    print(thyroid_cancer[col].value_counts(normalize=True))
+    print("-" * 50)
+   
+```
+
+    Column: Gender
+    Absolute Frequencies:
+    Gender
+    F    312
+    M     71
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Gender
+    F    0.814621
+    M    0.185379
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Smoking
+    Absolute Frequencies:
+    Smoking
+    No     334
+    Yes     49
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Smoking
+    No     0.872063
+    Yes    0.127937
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Hx_Smoking
+    Absolute Frequencies:
+    Hx_Smoking
+    No     355
+    Yes     28
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Hx_Smoking
+    No     0.926893
+    Yes    0.073107
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Hx_Radiotherapy
+    Absolute Frequencies:
+    Hx_Radiotherapy
+    No     376
+    Yes      7
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Hx_Radiotherapy
+    No     0.981723
+    Yes    0.018277
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Thyroid_Function
+    Absolute Frequencies:
+    Thyroid_Function
+    Euthyroid                      332
+    Clinical Hyperthyroidism        20
+    Subclinical Hypothyroidism      14
+    Clinical Hypothyroidism         12
+    Subclinical Hyperthyroidism      5
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Thyroid_Function
+    Euthyroid                      0.866841
+    Clinical Hyperthyroidism       0.052219
+    Subclinical Hypothyroidism     0.036554
+    Clinical Hypothyroidism        0.031332
+    Subclinical Hyperthyroidism    0.013055
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Physical_Examination
+    Absolute Frequencies:
+    Physical_Examination
+    Single nodular goiter-right    140
+    Multinodular goiter            140
+    Single nodular goiter-left      89
+    Normal                           7
+    Diffuse goiter                   7
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Physical_Examination
+    Single nodular goiter-right    0.365535
+    Multinodular goiter            0.365535
+    Single nodular goiter-left     0.232376
+    Normal                         0.018277
+    Diffuse goiter                 0.018277
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Adenopathy
+    Absolute Frequencies:
+    Adenopathy
+    No                    277
+    Right                  48
+    Left                   17
+    Extensive               7
+    BilateralPosterior      0
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Adenopathy
+    No                    0.793696
+    Right                 0.137536
+    Left                  0.048711
+    Extensive             0.020057
+    BilateralPosterior    0.000000
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Pathology
+    Absolute Frequencies:
+    Pathology
+    Papillary         287
+    Micropapillary     48
+    Follicular         28
+    Hurthle Cell       20
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Pathology
+    Papillary         0.749347
+    Micropapillary    0.125326
+    Follicular        0.073107
+    Hurthle Cell      0.052219
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Focality
+    Absolute Frequencies:
+    Focality
+    Uni-Focal      247
+    Multi-Focal    136
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Focality
+    Uni-Focal      0.644909
+    Multi-Focal    0.355091
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Risk
+    Absolute Frequencies:
+    Risk
+    Low             249
+    Intermediate    102
+    High             32
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Risk
+    Low             0.650131
+    Intermediate    0.266319
+    High            0.083551
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: T
+    Absolute Frequencies:
+    T
+    T2     151
+    T3a     96
+    T1a     49
+    T1b     43
+    T4a     20
+    T3b     16
+    T4b      8
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    T
+    T2     0.394256
+    T3a    0.250653
+    T1a    0.127937
+    T1b    0.112272
+    T4a    0.052219
+    T3b    0.041775
+    T4b    0.020888
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: N
+    Absolute Frequencies:
+    N
+    N0     268
+    N1b     93
+    N1a     22
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    N
+    N0     0.699739
+    N1b    0.242820
+    N1a    0.057441
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: M
+    Absolute Frequencies:
+    M
+    M0    365
+    M1     18
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    M
+    M0    0.953003
+    M1    0.046997
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Stage
+    Absolute Frequencies:
+    Stage
+    I      333
+    II      32
+    IVB     11
+    III      4
+    IVA      3
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Stage
+    I      0.869452
+    II     0.083551
+    IVB    0.028721
+    III    0.010444
+    IVA    0.007833
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Response
+    Absolute Frequencies:
+    Response
+    Excellent                 208
+    Structural Incomplete      91
+    Indeterminate              61
+    Biochemical Incomplete     23
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Response
+    Excellent                 0.543081
+    Structural Incomplete     0.237598
+    Indeterminate             0.159269
+    Biochemical Incomplete    0.060052
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Recurred
+    Absolute Frequencies:
+    Recurred
+    No     275
+    Yes    108
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Recurred
+    No     0.718016
+    Yes    0.281984
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    
 
 ## 1.3. Data Quality Assessment <a class="anchor" id="1.3"></a>
 
@@ -230,7 +1072,7 @@ The predictor variables for the study are:
 * **[Article]** [Develop an Intuition for How Ensemble Learning Works](https://machinelearningmastery.com/how-ensemble-learning-works/) by by Jason Brownlee (Machine Learning Mastery)
 * **[Article]** [Mastering Ensemble Techniques in Machine Learning: Bagging, Boosting, Bayes Optimal Classifier, and Stacking](https://rahuljain788.medium.com/mastering-ensemble-techniques-in-machine-learning-bagging-boosting-bayes-optimal-classifier-and-c1dd8052f53f) by Rahul Jain (Medium)
 * **[Article]** [Ensemble Learning: Bagging, Boosting, Stacking](https://ai.plainenglish.io/ml-tutorial-19-ensemble-learning-bagging-boosting-stacking-5a926db20ec5) by Ayşe Kübra Kuyucu (Medium)
-* **[Article]** [Ensemble: Boosting, Bagging, and Stacking Machine Learning](https://medium.com/@senozanAleyna/ensemble-boosting-bagging-and-stacking-machine-learning-6a09c31df778) by Aleyna Şenozan (Medium)
+* **[Article]** [Ensemble: Boosting, Bagging, and Stacking Machine Learning](https://medium.com/@senozanAleyna/ensemble-boosting-bagging-and-stacking-machine-learning-6a09c31thyroid_cancer778) by Aleyna Şenozan (Medium)
 * **[Article]** [Boosting, Stacking, and Bagging for Ensemble Models for Time Series Analysis with Python](https://medium.com/@kylejones_47003/boosting-stacking-and-bagging-for-ensemble-models-for-time-series-analysis-with-python-d74ab9026782) by Kyle Jones (Medium)
 * **[Article]** [Different types of Ensemble Techniques — Bagging, Boosting, Stacking, Voting, Blending](https://medium.com/@abhishekjainindore24/different-types-of-ensemble-techniques-bagging-boosting-stacking-voting-blending-b04355a03c93) by Abhishek Jain (Medium)
 * **[Article]** [Mastering Ensemble Techniques in Machine Learning: Bagging, Boosting, Bayes Optimal Classifier, and Stacking](https://rahuljain788.medium.com/mastering-ensemble-techniques-in-machine-learning-bagging-boosting-bayes-optimal-classifier-and-c1dd8052f53f) by Rahul Jain (Medium)
