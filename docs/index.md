@@ -103,6 +103,31 @@ The predictor variables for the study are:
 
 ## 1.2. Data Description <a class="anchor" id="1.2"></a>
 
+1. The initial tabular dataset was comprised of 383 observations and 17 variables (including 1 target and 16 predictors).
+    * **383 rows** (observations)
+    * **17 columns** (variables)
+        * **1/17 target** (categorical)
+             * <span style="color: #FF0000">Recurred</span>
+        * **1/17 predictor** (numeric)
+             * <span style="color: #FF0000">Age</span>
+        * **16/17 predictor** (categorical)
+             * <span style="color: #FF0000">Gender</span>
+             * <span style="color: #FF0000">Smoking</span>
+             * <span style="color: #FF0000">Hx_Smoking</span>
+             * <span style="color: #FF0000">Hx_Radiotherapy</span>
+             * <span style="color: #FF0000">Thyroid_Function</span>
+             * <span style="color: #FF0000">Physical_Examination</span>
+             * <span style="color: #FF0000">TAdenopathy</span>
+             * <span style="color: #FF0000">Pathology</span>
+             * <span style="color: #FF0000">Focality</span>
+             * <span style="color: #FF0000">Risk</span>
+             * <span style="color: #FF0000">T</span>
+             * <span style="color: #FF0000">N</span>
+             * <span style="color: #FF0000">M</span>
+             * <span style="color: #FF0000">Stage</span>
+             * <span style="color: #FF0000">Response</span>
+            																
+
 
 ```python
 ##################################
@@ -115,6 +140,8 @@ import matplotlib.pyplot as plt
 import itertools
 import os
 %matplotlib inline
+
+from operator import add,mul,truediv
 
 ```
 
@@ -191,10 +218,11 @@ display(thyroid_cancer.dtypes)
 
 ```python
 ##################################
-# Renaming the column names
+# Renaming and standardizing the column names
 # to replace blanks with undercores
 ##################################
 thyroid_cancer.columns = thyroid_cancer.columns.str.replace(" ", "_")
+
 ```
 
 
@@ -426,6 +454,7 @@ for col in cat_cols:
 # Correcting a category level
 ##################################
 thyroid_cancer["Pathology"] = thyroid_cancer["Pathology"].replace("Hurthel cell", "Hurthle Cell")
+
 ```
 
 
@@ -437,6 +466,8 @@ thyroid_cancer['Recurred'] = thyroid_cancer['Recurred'].astype('category')
 thyroid_cancer['Recurred'] = thyroid_cancer['Recurred'].cat.set_categories(['No', 'Yes'], ordered=True)
 thyroid_cancer['Gender'] = thyroid_cancer['Gender'].astype('category')
 thyroid_cancer['Gender'] = thyroid_cancer['Gender'].cat.set_categories(['M', 'F'], ordered=True)
+thyroid_cancer['Smoking'] = thyroid_cancer['Smoking'].astype('category')
+thyroid_cancer['Smoking'] = thyroid_cancer['Smoking'].cat.set_categories(['No', 'Yes'], ordered=True)
 thyroid_cancer['Hx_Smoking'] = thyroid_cancer['Hx_Smoking'].astype('category')
 thyroid_cancer['Hx_Smoking'] = thyroid_cancer['Hx_Smoking'].cat.set_categories(['No', 'Yes'], ordered=True)
 thyroid_cancer['Hx_Radiotherapy'] = thyroid_cancer['Hx_Radiotherapy'].astype('category')
@@ -572,6 +603,13 @@ display(thyroid_cancer.describe(include='category').transpose())
       <td>312</td>
     </tr>
     <tr>
+      <th>Smoking</th>
+      <td>383</td>
+      <td>2</td>
+      <td>No</td>
+      <td>334</td>
+    </tr>
+    <tr>
       <th>Hx_Smoking</th>
       <td>383</td>
       <td>2</td>
@@ -678,166 +716,148 @@ display(thyroid_cancer.describe(include='category').transpose())
 ```python
 ##################################
 # Performing a general exploration of the categorical variable levels
+# based on the ordered categories
 ##################################
-for col in cat_cols:
+ordered_cat_cols = thyroid_cancer.select_dtypes(include=["category"]).columns
+for col in ordered_cat_cols:
     print(f"Column: {col}")
     print("Absolute Frequencies:")
-    print(thyroid_cancer[col].value_counts())
+    print(thyroid_cancer[col].value_counts().reindex(thyroid_cancer[col].cat.categories))
     print("\nNormalized Frequencies:")
-    print(thyroid_cancer[col].value_counts(normalize=True))
+    print(thyroid_cancer[col].value_counts(normalize=True).reindex(thyroid_cancer[col].cat.categories))
     print("-" * 50)
    
 ```
 
     Column: Gender
     Absolute Frequencies:
-    Gender
-    F    312
     M     71
+    F    312
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Gender
-    F    0.814621
     M    0.185379
+    F    0.814621
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Smoking
     Absolute Frequencies:
-    Smoking
     No     334
     Yes     49
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Smoking
     No     0.872063
     Yes    0.127937
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Hx_Smoking
     Absolute Frequencies:
-    Hx_Smoking
     No     355
     Yes     28
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Hx_Smoking
     No     0.926893
     Yes    0.073107
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Hx_Radiotherapy
     Absolute Frequencies:
-    Hx_Radiotherapy
     No     376
     Yes      7
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Hx_Radiotherapy
     No     0.981723
     Yes    0.018277
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Thyroid_Function
     Absolute Frequencies:
-    Thyroid_Function
     Euthyroid                      332
-    Clinical Hyperthyroidism        20
     Subclinical Hypothyroidism      14
-    Clinical Hypothyroidism         12
     Subclinical Hyperthyroidism      5
+    Clinical Hypothyroidism         12
+    Clinical Hyperthyroidism        20
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Thyroid_Function
     Euthyroid                      0.866841
-    Clinical Hyperthyroidism       0.052219
     Subclinical Hypothyroidism     0.036554
-    Clinical Hypothyroidism        0.031332
     Subclinical Hyperthyroidism    0.013055
+    Clinical Hypothyroidism        0.031332
+    Clinical Hyperthyroidism       0.052219
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Physical_Examination
     Absolute Frequencies:
-    Physical_Examination
+    Normal                           7
+    Single nodular goiter-left      89
     Single nodular goiter-right    140
     Multinodular goiter            140
-    Single nodular goiter-left      89
-    Normal                           7
     Diffuse goiter                   7
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Physical_Examination
+    Normal                         0.018277
+    Single nodular goiter-left     0.232376
     Single nodular goiter-right    0.365535
     Multinodular goiter            0.365535
-    Single nodular goiter-left     0.232376
-    Normal                         0.018277
     Diffuse goiter                 0.018277
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Adenopathy
     Absolute Frequencies:
-    Adenopathy
     No                    277
-    Right                  48
     Left                   17
-    Extensive               7
+    Right                  48
     BilateralPosterior      0
+    Extensive               7
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Adenopathy
     No                    0.793696
-    Right                 0.137536
     Left                  0.048711
-    Extensive             0.020057
+    Right                 0.137536
     BilateralPosterior    0.000000
+    Extensive             0.020057
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Pathology
     Absolute Frequencies:
-    Pathology
-    Papillary         287
-    Micropapillary     48
-    Follicular         28
     Hurthle Cell       20
+    Micropapillary     48
+    Papillary         287
+    Follicular         28
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Pathology
-    Papillary         0.749347
-    Micropapillary    0.125326
-    Follicular        0.073107
     Hurthle Cell      0.052219
+    Micropapillary    0.125326
+    Papillary         0.749347
+    Follicular        0.073107
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Focality
     Absolute Frequencies:
-    Focality
     Uni-Focal      247
     Multi-Focal    136
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Focality
     Uni-Focal      0.644909
     Multi-Focal    0.355091
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Risk
     Absolute Frequencies:
-    Risk
     Low             249
     Intermediate    102
     High             32
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Risk
     Low             0.650131
     Intermediate    0.266319
     High            0.083551
@@ -845,100 +865,88 @@ for col in cat_cols:
     --------------------------------------------------
     Column: T
     Absolute Frequencies:
-    T
-    T2     151
-    T3a     96
     T1a     49
     T1b     43
-    T4a     20
+    T2     151
+    T3a     96
     T3b     16
+    T4a     20
     T4b      8
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    T
-    T2     0.394256
-    T3a    0.250653
     T1a    0.127937
     T1b    0.112272
-    T4a    0.052219
+    T2     0.394256
+    T3a    0.250653
     T3b    0.041775
+    T4a    0.052219
     T4b    0.020888
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: N
     Absolute Frequencies:
-    N
     N0     268
-    N1b     93
     N1a     22
+    N1b     93
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    N
     N0     0.699739
-    N1b    0.242820
     N1a    0.057441
+    N1b    0.242820
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: M
     Absolute Frequencies:
-    M
     M0    365
     M1     18
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    M
     M0    0.953003
     M1    0.046997
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Stage
     Absolute Frequencies:
-    Stage
     I      333
     II      32
-    IVB     11
     III      4
     IVA      3
+    IVB     11
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Stage
     I      0.869452
     II     0.083551
-    IVB    0.028721
     III    0.010444
     IVA    0.007833
+    IVB    0.028721
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Response
     Absolute Frequencies:
-    Response
-    Excellent                 208
-    Structural Incomplete      91
     Indeterminate              61
+    Structural Incomplete      91
     Biochemical Incomplete     23
+    Excellent                 208
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Response
-    Excellent                 0.543081
-    Structural Incomplete     0.237598
     Indeterminate             0.159269
+    Structural Incomplete     0.237598
     Biochemical Incomplete    0.060052
+    Excellent                 0.543081
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Recurred
     Absolute Frequencies:
-    Recurred
     No     275
     Yes    108
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Recurred
     No     0.718016
     Yes    0.281984
     Name: proportion, dtype: float64
@@ -946,6 +954,2565 @@ for col in cat_cols:
     
 
 ## 1.3. Data Quality Assessment <a class="anchor" id="1.3"></a>
+
+Data quality findings based on assessment are as follows:
+1. There were 19 duplicated rows observed.
+    * There were 34 observations affected including the first occurrence of the duplicated rows.
+    * There were 16 unique variations among duplicated rows.
+    * All 19 duplicated rows were removed while retaining only the first 16 unique occurrences.
+2. Missing data noted for 1 variable with Null.Count>0 and Fill.Rate<1.0.
+    * <span style="color: #FF0000">RNDGDP</span>: Null.Count = 34, Fill.Rate = 0.906
+3. Given only a single variable with missing data observed, there were 34 observations noted with Missing.Rate= 0.058824 out of all 17 variables.
+4. Low variance observed for 1 variable with First.Second.Mode.Ratio>5.
+    * <span style="color: #FF0000">Hx_Radiotherapy</span>: First.Second.Mode.Ratio = 51.000
+    * <span style="color: #FF0000">M</span>: First.Second.Mode.Ratio = 19.222
+    * <span style="color: #FF0000">Thyroid_Function</span>: First.Second.Mode.Ratio = 15.650
+    * <span style="color: #FF0000">Hx_Smoking</span>: First.Second.Mode.Ratio = 12.000
+    * <span style="color: #FF0000">Stage</span>: First.Second.Mode.Ratio = 9.812
+    * <span style="color: #FF0000">Smoking</span>: First.Second.Mode.Ratio = 6.428
+    * <span style="color: #FF0000">Pathology</span>: First.Second.Mode.Ratio = 6.022
+    * <span style="color: #FF0000">Adenopathy</span>: First.Second.Mode.Ratio = 5.375
+5. No low variance observed for any variable with Unique.Count.Ratio>10.
+6. No high skewness observed forany variable with Skewness>3 or Skewness<(-3).
+
+
+
+```python
+##################################
+# Counting the number of duplicated rows
+##################################
+thyroid_cancer.duplicated().sum()
+
+```
+
+
+
+
+    np.int64(19)
+
+
+
+
+```python
+##################################
+# Exploring the duplicated rows
+##################################
+duplicated_rows = thyroid_cancer[thyroid_cancer.duplicated(keep=False)]
+display(duplicated_rows)
+
+```
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Age</th>
+      <th>Gender</th>
+      <th>Smoking</th>
+      <th>Hx_Smoking</th>
+      <th>Hx_Radiotherapy</th>
+      <th>Thyroid_Function</th>
+      <th>Physical_Examination</th>
+      <th>Adenopathy</th>
+      <th>Pathology</th>
+      <th>Focality</th>
+      <th>Risk</th>
+      <th>T</th>
+      <th>N</th>
+      <th>M</th>
+      <th>Stage</th>
+      <th>Response</th>
+      <th>Recurred</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>8</th>
+      <td>51</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Micropapillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1a</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>40</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Micropapillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1a</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>36</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Micropapillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1a</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>36</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Micropapillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1a</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>40</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Micropapillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1a</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>51</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Micropapillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1a</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>35</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1b</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>35</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1b</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>51</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-left</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1b</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>69</th>
+      <td>51</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-left</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1b</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>73</th>
+      <td>29</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1b</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>77</th>
+      <td>29</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1b</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>106</th>
+      <td>26</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Multinodular goiter</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>110</th>
+      <td>31</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>113</th>
+      <td>32</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>115</th>
+      <td>37</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>119</th>
+      <td>28</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>120</th>
+      <td>37</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>121</th>
+      <td>26</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Multinodular goiter</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>123</th>
+      <td>28</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>132</th>
+      <td>32</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>136</th>
+      <td>21</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>137</th>
+      <td>32</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>138</th>
+      <td>26</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Multinodular goiter</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>142</th>
+      <td>42</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Multinodular goiter</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>161</th>
+      <td>22</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>166</th>
+      <td>31</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>168</th>
+      <td>21</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>170</th>
+      <td>38</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>175</th>
+      <td>34</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Multinodular goiter</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>178</th>
+      <td>38</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>183</th>
+      <td>26</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Multinodular goiter</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>187</th>
+      <td>34</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Multinodular goiter</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>189</th>
+      <td>42</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Multinodular goiter</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>196</th>
+      <td>22</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Checking if duplicated rows have identical values across all columns
+##################################
+num_unique_dup_rows = duplicated_rows.drop_duplicates().shape[0]
+num_total_dup_rows = duplicated_rows.shape[0]
+if num_unique_dup_rows == 1:
+    print("All duplicated rows have the same values across all columns.")
+else:
+    print(f"There are {num_unique_dup_rows} unique versions among the {num_total_dup_rows} duplicated rows.")
+    
+```
+
+    There are 16 unique versions among the 35 duplicated rows.
+    
+
+
+```python
+##################################
+# Counting the unique variations among duplicated rows
+##################################
+unique_dup_variations = duplicated_rows.drop_duplicates()
+variation_counts = duplicated_rows.value_counts().reset_index(name="Count")
+print("Unique duplicated row variations and their counts:")
+display(variation_counts)
+```
+
+    Unique duplicated row variations and their counts:
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Age</th>
+      <th>Gender</th>
+      <th>Smoking</th>
+      <th>Hx_Smoking</th>
+      <th>Hx_Radiotherapy</th>
+      <th>Thyroid_Function</th>
+      <th>Physical_Examination</th>
+      <th>Adenopathy</th>
+      <th>Pathology</th>
+      <th>Focality</th>
+      <th>Risk</th>
+      <th>T</th>
+      <th>N</th>
+      <th>M</th>
+      <th>Stage</th>
+      <th>Response</th>
+      <th>Recurred</th>
+      <th>Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>26</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Multinodular goiter</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>32</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>22</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>21</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>28</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>29</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1b</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>31</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>34</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Multinodular goiter</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>35</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1b</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>36</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Micropapillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1a</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>37</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>38</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>40</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Micropapillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1a</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>42</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Multinodular goiter</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>51</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-left</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1b</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>51</td>
+      <td>F</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Micropapillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1a</td>
+      <td>N0</td>
+      <td>M0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Removing the duplicated rows and
+# retaining only the first occurrence
+##################################
+thyroid_cancer = thyroid_cancer.drop_duplicates(keep="first")
+print('Dataset Dimensions: ')
+display(thyroid_cancer.shape)
+
+```
+
+    Dataset Dimensions: 
+    
+
+
+    (364, 17)
+
+
+
+```python
+##################################
+# Gathering the data types for each column
+##################################
+data_type_list = list(thyroid_cancer.dtypes)
+
+```
+
+
+```python
+##################################
+# Gathering the variable names for each column
+##################################
+variable_name_list = list(thyroid_cancer.columns)
+
+```
+
+
+```python
+##################################
+# Gathering the number of observations for each column
+##################################
+row_count_list = list([len(thyroid_cancer)] * len(thyroid_cancer.columns))
+
+```
+
+
+```python
+##################################
+# Gathering the number of missing data for each column
+##################################
+null_count_list = list(thyroid_cancer.isna().sum(axis=0))
+
+```
+
+
+```python
+##################################
+# Gathering the number of non-missing data for each column
+##################################
+non_null_count_list = list(thyroid_cancer.count())
+
+```
+
+
+```python
+##################################
+# Gathering the missing data percentage for each column
+##################################
+fill_rate_list = map(truediv, non_null_count_list, row_count_list)
+
+```
+
+
+```python
+##################################
+# Formulating the summary
+# for all columns
+##################################
+all_column_quality_summary = pd.DataFrame(zip(variable_name_list,
+                                              data_type_list,
+                                              row_count_list,
+                                              non_null_count_list,
+                                              null_count_list,
+                                              fill_rate_list), 
+                                        columns=['Column.Name',
+                                                 'Column.Type',
+                                                 'Row.Count',
+                                                 'Non.Null.Count',
+                                                 'Null.Count',                                                 
+                                                 'Fill.Rate'])
+display(all_column_quality_summary)
+
+```
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Column.Name</th>
+      <th>Column.Type</th>
+      <th>Row.Count</th>
+      <th>Non.Null.Count</th>
+      <th>Null.Count</th>
+      <th>Fill.Rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Age</td>
+      <td>int64</td>
+      <td>364</td>
+      <td>364</td>
+      <td>0</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Gender</td>
+      <td>category</td>
+      <td>364</td>
+      <td>364</td>
+      <td>0</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Smoking</td>
+      <td>category</td>
+      <td>364</td>
+      <td>364</td>
+      <td>0</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Hx_Smoking</td>
+      <td>category</td>
+      <td>364</td>
+      <td>364</td>
+      <td>0</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Hx_Radiotherapy</td>
+      <td>category</td>
+      <td>364</td>
+      <td>364</td>
+      <td>0</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Thyroid_Function</td>
+      <td>category</td>
+      <td>364</td>
+      <td>364</td>
+      <td>0</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Physical_Examination</td>
+      <td>category</td>
+      <td>364</td>
+      <td>364</td>
+      <td>0</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Adenopathy</td>
+      <td>category</td>
+      <td>364</td>
+      <td>330</td>
+      <td>34</td>
+      <td>0.906593</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Pathology</td>
+      <td>category</td>
+      <td>364</td>
+      <td>364</td>
+      <td>0</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Focality</td>
+      <td>category</td>
+      <td>364</td>
+      <td>364</td>
+      <td>0</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Risk</td>
+      <td>category</td>
+      <td>364</td>
+      <td>364</td>
+      <td>0</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>T</td>
+      <td>category</td>
+      <td>364</td>
+      <td>364</td>
+      <td>0</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>N</td>
+      <td>category</td>
+      <td>364</td>
+      <td>364</td>
+      <td>0</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>M</td>
+      <td>category</td>
+      <td>364</td>
+      <td>364</td>
+      <td>0</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Stage</td>
+      <td>category</td>
+      <td>364</td>
+      <td>364</td>
+      <td>0</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Response</td>
+      <td>category</td>
+      <td>364</td>
+      <td>364</td>
+      <td>0</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Recurred</td>
+      <td>category</td>
+      <td>364</td>
+      <td>364</td>
+      <td>0</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Counting the number of columns
+# with Fill.Rate < 1.00
+##################################
+len(all_column_quality_summary[(all_column_quality_summary['Fill.Rate']<1)])
+
+```
+
+
+
+
+    1
+
+
+
+
+```python
+##################################
+# Identifying the columns
+# with Fill.Rate < 1.00
+##################################
+display(all_column_quality_summary[(all_column_quality_summary['Fill.Rate']<1)].sort_values(by=['Fill.Rate'], ascending=True))
+
+```
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Column.Name</th>
+      <th>Column.Type</th>
+      <th>Row.Count</th>
+      <th>Non.Null.Count</th>
+      <th>Null.Count</th>
+      <th>Fill.Rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7</th>
+      <td>Adenopathy</td>
+      <td>category</td>
+      <td>364</td>
+      <td>330</td>
+      <td>34</td>
+      <td>0.906593</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Identifying the rows
+# with Fill.Rate < 0.90
+##################################
+column_low_fill_rate = all_column_quality_summary[(all_column_quality_summary['Fill.Rate']<0.90)]
+
+```
+
+
+```python
+##################################
+# Gathering the metadata labels for each observation
+##################################
+row_index_list = thyroid_cancer.index
+
+```
+
+
+```python
+##################################
+# Gathering the number of columns for each observation
+##################################
+column_count_list = list([len(thyroid_cancer.columns)] * len(thyroid_cancer))
+
+```
+
+
+```python
+##################################
+# Gathering the number of missing data for each row
+##################################
+null_row_list = list(thyroid_cancer.isna().sum(axis=1))
+
+```
+
+
+```python
+##################################
+# Gathering the missing data percentage for each column
+##################################
+missing_rate_list = map(truediv, null_row_list, column_count_list)
+
+```
+
+
+```python
+##################################
+# Identifying the rows
+# with missing data
+##################################
+all_row_quality_summary = pd.DataFrame(zip(row_index_list,
+                                           column_count_list,
+                                           null_row_list,
+                                           missing_rate_list), 
+                                        columns=['Row.Name',
+                                                 'Column.Count',
+                                                 'Null.Count',                                                 
+                                                 'Missing.Rate'])
+display(all_row_quality_summary)
+
+```
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Row.Name</th>
+      <th>Column.Count</th>
+      <th>Null.Count</th>
+      <th>Missing.Rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>17</td>
+      <td>0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>17</td>
+      <td>0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>17</td>
+      <td>0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>17</td>
+      <td>0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>17</td>
+      <td>0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>359</th>
+      <td>378</td>
+      <td>17</td>
+      <td>0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>360</th>
+      <td>379</td>
+      <td>17</td>
+      <td>0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>361</th>
+      <td>380</td>
+      <td>17</td>
+      <td>1</td>
+      <td>0.058824</td>
+    </tr>
+    <tr>
+      <th>362</th>
+      <td>381</td>
+      <td>17</td>
+      <td>0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>363</th>
+      <td>382</td>
+      <td>17</td>
+      <td>1</td>
+      <td>0.058824</td>
+    </tr>
+  </tbody>
+</table>
+<p>364 rows × 4 columns</p>
+</div>
+
+
+
+```python
+##################################
+# Counting the number of rows
+# with Missing.Rate > 0.00
+##################################
+len(all_row_quality_summary[(all_row_quality_summary['Missing.Rate']>0.00)])
+
+```
+
+
+
+
+    34
+
+
+
+
+```python
+##################################
+# Formulating the dataset
+# with numeric columns only
+##################################
+thyroid_cancer_numeric = thyroid_cancer.select_dtypes(include='number')
+
+```
+
+
+```python
+##################################
+# Gathering the variable names for each numeric column
+##################################
+numeric_variable_name_list = thyroid_cancer_numeric.columns
+
+```
+
+
+```python
+##################################
+# Gathering the minimum value for each numeric column
+##################################
+numeric_minimum_list = thyroid_cancer_numeric.min()
+
+```
+
+
+```python
+##################################
+# Gathering the mean value for each numeric column
+##################################
+numeric_mean_list = thyroid_cancer_numeric.mean()
+
+```
+
+
+```python
+##################################
+# Gathering the median value for each numeric column
+##################################
+numeric_median_list = thyroid_cancer_numeric.median()
+
+```
+
+
+```python
+##################################
+# Gathering the maximum value for each numeric column
+##################################
+numeric_maximum_list = thyroid_cancer_numeric.max()
+
+```
+
+
+```python
+##################################
+# Gathering the first mode values for each numeric column
+##################################
+numeric_first_mode_list = [thyroid_cancer[x].value_counts(dropna=True).index.tolist()[0] for x in thyroid_cancer_numeric]
+
+```
+
+
+```python
+##################################
+# Gathering the second mode values for each numeric column
+##################################
+numeric_second_mode_list = [thyroid_cancer[x].value_counts(dropna=True).index.tolist()[1] for x in thyroid_cancer_numeric]
+
+```
+
+
+```python
+##################################
+# Gathering the count of first mode values for each numeric column
+##################################
+numeric_first_mode_count_list = [thyroid_cancer_numeric[x].isin([thyroid_cancer[x].value_counts(dropna=True).index.tolist()[0]]).sum() for x in thyroid_cancer_numeric]
+
+```
+
+
+```python
+##################################
+# Gathering the count of second mode values for each numeric column
+##################################
+numeric_second_mode_count_list = [thyroid_cancer_numeric[x].isin([thyroid_cancer[x].value_counts(dropna=True).index.tolist()[1]]).sum() for x in thyroid_cancer_numeric]
+
+```
+
+
+```python
+##################################
+# Gathering the first mode to second mode ratio for each numeric column
+##################################
+numeric_first_second_mode_ratio_list = map(truediv, numeric_first_mode_count_list, numeric_second_mode_count_list)
+
+```
+
+
+```python
+##################################
+# Gathering the count of unique values for each numeric column
+##################################
+numeric_unique_count_list = thyroid_cancer_numeric.nunique(dropna=True)
+
+```
+
+
+```python
+##################################
+# Gathering the number of observations for each numeric column
+##################################
+numeric_row_count_list = list([len(thyroid_cancer_numeric)] * len(thyroid_cancer_numeric.columns))
+
+```
+
+
+```python
+##################################
+# Gathering the unique to count ratio for each numeric column
+##################################
+numeric_unique_count_ratio_list = map(truediv, numeric_unique_count_list, numeric_row_count_list)
+
+```
+
+
+```python
+##################################
+# Gathering the skewness value for each numeric column
+##################################
+numeric_skewness_list = thyroid_cancer_numeric.skew()
+
+```
+
+
+```python
+##################################
+# Gathering the kurtosis value for each numeric column
+##################################
+numeric_kurtosis_list = thyroid_cancer_numeric.kurtosis()
+
+```
+
+
+```python
+##################################
+# Generating a column quality summary for the numeric column
+##################################
+numeric_column_quality_summary = pd.DataFrame(zip(numeric_variable_name_list,
+                                                numeric_minimum_list,
+                                                numeric_mean_list,
+                                                numeric_median_list,
+                                                numeric_maximum_list,
+                                                numeric_first_mode_list,
+                                                numeric_second_mode_list,
+                                                numeric_first_mode_count_list,
+                                                numeric_second_mode_count_list,
+                                                numeric_first_second_mode_ratio_list,
+                                                numeric_unique_count_list,
+                                                numeric_row_count_list,
+                                                numeric_unique_count_ratio_list,
+                                                numeric_skewness_list,
+                                                numeric_kurtosis_list), 
+                                        columns=['Numeric.Column.Name',
+                                                 'Minimum',
+                                                 'Mean',
+                                                 'Median',
+                                                 'Maximum',
+                                                 'First.Mode',
+                                                 'Second.Mode',
+                                                 'First.Mode.Count',
+                                                 'Second.Mode.Count',
+                                                 'First.Second.Mode.Ratio',
+                                                 'Unique.Count',
+                                                 'Row.Count',
+                                                 'Unique.Count.Ratio',
+                                                 'Skewness',
+                                                 'Kurtosis'])
+display(numeric_column_quality_summary)
+
+```
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Numeric.Column.Name</th>
+      <th>Minimum</th>
+      <th>Mean</th>
+      <th>Median</th>
+      <th>Maximum</th>
+      <th>First.Mode</th>
+      <th>Second.Mode</th>
+      <th>First.Mode.Count</th>
+      <th>Second.Mode.Count</th>
+      <th>First.Second.Mode.Ratio</th>
+      <th>Unique.Count</th>
+      <th>Row.Count</th>
+      <th>Unique.Count.Ratio</th>
+      <th>Skewness</th>
+      <th>Kurtosis</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Age</td>
+      <td>15</td>
+      <td>41.25</td>
+      <td>38.0</td>
+      <td>82</td>
+      <td>31</td>
+      <td>27</td>
+      <td>21</td>
+      <td>13</td>
+      <td>1.615385</td>
+      <td>65</td>
+      <td>364</td>
+      <td>0.178571</td>
+      <td>0.678269</td>
+      <td>-0.359255</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Counting the number of numeric columns
+# with First.Second.Mode.Ratio > 5.00
+##################################
+len(numeric_column_quality_summary[(numeric_column_quality_summary['First.Second.Mode.Ratio']>5)])
+
+```
+
+
+
+
+    0
+
+
+
+
+```python
+##################################
+# Counting the number of numeric columns
+# with Unique.Count.Ratio > 10.00
+##################################
+len(numeric_column_quality_summary[(numeric_column_quality_summary['Unique.Count.Ratio']>10)])
+
+```
+
+
+
+
+    0
+
+
+
+
+```python
+##################################
+# Counting the number of numeric columns
+# with Skewness > 3.00 or Skewness < -3.00
+##################################
+len(numeric_column_quality_summary[(numeric_column_quality_summary['Skewness']>3) | (numeric_column_quality_summary['Skewness']<(-3))])
+
+```
+
+
+
+
+    0
+
+
+
+
+```python
+##################################
+# Formulating the dataset
+# with categorical columns only
+##################################
+thyroid_cancer_categorical = thyroid_cancer.select_dtypes(include='category')
+
+```
+
+
+```python
+##################################
+# Gathering the variable names for the categorical column
+##################################
+categorical_variable_name_list = thyroid_cancer_categorical.columns
+
+```
+
+
+```python
+##################################
+# Gathering the first mode values for each categorical column
+##################################
+categorical_first_mode_list = [thyroid_cancer[x].value_counts().index.tolist()[0] for x in thyroid_cancer_categorical]
+
+```
+
+
+```python
+##################################
+# Gathering the second mode values for each categorical column
+##################################
+categorical_second_mode_list = [thyroid_cancer[x].value_counts().index.tolist()[1] for x in thyroid_cancer_categorical]
+
+```
+
+
+```python
+##################################
+# Gathering the count of first mode values for each categorical column
+##################################
+categorical_first_mode_count_list = [thyroid_cancer_categorical[x].isin([thyroid_cancer[x].value_counts(dropna=True).index.tolist()[0]]).sum() for x in thyroid_cancer_categorical]
+
+```
+
+
+```python
+##################################
+# Gathering the count of second mode values for each categorical column
+##################################
+categorical_second_mode_count_list = [thyroid_cancer_categorical[x].isin([thyroid_cancer[x].value_counts(dropna=True).index.tolist()[1]]).sum() for x in thyroid_cancer_categorical]
+
+```
+
+
+```python
+##################################
+# Gathering the first mode to second mode ratio for each categorical column
+##################################
+categorical_first_second_mode_ratio_list = map(truediv, categorical_first_mode_count_list, categorical_second_mode_count_list)
+
+```
+
+
+```python
+##################################
+# Gathering the count of unique values for each categorical column
+##################################
+categorical_unique_count_list = thyroid_cancer_categorical.nunique(dropna=True)
+
+```
+
+
+```python
+##################################
+# Gathering the number of observations for each categorical column
+##################################
+categorical_row_count_list = list([len(thyroid_cancer_categorical)] * len(thyroid_cancer_categorical.columns))
+
+```
+
+
+```python
+##################################
+# Gathering the unique to count ratio for each categorical column
+##################################
+categorical_unique_count_ratio_list = map(truediv, categorical_unique_count_list, categorical_row_count_list)
+
+```
+
+
+```python
+##################################
+# Generating a column quality summary for the categorical columns
+##################################
+categorical_column_quality_summary = pd.DataFrame(zip(categorical_variable_name_list,
+                                                    categorical_first_mode_list,
+                                                    categorical_second_mode_list,
+                                                    categorical_first_mode_count_list,
+                                                    categorical_second_mode_count_list,
+                                                    categorical_first_second_mode_ratio_list,
+                                                    categorical_unique_count_list,
+                                                    categorical_row_count_list,
+                                                    categorical_unique_count_ratio_list), 
+                                        columns=['Categorical.Column.Name',
+                                                 'First.Mode',
+                                                 'Second.Mode',
+                                                 'First.Mode.Count',
+                                                 'Second.Mode.Count',
+                                                 'First.Second.Mode.Ratio',
+                                                 'Unique.Count',
+                                                 'Row.Count',
+                                                 'Unique.Count.Ratio'])
+display(categorical_column_quality_summary)
+
+```
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Categorical.Column.Name</th>
+      <th>First.Mode</th>
+      <th>Second.Mode</th>
+      <th>First.Mode.Count</th>
+      <th>Second.Mode.Count</th>
+      <th>First.Second.Mode.Ratio</th>
+      <th>Unique.Count</th>
+      <th>Row.Count</th>
+      <th>Unique.Count.Ratio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Gender</td>
+      <td>F</td>
+      <td>M</td>
+      <td>293</td>
+      <td>71</td>
+      <td>4.126761</td>
+      <td>2</td>
+      <td>364</td>
+      <td>0.005495</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Smoking</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>315</td>
+      <td>49</td>
+      <td>6.428571</td>
+      <td>2</td>
+      <td>364</td>
+      <td>0.005495</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Hx_Smoking</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>336</td>
+      <td>28</td>
+      <td>12.000000</td>
+      <td>2</td>
+      <td>364</td>
+      <td>0.005495</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Hx_Radiotherapy</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>357</td>
+      <td>7</td>
+      <td>51.000000</td>
+      <td>2</td>
+      <td>364</td>
+      <td>0.005495</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Thyroid_Function</td>
+      <td>Euthyroid</td>
+      <td>Clinical Hyperthyroidism</td>
+      <td>313</td>
+      <td>20</td>
+      <td>15.650000</td>
+      <td>5</td>
+      <td>364</td>
+      <td>0.013736</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Physical_Examination</td>
+      <td>Multinodular goiter</td>
+      <td>Single nodular goiter-right</td>
+      <td>135</td>
+      <td>127</td>
+      <td>1.062992</td>
+      <td>5</td>
+      <td>364</td>
+      <td>0.013736</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Adenopathy</td>
+      <td>No</td>
+      <td>Right</td>
+      <td>258</td>
+      <td>48</td>
+      <td>5.375000</td>
+      <td>4</td>
+      <td>364</td>
+      <td>0.010989</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Pathology</td>
+      <td>Papillary</td>
+      <td>Micropapillary</td>
+      <td>271</td>
+      <td>45</td>
+      <td>6.022222</td>
+      <td>4</td>
+      <td>364</td>
+      <td>0.010989</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Focality</td>
+      <td>Uni-Focal</td>
+      <td>Multi-Focal</td>
+      <td>228</td>
+      <td>136</td>
+      <td>1.676471</td>
+      <td>2</td>
+      <td>364</td>
+      <td>0.005495</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Risk</td>
+      <td>Low</td>
+      <td>Intermediate</td>
+      <td>230</td>
+      <td>102</td>
+      <td>2.254902</td>
+      <td>3</td>
+      <td>364</td>
+      <td>0.008242</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>T</td>
+      <td>T2</td>
+      <td>T3a</td>
+      <td>138</td>
+      <td>96</td>
+      <td>1.437500</td>
+      <td>7</td>
+      <td>364</td>
+      <td>0.019231</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>N</td>
+      <td>N0</td>
+      <td>N1b</td>
+      <td>249</td>
+      <td>93</td>
+      <td>2.677419</td>
+      <td>3</td>
+      <td>364</td>
+      <td>0.008242</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>M</td>
+      <td>M0</td>
+      <td>M1</td>
+      <td>346</td>
+      <td>18</td>
+      <td>19.222222</td>
+      <td>2</td>
+      <td>364</td>
+      <td>0.005495</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Stage</td>
+      <td>I</td>
+      <td>II</td>
+      <td>314</td>
+      <td>32</td>
+      <td>9.812500</td>
+      <td>5</td>
+      <td>364</td>
+      <td>0.013736</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Response</td>
+      <td>Excellent</td>
+      <td>Structural Incomplete</td>
+      <td>189</td>
+      <td>91</td>
+      <td>2.076923</td>
+      <td>4</td>
+      <td>364</td>
+      <td>0.010989</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Recurred</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>256</td>
+      <td>108</td>
+      <td>2.370370</td>
+      <td>2</td>
+      <td>364</td>
+      <td>0.005495</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Counting the number of categorical columns
+# with First.Second.Mode.Ratio > 5.00
+##################################
+len(categorical_column_quality_summary[(categorical_column_quality_summary['First.Second.Mode.Ratio']>5)])
+
+```
+
+
+
+
+    8
+
+
+
+
+```python
+##################################
+# Identifying the categorical columns
+# with First.Second.Mode.Ratio > 5.00
+##################################
+display(categorical_column_quality_summary[(categorical_column_quality_summary['First.Second.Mode.Ratio']>5)].sort_values(by=['First.Second.Mode.Ratio'], ascending=False))
+```
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Categorical.Column.Name</th>
+      <th>First.Mode</th>
+      <th>Second.Mode</th>
+      <th>First.Mode.Count</th>
+      <th>Second.Mode.Count</th>
+      <th>First.Second.Mode.Ratio</th>
+      <th>Unique.Count</th>
+      <th>Row.Count</th>
+      <th>Unique.Count.Ratio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>Hx_Radiotherapy</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>357</td>
+      <td>7</td>
+      <td>51.000000</td>
+      <td>2</td>
+      <td>364</td>
+      <td>0.005495</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>M</td>
+      <td>M0</td>
+      <td>M1</td>
+      <td>346</td>
+      <td>18</td>
+      <td>19.222222</td>
+      <td>2</td>
+      <td>364</td>
+      <td>0.005495</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Thyroid_Function</td>
+      <td>Euthyroid</td>
+      <td>Clinical Hyperthyroidism</td>
+      <td>313</td>
+      <td>20</td>
+      <td>15.650000</td>
+      <td>5</td>
+      <td>364</td>
+      <td>0.013736</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Hx_Smoking</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>336</td>
+      <td>28</td>
+      <td>12.000000</td>
+      <td>2</td>
+      <td>364</td>
+      <td>0.005495</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Stage</td>
+      <td>I</td>
+      <td>II</td>
+      <td>314</td>
+      <td>32</td>
+      <td>9.812500</td>
+      <td>5</td>
+      <td>364</td>
+      <td>0.013736</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Smoking</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>315</td>
+      <td>49</td>
+      <td>6.428571</td>
+      <td>2</td>
+      <td>364</td>
+      <td>0.005495</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Pathology</td>
+      <td>Papillary</td>
+      <td>Micropapillary</td>
+      <td>271</td>
+      <td>45</td>
+      <td>6.022222</td>
+      <td>4</td>
+      <td>364</td>
+      <td>0.010989</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Adenopathy</td>
+      <td>No</td>
+      <td>Right</td>
+      <td>258</td>
+      <td>48</td>
+      <td>5.375000</td>
+      <td>4</td>
+      <td>364</td>
+      <td>0.010989</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Counting the number of categorical columns
+# with Unique.Count.Ratio > 10.00
+##################################
+len(categorical_column_quality_summary[(categorical_column_quality_summary['Unique.Count.Ratio']>10)])
+
+```
+
+
+
+
+    0
+
+
 
 ## 1.4. Data Preprocessing <a class="anchor" id="1.4"></a>
 
