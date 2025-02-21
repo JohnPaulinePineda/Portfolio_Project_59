@@ -2,7 +2,7 @@
 # Supervised Learning : Leveraging Ensemble Learning With Bagging, Boosting, Stacking and Blending Approaches
 
 ***
-### [**John Pauline Pineda**](https://github.com/JohnPaulinePineda) <br> <br> *February 22, 2025*
+### [**John Pauline Pineda**](https://github.com/JohnPaulinePineda) <br> <br> *March 1, 2025*
 ***
 
 * [**1. Table of Contents**](#TOC)
@@ -10,14 +10,15 @@
     * [1.2 Data Description](#1.2)
     * [1.3 Data Quality Assessment](#1.3)
     * [1.4 Data Preprocessing](#1.4)
-        * [1.4.1 Data Cleaning](#1.4.1)
-        * [1.4.2 Missing Data Imputation](#1.4.2)
-        * [1.4.3 Outlier Treatment](#1.4.3)
-        * [1.4.4 Collinearity](#1.4.4)
-        * [1.4.5 Shape Transformation](#1.4.5)
-        * [1.4.6 Centering and Scaling](#1.4.6)
-        * [1.4.7 Data Encoding](#1.4.7)
-        * [1.4.8 Preprocessed Data Description](#1.4.8)
+        * [1.4.1 Data Splitting](#1.4.1)
+        * [1.4.2 Data Cleaning](#1.4.2)
+        * [1.4.3 Missing Data Imputation](#1.4.3)
+        * [1.4.4 Outlier Treatment](#1.4.4)
+        * [1.4.5 Collinearity](#1.4.5)
+        * [1.4.6 Shape Transformation](#1.4.6)
+        * [1.4.7 Centering and Scaling](#1.4.7)
+        * [1.4.8 Data Encoding](#1.4.8)
+        * [1.4.9 Preprocessed Data Description](#1.4.9)
     * [1.5 Data Exploration](#1.5)
         * [1.5.1 Exploratory Data Analysis](#1.5.1)
         * [1.5.2 Hypothesis Testing](#1.5.2)
@@ -142,6 +143,20 @@ import os
 %matplotlib inline
 
 from operator import add,mul,truediv
+from sklearn.experimental import enable_iterative_imputer
+from sklearn.impute import IterativeImputer
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PowerTransformer, StandardScaler
+from scipy import stats
+from scipy.stats import pointbiserialr
+
+from sklearn.pipeline import Pipeline
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier, StackingClassifier
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix, ConfusionMatrixDisplay, classification_report
+from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score
 
 ```
 
@@ -151,6 +166,18 @@ from operator import add,mul,truediv
 # Defining file paths
 ##################################
 DATASETS_ORIGINAL_PATH = r"datasets\original"
+DATASETS_PREPROCESSED_PATH = r"datasets\preprocessed"
+DATASETS_FINAL_PATH = r"datasets\final\complete"
+DATASETS_FINAL_TRAIN_PATH = r"datasets\final\train"
+DATASETS_FINAL_TRAIN_FEATURES_PATH = r"datasets\final\train\features"
+DATASETS_FINAL_TRAIN_TARGET_PATH = r"datasets\final\train\target"
+DATASETS_FINAL_VALIDATION_PATH = r"datasets\final\validation"
+DATASETS_FINAL_VALIDATION_FEATURES_PATH = r"datasets\final\validation\features"
+DATASETS_FINAL_VALIDATION_TARGET_PATH = r"datasets\final\validation\target"
+DATASETS_FINAL_TEST_PATH = r"datasets\final\test"
+DATASETS_FINAL_TEST_FEATURES_PATH = r"datasets\final\test\features"
+DATASETS_FINAL_TEST_TARGET_PATH = r"datasets\final\test\target"
+MODELS_PATH = r"models"
 
 ```
 
@@ -956,14 +983,14 @@ for col in ordered_cat_cols:
 ## 1.3. Data Quality Assessment <a class="anchor" id="1.3"></a>
 
 Data quality findings based on assessment are as follows:
-1. There were 19 duplicated rows observed.
-    * There were 34 observations affected including the first occurrence of the duplicated rows.
-    * There were 16 unique variations among duplicated rows.
-    * All 19 duplicated rows were removed while retaining only the first 16 unique occurrences.
+1. A total of 19 duplicated rows were identified.
+    * In total, 34 observations were affected, consisting of 16 unique occurrences and 19 subsequent duplicates.
+    * These 19 duplicates spanned 16 distinct variations, meaning some variations had multiple duplicates.
+    * To clean the dataset, all 19 duplicate rows were removed, retaining only the first occurrence of each of the 16 unique variations.
 2. Missing data noted for 1 variable with Null.Count>0 and Fill.Rate<1.0.
-    * <span style="color: #FF0000">RNDGDP</span>: Null.Count = 34, Fill.Rate = 0.906
+    * <span style="color: #FF0000">Adenopathy</span>: Null.Count = 34, Fill.Rate = 0.906
 3. Given only a single variable with missing data observed, there were 34 observations noted with Missing.Rate= 0.058824 out of all 17 variables.
-4. Low variance observed for 1 variable with First.Second.Mode.Ratio>5.
+4. Low variance observed for 8 variables with First.Second.Mode.Ratio>5.
     * <span style="color: #FF0000">Hx_Radiotherapy</span>: First.Second.Mode.Ratio = 51.000
     * <span style="color: #FF0000">M</span>: First.Second.Mode.Ratio = 19.222
     * <span style="color: #FF0000">Thyroid_Function</span>: First.Second.Mode.Ratio = 15.650
@@ -973,7 +1000,7 @@ Data quality findings based on assessment are as follows:
     * <span style="color: #FF0000">Pathology</span>: First.Second.Mode.Ratio = 6.022
     * <span style="color: #FF0000">Adenopathy</span>: First.Second.Mode.Ratio = 5.375
 5. No low variance observed for any variable with Unique.Count.Ratio>10.
-6. No high skewness observed forany variable with Skewness>3 or Skewness<(-3).
+6. No high skewness observed for any variable with Skewness>3 or Skewness<(-3).
 
 
 
@@ -2164,9 +2191,9 @@ display(variation_counts)
 # Removing the duplicated rows and
 # retaining only the first occurrence
 ##################################
-thyroid_cancer = thyroid_cancer.drop_duplicates(keep="first")
+thyroid_cancer_row_filtered = thyroid_cancer.drop_duplicates(keep="first")
 print('Dataset Dimensions: ')
-display(thyroid_cancer.shape)
+display(thyroid_cancer_row_filtered.shape)
 
 ```
 
@@ -2182,7 +2209,7 @@ display(thyroid_cancer.shape)
 ##################################
 # Gathering the data types for each column
 ##################################
-data_type_list = list(thyroid_cancer.dtypes)
+data_type_list = list(thyroid_cancer_row_filtered.dtypes)
 
 ```
 
@@ -2191,7 +2218,7 @@ data_type_list = list(thyroid_cancer.dtypes)
 ##################################
 # Gathering the variable names for each column
 ##################################
-variable_name_list = list(thyroid_cancer.columns)
+variable_name_list = list(thyroid_cancer_row_filtered.columns)
 
 ```
 
@@ -2200,7 +2227,7 @@ variable_name_list = list(thyroid_cancer.columns)
 ##################################
 # Gathering the number of observations for each column
 ##################################
-row_count_list = list([len(thyroid_cancer)] * len(thyroid_cancer.columns))
+row_count_list = list([len(thyroid_cancer_row_filtered)] * len(thyroid_cancer_row_filtered.columns))
 
 ```
 
@@ -2209,7 +2236,7 @@ row_count_list = list([len(thyroid_cancer)] * len(thyroid_cancer.columns))
 ##################################
 # Gathering the number of missing data for each column
 ##################################
-null_count_list = list(thyroid_cancer.isna().sum(axis=0))
+null_count_list = list(thyroid_cancer_row_filtered.isna().sum(axis=0))
 
 ```
 
@@ -2218,7 +2245,7 @@ null_count_list = list(thyroid_cancer.isna().sum(axis=0))
 ##################################
 # Gathering the number of non-missing data for each column
 ##################################
-non_null_count_list = list(thyroid_cancer.count())
+non_null_count_list = list(thyroid_cancer_row_filtered.count())
 
 ```
 
@@ -2521,9 +2548,9 @@ column_low_fill_rate = all_column_quality_summary[(all_column_quality_summary['F
 
 ```python
 ##################################
-# Gathering the metadata labels for each observation
+# Gathering the indices for each observation
 ##################################
-row_index_list = thyroid_cancer.index
+row_index_list = thyroid_cancer_row_filtered.index
 
 ```
 
@@ -2532,7 +2559,7 @@ row_index_list = thyroid_cancer.index
 ##################################
 # Gathering the number of columns for each observation
 ##################################
-column_count_list = list([len(thyroid_cancer.columns)] * len(thyroid_cancer))
+column_count_list = list([len(thyroid_cancer_row_filtered.columns)] * len(thyroid_cancer_row_filtered))
 
 ```
 
@@ -2541,7 +2568,7 @@ column_count_list = list([len(thyroid_cancer.columns)] * len(thyroid_cancer))
 ##################################
 # Gathering the number of missing data for each row
 ##################################
-null_row_list = list(thyroid_cancer.isna().sum(axis=1))
+null_row_list = list(thyroid_cancer_row_filtered.isna().sum(axis=1))
 
 ```
 
@@ -2704,7 +2731,7 @@ len(all_row_quality_summary[(all_row_quality_summary['Missing.Rate']>0.00)])
 # Formulating the dataset
 # with numeric columns only
 ##################################
-thyroid_cancer_numeric = thyroid_cancer.select_dtypes(include='number')
+thyroid_cancer_numeric = thyroid_cancer_row_filtered.select_dtypes(include='number')
 
 ```
 
@@ -2758,7 +2785,7 @@ numeric_maximum_list = thyroid_cancer_numeric.max()
 ##################################
 # Gathering the first mode values for each numeric column
 ##################################
-numeric_first_mode_list = [thyroid_cancer[x].value_counts(dropna=True).index.tolist()[0] for x in thyroid_cancer_numeric]
+numeric_first_mode_list = [thyroid_cancer_row_filtered[x].value_counts(dropna=True).index.tolist()[0] for x in thyroid_cancer_numeric]
 
 ```
 
@@ -2767,7 +2794,7 @@ numeric_first_mode_list = [thyroid_cancer[x].value_counts(dropna=True).index.tol
 ##################################
 # Gathering the second mode values for each numeric column
 ##################################
-numeric_second_mode_list = [thyroid_cancer[x].value_counts(dropna=True).index.tolist()[1] for x in thyroid_cancer_numeric]
+numeric_second_mode_list = [thyroid_cancer_row_filtered[x].value_counts(dropna=True).index.tolist()[1] for x in thyroid_cancer_numeric]
 
 ```
 
@@ -2776,7 +2803,7 @@ numeric_second_mode_list = [thyroid_cancer[x].value_counts(dropna=True).index.to
 ##################################
 # Gathering the count of first mode values for each numeric column
 ##################################
-numeric_first_mode_count_list = [thyroid_cancer_numeric[x].isin([thyroid_cancer[x].value_counts(dropna=True).index.tolist()[0]]).sum() for x in thyroid_cancer_numeric]
+numeric_first_mode_count_list = [thyroid_cancer_numeric[x].isin([thyroid_cancer_row_filtered[x].value_counts(dropna=True).index.tolist()[0]]).sum() for x in thyroid_cancer_numeric]
 
 ```
 
@@ -2785,7 +2812,7 @@ numeric_first_mode_count_list = [thyroid_cancer_numeric[x].isin([thyroid_cancer[
 ##################################
 # Gathering the count of second mode values for each numeric column
 ##################################
-numeric_second_mode_count_list = [thyroid_cancer_numeric[x].isin([thyroid_cancer[x].value_counts(dropna=True).index.tolist()[1]]).sum() for x in thyroid_cancer_numeric]
+numeric_second_mode_count_list = [thyroid_cancer_numeric[x].isin([thyroid_cancer_row_filtered[x].value_counts(dropna=True).index.tolist()[1]]).sum() for x in thyroid_cancer_numeric]
 
 ```
 
@@ -2999,7 +3026,7 @@ len(numeric_column_quality_summary[(numeric_column_quality_summary['Skewness']>3
 # Formulating the dataset
 # with categorical columns only
 ##################################
-thyroid_cancer_categorical = thyroid_cancer.select_dtypes(include='category')
+thyroid_cancer_categorical = thyroid_cancer_row_filtered.select_dtypes(include='category')
 
 ```
 
@@ -3017,7 +3044,7 @@ categorical_variable_name_list = thyroid_cancer_categorical.columns
 ##################################
 # Gathering the first mode values for each categorical column
 ##################################
-categorical_first_mode_list = [thyroid_cancer[x].value_counts().index.tolist()[0] for x in thyroid_cancer_categorical]
+categorical_first_mode_list = [thyroid_cancer_row_filtered[x].value_counts().index.tolist()[0] for x in thyroid_cancer_categorical]
 
 ```
 
@@ -3026,7 +3053,7 @@ categorical_first_mode_list = [thyroid_cancer[x].value_counts().index.tolist()[0
 ##################################
 # Gathering the second mode values for each categorical column
 ##################################
-categorical_second_mode_list = [thyroid_cancer[x].value_counts().index.tolist()[1] for x in thyroid_cancer_categorical]
+categorical_second_mode_list = [thyroid_cancer_row_filtered[x].value_counts().index.tolist()[1] for x in thyroid_cancer_categorical]
 
 ```
 
@@ -3035,7 +3062,7 @@ categorical_second_mode_list = [thyroid_cancer[x].value_counts().index.tolist()[
 ##################################
 # Gathering the count of first mode values for each categorical column
 ##################################
-categorical_first_mode_count_list = [thyroid_cancer_categorical[x].isin([thyroid_cancer[x].value_counts(dropna=True).index.tolist()[0]]).sum() for x in thyroid_cancer_categorical]
+categorical_first_mode_count_list = [thyroid_cancer_categorical[x].isin([thyroid_cancer_row_filtered[x].value_counts(dropna=True).index.tolist()[0]]).sum() for x in thyroid_cancer_categorical]
 
 ```
 
@@ -3044,7 +3071,7 @@ categorical_first_mode_count_list = [thyroid_cancer_categorical[x].isin([thyroid
 ##################################
 # Gathering the count of second mode values for each categorical column
 ##################################
-categorical_second_mode_count_list = [thyroid_cancer_categorical[x].isin([thyroid_cancer[x].value_counts(dropna=True).index.tolist()[1]]).sum() for x in thyroid_cancer_categorical]
+categorical_second_mode_count_list = [thyroid_cancer_categorical[x].isin([thyroid_cancer_row_filtered[x].value_counts(dropna=True).index.tolist()[1]]).sum() for x in thyroid_cancer_categorical]
 
 ```
 
@@ -3516,21 +3543,373 @@ len(categorical_column_quality_summary[(categorical_column_quality_summary['Uniq
 
 ## 1.4. Data Preprocessing <a class="anchor" id="1.4"></a>
 
-### 1.4.1 Data Cleaning <a class="anchor" id="1.4.1"></a>
+### 1.4.1 Data Splitting <a class="anchor" id="1.4.1"></a>
 
-### 1.4.2 Missing Data Imputation <a class="anchor" id="1.4.2"></a>
 
-### 1.4.3 Outlier Treatment <a class="anchor" id="1.4.3"></a>
+```python
+##################################
+# Creating a dataset copy
+# of the row filtered data
+##################################
+thyroid_cancer_baseline = thyroid_cancer_row_filtered.copy()
 
-### 1.4.4 Collinearity <a class="anchor" id="1.4.4"></a>
+```
 
-### 1.4.5 Shape Transformation <a class="anchor" id="1.4.5"></a>
 
-### 1.4.6 Centering and Scaling <a class="anchor" id="1.4.6"></a>
+```python
+##################################
+# Performing a general exploration
+# of the baseline dataset
+##################################
+print('Final Dataset Dimensions: ')
+display(thyroid_cancer_baseline.shape)
 
-### 1.4.7 Data Encoding <a class="anchor" id="1.4.7"></a>
+```
 
-### 1.4.8 Preprocessed Data Description <a class="anchor" id="1.4.8"></a>
+    Final Dataset Dimensions: 
+    
+
+
+    (364, 17)
+
+
+
+```python
+print('Target Variable Breakdown: ')
+thyroid_cancer_breakdown = thyroid_cancer_baseline.groupby('Recurred', observed=True).size().reset_index(name='Count')
+thyroid_cancer_breakdown['Percentage'] = (thyroid_cancer_breakdown['Count'] / len(thyroid_cancer_baseline)) * 100
+display(thyroid_cancer_breakdown)
+
+```
+
+    Target Variable Breakdown: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Recurred</th>
+      <th>Count</th>
+      <th>Percentage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>No</td>
+      <td>256</td>
+      <td>70.32967</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Yes</td>
+      <td>108</td>
+      <td>29.67033</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Formulating the train and test data
+# from the final dataset
+# by applying stratification and
+# using a 75-25 ratio
+##################################
+thyroid_cancer_train_initial, thyroid_cancer_test = train_test_split(thyroid_cancer_baseline, 
+                                                               test_size=0.25, 
+                                                               stratify=thyroid_cancer_baseline['Recurred'], 
+                                                               random_state=88888888)
+
+```
+
+
+```python
+##################################
+# Performing a general exploration
+# of the initial training dataset
+##################################
+X_train_initial = thyroid_cancer_train_initial.drop('Recurred', axis = 1)
+y_train_initial = thyroid_cancer_train_initial['Recurred']
+print('Initial Training Dataset Dimensions: ')
+display(X_train_initial.shape)
+display(y_train_initial.shape)
+print('Initial Training Target Variable Breakdown: ')
+display(y_train_initial.value_counts())
+print('Initial Training Target Variable Proportion: ')
+display(y_train_initial.value_counts(normalize = True))
+
+```
+
+    Initial Training Dataset Dimensions: 
+    
+
+
+    (273, 16)
+
+
+
+    (273,)
+
+
+    Initial Training Target Variable Breakdown: 
+    
+
+
+    Recurred
+    No     192
+    Yes     81
+    Name: count, dtype: int64
+
+
+    Initial Training Target Variable Proportion: 
+    
+
+
+    Recurred
+    No     0.703297
+    Yes    0.296703
+    Name: proportion, dtype: float64
+
+
+
+```python
+##################################
+# Performing a general exploration
+# of the test dataset
+##################################
+X_test = thyroid_cancer_test.drop('Recurred', axis = 1)
+y_test = thyroid_cancer_test['Recurred']
+print('Test Dataset Dimensions: ')
+display(X_test.shape)
+display(y_test.shape)
+print('Test Target Variable Breakdown: ')
+display(y_test.value_counts())
+print('Test Target Variable Proportion: ')
+display(y_test.value_counts(normalize = True))
+
+```
+
+    Test Dataset Dimensions: 
+    
+
+
+    (91, 16)
+
+
+
+    (91,)
+
+
+    Test Target Variable Breakdown: 
+    
+
+
+    Recurred
+    No     64
+    Yes    27
+    Name: count, dtype: int64
+
+
+    Test Target Variable Proportion: 
+    
+
+
+    Recurred
+    No     0.703297
+    Yes    0.296703
+    Name: proportion, dtype: float64
+
+
+
+```python
+##################################
+# Formulating the train and validation data
+# from the train dataset
+# by applying stratification and
+# using a 75-25 ratio
+##################################
+thyroid_cancer_train, thyroid_cancer_validation = train_test_split(thyroid_cancer_train_initial, 
+                                                             test_size=0.25, 
+                                                             stratify=thyroid_cancer_train_initial['Recurred'], 
+                                                             random_state=88888888)
+
+```
+
+
+```python
+##################################
+# Performing a general exploration
+# of the final training dataset
+##################################
+X_train = thyroid_cancer_train.drop('Recurred', axis = 1)
+y_train = thyroid_cancer_train['Recurred']
+print('Final Training Dataset Dimensions: ')
+display(X_train.shape)
+display(y_train.shape)
+print('Final Training Target Variable Breakdown: ')
+display(y_train.value_counts())
+print('Final Training Target Variable Proportion: ')
+display(y_train.value_counts(normalize = True))
+
+```
+
+    Final Training Dataset Dimensions: 
+    
+
+
+    (204, 16)
+
+
+
+    (204,)
+
+
+    Final Training Target Variable Breakdown: 
+    
+
+
+    Recurred
+    No     143
+    Yes     61
+    Name: count, dtype: int64
+
+
+    Final Training Target Variable Proportion: 
+    
+
+
+    Recurred
+    No     0.70098
+    Yes    0.29902
+    Name: proportion, dtype: float64
+
+
+
+```python
+##################################
+# Performing a general exploration
+# of the validation dataset
+##################################
+X_validation = thyroid_cancer_validation.drop('Recurred', axis = 1)
+y_validation = thyroid_cancer_validation['Recurred']
+print('Validation Dataset Dimensions: ')
+display(X_validation.shape)
+display(y_validation.shape)
+print('Validation Target Variable Breakdown: ')
+display(y_validation.value_counts())
+print('Validation Target Variable Proportion: ')
+display(y_validation.value_counts(normalize = True))
+
+```
+
+    Validation Dataset Dimensions: 
+    
+
+
+    (69, 16)
+
+
+
+    (69,)
+
+
+    Validation Target Variable Breakdown: 
+    
+
+
+    Recurred
+    No     49
+    Yes    20
+    Name: count, dtype: int64
+
+
+    Validation Target Variable Proportion: 
+    
+
+
+    Recurred
+    No     0.710145
+    Yes    0.289855
+    Name: proportion, dtype: float64
+
+
+
+```python
+##################################
+# Saving the training data
+# to the DATASETS_FINAL_TRAIN_PATH
+# and DATASETS_FINAL_TRAIN_FEATURES_PATH
+# and DATASETS_FINAL_TRAIN_TARGET_PATH
+##################################
+thyroid_cancer_train.to_csv(os.path.join("..", DATASETS_FINAL_TRAIN_PATH, "thyroid_cancer_train.csv"), index=False)
+X_train.to_csv(os.path.join("..", DATASETS_FINAL_TRAIN_FEATURES_PATH, "X_train.csv"), index=False)
+y_train.to_csv(os.path.join("..", DATASETS_FINAL_TRAIN_TARGET_PATH, "y_train.csv"), index=False)
+
+```
+
+
+```python
+##################################
+# Saving the validation data
+# to the DATASETS_FINAL_VALIDATION_PATH
+# and DATASETS_FINAL_VALIDATION_FEATURE_PATH
+# and DATASETS_FINAL_VALIDATION_TARGET_PATH
+##################################
+thyroid_cancer_validation.to_csv(os.path.join("..", DATASETS_FINAL_VALIDATION_PATH, "thyroid_cancer_validation.csv"), index=False)
+X_validation.to_csv(os.path.join("..", DATASETS_FINAL_VALIDATION_FEATURES_PATH, "X_validation.csv"), index=False)
+y_validation.to_csv(os.path.join("..", DATASETS_FINAL_VALIDATION_TARGET_PATH, "y_validation.csv"), index=False)
+
+```
+
+
+```python
+##################################
+# Saving the test data
+# to the DATASETS_FINAL_TEST_PATH
+# and DATASETS_FINAL_TEST_FEATURES_PATH
+# and DATASETS_FINAL_TEST_TARGET_PATH
+##################################
+thyroid_cancer_test.to_csv(os.path.join("..", DATASETS_FINAL_TEST_PATH, "thyroid_cancer_test.csv"), index=False)
+X_test.to_csv(os.path.join("..", DATASETS_FINAL_TEST_FEATURES_PATH, "X_test.csv"), index=False)
+y_test.to_csv(os.path.join("..", DATASETS_FINAL_TEST_TARGET_PATH, "y_test.csv"), index=False)
+
+```
+
+### 1.4.2 Data Cleaning <a class="anchor" id="1.4.2"></a>
+
+### 1.4.3 Missing Data Imputation <a class="anchor" id="1.4.3"></a>
+
+### 1.4.4 Outlier Treatment <a class="anchor" id="1.4.4"></a>
+
+### 1.4.5 Collinearity <a class="anchor" id="1.4.5"></a>
+
+### 1.4.6 Shape Transformation <a class="anchor" id="1.4.6"></a>
+
+### 1.4.7 Centering and Scaling <a class="anchor" id="1.4.7"></a>
+
+### 1.4.8 Data Encoding <a class="anchor" id="1.4.8"></a>
+
+### 1.4.9 Preprocessed Data Description <a class="anchor" id="1.4.9"></a>
 
 ## 1.5. Data Exploration <a class="anchor" id="1.5"></a>
 
