@@ -3897,6 +3897,364 @@ y_test.to_csv(os.path.join("..", DATASETS_FINAL_TEST_TARGET_PATH, "y_test.csv"),
 
 ### 1.4.2 Data Cleaning <a class="anchor" id="1.4.2"></a>
 
+
+```python
+##################################
+# Segregating the target
+# and predictor variables
+##################################
+thyroid_cancer_train_predictors = thyroid_cancer_train.iloc[:,:-1].columns
+thyroid_cancer_train_predictors_numeric = thyroid_cancer_train.iloc[:,:-1].loc[:, thyroid_cancer_train.iloc[:,:-1].columns == 'Age'].columns
+thyroid_cancer_train_predictors_categorical = thyroid_cancer_train.iloc[:,:-1].loc[:,thyroid_cancer_train.iloc[:,:-1].columns != 'Age'].columns
+
+```
+
+
+```python
+##################################
+# Gathering the variable names for each numeric column
+##################################
+numeric_variable_name_list = thyroid_cancer_train_predictors_numeric
+
+```
+
+
+```python
+##################################
+# Segregating the target variable
+# and numeric predictors
+##################################
+boxplot_y_variable = 'Recurred'
+boxplot_x_variable = numeric_variable_name_list.values[0]
+
+```
+
+
+```python
+##################################
+# Evaluating the numeric predictors
+# against the target variable
+##################################
+plt.figure(figsize=(7, 5))
+plt.boxplot([group[boxplot_x_variable] for name, group in thyroid_cancer_train.groupby(boxplot_y_variable, observed=True)])
+plt.title(f'{boxplot_y_variable} Versus {boxplot_x_variable}')
+plt.xlabel(boxplot_y_variable)
+plt.ylabel(boxplot_x_variable)
+plt.xticks(range(1, len(thyroid_cancer_train[boxplot_y_variable].unique()) + 1), ['No', 'Yes'])
+plt.show()
+
+```
+
+
+    
+![png](output_93_0.png)
+    
+
+
+
+```python
+##################################
+# Performing a general exploration of the categorical variable levels
+# based on the ordered categories
+##################################
+ordered_cat_cols = thyroid_cancer_train.select_dtypes(include=["category"]).columns
+for col in ordered_cat_cols:
+    print(f"Column: {col}")
+    print("Absolute Frequencies:")
+    print(thyroid_cancer_train[col].value_counts().reindex(thyroid_cancer_train[col].cat.categories))
+    print("\nNormalized Frequencies:")
+    print(thyroid_cancer_train[col].value_counts(normalize=True).reindex(thyroid_cancer_train[col].cat.categories))
+    print("-" * 50)
+    
+```
+
+    Column: Gender
+    Absolute Frequencies:
+    M     46
+    F    158
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    M    0.22549
+    F    0.77451
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Smoking
+    Absolute Frequencies:
+    No     172
+    Yes     32
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    No     0.843137
+    Yes    0.156863
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Hx_Smoking
+    Absolute Frequencies:
+    No     189
+    Yes     15
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    No     0.926471
+    Yes    0.073529
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Hx_Radiotherapy
+    Absolute Frequencies:
+    No     199
+    Yes      5
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    No     0.97549
+    Yes    0.02451
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Thyroid_Function
+    Absolute Frequencies:
+    Euthyroid                      176
+    Subclinical Hypothyroidism       8
+    Subclinical Hyperthyroidism      3
+    Clinical Hypothyroidism          6
+    Clinical Hyperthyroidism        11
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Euthyroid                      0.862745
+    Subclinical Hypothyroidism     0.039216
+    Subclinical Hyperthyroidism    0.014706
+    Clinical Hypothyroidism        0.029412
+    Clinical Hyperthyroidism       0.053922
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Physical_Examination
+    Absolute Frequencies:
+    Normal                          5
+    Single nodular goiter-left     47
+    Single nodular goiter-right    69
+    Multinodular goiter            78
+    Diffuse goiter                  5
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Normal                         0.024510
+    Single nodular goiter-left     0.230392
+    Single nodular goiter-right    0.338235
+    Multinodular goiter            0.382353
+    Diffuse goiter                 0.024510
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Adenopathy
+    Absolute Frequencies:
+    No                    143
+    Left                    8
+    Right                  26
+    BilateralPosterior      0
+    Extensive               4
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    No                    0.790055
+    Left                  0.044199
+    Right                 0.143646
+    BilateralPosterior    0.000000
+    Extensive             0.022099
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Pathology
+    Absolute Frequencies:
+    Hurthle Cell       11
+    Micropapillary     28
+    Papillary         151
+    Follicular         14
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Hurthle Cell      0.053922
+    Micropapillary    0.137255
+    Papillary         0.740196
+    Follicular        0.068627
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Focality
+    Absolute Frequencies:
+    Uni-Focal      118
+    Multi-Focal     86
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Uni-Focal      0.578431
+    Multi-Focal    0.421569
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Risk
+    Absolute Frequencies:
+    Low             131
+    Intermediate     55
+    High             18
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Low             0.642157
+    Intermediate    0.269608
+    High            0.088235
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: T
+    Absolute Frequencies:
+    T1a    27
+    T1b    20
+    T2     79
+    T3a    55
+    T3b     6
+    T4a    11
+    T4b     6
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    T1a    0.132353
+    T1b    0.098039
+    T2     0.387255
+    T3a    0.269608
+    T3b    0.029412
+    T4a    0.053922
+    T4b    0.029412
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: N
+    Absolute Frequencies:
+    N0     140
+    N1a     13
+    N1b     51
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    N0     0.686275
+    N1a    0.063725
+    N1b    0.250000
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: M
+    Absolute Frequencies:
+    M0    192
+    M1     12
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    M0    0.941176
+    M1    0.058824
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Stage
+    Absolute Frequencies:
+    I      178
+    II      16
+    III      1
+    IVA      3
+    IVB      6
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    I      0.872549
+    II     0.078431
+    III    0.004902
+    IVA    0.014706
+    IVB    0.029412
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Response
+    Absolute Frequencies:
+    Indeterminate              26
+    Structural Incomplete      54
+    Biochemical Incomplete     17
+    Excellent                 107
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Indeterminate             0.127451
+    Structural Incomplete     0.264706
+    Biochemical Incomplete    0.083333
+    Excellent                 0.524510
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Recurred
+    Absolute Frequencies:
+    No     143
+    Yes     61
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    No     0.70098
+    Yes    0.29902
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    
+
+
+```python
+##################################
+# Segregating the target variable
+# and categorical predictors
+##################################
+proportion_y_variables = thyroid_cancer_train_predictors_categorical
+proportion_x_variable = 'Recurred'
+
+```
+
+
+```python
+##################################
+# Defining the number of 
+# rows and columns for the subplots
+##################################
+num_rows = 5
+num_cols = 3
+
+##################################
+# Formulating the subplot structure
+##################################
+fig, axes = plt.subplots(num_rows, num_cols, figsize=(15, 25))
+
+##################################
+# Flattening the multi-row and
+# multi-column axes
+##################################
+axes = axes.ravel()
+
+##################################
+# Formulating the individual stacked column plots
+# for all categorical columns
+##################################
+for i, y_variable in enumerate(proportion_y_variables):
+    ax = axes[i]
+    category_counts = thyroid_cancer_train.groupby([proportion_x_variable, y_variable], observed=True).size().unstack(fill_value=0)
+    category_proportions = category_counts.div(category_counts.sum(axis=1), axis=0)
+    category_proportions.plot(kind='bar', stacked=True, ax=ax)
+    ax.set_title(f'{proportion_x_variable} Versus {y_variable}')
+    ax.set_xlabel(proportion_x_variable)
+    ax.set_ylabel('PROPORTIONS')
+    ax.legend(loc="lower center")
+
+##################################
+# Adjusting the subplot layout
+##################################
+plt.tight_layout()
+
+##################################
+# Presenting the subplots
+##################################
+plt.show()
+
+```
+
+
+    
+![png](output_96_0.png)
+    
+
+
 ### 1.4.3 Missing Data Imputation <a class="anchor" id="1.4.3"></a>
 
 ### 1.4.4 Outlier Treatment <a class="anchor" id="1.4.4"></a>
