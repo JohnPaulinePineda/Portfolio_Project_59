@@ -3974,23 +3974,27 @@ numeric_variable_name_list = thyroid_cancer_train_predictors_numeric
 # Segregating the target variable
 # and numeric predictors
 ##################################
-boxplot_y_variable = 'Recurred'
-boxplot_x_variable = numeric_variable_name_list.values[0]
+histogram_grouping_variable = 'Recurred'
+histogram_frequency_variable = numeric_variable_name_list.values[0]
 
 ```
 
 
 ```python
 ##################################
-# Evaluating the numeric predictors
-# against the target variable
+# Comparing the numeric predictors
+# grouped by the target variable
 ##################################
+colors = plt.get_cmap('tab10').colors
 plt.figure(figsize=(7, 5))
-plt.boxplot([group[boxplot_x_variable] for name, group in thyroid_cancer_train.groupby(boxplot_y_variable, observed=True)])
-plt.title(f'{boxplot_y_variable} Versus {boxplot_x_variable}')
-plt.xlabel(boxplot_y_variable)
-plt.ylabel(boxplot_x_variable)
-plt.xticks(range(1, len(thyroid_cancer_train[boxplot_y_variable].unique()) + 1), ['No', 'Yes'])
+group_no = thyroid_cancer_train[thyroid_cancer_train[histogram_grouping_variable] == 'No'][histogram_frequency_variable]
+group_yes = thyroid_cancer_train[thyroid_cancer_train[histogram_grouping_variable] == 'Yes'][histogram_frequency_variable]
+plt.hist(group_no, bins=20, alpha=0.5, color=colors[0], label='No', edgecolor='black')
+plt.hist(group_yes, bins=20, alpha=0.5, color=colors[1], label='Yes', edgecolor='black')
+plt.title(f'{histogram_grouping_variable} Versus {histogram_frequency_variable}')
+plt.xlabel(histogram_frequency_variable)
+plt.ylabel('Frequency')
+plt.legend()
 plt.show()
 
 ```
@@ -4284,7 +4288,7 @@ for i, y_variable in enumerate(proportion_y_variables):
     category_proportions.plot(kind='bar', stacked=True, ax=ax)
     ax.set_title(f'{proportion_x_variable} Versus {y_variable}')
     ax.set_xlabel(proportion_x_variable)
-    ax.set_ylabel('PROPORTIONS')
+    ax.set_ylabel('Proportions')
     ax.legend(loc="lower center")
 
 ##################################
@@ -4714,7 +4718,7 @@ for i, y_variable in enumerate(proportion_y_variables):
     category_proportions.plot(kind='bar', stacked=True, ax=ax)
     ax.set_title(f'{proportion_x_variable} Versus {y_variable}')
     ax.set_xlabel(proportion_x_variable)
-    ax.set_ylabel('PROPORTIONS')
+    ax.set_ylabel('Proportions')
     ax.legend(loc="lower center")
 
 ##################################
@@ -6089,7 +6093,313 @@ plt.show()
 
 ### 1.5.1 Exploratory Data Analysis <a class="anchor" id="1.5.1"></a>
 
+
+```python
+##################################
+# Segregating the target
+# and predictor variables
+##################################
+thyroid_cancer_train_column_filtered_imputed_predictors = thyroid_cancer_train_column_filtered_imputed.iloc[:,:-1].columns
+thyroid_cancer_train_column_filtered_imputed_predictors_numeric = thyroid_cancer_train_column_filtered_imputed.iloc[:,:-1].loc[:, thyroid_cancer_train_column_filtered_imputed.iloc[:,:-1].columns == 'Age'].columns
+thyroid_cancer_train_column_filtered_imputed_predictors_categorical = thyroid_cancer_train_column_filtered_imputed.iloc[:,:-1].loc[:,thyroid_cancer_train_column_filtered_imputed.iloc[:,:-1].columns != 'Age'].columns
+
+```
+
+
+```python
+##################################
+# Gathering the variable names for each numeric column
+##################################
+numeric_variable_name_list = thyroid_cancer_train_column_filtered_imputed_predictors_numeric
+
+```
+
+
+```python
+##################################
+# Segregating the target variable
+# and numeric predictors
+##################################
+boxplot_y_variable = 'Recurred'
+boxplot_x_variable = numeric_variable_name_list.values[0]
+
+```
+
+
+```python
+##################################
+# Evaluating the numeric predictors
+# against the target variable
+##################################
+plt.figure(figsize=(7, 5))
+plt.boxplot([group[boxplot_x_variable] for name, group in thyroid_cancer_train_column_filtered_imputed.groupby(boxplot_y_variable, observed=True)])
+plt.title(f'{boxplot_y_variable} Versus {boxplot_x_variable}')
+plt.xlabel(boxplot_y_variable)
+plt.ylabel(boxplot_x_variable)
+plt.xticks(range(1, len(thyroid_cancer_train_column_filtered_imputed[boxplot_y_variable].unique()) + 1), ['No', 'Yes'])
+plt.show()
+
+```
+
+
+    
+![png](output_136_0.png)
+    
+
+
+
+```python
+##################################
+# Segregating the target variable
+# and categorical predictors
+##################################
+proportion_y_variables = thyroid_cancer_train_column_filtered_imputed_predictors_categorical
+proportion_x_variable = 'Recurred'
+
+```
+
+
+```python
+##################################
+# Defining the number of 
+# rows and columns for the subplots
+##################################
+num_rows = 4
+num_cols = 3
+
+##################################
+# Formulating the subplot structure
+##################################
+fig, axes = plt.subplots(num_rows, num_cols, figsize=(15, 20))
+
+##################################
+# Flattening the multi-row and
+# multi-column axes
+##################################
+axes = axes.ravel()
+
+##################################
+# Formulating the individual stacked column plots
+# for all categorical columns
+##################################
+for i, y_variable in enumerate(proportion_y_variables):
+    ax = axes[i]
+    category_counts = thyroid_cancer_train_column_filtered_imputed.groupby([proportion_x_variable, y_variable], observed=True).size().unstack(fill_value=0)
+    category_proportions = category_counts.div(category_counts.sum(axis=1), axis=0)
+    category_proportions.plot(kind='bar', stacked=True, ax=ax)
+    ax.set_title(f'{proportion_x_variable} Versus {y_variable}')
+    ax.set_xlabel(proportion_x_variable)
+    ax.set_ylabel('Proportions')
+    ax.legend(loc="lower center")
+
+##################################
+# Adjusting the subplot layout
+##################################
+plt.tight_layout()
+
+##################################
+# Presenting the subplots
+##################################
+plt.show()
+
+```
+
+
+    
+![png](output_138_0.png)
+    
+
+
 ### 1.5.2 Hypothesis Testing <a class="anchor" id="1.5.2"></a>
+
+
+```python
+##################################
+# Computing the t-test 
+# statistic and p-values
+# between the target variable
+# and numeric predictor columns
+##################################
+thyroid_cancer_numeric_ttest_target = {}
+thyroid_cancer_numeric = thyroid_cancer_train_column_filtered_imputed.loc[:,(thyroid_cancer_train_column_filtered_imputed.columns == 'Age') | (thyroid_cancer_train_column_filtered_imputed.columns == 'Recurred')]
+thyroid_cancer_numeric_columns = thyroid_cancer_train_column_filtered_imputed_predictors_numeric
+for numeric_column in thyroid_cancer_numeric_columns:
+    group_0 = thyroid_cancer_numeric[thyroid_cancer_numeric.loc[:,'Recurred']=='No']
+    group_1 = thyroid_cancer_numeric[thyroid_cancer_numeric.loc[:,'Recurred']=='Yes']
+    thyroid_cancer_numeric_ttest_target['Recurred_' + numeric_column] = stats.ttest_ind(
+        group_0[numeric_column], 
+        group_1[numeric_column], 
+        equal_var=True)
+
+```
+
+
+```python
+##################################
+# Formulating the pairwise ttest summary
+# between the target variable
+# and numeric predictor columns
+##################################
+thyroid_cancer_numeric_summary = thyroid_cancer_numeric.from_dict(thyroid_cancer_numeric_ttest_target, orient='index')
+thyroid_cancer_numeric_summary.columns = ['T.Test.Statistic', 'T.Test.PValue']
+display(thyroid_cancer_numeric_summary.sort_values(by=['T.Test.PValue'], ascending=True).head(len(thyroid_cancer_train_column_filtered_imputed_predictors_numeric)))
+
+```
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>T.Test.Statistic</th>
+      <th>T.Test.PValue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Recurred_Age</th>
+      <td>-3.791048</td>
+      <td>0.000198</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Computing the chisquare
+# statistic and p-values
+# between the target variable
+# and categorical predictor columns
+##################################
+thyroid_cancer_categorical_chisquare_target = {}
+thyroid_cancer_categorical = thyroid_cancer_train_column_filtered_imputed.loc[:,(thyroid_cancer_train_column_filtered_imputed.columns != 'Age') | (thyroid_cancer_train_column_filtered_imputed.columns == 'Recurred')]
+thyroid_cancer_categorical_columns = thyroid_cancer_train_column_filtered_imputed_predictors_categorical
+for categorical_column in thyroid_cancer_categorical_columns:
+    contingency_table = pd.crosstab(thyroid_cancer_categorical[categorical_column], 
+                                    thyroid_cancer_categorical['Recurred'])
+    thyroid_cancer_categorical_chisquare_target['Recurred_' + categorical_column] = stats.chi2_contingency(
+        contingency_table)[0:2]
+
+```
+
+
+```python
+##################################
+# Formulating the pairwise chisquare summary
+# between the target variable
+# and categorical predictor columns
+##################################
+thyroid_cancer_categorical_summary = thyroid_cancer_categorical.from_dict(thyroid_cancer_categorical_chisquare_target, orient='index')
+thyroid_cancer_categorical_summary.columns = ['ChiSquare.Test.Statistic', 'ChiSquare.Test.PValue']
+display(thyroid_cancer_categorical_summary.sort_values(by=['ChiSquare.Test.PValue'], ascending=True).head(len(thyroid_cancer_train_column_filtered_imputed_predictors_categorical)))
+
+```
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ChiSquare.Test.Statistic</th>
+      <th>ChiSquare.Test.PValue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Recurred_Risk</th>
+      <td>115.387077</td>
+      <td>6.474266e-27</td>
+    </tr>
+    <tr>
+      <th>Recurred_Response</th>
+      <td>93.015440</td>
+      <td>5.188795e-22</td>
+    </tr>
+    <tr>
+      <th>Recurred_N</th>
+      <td>87.380222</td>
+      <td>8.954142e-21</td>
+    </tr>
+    <tr>
+      <th>Recurred_Adenopathy</th>
+      <td>84.762347</td>
+      <td>3.364713e-20</td>
+    </tr>
+    <tr>
+      <th>Recurred_Stage</th>
+      <td>58.828665</td>
+      <td>1.720169e-14</td>
+    </tr>
+    <tr>
+      <th>Recurred_T</th>
+      <td>57.882234</td>
+      <td>2.782892e-14</td>
+    </tr>
+    <tr>
+      <th>Recurred_Smoking</th>
+      <td>34.318952</td>
+      <td>4.678040e-09</td>
+    </tr>
+    <tr>
+      <th>Recurred_Gender</th>
+      <td>29.114212</td>
+      <td>6.823460e-08</td>
+    </tr>
+    <tr>
+      <th>Recurred_Focality</th>
+      <td>27.017885</td>
+      <td>2.015816e-07</td>
+    </tr>
+    <tr>
+      <th>Recurred_Physical_Examination</th>
+      <td>5.717930</td>
+      <td>1.679252e-02</td>
+    </tr>
+    <tr>
+      <th>Recurred_Thyroid_Function</th>
+      <td>2.961746</td>
+      <td>8.525584e-02</td>
+    </tr>
+    <tr>
+      <th>Recurred_Pathology</th>
+      <td>0.891397</td>
+      <td>3.450989e-01</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
 
 ## 1.6. Premodelling Data Preparation <a class="anchor" id="1.6"></a>
 
