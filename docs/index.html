@@ -7553,7 +7553,6 @@ a.anchor-link {
 <li><a href="#1.4.3">1.4.3 Category Aggregation and Encoding</a></li>
 <li><a href="#1.4.4">1.4.4 Outlier and Distributional Shape Analysis</a></li>
 <li><a href="#1.4.5">1.4.5 Collinearity</a></li>
-<li><a href="#1.4.6">1.4.6 Preprocessed Data Description</a></li>
 </ul>
 </li>
 <li><a href="#1.5">1.5 Data Exploration</a><ul>
@@ -7562,8 +7561,8 @@ a.anchor-link {
 </ul>
 </li>
 <li><a href="#1.6">1.6 Premodelling Data Preparation</a><ul>
-<li><a href="#1.6.1">1.6.1 Preprocessing Pipeline Development</a></li>
-<li><a href="#1.6.2">1.6.2 Premodelling Data Description</a></li>
+<li><a href="#1.6.1">1.6.1 Preprocessed Data Description</a></li>
+<li><a href="#1.6.2">1.6.2 Preprocessing Pipeline Development</a></li>
 </ul>
 </li>
 <li><a href="#1.7">1.7 Bagged Model Development</a><ul>
@@ -7762,7 +7761,6 @@ a.anchor-link {
 <span class="c1"># Defining file paths</span>
 <span class="c1">##################################</span>
 <span class="n">DATASETS_ORIGINAL_PATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"datasets\original"</span>
-<span class="n">DATASETS_PREPROCESSED_PATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"datasets\preprocessed"</span>
 <span class="n">DATASETS_FINAL_PATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"datasets\final\complete"</span>
 <span class="n">DATASETS_FINAL_TRAIN_PATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"datasets\final\train"</span>
 <span class="n">DATASETS_FINAL_TRAIN_FEATURES_PATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"datasets\final\train\features"</span>
@@ -7773,6 +7771,16 @@ a.anchor-link {
 <span class="n">DATASETS_FINAL_TEST_PATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"datasets\final\test"</span>
 <span class="n">DATASETS_FINAL_TEST_FEATURES_PATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"datasets\final\test\features"</span>
 <span class="n">DATASETS_FINAL_TEST_TARGET_PATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"datasets\final\test\target"</span>
+<span class="n">DATASETS_PREPROCESSED_PATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"datasets\preprocessed"</span>
+<span class="n">DATASETS_PREPROCESSED_TRAIN_PATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"datasets\preprocessed\train"</span>
+<span class="n">DATASETS_PREPROCESSED_TRAIN_FEATURES_PATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"datasets\preprocessed\train\features"</span>
+<span class="n">DATASETS_PREPROCESSED_TRAIN_TARGET_PATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"datasets\preprocessed\train\target"</span>
+<span class="n">DATASETS_PREPROCESSED_VALIDATION_PATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"datasets\preprocessed\validation"</span>
+<span class="n">DATASETS_PREPROCESSED_VALIDATION_FEATURES_PATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"datasets\preprocessed\validation\features"</span>
+<span class="n">DATASETS_PREPROCESSED_VALIDATION_TARGET_PATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"datasets\preprocessed\validation\target"</span>
+<span class="n">DATASETS_PREPROCESSED_TEST_PATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"datasets\preprocessed\test"</span>
+<span class="n">DATASETS_PREPROCESSED_TEST_FEATURES_PATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"datasets\preprocessed\test\features"</span>
+<span class="n">DATASETS_PREPROCESSED_TEST_TARGET_PATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"datasets\preprocessed\test\target"</span>
 <span class="n">MODELS_PATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"models"</span>
 </pre></div>
 </div>
@@ -12503,90 +12511,90 @@ Name: proportion, dtype: float64</pre>
 <li>No distributional anomalies were obseerved for the numeric predictor <span style="color: #FF0000">Age</span>.</li>
 <li>9 categorical predictors were observed with categories consisting of too few cases that risk poor generalization and cross-validation issues:<ul>
 <li><span style="color: #FF0000">Thyroid_Function</span>:<ul>
-<li><span style="color: #FF0000">176 Thyroid_Function=Euthyroid</span>: 86.27%</li>
-<li><span style="color: #FF0000">8 Thyroid_Function=Subclinical Hypothyroidism</span>: 3.92%</li>
-<li><span style="color: #FF0000">3 Thyroid_Function=Subclinical Hyperthyroidism</span>: 1.47%</li>
-<li><span style="color: #FF0000">6 Thyroid_Function=Clinical Hypothyroidism</span>: 2.94%</li>
-<li><span style="color: #FF0000">11 Thyroid_Function=Clinical Hyperthyroidism</span>: 5.39%</li>
+<li><strong>176</strong> <span style="color: #FF0000">Thyroid_Function=Euthyroid</span>: 86.27%</li>
+<li><strong>8</strong> <span style="color: #FF0000">Thyroid_Function=Subclinical Hypothyroidism</span>: 3.92%</li>
+<li><strong>3</strong> <span style="color: #FF0000">Thyroid_Function=Subclinical Hyperthyroidism</span>: 1.47%</li>
+<li><strong>6</strong> <span style="color: #FF0000">Thyroid_Function=Clinical Hypothyroidism</span>: 2.94%</li>
+<li><strong>11</strong> <span style="color: #FF0000">Thyroid_Function=Clinical Hyperthyroidism</span>: 5.39%</li>
 </ul>
 </li>
 <li><span style="color: #FF0000">Physical_Examination</span>:<ul>
-<li><span style="color: #FF0000">5 Physical_Examination=Normal</span>: 2.45%</li>
-<li><span style="color: #FF0000">47 Physical_Examination=Single nodular goiter-left</span>: 23.04%</li>
-<li><span style="color: #FF0000">69 Physical_Examination=Single nodular goiter-right</span>: 33.82%</li>
-<li><span style="color: #FF0000">78 Physical_Examination=Multinodular goiter</span>: 38.24%</li>
-<li><span style="color: #FF0000">5 Physical_Examination=Diffuse goiter</span>: 2.45%</li>
+<li><strong>5</strong> <span style="color: #FF0000">Physical_Examination=Normal</span>: 2.45%</li>
+<li><strong>47</strong> <span style="color: #FF0000">Physical_Examination=Single nodular goiter-left</span>: 23.04%</li>
+<li><strong>69</strong> <span style="color: #FF0000">Physical_Examination=Single nodular goiter-right</span>: 33.82%</li>
+<li><strong>78</strong> <span style="color: #FF0000">Physical_Examination=Multinodular goiter</span>: 38.24%</li>
+<li><strong>5</strong> <span style="color: #FF0000">Physical_Examination=Diffuse goiter</span>: 2.45%</li>
 </ul>
 </li>
 <li><span style="color: #FF0000">Adenopathy</span>:<ul>
-<li><span style="color: #FF0000">143 Adenopathy=No</span>: 70.09%</li>
-<li><span style="color: #FF0000">8 Adenopathy=Left</span>: 3.92%</li>
-<li><span style="color: #FF0000">26 Adenopathy=Right</span>: 12.75%</li>
-<li><span style="color: #FF0000">1 Adenopathy=Posterior</span>: 0.49%</li>
-<li><span style="color: #FF0000">22 Adenopathy=Bilateral</span>: 10.78%</li>
-<li><span style="color: #FF0000">4 Adenopathy=Extensive</span>: 1.96%</li>
+<li><strong>143</strong> <span style="color: #FF0000">Adenopathy=No</span>: 70.09%</li>
+<li><strong>8</strong> <span style="color: #FF0000">Adenopathy=Left</span>: 3.92%</li>
+<li><strong>26</strong> <span style="color: #FF0000">Adenopathy=Right</span>: 12.75%</li>
+<li><strong>1</strong> <span style="color: #FF0000">Adenopathy=Posterior</span>: 0.49%</li>
+<li><strong>22</strong> <span style="color: #FF0000">Adenopathy=Bilateral</span>: 10.78%</li>
+<li><strong>4</strong> <span style="color: #FF0000">Adenopathy=Extensive</span>: 1.96%</li>
 </ul>
 </li>
 <li><span style="color: #FF0000">Pathology</span>:<ul>
-<li><span style="color: #FF0000">11 Pathology=Hurthle Cell</span>: 5.39%</li>
-<li><span style="color: #FF0000">14 Pathology=Follicular</span>: 6.86%</li>
-<li><span style="color: #FF0000">28 Pathology=Micropapillary</span>: 13.73%</li>
-<li><span style="color: #FF0000">151 Pathology=Papillary</span>: 74.02%</li>
+<li><strong>11</strong> <span style="color: #FF0000">Pathology=Hurthle Cell</span>: 5.39%</li>
+<li><strong>14</strong> <span style="color: #FF0000">Pathology=Follicular</span>: 6.86%</li>
+<li><strong>28</strong> <span style="color: #FF0000">Pathology=Micropapillary</span>: 13.73%</li>
+<li><strong>151</strong> <span style="color: #FF0000">Pathology=Papillary</span>: 74.02%</li>
 </ul>
 </li>
 <li><span style="color: #FF0000">Risk</span>:<ul>
-<li><span style="color: #FF0000">131 Risk=Low</span>: 64.22%</li>
-<li><span style="color: #FF0000">55 Risk=Intermediate</span>: 26.96%</li>
-<li><span style="color: #FF0000">18 Risk=High</span>: 8.82%</li>
+<li><strong>131</strong> <span style="color: #FF0000">Risk=Low</span>: 64.22%</li>
+<li><strong>55</strong> <span style="color: #FF0000">Risk=Intermediate</span>: 26.96%</li>
+<li><strong>18</strong> <span style="color: #FF0000">Risk=High</span>: 8.82%</li>
 </ul>
 </li>
 <li><span style="color: #FF0000">T</span>:<ul>
-<li><span style="color: #FF0000">27 T=T1a</span>: 13.23%</li>
-<li><span style="color: #FF0000">20 T=T1b</span>: 9.80%</li>
-<li><span style="color: #FF0000">79 T=T2</span>: 38.72%</li>
-<li><span style="color: #FF0000">55 T=T3a</span>: 26.96%</li>
-<li><span style="color: #FF0000">6 T=T3b</span>: 2.94%</li>
-<li><span style="color: #FF0000">11 T=T4a</span>: 5.39%</li>
-<li><span style="color: #FF0000">6 T=T4b</span>: 2.94%</li>
+<li><strong>27</strong> <span style="color: #FF0000">T=T1a</span>: 13.23%</li>
+<li><strong>20</strong> <span style="color: #FF0000">T=T1b</span>: 9.80%</li>
+<li><strong>79</strong> <span style="color: #FF0000">T=T2</span>: 38.72%</li>
+<li><strong>55</strong> <span style="color: #FF0000">T=T3a</span>: 26.96%</li>
+<li><strong>6</strong> <span style="color: #FF0000">T=T3b</span>: 2.94%</li>
+<li><strong>11</strong> <span style="color: #FF0000">T=T4a</span>: 5.39%</li>
+<li><strong>6</strong> <span style="color: #FF0000">T=T4b</span>: 2.94%</li>
 </ul>
 </li>
 <li><span style="color: #FF0000">N</span>:<ul>
-<li><span style="color: #FF0000">140 N=N0</span>: 68.63%</li>
-<li><span style="color: #FF0000">13 N=N1a</span>: 6.37%</li>
-<li><span style="color: #FF0000">51 N=N1b</span>: 25.00%</li>
+<li><strong>140</strong> <span style="color: #FF0000">N=N0</span>: 68.63%</li>
+<li><strong>13</strong> <span style="color: #FF0000">N=N1a</span>: 6.37%</li>
+<li><strong>51</strong> <span style="color: #FF0000">N=N1b</span>: 25.00%</li>
 </ul>
 </li>
 <li><span style="color: #FF0000">Stage</span>:<ul>
-<li><span style="color: #FF0000">178 Stage=I</span>: 87.25%</li>
-<li><span style="color: #FF0000">16 Stage=II</span>: 7.84%</li>
-<li><span style="color: #FF0000">1 Stage=III</span>: 0.49%</li>
-<li><span style="color: #FF0000">3 Stage=IVA</span>: 1.47%</li>
-<li><span style="color: #FF0000">6 Stage=IVB</span>: 2.94%</li>
+<li><strong>178</strong> <span style="color: #FF0000">Stage=I</span>: 87.25%</li>
+<li><strong>16</strong> <span style="color: #FF0000">Stage=II</span>: 7.84%</li>
+<li><strong>1</strong> <span style="color: #FF0000">Stage=III</span>: 0.49%</li>
+<li><strong>3</strong> <span style="color: #FF0000">Stage=IVA</span>: 1.47%</li>
+<li><strong>6</strong> <span style="color: #FF0000">Stage=IVB</span>: 2.94%</li>
 </ul>
 </li>
 <li><span style="color: #FF0000">Response</span>:<ul>
-<li><span style="color: #FF0000">107 Response=Excellent</span>: 52.45%</li>
-<li><span style="color: #FF0000">54 Response=Structural Incomplete</span>: 26.47%</li>
-<li><span style="color: #FF0000">17 Response=Biochemical Incomplete</span>: 8.33%</li>
-<li><span style="color: #FF0000">26 Response=Indeterminate</span>: 12.75%</li>
+<li><strong>107</strong> <span style="color: #FF0000">Response=Excellent</span>: 52.45%</li>
+<li><strong>54</strong> <span style="color: #FF0000">Response=Structural Incomplete</span>: 26.47%</li>
+<li><strong>17</strong> <span style="color: #FF0000">Response=Biochemical Incomplete</span>: 8.33%</li>
+<li><strong>26</strong> <span style="color: #FF0000">Response=Indeterminate</span>: 12.75%</li>
 </ul>
 </li>
 </ul>
 </li>
 <li>3 categorical predictors were excluded from the dataset after having been observed with extremely low variance containing categories with very few or almost no variations across observations that may have limited predictive power or drive increased model complexity without performance gains:<ul>
 <li><span style="color: #FF0000">Hx_Smoking</span>:<ul>
-<li><span style="color: #FF0000">189 Hx_Smoking=No</span>: 92.65%</li>
-<li><span style="color: #FF0000">15 Hx_Smoking=Yes</span>: 7.35%</li>
+<li><strong>189</strong> <span style="color: #FF0000">Hx_Smoking=No</span>: 92.65%</li>
+<li><strong>15</strong> <span style="color: #FF0000">Hx_Smoking=Yes</span>: 7.35%</li>
 </ul>
 </li>
 <li><span style="color: #FF0000">Hx_Radiotherapy</span>:<ul>
-<li><span style="color: #FF0000">199 Hx_Radiotherapy=No</span>: 97.55%</li>
-<li><span style="color: #FF0000">15 Hx_Radiotherapy=Yes</span>: 2.45%</li>
+<li><strong>199</strong> <span style="color: #FF0000">Hx_Radiotherapy=No</span>: 97.55%</li>
+<li><strong>15</strong> <span style="color: #FF0000">Hx_Radiotherapy=Yes</span>: 2.45%</li>
 </ul>
 </li>
 <li><span style="color: #FF0000">M</span>:<ul>
-<li><span style="color: #FF0000">192 M=M0</span>: 94.12%</li>
-<li><span style="color: #FF0000">12 M=M1</span>: 5.88%</li>
+<li><strong>192</strong> <span style="color: #FF0000">M=M0</span>: 94.12%</li>
+<li><strong>12</strong> <span style="color: #FF0000">M=M1</span>: 5.88%</li>
 </ul>
 </li>
 </ul>
@@ -13198,7 +13206,56 @@ Name: proportion, dtype: float64
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="1.4.3-Category-Aggregration-and-Encoding-">1.4.3 Category Aggregration and Encoding <a class="anchor" id="1.4.8"></a><a class="anchor-link" href="#1.4.3-Category-Aggregration-and-Encoding-">¶</a></h3>
+<h3 id="1.4.3-Category-Aggregration-and-Encoding-">1.4.3 Category Aggregration and Encoding <a class="anchor" id="1.4.8"></a><a class="anchor-link" href="#1.4.3-Category-Aggregration-and-Encoding-">¶</a></h3><ol>
+<li>Category aggregation was applied to the previously identified categorical predictors observed with many levels (high-cardinality) containing only a few observations to improve model stability during cross-validation and enhance generalization:<ul>
+<li><span style="color: #FF0000">Thyroid_Function</span>:<ul>
+<li><strong>176</strong> <span style="color: #FF0000">Thyroid_Function=Euthyroid</span>: 86.27%</li>
+<li><strong>28</strong> <span style="color: #FF0000">Thyroid_Function=Hypothyroidism or Hyperthyroidism</span>: 13.73%</li>
+</ul>
+</li>
+<li><span style="color: #FF0000">Physical_Examination</span>:<ul>
+<li><strong>121</strong> <span style="color: #FF0000">Physical_Examination=Normal or Single Nodular Goiter </span>: 59.31%</li>
+<li><strong>83</strong> <span style="color: #FF0000">Physical_Examination=Multinodular or Diffuse Goiter</span>: 40.69%</li>
+</ul>
+</li>
+<li><span style="color: #FF0000">Adenopathy</span>:<ul>
+<li><strong>143</strong> <span style="color: #FF0000">Adenopathy=No</span>: 70.09%</li>
+<li><strong>61</strong> <span style="color: #FF0000">Adenopathy=Yes</span>: 29.90%</li>
+</ul>
+</li>
+<li><span style="color: #FF0000">Pathology</span>:<ul>
+<li><strong>25</strong> <span style="color: #FF0000">Pathology=Non-Papillary </span>: 12.25%</li>
+<li><strong>179</strong> <span style="color: #FF0000">Pathology=Papillary</span>: 87.74%</li>
+</ul>
+</li>
+<li><span style="color: #FF0000">Risk</span>:<ul>
+<li><strong>131</strong> <span style="color: #FF0000">Risk=Low</span>: 64.22%</li>
+<li><strong>73</strong> <span style="color: #FF0000">Risk=Intermediate to High</span>: 35.78%</li>
+</ul>
+</li>
+<li><span style="color: #FF0000">T</span>:<ul>
+<li><strong>126</strong> <span style="color: #FF0000">T=T1 to T2</span>: 61.76%</li>
+<li><strong>78</strong> <span style="color: #FF0000">T=T3 to T4b</span>: 38.23%</li>
+</ul>
+</li>
+<li><span style="color: #FF0000">N</span>:<ul>
+<li><strong>140</strong> <span style="color: #FF0000">N=N0</span>: 68.63%</li>
+<li><strong>65</strong> <span style="color: #FF0000">N=N1</span>: 31.37%</li>
+</ul>
+</li>
+<li><span style="color: #FF0000">Stage</span>:<ul>
+<li><strong>178</strong> <span style="color: #FF0000">Stage=I</span>: 87.25%</li>
+<li><strong>26</strong> <span style="color: #FF0000">Stage=II to IVB</span>: 12.75%</li>
+</ul>
+</li>
+<li><span style="color: #FF0000">Response</span>:<ul>
+<li><strong>107</strong> <span style="color: #FF0000">Response=Excellent</span>: 52.45%</li>
+<li><strong>97</strong> <span style="color: #FF0000">Response=Indeterminate or Incomplete</span>: 47.55%</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -13951,7 +14008,15 @@ Name: proportion, dtype: float64
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="1.4.5-Collinearity-">1.4.5 Collinearity <a class="anchor" id="1.4.5"></a><a class="anchor-link" href="#1.4.5-Collinearity-">¶</a></h3>
+<h3 id="1.4.5-Collinearity-">1.4.5 Collinearity <a class="anchor" id="1.4.5"></a><a class="anchor-link" href="#1.4.5-Collinearity-">¶</a></h3><ol>
+<li>Majority of the predictors reported low (&lt;0.50) to moderate (0.50 to 0.75) correlation.</li>
+<li>Among pairwise combinations of categorical predictors, high Phi.Coefficient values were noted for:<ul>
+<li><span style="color: #FF0000">N</span> and <span style="color: #FF0000">Adenopathy</span>: Phi.Coefficient = +0.827</li>
+<li><span style="color: #FF0000">N</span> and <span style="color: #FF0000">Risk</span>: Phi.Coefficient = +0.751</li>
+<li><span style="color: #FF0000">Adenopathy</span> and <span style="color: #FF0000">Risk</span>: Phi.Coefficient = +0.696</li>
+</ul>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -14603,17 +14668,6 @@ Name: proportion, dtype: float64
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e7e390f2-c814-4727-8329-4791e19394bf">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="1.4.6-Preprocessed-Data-Description-">1.4.6 Preprocessed Data Description <a class="anchor" id="1.4.6"></a><a class="anchor-link" href="#1.4.6-Preprocessed-Data-Description-">¶</a></h3>
-</div>
-</div>
-</div>
-</div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5b5bfcde-b806-4549-adec-2ab62bf963d3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -14631,7 +14685,28 @@ Name: proportion, dtype: float64
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="1.5.1-Exploratory-Data-Analysis-">1.5.1 Exploratory Data Analysis <a class="anchor" id="1.5.1"></a><a class="anchor-link" href="#1.5.1-Exploratory-Data-Analysis-">¶</a></h3>
+<h3 id="1.5.1-Exploratory-Data-Analysis-">1.5.1 Exploratory Data Analysis <a class="anchor" id="1.5.1"></a><a class="anchor-link" href="#1.5.1-Exploratory-Data-Analysis-">¶</a></h3><ol>
+<li>Bivariate analysis identified individual predictors with generally positive association to the target variable based on visual inspection.</li>
+<li>Higher values or higher proportions for the following predictors are associated with the <span style="color: #FF0000">Recurred=Yes</span>category:<ul>
+<li><span style="color: #FF0000">Age</span></li>
+<li><span style="color: #FF0000">Gender=M</span></li>
+<li><span style="color: #FF0000">Smoking=Yes</span></li>
+<li><span style="color: #FF0000">Physical_Examination=Multinodular or Diffuse Goiter</span></li>
+<li><span style="color: #FF0000">Adenopathy=Yes</span></li>
+<li><span style="color: #FF0000">Focality=Multi-Focal</span></li>
+<li><span style="color: #FF0000">Risk=Intermediate to High</span></li>
+<li><span style="color: #FF0000">T=T3 to T4b</span></li>
+<li><span style="color: #FF0000">N=N1</span></li>
+<li><span style="color: #FF0000">Stage=II to IVB</span></li>
+<li><span style="color: #FF0000">Response=Indeterminate or Incomplete</span></li>
+</ul>
+</li>
+<li>Proportions for the following predictors are not associated with the <span style="color: #FF0000">Recurred=Yes</span> or <span style="color: #FF0000">Recurred=No</span> categories:<ul>
+<li><span style="color: #FF0000">Thyroid_Function</span></li>
+<li><span style="color: #FF0000">Pathology</span></li>
+</ul>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -14819,7 +14894,35 @@ Name: proportion, dtype: float64
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="1.5.2-Hypothesis-Testing-">1.5.2 Hypothesis Testing <a class="anchor" id="1.5.2"></a><a class="anchor-link" href="#1.5.2-Hypothesis-Testing-">¶</a></h3>
+<h3 id="1.5.2-Hypothesis-Testing-">1.5.2 Hypothesis Testing <a class="anchor" id="1.5.2"></a><a class="anchor-link" href="#1.5.2-Hypothesis-Testing-">¶</a></h3><ol>
+<li>The relationship between the numeric predictor to the <span style="color: #FF0000">Recurred</span> target variable was statistically evaluated using the following hypotheses:<ul>
+<li><strong>Null</strong>: Difference in the means between groups Yes and No is equal to zero</li>
+<li><strong>Alternative</strong>: Difference in the means between groups Yes and No is not equal to zero</li>
+</ul>
+</li>
+<li>There is sufficient evidence to conclude of a statistically significant difference between the means of the numeric measurements obtained from Yes and No groups of the <span style="color: #FF0000">Recurred</span> target variable in 1 of 1 numeric predictor given its high t-test statistic values with reported low p-values less than the significance level of 0.05.<ul>
+<li><span style="color: #FF0000">Age</span>: T.Test.Statistic=-3.791, T.Test.PValue=0.000</li>
+</ul>
+</li>
+<li>The relationship between the categorical predictors to the <span style="color: #FF0000">Recurred</span> target variable was statistically evaluated using the following hypotheses:<ul>
+<li><strong>Null</strong>: The categorical predictor is independent of the categorical target variable</li>
+<li><strong>Alternative</strong>: The categorical predictor is dependent of the categorical target variable</li>
+</ul>
+</li>
+<li>There is sufficient evidence to conclude of a statistically significant relationship between the categories of the categorical predictors and the Yes and No groups of the <span style="color: #FF0000">Recurred</span> target variable in 10 of 12 categorical predictors given their high chisquare statistic values with reported low p-values less than the significance level of 0.05.<ul>
+<li><span style="color: #FF0000">Risk</span>: ChiSquare.Test.Statistic=76.764, ChiSquare.Test.PValue=0.000</li>
+<li><span style="color: #FF0000">Response</span>: ChiSquare.Test.Statistic=13.860, ChiSquare.Test.PValue=0.000</li>
+<li><span style="color: #FF0000">N</span>: ChiSquare.Test.Statistic=10.286, ChiSquare.Test.PValue=0.001</li>
+<li><span style="color: #FF0000">Adenopathy</span>: ChiSquare.Test.Statistic=9.081, ChiSquare.Test.PValue=0.002</li>
+<li><span style="color: #FF0000">Stage</span>: ChiSquare.Test.Statistic=76.764, ChiSquare.Test.PValue=0.000</li>
+<li><span style="color: #FF0000">T</span>: ChiSquare.Test.Statistic=13.860, ChiSquare.Test.PValue=0.000</li>
+<li><span style="color: #FF0000">Smoking</span>: ChiSquare.Test.Statistic=10.286, ChiSquare.Test.PValue=0.001</li>
+<li><span style="color: #FF0000">Gender</span>: ChiSquare.Test.Statistic=9.081, ChiSquare.Test.PValue=0.002</li>
+<li><span style="color: #FF0000">Focality</span>: ChiSquare.Test.Statistic=10.286, ChiSquare.Test.PValue=0.001</li>
+<li><span style="color: #FF0000">Physical_Examination</span>: ChiSquare.Test.Statistic=9.081, ChiSquare.Test.PValue=0.002</li>
+</ul>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -15078,7 +15181,69 @@ Name: proportion, dtype: float64
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="1.6.1-Preprocessing-Pipeline-Development-">1.6.1 Preprocessing Pipeline Development <a class="anchor" id="1.6.1"></a><a class="anchor-link" href="#1.6.1-Preprocessing-Pipeline-Development-">¶</a></h3>
+<h3 id="1.6.1-Preprocessed-Data-Description">1.6.1 Preprocessed Data Description<a class="anchor" id="1.6.1"></a><a class="anchor-link" href="#1.6.1-Preprocessed-Data-Description">¶</a></h3><ol>
+<li>6 of the 16 predictors were excluded from the dataset based on the data preprocessing and exploration findings</li>
+<li>3 categorical predictors were excluded from the dataset after having been observed with extremely low variance containing categories with very few or almost no variations across observations that may have limited predictive power or drive increased model complexity without performance gains:<ul>
+<li><span style="color: #FF0000">Hx_Smoking</span>:<ul>
+<li><strong>189</strong> <span style="color: #FF0000">Hx_Smoking=No</span>: 92.65%</li>
+<li><strong>15</strong> <span style="color: #FF0000">Hx_Smoking=Yes</span>: 7.35%</li>
+</ul>
+</li>
+<li><span style="color: #FF0000">Hx_Radiotherapy</span>:<ul>
+<li><strong>199</strong> <span style="color: #FF0000">Hx_Radiotherapy=No</span>: 97.55%</li>
+<li><strong>15</strong> <span style="color: #FF0000">Hx_Radiotherapy=Yes</span>: 2.45%</li>
+</ul>
+</li>
+<li><span style="color: #FF0000">M</span>:<ul>
+<li><strong>192</strong> <span style="color: #FF0000">M=M0</span>: 94.12%</li>
+<li><strong>12</strong> <span style="color: #FF0000">M=M1</span>: 5.88%</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>1 categorical predictor was excluded from the dataset after having been observed with high pairwise collinearity (Phi.Coefficient&gt;0.70) with other 2 predictors that might provide redundant information, leading to potential instability in regression models.<ul>
+<li><span style="color: #FF0000">N</span> was highly associated with <span style="color: #FF0000">Adenopathy</span>: Phi.Coefficient = +0.827</li>
+<li><span style="color: #FF0000">N</span> was highly associated with <span style="color: #FF0000">Risk</span>: Phi.Coefficient = +0.751</li>
+</ul>
+</li>
+<li>2 categorical predictors were excluded from the dataset for not exhibiting a statistically significant association with the Yes and No groups of the <span style="color: #FF0000">Recurred</span> target variable, indicating weak predictive value.<ul>
+<li><span style="color: #FF0000">Thyroid_Function</span>: ChiSquare.Test.Statistic=2.962, ChiSquare.Test.PValue=0.085</li>
+<li><span style="color: #FF0000">Pathology</span>: ChiSquare.Test.Statistic=0.891, ChiSquare.Test.PValue=0.345</li>
+</ul>
+</li>
+<li>The <strong>preprocessed train data (final)</strong> subset is comprised of:<ul>
+<li><strong>204 rows</strong> (observations)<ul>
+<li><strong>143 Recurred=No</strong>: 70.10%</li>
+<li><strong>61 Recurred=Yes</strong>: 29.90%</li>
+</ul>
+</li>
+<li><strong>11 columns</strong> (variables)<ul>
+<li><strong>1/11 target</strong> (categorical)<ul>
+<li><span style="color: #FF0000">Recurred</span></li>
+</ul>
+</li>
+<li><strong>1/11 predictor</strong> (numeric)<ul>
+<li><span style="color: #FF0000">Age</span></li>
+</ul>
+</li>
+<li><strong>9/11 predictor</strong> (categorical)<ul>
+<li><span style="color: #FF0000">Gender</span></li>
+<li><span style="color: #FF0000">Smoking</span></li>
+<li><span style="color: #FF0000">Physical_Examination</span></li>
+<li><span style="color: #FF0000">Adenopathy</span></li>
+<li><span style="color: #FF0000">Focality</span></li>
+<li><span style="color: #FF0000">Risk</span></li>
+<li><span style="color: #FF0000">T</span></li>
+<li><span style="color: #FF0000">M</span></li>
+<li><span style="color: #FF0000">Stage</span></li>
+<li><span style="color: #FF0000">Response</span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -15089,7 +15254,674 @@ Name: proportion, dtype: float64
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="1.6.2-Premodelling-Data-Description-">1.6.2 Premodelling Data Description <a class="anchor" id="1.6.2"></a><a class="anchor-link" href="#1.6.2-Premodelling-Data-Description-">¶</a></h3>
+<h3 id="1.6.2-Preprocessing-Pipeline-Development">1.6.2 Preprocessing Pipeline Development<a class="anchor" id="1.6.2"></a><a class="anchor-link" href="#1.6.2-Preprocessing-Pipeline-Development">¶</a></h3><ol>
+<li>A preprocessing pipeline was formulated and applied to the train, validation and test datasets with the following actions:<ul>
+<li>Excludes specified columns noted with low variance, high collinearity and weak predictive power</li>
+<li>Aggregates categories in multiclass categorical variables into binary levels</li>
+<li>Converts categorical columns to the appropriate type</li>
+<li>Sets the order of category levels for ordinal encoding during modeling pipeline creation</li>
+</ul>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=7b569ccd-9cbf-4c1b-83d4-f7ce460d3dca">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [118]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1">##################################</span>
+<span class="c1"># Formulating a preprocessing pipeline</span>
+<span class="c1"># that removes the specified columns,</span>
+<span class="c1"># aggregates categories in multiclass categorical variables,</span>
+<span class="c1"># converts categorical columns to the appropriate type, and</span>
+<span class="c1"># sets the order of category levels</span>
+<span class="c1">##################################</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">preprocess_dataset</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="c1"># Removing the specified columns</span>
+    <span class="n">columns_to_remove</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Hx_Smoking'</span><span class="p">,</span> <span class="s1">'Hx_Radiotherapy'</span><span class="p">,</span> <span class="s1">'M'</span><span class="p">,</span> <span class="s1">'N'</span><span class="p">,</span> <span class="s1">'Thyroid_Function'</span><span class="p">,</span> <span class="s1">'Pathology'</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">columns_to_remove</span><span class="p">)</span>
+    
+    <span class="c1"># Applying category aggregation</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'Physical_Examination'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Physical_Examination'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">'Normal or Single Nodular Goiter'</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'Normal'</span><span class="p">,</span> <span class="s1">'Single nodular goiter-left'</span><span class="p">,</span> <span class="s1">'Single nodular goiter-right'</span><span class="p">]</span> 
+        <span class="k">else</span> <span class="s1">'Multinodular or Diffuse Goiter'</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'category'</span><span class="p">)</span>
+    
+    <span class="n">df</span><span class="p">[</span><span class="s1">'Adenopathy'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Adenopathy'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">'No'</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s1">'No'</span> <span class="k">else</span> <span class="p">(</span><span class="s1">'Yes'</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">!=</span> <span class="s1">''</span> <span class="k">else</span> <span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'category'</span><span class="p">)</span>
+    
+    <span class="n">df</span><span class="p">[</span><span class="s1">'Risk'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Risk'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">'Low'</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s1">'Low'</span> <span class="k">else</span> <span class="s1">'Intermediate to High'</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'category'</span><span class="p">)</span>
+    
+    <span class="n">df</span><span class="p">[</span><span class="s1">'T'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'T'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">'T1 to T2'</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'T1a'</span><span class="p">,</span> <span class="s1">'T1b'</span><span class="p">,</span> <span class="s1">'T2'</span><span class="p">]</span> <span class="k">else</span> <span class="s1">'T3 to T4b'</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'category'</span><span class="p">)</span>
+    
+    <span class="n">df</span><span class="p">[</span><span class="s1">'Stage'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Stage'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">'I'</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s1">'I'</span> <span class="k">else</span> <span class="s1">'II to IVB'</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'category'</span><span class="p">)</span>
+    
+    <span class="n">df</span><span class="p">[</span><span class="s1">'Response'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Response'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">'Indeterminate or Incomplete'</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'Indeterminate'</span><span class="p">,</span> <span class="s1">'Structural Incomplete'</span><span class="p">,</span> <span class="s1">'Biochemical Incomplete'</span><span class="p">]</span> 
+        <span class="k">else</span> <span class="s1">'Excellent'</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'category'</span><span class="p">)</span>
+    
+    <span class="c1"># Setting category levels</span>
+    <span class="n">category_mappings</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'Gender'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'M'</span><span class="p">,</span> <span class="s1">'F'</span><span class="p">],</span>
+        <span class="s1">'Smoking'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'No'</span><span class="p">,</span> <span class="s1">'Yes'</span><span class="p">],</span>
+        <span class="s1">'Physical_Examination'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'Normal or Single Nodular Goiter'</span><span class="p">,</span> <span class="s1">'Multinodular or Diffuse Goiter'</span><span class="p">],</span>
+        <span class="s1">'Adenopathy'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'No'</span><span class="p">,</span> <span class="s1">'Yes'</span><span class="p">],</span>
+        <span class="s1">'Focality'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'Uni-Focal'</span><span class="p">,</span> <span class="s1">'Multi-Focal'</span><span class="p">],</span>
+        <span class="s1">'Risk'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'Low'</span><span class="p">,</span> <span class="s1">'Intermediate to High'</span><span class="p">],</span>
+        <span class="s1">'T'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'T1 to T2'</span><span class="p">,</span> <span class="s1">'T3 to T4b'</span><span class="p">],</span>
+        <span class="s1">'Stage'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'I'</span><span class="p">,</span> <span class="s1">'II to IVB'</span><span class="p">],</span>
+        <span class="s1">'Response'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'Excellent'</span><span class="p">,</span> <span class="s1">'Indeterminate or Incomplete'</span><span class="p">]</span>
+    <span class="p">}</span>
+    
+    <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">categories</span> <span class="ow">in</span> <span class="n">category_mappings</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'category'</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">set_categories</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">df</span>
+    
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d1176ace-3d66-41cc-8dcd-18469c2970ca">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [119]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1">##################################</span>
+<span class="c1"># Applying the preprocessing pipeline</span>
+<span class="c1"># to the train data</span>
+<span class="c1">##################################</span>
+<span class="n">thyroid_cancer_preprocessed_train</span> <span class="o">=</span> <span class="n">preprocess_dataset</span><span class="p">(</span><span class="n">thyroid_cancer_train</span><span class="p">)</span>
+<span class="n">X_preprocessed_train</span> <span class="o">=</span> <span class="n">thyroid_cancer_preprocessed_train</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">'Recurred'</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y_preprocessed_train</span> <span class="o">=</span> <span class="n">thyroid_cancer_preprocessed_train</span><span class="p">[</span><span class="s1">'Recurred'</span><span class="p">]</span>
+<span class="n">thyroid_cancer_preprocessed_train</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="n">DATASETS_PREPROCESSED_TRAIN_PATH</span><span class="p">,</span> <span class="s2">"thyroid_cancer_preprocessed_train.csv"</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">X_preprocessed_train</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="n">DATASETS_PREPROCESSED_TRAIN_FEATURES_PATH</span><span class="p">,</span> <span class="s2">"X_preprocessed_train.csv"</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">y_preprocessed_train</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="n">DATASETS_PREPROCESSED_TRAIN_TARGET_PATH</span><span class="p">,</span> <span class="s2">"y_preprocessed_train.csv"</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Final Preprocessed Training Dataset Dimensions: '</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">X_preprocessed_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">y_preprocessed_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Final Preprocessed Training Target Variable Breakdown: '</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">y_preprocessed_train</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Final Preprocessed Training Target Variable Proportion: '</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">y_preprocessed_train</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span> <span class="o">=</span> <span class="kc">True</span><span class="p">))</span>
+<span class="n">thyroid_cancer_preprocessed_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Final Preprocessed Training Dataset Dimensions: 
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>(204, 10)</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>(204,)</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Final Preprocessed Training Target Variable Breakdown: 
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Recurred
+No     143
+Yes     61
+Name: count, dtype: int64</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Final Preprocessed Training Target Variable Proportion: 
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Recurred
+No     0.70098
+Yes    0.29902
+Name: proportion, dtype: float64</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[119]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Age</th>
+<th>Gender</th>
+<th>Smoking</th>
+<th>Physical_Examination</th>
+<th>Adenopathy</th>
+<th>Focality</th>
+<th>Risk</th>
+<th>T</th>
+<th>Stage</th>
+<th>Response</th>
+<th>Recurred</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>335</th>
+<td>29</td>
+<td>M</td>
+<td>No</td>
+<td>Multinodular or Diffuse Goiter</td>
+<td>Yes</td>
+<td>Multi-Focal</td>
+<td>Intermediate to High</td>
+<td>T3 to T4b</td>
+<td>I</td>
+<td>Indeterminate or Incomplete</td>
+<td>Yes</td>
+</tr>
+<tr>
+<th>201</th>
+<td>25</td>
+<td>F</td>
+<td>No</td>
+<td>Normal or Single Nodular Goiter</td>
+<td>Yes</td>
+<td>Multi-Focal</td>
+<td>Low</td>
+<td>T1 to T2</td>
+<td>I</td>
+<td>Excellent</td>
+<td>No</td>
+</tr>
+<tr>
+<th>134</th>
+<td>51</td>
+<td>F</td>
+<td>No</td>
+<td>Multinodular or Diffuse Goiter</td>
+<td>No</td>
+<td>Uni-Focal</td>
+<td>Low</td>
+<td>T1 to T2</td>
+<td>I</td>
+<td>Excellent</td>
+<td>No</td>
+</tr>
+<tr>
+<th>35</th>
+<td>37</td>
+<td>F</td>
+<td>No</td>
+<td>Normal or Single Nodular Goiter</td>
+<td>No</td>
+<td>Uni-Focal</td>
+<td>Low</td>
+<td>T1 to T2</td>
+<td>I</td>
+<td>Excellent</td>
+<td>No</td>
+</tr>
+<tr>
+<th>380</th>
+<td>72</td>
+<td>M</td>
+<td>Yes</td>
+<td>Multinodular or Diffuse Goiter</td>
+<td>Yes</td>
+<td>Multi-Focal</td>
+<td>Intermediate to High</td>
+<td>T3 to T4b</td>
+<td>II to IVB</td>
+<td>Indeterminate or Incomplete</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=51cadf58-e5e8-4dcc-a30b-51aca304df80">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [120]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1">##################################</span>
+<span class="c1"># Applying the preprocessing pipeline</span>
+<span class="c1"># to the validation data</span>
+<span class="c1">##################################</span>
+<span class="n">thyroid_cancer_preprocessed_validation</span> <span class="o">=</span> <span class="n">preprocess_dataset</span><span class="p">(</span><span class="n">thyroid_cancer_validation</span><span class="p">)</span>
+<span class="n">X_preprocessed_validation</span> <span class="o">=</span> <span class="n">thyroid_cancer_preprocessed_validation</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">'Recurred'</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y_preprocessed_validation</span> <span class="o">=</span> <span class="n">thyroid_cancer_preprocessed_validation</span><span class="p">[</span><span class="s1">'Recurred'</span><span class="p">]</span>
+<span class="n">thyroid_cancer_preprocessed_validation</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="n">DATASETS_PREPROCESSED_VALIDATION_PATH</span><span class="p">,</span> <span class="s2">"thyroid_cancer_preprocessed_validation.csv"</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">X_preprocessed_validation</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="n">DATASETS_PREPROCESSED_VALIDATION_FEATURES_PATH</span><span class="p">,</span> <span class="s2">"X_preprocessed_validation.csv"</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">y_preprocessed_validation</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="n">DATASETS_PREPROCESSED_VALIDATION_TARGET_PATH</span><span class="p">,</span> <span class="s2">"y_preprocessed_validation.csv"</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Final Preprocessed Validationing Dataset Dimensions: '</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">X_preprocessed_validation</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">y_preprocessed_validation</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Final Preprocessed Validationing Target Variable Breakdown: '</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">y_preprocessed_validation</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Final Preprocessed Validationing Target Variable Proportion: '</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">y_preprocessed_validation</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span> <span class="o">=</span> <span class="kc">True</span><span class="p">))</span>
+<span class="n">thyroid_cancer_preprocessed_validation</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Final Preprocessed Validationing Dataset Dimensions: 
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>(69, 10)</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>(69,)</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Final Preprocessed Validationing Target Variable Breakdown: 
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Recurred
+No     49
+Yes    20
+Name: count, dtype: int64</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Final Preprocessed Validationing Target Variable Proportion: 
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Recurred
+No     0.710145
+Yes    0.289855
+Name: proportion, dtype: float64</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[120]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Age</th>
+<th>Gender</th>
+<th>Smoking</th>
+<th>Physical_Examination</th>
+<th>Adenopathy</th>
+<th>Focality</th>
+<th>Risk</th>
+<th>T</th>
+<th>Stage</th>
+<th>Response</th>
+<th>Recurred</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>49</th>
+<td>29</td>
+<td>F</td>
+<td>No</td>
+<td>Multinodular or Diffuse Goiter</td>
+<td>No</td>
+<td>Uni-Focal</td>
+<td>Low</td>
+<td>T1 to T2</td>
+<td>I</td>
+<td>Excellent</td>
+<td>No</td>
+</tr>
+<tr>
+<th>353</th>
+<td>73</td>
+<td>F</td>
+<td>No</td>
+<td>Normal or Single Nodular Goiter</td>
+<td>Yes</td>
+<td>Multi-Focal</td>
+<td>Intermediate to High</td>
+<td>T3 to T4b</td>
+<td>II to IVB</td>
+<td>Indeterminate or Incomplete</td>
+<td>Yes</td>
+</tr>
+<tr>
+<th>204</th>
+<td>36</td>
+<td>F</td>
+<td>No</td>
+<td>Normal or Single Nodular Goiter</td>
+<td>Yes</td>
+<td>Uni-Focal</td>
+<td>Low</td>
+<td>T1 to T2</td>
+<td>I</td>
+<td>Excellent</td>
+<td>No</td>
+</tr>
+<tr>
+<th>283</th>
+<td>30</td>
+<td>F</td>
+<td>No</td>
+<td>Normal or Single Nodular Goiter</td>
+<td>No</td>
+<td>Multi-Focal</td>
+<td>Intermediate to High</td>
+<td>T3 to T4b</td>
+<td>I</td>
+<td>Excellent</td>
+<td>No</td>
+</tr>
+<tr>
+<th>254</th>
+<td>31</td>
+<td>M</td>
+<td>Yes</td>
+<td>Normal or Single Nodular Goiter</td>
+<td>No</td>
+<td>Uni-Focal</td>
+<td>Low</td>
+<td>T3 to T4b</td>
+<td>I</td>
+<td>Indeterminate or Incomplete</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=13e2a1f3-483f-44e7-a5bc-48366dfc5a12">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [121]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1">##################################</span>
+<span class="c1"># Applying the preprocessing pipeline</span>
+<span class="c1"># to the test data</span>
+<span class="c1">##################################</span>
+<span class="n">thyroid_cancer_preprocessed_test</span> <span class="o">=</span> <span class="n">preprocess_dataset</span><span class="p">(</span><span class="n">thyroid_cancer_test</span><span class="p">)</span>
+<span class="n">X_preprocessed_test</span> <span class="o">=</span> <span class="n">thyroid_cancer_preprocessed_test</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">'Recurred'</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y_preprocessed_test</span> <span class="o">=</span> <span class="n">thyroid_cancer_preprocessed_test</span><span class="p">[</span><span class="s1">'Recurred'</span><span class="p">]</span>
+<span class="n">thyroid_cancer_preprocessed_test</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="n">DATASETS_PREPROCESSED_TEST_PATH</span><span class="p">,</span> <span class="s2">"thyroid_cancer_preprocessed_test.csv"</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">X_preprocessed_test</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="n">DATASETS_PREPROCESSED_TEST_FEATURES_PATH</span><span class="p">,</span> <span class="s2">"X_preprocessed_test.csv"</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">y_preprocessed_test</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="n">DATASETS_PREPROCESSED_TEST_TARGET_PATH</span><span class="p">,</span> <span class="s2">"y_preprocessed_test.csv"</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Final Preprocessed Testing Dataset Dimensions: '</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">X_preprocessed_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">y_preprocessed_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Final Preprocessed Testing Target Variable Breakdown: '</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">y_preprocessed_test</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Final Preprocessed Testing Target Variable Proportion: '</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">y_preprocessed_test</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span> <span class="o">=</span> <span class="kc">True</span><span class="p">))</span>
+<span class="n">thyroid_cancer_preprocessed_test</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Final Preprocessed Testing Dataset Dimensions: 
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>(91, 10)</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>(91,)</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Final Preprocessed Testing Target Variable Breakdown: 
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Recurred
+No     64
+Yes    27
+Name: count, dtype: int64</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Final Preprocessed Testing Target Variable Proportion: 
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Recurred
+No     0.703297
+Yes    0.296703
+Name: proportion, dtype: float64</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[121]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Age</th>
+<th>Gender</th>
+<th>Smoking</th>
+<th>Physical_Examination</th>
+<th>Adenopathy</th>
+<th>Focality</th>
+<th>Risk</th>
+<th>T</th>
+<th>Stage</th>
+<th>Response</th>
+<th>Recurred</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>379</th>
+<td>81</td>
+<td>M</td>
+<td>Yes</td>
+<td>Multinodular or Diffuse Goiter</td>
+<td>Yes</td>
+<td>Multi-Focal</td>
+<td>Intermediate to High</td>
+<td>T3 to T4b</td>
+<td>II to IVB</td>
+<td>Indeterminate or Incomplete</td>
+<td>Yes</td>
+</tr>
+<tr>
+<th>125</th>
+<td>31</td>
+<td>F</td>
+<td>No</td>
+<td>Normal or Single Nodular Goiter</td>
+<td>Yes</td>
+<td>Uni-Focal</td>
+<td>Low</td>
+<td>T1 to T2</td>
+<td>I</td>
+<td>Excellent</td>
+<td>No</td>
+</tr>
+<tr>
+<th>286</th>
+<td>58</td>
+<td>F</td>
+<td>No</td>
+<td>Multinodular or Diffuse Goiter</td>
+<td>No</td>
+<td>Multi-Focal</td>
+<td>Intermediate to High</td>
+<td>T3 to T4b</td>
+<td>II to IVB</td>
+<td>Indeterminate or Incomplete</td>
+<td>No</td>
+</tr>
+<tr>
+<th>244</th>
+<td>35</td>
+<td>F</td>
+<td>No</td>
+<td>Multinodular or Diffuse Goiter</td>
+<td>No</td>
+<td>Uni-Focal</td>
+<td>Low</td>
+<td>T3 to T4b</td>
+<td>I</td>
+<td>Excellent</td>
+<td>No</td>
+</tr>
+<tr>
+<th>369</th>
+<td>71</td>
+<td>M</td>
+<td>Yes</td>
+<td>Multinodular or Diffuse Goiter</td>
+<td>Yes</td>
+<td>Multi-Focal</td>
+<td>Intermediate to High</td>
+<td>T3 to T4b</td>
+<td>II to IVB</td>
+<td>Indeterminate or Incomplete</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -15478,7 +16310,7 @@ Name: proportion, dtype: float64
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [118]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [122]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>

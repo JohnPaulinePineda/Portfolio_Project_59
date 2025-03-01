@@ -15,13 +15,12 @@
         * [1.4.3 Category Aggregation and Encoding](#1.4.3)
         * [1.4.4 Outlier and Distributional Shape Analysis](#1.4.4)
         * [1.4.5 Collinearity](#1.4.5)
-        * [1.4.6 Preprocessed Data Description](#1.4.6)
     * [1.5 Data Exploration](#1.5)
         * [1.5.1 Exploratory Data Analysis](#1.5.1)
         * [1.5.2 Hypothesis Testing](#1.5.2)
     * [1.6 Premodelling Data Preparation](#1.6)
-        * [1.6.1 Preprocessing Pipeline Development](#1.6.1)
-        * [1.6.2 Premodelling Data Description](#1.6.2)
+        * [1.6.1 Preprocessed Data Description](#1.6.1)
+        * [1.6.2 Preprocessing Pipeline Development](#1.6.2)
     * [1.7 Bagged Model Development](#1.7)
         * [1.7.1 Random Forest](#1.7.1)
         * [1.7.2 Extra Trees](#1.7.2)
@@ -165,7 +164,6 @@ from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_sc
 # Defining file paths
 ##################################
 DATASETS_ORIGINAL_PATH = r"datasets\original"
-DATASETS_PREPROCESSED_PATH = r"datasets\preprocessed"
 DATASETS_FINAL_PATH = r"datasets\final\complete"
 DATASETS_FINAL_TRAIN_PATH = r"datasets\final\train"
 DATASETS_FINAL_TRAIN_FEATURES_PATH = r"datasets\final\train\features"
@@ -176,6 +174,16 @@ DATASETS_FINAL_VALIDATION_TARGET_PATH = r"datasets\final\validation\target"
 DATASETS_FINAL_TEST_PATH = r"datasets\final\test"
 DATASETS_FINAL_TEST_FEATURES_PATH = r"datasets\final\test\features"
 DATASETS_FINAL_TEST_TARGET_PATH = r"datasets\final\test\target"
+DATASETS_PREPROCESSED_PATH = r"datasets\preprocessed"
+DATASETS_PREPROCESSED_TRAIN_PATH = r"datasets\preprocessed\train"
+DATASETS_PREPROCESSED_TRAIN_FEATURES_PATH = r"datasets\preprocessed\train\features"
+DATASETS_PREPROCESSED_TRAIN_TARGET_PATH = r"datasets\preprocessed\train\target"
+DATASETS_PREPROCESSED_VALIDATION_PATH = r"datasets\preprocessed\validation"
+DATASETS_PREPROCESSED_VALIDATION_FEATURES_PATH = r"datasets\preprocessed\validation\features"
+DATASETS_PREPROCESSED_VALIDATION_TARGET_PATH = r"datasets\preprocessed\validation\target"
+DATASETS_PREPROCESSED_TEST_PATH = r"datasets\preprocessed\test"
+DATASETS_PREPROCESSED_TEST_FEATURES_PATH = r"datasets\preprocessed\test\features"
+DATASETS_PREPROCESSED_TEST_TARGET_PATH = r"datasets\preprocessed\test\target"
 MODELS_PATH = r"models"
 
 ```
@@ -3897,66 +3905,66 @@ y_test.to_csv(os.path.join("..", DATASETS_FINAL_TEST_TARGET_PATH, "y_test.csv"),
 1. No distributional anomalies were obseerved for the numeric predictor <span style="color: #FF0000">Age</span>.
 2. 9 categorical predictors were observed with categories consisting of too few cases that risk poor generalization and cross-validation issues:
     * <span style="color: #FF0000">Thyroid_Function</span>: 
-        * <span style="color: #FF0000">176 Thyroid_Function=Euthyroid</span>: 86.27%
-        * <span style="color: #FF0000">8 Thyroid_Function=Subclinical Hypothyroidism</span>: 3.92%
-        * <span style="color: #FF0000">3 Thyroid_Function=Subclinical Hyperthyroidism</span>: 1.47%
-        * <span style="color: #FF0000">6 Thyroid_Function=Clinical Hypothyroidism</span>: 2.94%
-        * <span style="color: #FF0000">11 Thyroid_Function=Clinical Hyperthyroidism</span>: 5.39%
+        * **176** <span style="color: #FF0000">Thyroid_Function=Euthyroid</span>: 86.27%
+        * **8** <span style="color: #FF0000">Thyroid_Function=Subclinical Hypothyroidism</span>: 3.92%
+        * **3** <span style="color: #FF0000">Thyroid_Function=Subclinical Hyperthyroidism</span>: 1.47%
+        * **6** <span style="color: #FF0000">Thyroid_Function=Clinical Hypothyroidism</span>: 2.94%
+        * **11** <span style="color: #FF0000">Thyroid_Function=Clinical Hyperthyroidism</span>: 5.39%
     * <span style="color: #FF0000">Physical_Examination</span>:
-        * <span style="color: #FF0000">5 Physical_Examination=Normal</span>: 2.45%
-        * <span style="color: #FF0000">47 Physical_Examination=Single nodular goiter-left</span>: 23.04%
-        * <span style="color: #FF0000">69 Physical_Examination=Single nodular goiter-right</span>: 33.82%
-        * <span style="color: #FF0000">78 Physical_Examination=Multinodular goiter</span>: 38.24%
-        * <span style="color: #FF0000">5 Physical_Examination=Diffuse goiter</span>: 2.45%
+        * **5** <span style="color: #FF0000">Physical_Examination=Normal</span>: 2.45%
+        * **47** <span style="color: #FF0000">Physical_Examination=Single nodular goiter-left</span>: 23.04%
+        * **69** <span style="color: #FF0000">Physical_Examination=Single nodular goiter-right</span>: 33.82%
+        * **78** <span style="color: #FF0000">Physical_Examination=Multinodular goiter</span>: 38.24%
+        * **5** <span style="color: #FF0000">Physical_Examination=Diffuse goiter</span>: 2.45%
     * <span style="color: #FF0000">Adenopathy</span>:
-        * <span style="color: #FF0000">143 Adenopathy=No</span>: 70.09%
-        * <span style="color: #FF0000">8 Adenopathy=Left</span>: 3.92%
-        * <span style="color: #FF0000">26 Adenopathy=Right</span>: 12.75%
-        * <span style="color: #FF0000">1 Adenopathy=Posterior</span>: 0.49%
-        * <span style="color: #FF0000">22 Adenopathy=Bilateral</span>: 10.78%
-        * <span style="color: #FF0000">4 Adenopathy=Extensive</span>: 1.96%
+        * **143** <span style="color: #FF0000">Adenopathy=No</span>: 70.09%
+        * **8** <span style="color: #FF0000">Adenopathy=Left</span>: 3.92%
+        * **26** <span style="color: #FF0000">Adenopathy=Right</span>: 12.75%
+        * **1** <span style="color: #FF0000">Adenopathy=Posterior</span>: 0.49%
+        * **22** <span style="color: #FF0000">Adenopathy=Bilateral</span>: 10.78%
+        * **4** <span style="color: #FF0000">Adenopathy=Extensive</span>: 1.96%
     * <span style="color: #FF0000">Pathology</span>:
-        * <span style="color: #FF0000">11 Pathology=Hurthle Cell</span>: 5.39%
-        * <span style="color: #FF0000">14 Pathology=Follicular</span>: 6.86%
-        * <span style="color: #FF0000">28 Pathology=Micropapillary</span>: 13.73%
-        * <span style="color: #FF0000">151 Pathology=Papillary</span>: 74.02%
+        * **11** <span style="color: #FF0000">Pathology=Hurthle Cell</span>: 5.39%
+        * **14** <span style="color: #FF0000">Pathology=Follicular</span>: 6.86%
+        * **28** <span style="color: #FF0000">Pathology=Micropapillary</span>: 13.73%
+        * **151** <span style="color: #FF0000">Pathology=Papillary</span>: 74.02%
     * <span style="color: #FF0000">Risk</span>:
-        * <span style="color: #FF0000">131 Risk=Low</span>: 64.22%
-        * <span style="color: #FF0000">55 Risk=Intermediate</span>: 26.96%
-        * <span style="color: #FF0000">18 Risk=High</span>: 8.82%
+        * **131** <span style="color: #FF0000">Risk=Low</span>: 64.22%
+        * **55** <span style="color: #FF0000">Risk=Intermediate</span>: 26.96%
+        * **18** <span style="color: #FF0000">Risk=High</span>: 8.82%
     * <span style="color: #FF0000">T</span>:
-        * <span style="color: #FF0000">27 T=T1a</span>: 13.23%
-        * <span style="color: #FF0000">20 T=T1b</span>: 9.80%
-        * <span style="color: #FF0000">79 T=T2</span>: 38.72%
-        * <span style="color: #FF0000">55 T=T3a</span>: 26.96%
-        * <span style="color: #FF0000">6 T=T3b</span>: 2.94%
-        * <span style="color: #FF0000">11 T=T4a</span>: 5.39%
-        * <span style="color: #FF0000">6 T=T4b</span>: 2.94%
+        * **27** <span style="color: #FF0000">T=T1a</span>: 13.23%
+        * **20** <span style="color: #FF0000">T=T1b</span>: 9.80%
+        * **79** <span style="color: #FF0000">T=T2</span>: 38.72%
+        * **55** <span style="color: #FF0000">T=T3a</span>: 26.96%
+        * **6** <span style="color: #FF0000">T=T3b</span>: 2.94%
+        * **11** <span style="color: #FF0000">T=T4a</span>: 5.39%
+        * **6** <span style="color: #FF0000">T=T4b</span>: 2.94%
     * <span style="color: #FF0000">N</span>:
-        * <span style="color: #FF0000">140 N=N0</span>: 68.63%
-        * <span style="color: #FF0000">13 N=N1a</span>: 6.37%
-        * <span style="color: #FF0000">51 N=N1b</span>: 25.00%
+        * **140** <span style="color: #FF0000">N=N0</span>: 68.63%
+        * **13** <span style="color: #FF0000">N=N1a</span>: 6.37%
+        * **51** <span style="color: #FF0000">N=N1b</span>: 25.00%
     * <span style="color: #FF0000">Stage</span>:
-        * <span style="color: #FF0000">178 Stage=I</span>: 87.25%
-        * <span style="color: #FF0000">16 Stage=II</span>: 7.84%
-        * <span style="color: #FF0000">1 Stage=III</span>: 0.49%
-        * <span style="color: #FF0000">3 Stage=IVA</span>: 1.47%
-        * <span style="color: #FF0000">6 Stage=IVB</span>: 2.94%
+        * **178** <span style="color: #FF0000">Stage=I</span>: 87.25%
+        * **16** <span style="color: #FF0000">Stage=II</span>: 7.84%
+        * **1** <span style="color: #FF0000">Stage=III</span>: 0.49%
+        * **3** <span style="color: #FF0000">Stage=IVA</span>: 1.47%
+        * **6** <span style="color: #FF0000">Stage=IVB</span>: 2.94%
     * <span style="color: #FF0000">Response</span>:
-        * <span style="color: #FF0000">107 Response=Excellent</span>: 52.45%
-        * <span style="color: #FF0000">54 Response=Structural Incomplete</span>: 26.47%
-        * <span style="color: #FF0000">17 Response=Biochemical Incomplete</span>: 8.33%
-        * <span style="color: #FF0000">26 Response=Indeterminate</span>: 12.75%
+        * **107** <span style="color: #FF0000">Response=Excellent</span>: 52.45%
+        * **54** <span style="color: #FF0000">Response=Structural Incomplete</span>: 26.47%
+        * **17** <span style="color: #FF0000">Response=Biochemical Incomplete</span>: 8.33%
+        * **26** <span style="color: #FF0000">Response=Indeterminate</span>: 12.75%
 3. 3 categorical predictors were excluded from the dataset after having been observed with extremely low variance containing categories with very few or almost no variations across observations that may have limited predictive power or drive increased model complexity without performance gains:
     * <span style="color: #FF0000">Hx_Smoking</span>: 
-        * <span style="color: #FF0000">189 Hx_Smoking=No</span>: 92.65%
-        * <span style="color: #FF0000">15 Hx_Smoking=Yes</span>: 7.35%
+        * **189** <span style="color: #FF0000">Hx_Smoking=No</span>: 92.65%
+        * **15** <span style="color: #FF0000">Hx_Smoking=Yes</span>: 7.35%
     * <span style="color: #FF0000">Hx_Radiotherapy</span>: 
-        * <span style="color: #FF0000">199 Hx_Radiotherapy=No</span>: 97.55%
-        * <span style="color: #FF0000">15 Hx_Radiotherapy=Yes</span>: 2.45%
+        * **199** <span style="color: #FF0000">Hx_Radiotherapy=No</span>: 97.55%
+        * **15** <span style="color: #FF0000">Hx_Radiotherapy=Yes</span>: 2.45%
     * <span style="color: #FF0000">M</span>: 
-        * <span style="color: #FF0000">192 M=M0</span>: 94.12%
-        * <span style="color: #FF0000">12 M=M1</span>: 5.88%
+        * **192** <span style="color: #FF0000">M=M0</span>: 94.12%
+        * **12** <span style="color: #FF0000">M=M1</span>: 5.88%
 
 
 
@@ -4464,6 +4472,36 @@ thyroid_cancer_train_column_filtered.head()
 
 
 ### 1.4.3 Category Aggregration and Encoding <a class="anchor" id="1.4.8"></a>
+
+1. Category aggregation was applied to the previously identified categorical predictors observed with many levels (high-cardinality) containing only a few observations to improve model stability during cross-validation and enhance generalization:
+    * <span style="color: #FF0000">Thyroid_Function</span>: 
+        * **176** <span style="color: #FF0000">Thyroid_Function=Euthyroid</span>: 86.27%
+        * **28** <span style="color: #FF0000">Thyroid_Function=Hypothyroidism or Hyperthyroidism</span>: 13.73%
+    * <span style="color: #FF0000">Physical_Examination</span>:
+        * **121** <span style="color: #FF0000">Physical_Examination=Normal or Single Nodular Goiter </span>: 59.31%
+        * **83** <span style="color: #FF0000">Physical_Examination=Multinodular or Diffuse Goiter</span>: 40.69%
+    * <span style="color: #FF0000">Adenopathy</span>:
+        * **143** <span style="color: #FF0000">Adenopathy=No</span>: 70.09%
+        * **61** <span style="color: #FF0000">Adenopathy=Yes</span>: 29.90%
+    * <span style="color: #FF0000">Pathology</span>:
+        * **25** <span style="color: #FF0000">Pathology=Non-Papillary </span>: 12.25%
+        * **179** <span style="color: #FF0000">Pathology=Papillary</span>: 87.74%
+    * <span style="color: #FF0000">Risk</span>:
+        * **131** <span style="color: #FF0000">Risk=Low</span>: 64.22%
+        * **73** <span style="color: #FF0000">Risk=Intermediate to High</span>: 35.78%
+    * <span style="color: #FF0000">T</span>:
+        * **126** <span style="color: #FF0000">T=T1 to T2</span>: 61.76%
+        * **78** <span style="color: #FF0000">T=T3 to T4b</span>: 38.23%
+    * <span style="color: #FF0000">N</span>:
+        * **140** <span style="color: #FF0000">N=N0</span>: 68.63%
+        * **65** <span style="color: #FF0000">N=N1</span>: 31.37%
+    * <span style="color: #FF0000">Stage</span>:
+        * **178** <span style="color: #FF0000">Stage=I</span>: 87.25%
+        * **26** <span style="color: #FF0000">Stage=II to IVB</span>: 12.75%
+    * <span style="color: #FF0000">Response</span>:
+        * **107** <span style="color: #FF0000">Response=Excellent</span>: 52.45%
+        * **97** <span style="color: #FF0000">Response=Indeterminate or Incomplete</span>: 47.55%
+
 
 
 ```python
@@ -5033,6 +5071,13 @@ for column in thyroid_cancer_train_column_filtered_numeric:
 
 
 ### 1.4.5 Collinearity <a class="anchor" id="1.4.5"></a>
+
+1. Majority of the predictors reported low (<0.50) to moderate (0.50 to 0.75) correlation.
+2. Among pairwise combinations of categorical predictors, high Phi.Coefficient values were noted for:
+    * <span style="color: #FF0000">N</span> and <span style="color: #FF0000">Adenopathy</span>: Phi.Coefficient = +0.827
+    * <span style="color: #FF0000">N</span> and <span style="color: #FF0000">Risk</span>: Phi.Coefficient = +0.751
+    * <span style="color: #FF0000">Adenopathy</span> and <span style="color: #FF0000">Risk</span>: Phi.Coefficient = +0.696
+   
 
 
 ```python
@@ -5626,11 +5671,27 @@ plt.show()
     
 
 
-### 1.4.6 Preprocessed Data Description <a class="anchor" id="1.4.6"></a>
-
 ## 1.5. Data Exploration <a class="anchor" id="1.5"></a>
 
 ### 1.5.1 Exploratory Data Analysis <a class="anchor" id="1.5.1"></a>
+
+1. Bivariate analysis identified individual predictors with generally positive association to the target variable based on visual inspection.
+2. Higher values or higher proportions for the following predictors are associated with the <span style="color: #FF0000">Recurred=Yes</span>category: 
+    * <span style="color: #FF0000">Age</span>
+    * <span style="color: #FF0000">Gender=M</span>    
+    * <span style="color: #FF0000">Smoking=Yes</span>    
+    * <span style="color: #FF0000">Physical_Examination=Multinodular or Diffuse Goiter</span>    
+    * <span style="color: #FF0000">Adenopathy=Yes</span>
+    * <span style="color: #FF0000">Focality=Multi-Focal</span>    
+    * <span style="color: #FF0000">Risk=Intermediate to High</span>
+    * <span style="color: #FF0000">T=T3 to T4b</span>    
+    * <span style="color: #FF0000">N=N1</span>
+    * <span style="color: #FF0000">Stage=II to IVB</span>    
+    * <span style="color: #FF0000">Response=Indeterminate or Incomplete</span>
+3. Proportions for the following predictors are not associated with the <span style="color: #FF0000">Recurred=Yes</span> or <span style="color: #FF0000">Recurred=No</span> categories: 
+    * <span style="color: #FF0000">Thyroid_Function</span>
+    * <span style="color: #FF0000">Pathology</span>    
+
 
 
 ```python
@@ -5682,7 +5743,7 @@ plt.show()
 
 
     
-![png](output_126_0.png)
+![png](output_125_0.png)
     
 
 
@@ -5745,11 +5806,32 @@ plt.show()
 
 
     
-![png](output_128_0.png)
+![png](output_127_0.png)
     
 
 
 ### 1.5.2 Hypothesis Testing <a class="anchor" id="1.5.2"></a>
+
+1. The relationship between the numeric predictor to the <span style="color: #FF0000">Recurred</span> target variable was statistically evaluated using the following hypotheses:
+    * **Null**: Difference in the means between groups Yes and No is equal to zero  
+    * **Alternative**: Difference in the means between groups Yes and No is not equal to zero   
+2. There is sufficient evidence to conclude of a statistically significant difference between the means of the numeric measurements obtained from Yes and No groups of the <span style="color: #FF0000">Recurred</span> target variable in 1 of 1 numeric predictor given its high t-test statistic values with reported low p-values less than the significance level of 0.05.
+    * <span style="color: #FF0000">Age</span>: T.Test.Statistic=-3.791, T.Test.PValue=0.000
+3. The relationship between the categorical predictors to the <span style="color: #FF0000">Recurred</span> target variable was statistically evaluated using the following hypotheses:
+    * **Null**: The categorical predictor is independent of the categorical target variable 
+    * **Alternative**: The categorical predictor is dependent of the categorical target variable    
+4. There is sufficient evidence to conclude of a statistically significant relationship between the categories of the categorical predictors and the Yes and No groups of the <span style="color: #FF0000">Recurred</span> target variable in 10 of 12 categorical predictors given their high chisquare statistic values with reported low p-values less than the significance level of 0.05.
+    * <span style="color: #FF0000">Risk</span>: ChiSquare.Test.Statistic=76.764, ChiSquare.Test.PValue=0.000
+    * <span style="color: #FF0000">Response</span>: ChiSquare.Test.Statistic=13.860, ChiSquare.Test.PValue=0.000   
+    * <span style="color: #FF0000">N</span>: ChiSquare.Test.Statistic=10.286, ChiSquare.Test.PValue=0.001 
+    * <span style="color: #FF0000">Adenopathy</span>: ChiSquare.Test.Statistic=9.081, ChiSquare.Test.PValue=0.002
+    * <span style="color: #FF0000">Stage</span>: ChiSquare.Test.Statistic=76.764, ChiSquare.Test.PValue=0.000
+    * <span style="color: #FF0000">T</span>: ChiSquare.Test.Statistic=13.860, ChiSquare.Test.PValue=0.000   
+    * <span style="color: #FF0000">Smoking</span>: ChiSquare.Test.Statistic=10.286, ChiSquare.Test.PValue=0.001 
+    * <span style="color: #FF0000">Gender</span>: ChiSquare.Test.Statistic=9.081, ChiSquare.Test.PValue=0.002
+    * <span style="color: #FF0000">Focality</span>: ChiSquare.Test.Statistic=10.286, ChiSquare.Test.PValue=0.001 
+    * <span style="color: #FF0000">Physical_Examination</span>: ChiSquare.Test.Statistic=9.081, ChiSquare.Test.PValue=0.002
+
 
 
 ```python
@@ -5942,9 +6024,606 @@ display(thyroid_cancer_categorical_summary.sort_values(by=['ChiSquare.Test.PValu
 
 ## 1.6. Premodelling Data Preparation <a class="anchor" id="1.6"></a>
 
-### 1.6.1 Preprocessing Pipeline Development <a class="anchor" id="1.6.1"></a>
+### 1.6.1 Preprocessed Data Description<a class="anchor" id="1.6.1"></a>
 
-### 1.6.2 Premodelling Data Description <a class="anchor" id="1.6.2"></a>
+1. 6 of the 16 predictors were excluded from the dataset based on the data preprocessing and exploration findings 
+2. 3 categorical predictors were excluded from the dataset after having been observed with extremely low variance containing categories with very few or almost no variations across observations that may have limited predictive power or drive increased model complexity without performance gains:
+    * <span style="color: #FF0000">Hx_Smoking</span>: 
+        * **189** <span style="color: #FF0000">Hx_Smoking=No</span>: 92.65%
+        * **15** <span style="color: #FF0000">Hx_Smoking=Yes</span>: 7.35%
+    * <span style="color: #FF0000">Hx_Radiotherapy</span>: 
+        * **199** <span style="color: #FF0000">Hx_Radiotherapy=No</span>: 97.55%
+        * **15** <span style="color: #FF0000">Hx_Radiotherapy=Yes</span>: 2.45%
+    * <span style="color: #FF0000">M</span>: 
+        * **192** <span style="color: #FF0000">M=M0</span>: 94.12%
+        * **12** <span style="color: #FF0000">M=M1</span>: 5.88%
+2. 1 categorical predictor was excluded from the dataset after having been observed with high pairwise collinearity (Phi.Coefficient>0.70) with other 2 predictors that might provide redundant information, leading to potential instability in regression models.
+    * <span style="color: #FF0000">N</span> was highly associated with <span style="color: #FF0000">Adenopathy</span>: Phi.Coefficient = +0.827
+    * <span style="color: #FF0000">N</span> was highly associated with <span style="color: #FF0000">Risk</span>: Phi.Coefficient = +0.751
+3. 2 categorical predictors were excluded from the dataset for not exhibiting a statistically significant association with the Yes and No groups of the <span style="color: #FF0000">Recurred</span> target variable, indicating weak predictive value.
+    * <span style="color: #FF0000">Thyroid_Function</span>: ChiSquare.Test.Statistic=2.962, ChiSquare.Test.PValue=0.085
+    * <span style="color: #FF0000">Pathology</span>: ChiSquare.Test.Statistic=0.891, ChiSquare.Test.PValue=0.345   
+4. The **preprocessed train data (final)** subset is comprised of:
+    * **204 rows** (observations)
+        * **143 Recurred=No**: 70.10%
+        * **61 Recurred=Yes**: 29.90%
+    * **11 columns** (variables)
+        * **1/11 target** (categorical)
+             * <span style="color: #FF0000">Recurred</span>
+        * **1/11 predictor** (numeric)
+             * <span style="color: #FF0000">Age</span>
+        * **9/11 predictor** (categorical)
+             * <span style="color: #FF0000">Gender</span>
+             * <span style="color: #FF0000">Smoking</span>
+             * <span style="color: #FF0000">Physical_Examination</span>
+             * <span style="color: #FF0000">Adenopathy</span>
+             * <span style="color: #FF0000">Focality</span>
+             * <span style="color: #FF0000">Risk</span>
+             * <span style="color: #FF0000">T</span>
+             * <span style="color: #FF0000">M</span>
+             * <span style="color: #FF0000">Stage</span>
+             * <span style="color: #FF0000">Response</span>
+
+
+### 1.6.2 Preprocessing Pipeline Development<a class="anchor" id="1.6.2"></a>
+
+1. A preprocessing pipeline was formulated and applied to the train, validation and test datasets with the following actions:
+    * Excludes specified columns noted with low variance, high collinearity and weak predictive power
+    * Aggregates categories in multiclass categorical variables into binary levels
+    * Converts categorical columns to the appropriate type
+    * Sets the order of category levels for ordinal encoding during modeling pipeline creation
+
+
+
+```python
+##################################
+# Formulating a preprocessing pipeline
+# that removes the specified columns,
+# aggregates categories in multiclass categorical variables,
+# converts categorical columns to the appropriate type, and
+# sets the order of category levels
+##################################
+def preprocess_dataset(df):
+    # Removing the specified columns
+    columns_to_remove = ['Hx_Smoking', 'Hx_Radiotherapy', 'M', 'N', 'Thyroid_Function', 'Pathology']
+    df = df.drop(columns=columns_to_remove)
+    
+    # Applying category aggregation
+    df['Physical_Examination'] = df['Physical_Examination'].map(
+        lambda x: 'Normal or Single Nodular Goiter' if x in ['Normal', 'Single nodular goiter-left', 'Single nodular goiter-right'] 
+        else 'Multinodular or Diffuse Goiter').astype('category')
+    
+    df['Adenopathy'] = df['Adenopathy'].map(
+        lambda x: 'No' if x == 'No' else ('Yes' if pd.notna(x) and x != '' else x)).astype('category')
+    
+    df['Risk'] = df['Risk'].map(
+        lambda x: 'Low' if x == 'Low' else 'Intermediate to High').astype('category')
+    
+    df['T'] = df['T'].map(
+        lambda x: 'T1 to T2' if x in ['T1a', 'T1b', 'T2'] else 'T3 to T4b').astype('category')
+    
+    df['Stage'] = df['Stage'].map(
+        lambda x: 'I' if x == 'I' else 'II to IVB').astype('category')
+    
+    df['Response'] = df['Response'].map(
+        lambda x: 'Indeterminate or Incomplete' if x in ['Indeterminate', 'Structural Incomplete', 'Biochemical Incomplete'] 
+        else 'Excellent').astype('category')
+    
+    # Setting category levels
+    category_mappings = {
+        'Gender': ['M', 'F'],
+        'Smoking': ['No', 'Yes'],
+        'Physical_Examination': ['Normal or Single Nodular Goiter', 'Multinodular or Diffuse Goiter'],
+        'Adenopathy': ['No', 'Yes'],
+        'Focality': ['Uni-Focal', 'Multi-Focal'],
+        'Risk': ['Low', 'Intermediate to High'],
+        'T': ['T1 to T2', 'T3 to T4b'],
+        'Stage': ['I', 'II to IVB'],
+        'Response': ['Excellent', 'Indeterminate or Incomplete']
+    }
+    
+    for col, categories in category_mappings.items():
+        df[col] = df[col].astype('category')
+        df[col] = df[col].cat.set_categories(categories, ordered=True)
+    
+    return df
+    
+```
+
+
+```python
+##################################
+# Applying the preprocessing pipeline
+# to the train data
+##################################
+thyroid_cancer_preprocessed_train = preprocess_dataset(thyroid_cancer_train)
+X_preprocessed_train = thyroid_cancer_preprocessed_train.drop('Recurred', axis = 1)
+y_preprocessed_train = thyroid_cancer_preprocessed_train['Recurred']
+thyroid_cancer_preprocessed_train.to_csv(os.path.join("..", DATASETS_PREPROCESSED_TRAIN_PATH, "thyroid_cancer_preprocessed_train.csv"), index=False)
+X_preprocessed_train.to_csv(os.path.join("..", DATASETS_PREPROCESSED_TRAIN_FEATURES_PATH, "X_preprocessed_train.csv"), index=False)
+y_preprocessed_train.to_csv(os.path.join("..", DATASETS_PREPROCESSED_TRAIN_TARGET_PATH, "y_preprocessed_train.csv"), index=False)
+print('Final Preprocessed Training Dataset Dimensions: ')
+display(X_preprocessed_train.shape)
+display(y_preprocessed_train.shape)
+print('Final Preprocessed Training Target Variable Breakdown: ')
+display(y_preprocessed_train.value_counts())
+print('Final Preprocessed Training Target Variable Proportion: ')
+display(y_preprocessed_train.value_counts(normalize = True))
+thyroid_cancer_preprocessed_train.head()
+
+```
+
+    Final Preprocessed Training Dataset Dimensions: 
+    
+
+
+    (204, 10)
+
+
+
+    (204,)
+
+
+    Final Preprocessed Training Target Variable Breakdown: 
+    
+
+
+    Recurred
+    No     143
+    Yes     61
+    Name: count, dtype: int64
+
+
+    Final Preprocessed Training Target Variable Proportion: 
+    
+
+
+    Recurred
+    No     0.70098
+    Yes    0.29902
+    Name: proportion, dtype: float64
+
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Age</th>
+      <th>Gender</th>
+      <th>Smoking</th>
+      <th>Physical_Examination</th>
+      <th>Adenopathy</th>
+      <th>Focality</th>
+      <th>Risk</th>
+      <th>T</th>
+      <th>Stage</th>
+      <th>Response</th>
+      <th>Recurred</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>335</th>
+      <td>29</td>
+      <td>M</td>
+      <td>No</td>
+      <td>Multinodular or Diffuse Goiter</td>
+      <td>Yes</td>
+      <td>Multi-Focal</td>
+      <td>Intermediate to High</td>
+      <td>T3 to T4b</td>
+      <td>I</td>
+      <td>Indeterminate or Incomplete</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <th>201</th>
+      <td>25</td>
+      <td>F</td>
+      <td>No</td>
+      <td>Normal or Single Nodular Goiter</td>
+      <td>Yes</td>
+      <td>Multi-Focal</td>
+      <td>Low</td>
+      <td>T1 to T2</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>134</th>
+      <td>51</td>
+      <td>F</td>
+      <td>No</td>
+      <td>Multinodular or Diffuse Goiter</td>
+      <td>No</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1 to T2</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>37</td>
+      <td>F</td>
+      <td>No</td>
+      <td>Normal or Single Nodular Goiter</td>
+      <td>No</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1 to T2</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>380</th>
+      <td>72</td>
+      <td>M</td>
+      <td>Yes</td>
+      <td>Multinodular or Diffuse Goiter</td>
+      <td>Yes</td>
+      <td>Multi-Focal</td>
+      <td>Intermediate to High</td>
+      <td>T3 to T4b</td>
+      <td>II to IVB</td>
+      <td>Indeterminate or Incomplete</td>
+      <td>Yes</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+##################################
+# Applying the preprocessing pipeline
+# to the validation data
+##################################
+thyroid_cancer_preprocessed_validation = preprocess_dataset(thyroid_cancer_validation)
+X_preprocessed_validation = thyroid_cancer_preprocessed_validation.drop('Recurred', axis = 1)
+y_preprocessed_validation = thyroid_cancer_preprocessed_validation['Recurred']
+thyroid_cancer_preprocessed_validation.to_csv(os.path.join("..", DATASETS_PREPROCESSED_VALIDATION_PATH, "thyroid_cancer_preprocessed_validation.csv"), index=False)
+X_preprocessed_validation.to_csv(os.path.join("..", DATASETS_PREPROCESSED_VALIDATION_FEATURES_PATH, "X_preprocessed_validation.csv"), index=False)
+y_preprocessed_validation.to_csv(os.path.join("..", DATASETS_PREPROCESSED_VALIDATION_TARGET_PATH, "y_preprocessed_validation.csv"), index=False)
+print('Final Preprocessed Validationing Dataset Dimensions: ')
+display(X_preprocessed_validation.shape)
+display(y_preprocessed_validation.shape)
+print('Final Preprocessed Validationing Target Variable Breakdown: ')
+display(y_preprocessed_validation.value_counts())
+print('Final Preprocessed Validationing Target Variable Proportion: ')
+display(y_preprocessed_validation.value_counts(normalize = True))
+thyroid_cancer_preprocessed_validation.head()
+
+```
+
+    Final Preprocessed Validationing Dataset Dimensions: 
+    
+
+
+    (69, 10)
+
+
+
+    (69,)
+
+
+    Final Preprocessed Validationing Target Variable Breakdown: 
+    
+
+
+    Recurred
+    No     49
+    Yes    20
+    Name: count, dtype: int64
+
+
+    Final Preprocessed Validationing Target Variable Proportion: 
+    
+
+
+    Recurred
+    No     0.710145
+    Yes    0.289855
+    Name: proportion, dtype: float64
+
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Age</th>
+      <th>Gender</th>
+      <th>Smoking</th>
+      <th>Physical_Examination</th>
+      <th>Adenopathy</th>
+      <th>Focality</th>
+      <th>Risk</th>
+      <th>T</th>
+      <th>Stage</th>
+      <th>Response</th>
+      <th>Recurred</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>49</th>
+      <td>29</td>
+      <td>F</td>
+      <td>No</td>
+      <td>Multinodular or Diffuse Goiter</td>
+      <td>No</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1 to T2</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>353</th>
+      <td>73</td>
+      <td>F</td>
+      <td>No</td>
+      <td>Normal or Single Nodular Goiter</td>
+      <td>Yes</td>
+      <td>Multi-Focal</td>
+      <td>Intermediate to High</td>
+      <td>T3 to T4b</td>
+      <td>II to IVB</td>
+      <td>Indeterminate or Incomplete</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <th>204</th>
+      <td>36</td>
+      <td>F</td>
+      <td>No</td>
+      <td>Normal or Single Nodular Goiter</td>
+      <td>Yes</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1 to T2</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>283</th>
+      <td>30</td>
+      <td>F</td>
+      <td>No</td>
+      <td>Normal or Single Nodular Goiter</td>
+      <td>No</td>
+      <td>Multi-Focal</td>
+      <td>Intermediate to High</td>
+      <td>T3 to T4b</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>254</th>
+      <td>31</td>
+      <td>M</td>
+      <td>Yes</td>
+      <td>Normal or Single Nodular Goiter</td>
+      <td>No</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T3 to T4b</td>
+      <td>I</td>
+      <td>Indeterminate or Incomplete</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+##################################
+# Applying the preprocessing pipeline
+# to the test data
+##################################
+thyroid_cancer_preprocessed_test = preprocess_dataset(thyroid_cancer_test)
+X_preprocessed_test = thyroid_cancer_preprocessed_test.drop('Recurred', axis = 1)
+y_preprocessed_test = thyroid_cancer_preprocessed_test['Recurred']
+thyroid_cancer_preprocessed_test.to_csv(os.path.join("..", DATASETS_PREPROCESSED_TEST_PATH, "thyroid_cancer_preprocessed_test.csv"), index=False)
+X_preprocessed_test.to_csv(os.path.join("..", DATASETS_PREPROCESSED_TEST_FEATURES_PATH, "X_preprocessed_test.csv"), index=False)
+y_preprocessed_test.to_csv(os.path.join("..", DATASETS_PREPROCESSED_TEST_TARGET_PATH, "y_preprocessed_test.csv"), index=False)
+print('Final Preprocessed Testing Dataset Dimensions: ')
+display(X_preprocessed_test.shape)
+display(y_preprocessed_test.shape)
+print('Final Preprocessed Testing Target Variable Breakdown: ')
+display(y_preprocessed_test.value_counts())
+print('Final Preprocessed Testing Target Variable Proportion: ')
+display(y_preprocessed_test.value_counts(normalize = True))
+thyroid_cancer_preprocessed_test.head()
+
+```
+
+    Final Preprocessed Testing Dataset Dimensions: 
+    
+
+
+    (91, 10)
+
+
+
+    (91,)
+
+
+    Final Preprocessed Testing Target Variable Breakdown: 
+    
+
+
+    Recurred
+    No     64
+    Yes    27
+    Name: count, dtype: int64
+
+
+    Final Preprocessed Testing Target Variable Proportion: 
+    
+
+
+    Recurred
+    No     0.703297
+    Yes    0.296703
+    Name: proportion, dtype: float64
+
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Age</th>
+      <th>Gender</th>
+      <th>Smoking</th>
+      <th>Physical_Examination</th>
+      <th>Adenopathy</th>
+      <th>Focality</th>
+      <th>Risk</th>
+      <th>T</th>
+      <th>Stage</th>
+      <th>Response</th>
+      <th>Recurred</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>379</th>
+      <td>81</td>
+      <td>M</td>
+      <td>Yes</td>
+      <td>Multinodular or Diffuse Goiter</td>
+      <td>Yes</td>
+      <td>Multi-Focal</td>
+      <td>Intermediate to High</td>
+      <td>T3 to T4b</td>
+      <td>II to IVB</td>
+      <td>Indeterminate or Incomplete</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <th>125</th>
+      <td>31</td>
+      <td>F</td>
+      <td>No</td>
+      <td>Normal or Single Nodular Goiter</td>
+      <td>Yes</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1 to T2</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>286</th>
+      <td>58</td>
+      <td>F</td>
+      <td>No</td>
+      <td>Multinodular or Diffuse Goiter</td>
+      <td>No</td>
+      <td>Multi-Focal</td>
+      <td>Intermediate to High</td>
+      <td>T3 to T4b</td>
+      <td>II to IVB</td>
+      <td>Indeterminate or Incomplete</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>244</th>
+      <td>35</td>
+      <td>F</td>
+      <td>No</td>
+      <td>Multinodular or Diffuse Goiter</td>
+      <td>No</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T3 to T4b</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>369</th>
+      <td>71</td>
+      <td>M</td>
+      <td>Yes</td>
+      <td>Multinodular or Diffuse Goiter</td>
+      <td>Yes</td>
+      <td>Multi-Focal</td>
+      <td>Intermediate to High</td>
+      <td>T3 to T4b</td>
+      <td>II to IVB</td>
+      <td>Indeterminate or Incomplete</td>
+      <td>Yes</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
 
 ## 1.7. Bagged Model Development <a class="anchor" id="1.7"></a>
 
