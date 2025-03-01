@@ -2,7 +2,7 @@
 # Supervised Learning : Leveraging Ensemble Learning With Bagging, Boosting, Stacking and Blending Approaches
 
 ***
-### [**John Pauline Pineda**](https://github.com/JohnPaulinePineda) <br> <br> *March 1, 2025*
+### [**John Pauline Pineda**](https://github.com/JohnPaulinePineda) <br> <br> *March 8, 2025*
 ***
 
 * [**1. Table of Contents**](#TOC)
@@ -13,10 +13,9 @@
         * [1.4.1 Data Splitting](#1.4.1)
         * [1.4.2 Data Profiling](#1.4.2)
         * [1.4.3 Category Aggregation and Encoding](#1.4.3)
-        * [1.4.4 Missing Data Imputation](#1.4.4)
-        * [1.4.5 Outlier and Distributional Shape Analysis](#1.4.5)
-        * [1.4.6 Collinearity](#1.4.6)
-        * [1.4.7 Preprocessed Data Description](#1.4.7)
+        * [1.4.4 Outlier and Distributional Shape Analysis](#1.4.4)
+        * [1.4.5 Collinearity](#1.4.5)
+        * [1.4.6 Preprocessed Data Description](#1.4.6)
     * [1.5 Data Exploration](#1.5)
         * [1.5.1 Exploratory Data Analysis](#1.5.1)
         * [1.5.2 Hypothesis Testing](#1.5.2)
@@ -504,7 +503,7 @@ thyroid_cancer['Thyroid_Function'] = thyroid_cancer['Thyroid_Function'].cat.set_
 thyroid_cancer['Physical_Examination'] = thyroid_cancer['Physical_Examination'].astype('category')
 thyroid_cancer['Physical_Examination'] = thyroid_cancer['Physical_Examination'].cat.set_categories(['Normal', 'Single nodular goiter-left', 'Single nodular goiter-right', 'Multinodular goiter', 'Diffuse goiter'], ordered=True)
 thyroid_cancer['Adenopathy'] = thyroid_cancer['Adenopathy'].astype('category')
-thyroid_cancer['Adenopathy'] = thyroid_cancer['Adenopathy'].cat.set_categories(['No', 'Left', 'Right', 'Bilateral' 'Posterior', 'Extensive'], ordered=True)
+thyroid_cancer['Adenopathy'] = thyroid_cancer['Adenopathy'].cat.set_categories(['No', 'Left', 'Right', 'Bilateral', 'Posterior', 'Extensive'], ordered=True)
 thyroid_cancer['Pathology'] = thyroid_cancer['Pathology'].astype('category')
 thyroid_cancer['Pathology'] = thyroid_cancer['Pathology'].cat.set_categories(['Hurthle Cell', 'Follicular', 'Micropapillary', 'Papillary'], ordered=True)
 thyroid_cancer['Focality'] = thyroid_cancer['Focality'].astype('category')
@@ -666,8 +665,8 @@ display(thyroid_cancer.describe(include='category').transpose())
     </tr>
     <tr>
       <th>Adenopathy</th>
-      <td>349</td>
-      <td>4</td>
+      <td>383</td>
+      <td>6</td>
       <td>No</td>
       <td>277</td>
     </tr>
@@ -836,19 +835,21 @@ for col in ordered_cat_cols:
     --------------------------------------------------
     Column: Adenopathy
     Absolute Frequencies:
-    No                    277
-    Left                   17
-    Right                  48
-    BilateralPosterior      0
-    Extensive               7
+    No           277
+    Left          17
+    Right         48
+    Bilateral     32
+    Posterior      2
+    Extensive      7
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    No                    0.793696
-    Left                  0.048711
-    Right                 0.137536
-    BilateralPosterior    0.000000
-    Extensive             0.020057
+    No           0.723238
+    Left         0.044386
+    Right        0.125326
+    Bilateral    0.083551
+    Posterior    0.005222
+    Extensive    0.018277
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Pathology
@@ -987,10 +988,8 @@ Data quality findings based on assessment are as follows:
     * In total, 34 observations were affected, consisting of 16 unique occurrences and 19 subsequent duplicates.
     * These 19 duplicates spanned 16 distinct variations, meaning some variations had multiple duplicates.
     * To clean the dataset, all 19 duplicate rows were removed, retaining only the first occurrence of each of the 16 unique variations.
-2. Missing data noted for 1 variable with Null.Count>0 and Fill.Rate<1.0.
-    * <span style="color: #FF0000">Adenopathy</span>: Null.Count = 34, Fill.Rate = 0.906
-3. Given only a single variable with missing data observed, there were 34 observations noted with Missing.Rate= 0.058824 out of all 17 variables.
-4. Low variance observed for 8 variables with First.Second.Mode.Ratio>5.
+2. No missing data noted for any variable with Null.Count>0 and Fill.Rate<1.0.
+3. Low variance observed for 8 variables with First.Second.Mode.Ratio>5.
     * <span style="color: #FF0000">Hx_Radiotherapy</span>: First.Second.Mode.Ratio = 51.000 (comprised 2 category levels)
     * <span style="color: #FF0000">M</span>: First.Second.Mode.Ratio = 19.222 (comprised 2 category levels)
     * <span style="color: #FF0000">Thyroid_Function</span>: First.Second.Mode.Ratio = 15.650 (comprised 5 category levels)
@@ -999,8 +998,8 @@ Data quality findings based on assessment are as follows:
     * <span style="color: #FF0000">Smoking</span>: First.Second.Mode.Ratio = 6.428 (comprised 2 category levels)
     * <span style="color: #FF0000">Pathology</span>: First.Second.Mode.Ratio = 6.022 (comprised 4 category levels)
     * <span style="color: #FF0000">Adenopathy</span>: First.Second.Mode.Ratio = 5.375 (comprised 5 category levels)
-5. No low variance observed for any variable with Unique.Count.Ratio>10.
-6. No high skewness observed for any variable with Skewness>3 or Skewness<(-3).
+4. No low variance observed for any variable with Unique.Count.Ratio>10.
+5. No high skewness observed for any variable with Skewness>3 or Skewness<(-3).
 
 
 
@@ -2315,7 +2314,7 @@ display(all_column_quality_summary)
       <td>364</td>
       <td>364</td>
       <td>0</td>
-      <td>1.000000</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>1</th>
@@ -2324,7 +2323,7 @@ display(all_column_quality_summary)
       <td>364</td>
       <td>364</td>
       <td>0</td>
-      <td>1.000000</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>2</th>
@@ -2333,7 +2332,7 @@ display(all_column_quality_summary)
       <td>364</td>
       <td>364</td>
       <td>0</td>
-      <td>1.000000</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>3</th>
@@ -2342,7 +2341,7 @@ display(all_column_quality_summary)
       <td>364</td>
       <td>364</td>
       <td>0</td>
-      <td>1.000000</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>4</th>
@@ -2351,7 +2350,7 @@ display(all_column_quality_summary)
       <td>364</td>
       <td>364</td>
       <td>0</td>
-      <td>1.000000</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>5</th>
@@ -2360,7 +2359,7 @@ display(all_column_quality_summary)
       <td>364</td>
       <td>364</td>
       <td>0</td>
-      <td>1.000000</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>6</th>
@@ -2369,16 +2368,16 @@ display(all_column_quality_summary)
       <td>364</td>
       <td>364</td>
       <td>0</td>
-      <td>1.000000</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>7</th>
       <td>Adenopathy</td>
       <td>category</td>
       <td>364</td>
-      <td>330</td>
-      <td>34</td>
-      <td>0.906593</td>
+      <td>364</td>
+      <td>0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>8</th>
@@ -2387,7 +2386,7 @@ display(all_column_quality_summary)
       <td>364</td>
       <td>364</td>
       <td>0</td>
-      <td>1.000000</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>9</th>
@@ -2396,7 +2395,7 @@ display(all_column_quality_summary)
       <td>364</td>
       <td>364</td>
       <td>0</td>
-      <td>1.000000</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>10</th>
@@ -2405,7 +2404,7 @@ display(all_column_quality_summary)
       <td>364</td>
       <td>364</td>
       <td>0</td>
-      <td>1.000000</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>11</th>
@@ -2414,7 +2413,7 @@ display(all_column_quality_summary)
       <td>364</td>
       <td>364</td>
       <td>0</td>
-      <td>1.000000</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>12</th>
@@ -2423,7 +2422,7 @@ display(all_column_quality_summary)
       <td>364</td>
       <td>364</td>
       <td>0</td>
-      <td>1.000000</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>13</th>
@@ -2432,7 +2431,7 @@ display(all_column_quality_summary)
       <td>364</td>
       <td>364</td>
       <td>0</td>
-      <td>1.000000</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>14</th>
@@ -2441,7 +2440,7 @@ display(all_column_quality_summary)
       <td>364</td>
       <td>364</td>
       <td>0</td>
-      <td>1.000000</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>15</th>
@@ -2450,7 +2449,7 @@ display(all_column_quality_summary)
       <td>364</td>
       <td>364</td>
       <td>0</td>
-      <td>1.000000</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>16</th>
@@ -2459,7 +2458,7 @@ display(all_column_quality_summary)
       <td>364</td>
       <td>364</td>
       <td>0</td>
-      <td>1.000000</td>
+      <td>1.0</td>
     </tr>
   </tbody>
 </table>
@@ -2479,60 +2478,8 @@ len(all_column_quality_summary[(all_column_quality_summary['Fill.Rate']<1)])
 
 
 
-    1
+    0
 
-
-
-
-```python
-##################################
-# Identifying the columns
-# with Fill.Rate < 1.00
-##################################
-display(all_column_quality_summary[(all_column_quality_summary['Fill.Rate']<1)].sort_values(by=['Fill.Rate'], ascending=True))
-
-```
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Column.Name</th>
-      <th>Column.Type</th>
-      <th>Row.Count</th>
-      <th>Non.Null.Count</th>
-      <th>Null.Count</th>
-      <th>Fill.Rate</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>7</th>
-      <td>Adenopathy</td>
-      <td>category</td>
-      <td>364</td>
-      <td>330</td>
-      <td>34</td>
-      <td>0.906593</td>
-    </tr>
-  </tbody>
-</table>
-</div>
 
 
 
@@ -2630,35 +2577,35 @@ display(all_row_quality_summary)
       <td>0</td>
       <td>17</td>
       <td>0</td>
-      <td>0.000000</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>1</th>
       <td>1</td>
       <td>17</td>
       <td>0</td>
-      <td>0.000000</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>2</th>
       <td>2</td>
       <td>17</td>
       <td>0</td>
-      <td>0.000000</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>3</th>
       <td>3</td>
       <td>17</td>
       <td>0</td>
-      <td>0.000000</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>4</th>
       <td>4</td>
       <td>17</td>
       <td>0</td>
-      <td>0.000000</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>...</th>
@@ -2672,35 +2619,35 @@ display(all_row_quality_summary)
       <td>378</td>
       <td>17</td>
       <td>0</td>
-      <td>0.000000</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>360</th>
       <td>379</td>
       <td>17</td>
       <td>0</td>
-      <td>0.000000</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>361</th>
       <td>380</td>
       <td>17</td>
-      <td>1</td>
-      <td>0.058824</td>
+      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>362</th>
       <td>381</td>
       <td>17</td>
       <td>0</td>
-      <td>0.000000</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>363</th>
       <td>382</td>
       <td>17</td>
-      <td>1</td>
-      <td>0.058824</td>
+      <td>0</td>
+      <td>0.0</td>
     </tr>
   </tbody>
 </table>
@@ -2721,7 +2668,7 @@ len(all_row_quality_summary[(all_row_quality_summary['Missing.Rate']>0.00)])
 
 
 
-    34
+    0
 
 
 
@@ -3249,9 +3196,9 @@ display(categorical_column_quality_summary)
       <td>258</td>
       <td>48</td>
       <td>5.375000</td>
-      <td>4</td>
+      <td>6</td>
       <td>364</td>
-      <td>0.010989</td>
+      <td>0.016484</td>
     </tr>
     <tr>
       <th>7</th>
@@ -3515,9 +3462,9 @@ display(categorical_column_quality_summary[(categorical_column_quality_summary['
       <td>258</td>
       <td>48</td>
       <td>5.375000</td>
-      <td>4</td>
+      <td>6</td>
       <td>364</td>
-      <td>0.010989</td>
+      <td>0.016484</td>
     </tr>
   </tbody>
 </table>
@@ -3947,6 +3894,71 @@ y_test.to_csv(os.path.join("..", DATASETS_FINAL_TEST_TARGET_PATH, "y_test.csv"),
 
 ### 1.4.2 Data Profiling <a class="anchor" id="1.4.2"></a>
 
+1. No distributional anomalies were obseerved for the numeric predictor <span style="color: #FF0000">Age</span>.
+2. 9 categorical predictors were observed with categories consisting of too few cases that risk poor generalization and cross-validation issues:
+    * <span style="color: #FF0000">Thyroid_Function</span>: 
+        * <span style="color: #FF0000">176 Thyroid_Function=Euthyroid</span>: 86.27%
+        * <span style="color: #FF0000">8 Thyroid_Function=Subclinical Hypothyroidism</span>: 3.92%
+        * <span style="color: #FF0000">3 Thyroid_Function=Subclinical Hyperthyroidism</span>: 1.47%
+        * <span style="color: #FF0000">6 Thyroid_Function=Clinical Hypothyroidism</span>: 2.94%
+        * <span style="color: #FF0000">11 Thyroid_Function=Clinical Hyperthyroidism</span>: 5.39%
+    * <span style="color: #FF0000">Physical_Examination</span>:
+        * <span style="color: #FF0000">5 Physical_Examination=Normal</span>: 2.45%
+        * <span style="color: #FF0000">47 Physical_Examination=Single nodular goiter-left</span>: 23.04%
+        * <span style="color: #FF0000">69 Physical_Examination=Single nodular goiter-right</span>: 33.82%
+        * <span style="color: #FF0000">78 Physical_Examination=Multinodular goiter</span>: 38.24%
+        * <span style="color: #FF0000">5 Physical_Examination=Diffuse goiter</span>: 2.45%
+    * <span style="color: #FF0000">Adenopathy</span>:
+        * <span style="color: #FF0000">143 Adenopathy=No</span>: 70.09%
+        * <span style="color: #FF0000">8 Adenopathy=Left</span>: 3.92%
+        * <span style="color: #FF0000">26 Adenopathy=Right</span>: 12.75%
+        * <span style="color: #FF0000">1 Adenopathy=Posterior</span>: 0.49%
+        * <span style="color: #FF0000">22 Adenopathy=Bilateral</span>: 10.78%
+        * <span style="color: #FF0000">4 Adenopathy=Extensive</span>: 1.96%
+    * <span style="color: #FF0000">Pathology</span>:
+        * <span style="color: #FF0000">11 Pathology=Hurthle Cell</span>: 5.39%
+        * <span style="color: #FF0000">14 Pathology=Follicular</span>: 6.86%
+        * <span style="color: #FF0000">28 Pathology=Micropapillary</span>: 13.73%
+        * <span style="color: #FF0000">151 Pathology=Papillary</span>: 74.02%
+    * <span style="color: #FF0000">Risk</span>:
+        * <span style="color: #FF0000">131 Risk=Low</span>: 64.22%
+        * <span style="color: #FF0000">55 Risk=Intermediate</span>: 26.96%
+        * <span style="color: #FF0000">18 Risk=High</span>: 8.82%
+    * <span style="color: #FF0000">T</span>:
+        * <span style="color: #FF0000">27 T=T1a</span>: 13.23%
+        * <span style="color: #FF0000">20 T=T1b</span>: 9.80%
+        * <span style="color: #FF0000">79 T=T2</span>: 38.72%
+        * <span style="color: #FF0000">55 T=T3a</span>: 26.96%
+        * <span style="color: #FF0000">6 T=T3b</span>: 2.94%
+        * <span style="color: #FF0000">11 T=T4a</span>: 5.39%
+        * <span style="color: #FF0000">6 T=T4b</span>: 2.94%
+    * <span style="color: #FF0000">N</span>:
+        * <span style="color: #FF0000">140 N=N0</span>: 68.63%
+        * <span style="color: #FF0000">13 N=N1a</span>: 6.37%
+        * <span style="color: #FF0000">51 N=N1b</span>: 25.00%
+    * <span style="color: #FF0000">Stage</span>:
+        * <span style="color: #FF0000">178 Stage=I</span>: 87.25%
+        * <span style="color: #FF0000">16 Stage=II</span>: 7.84%
+        * <span style="color: #FF0000">1 Stage=III</span>: 0.49%
+        * <span style="color: #FF0000">3 Stage=IVA</span>: 1.47%
+        * <span style="color: #FF0000">6 Stage=IVB</span>: 2.94%
+    * <span style="color: #FF0000">Response</span>:
+        * <span style="color: #FF0000">107 Response=Excellent</span>: 52.45%
+        * <span style="color: #FF0000">54 Response=Structural Incomplete</span>: 26.47%
+        * <span style="color: #FF0000">17 Response=Biochemical Incomplete</span>: 8.33%
+        * <span style="color: #FF0000">26 Response=Indeterminate</span>: 12.75%
+3. 3 categorical predictors were excluded from the dataset after having been observed with extremely low variance containing categories with very few or almost no variations across observations that may have limited predictive power or drive increased model complexity without performance gains:
+    * <span style="color: #FF0000">Hx_Smoking</span>: 
+        * <span style="color: #FF0000">189 Hx_Smoking=No</span>: 92.65%
+        * <span style="color: #FF0000">15 Hx_Smoking=Yes</span>: 7.35%
+    * <span style="color: #FF0000">Hx_Radiotherapy</span>: 
+        * <span style="color: #FF0000">199 Hx_Radiotherapy=No</span>: 97.55%
+        * <span style="color: #FF0000">15 Hx_Radiotherapy=Yes</span>: 2.45%
+    * <span style="color: #FF0000">M</span>: 
+        * <span style="color: #FF0000">192 M=M0</span>: 94.12%
+        * <span style="color: #FF0000">12 M=M1</span>: 5.88%
+
+
 
 ```python
 ##################################
@@ -4001,7 +4013,7 @@ plt.show()
 
 
     
-![png](output_93_0.png)
+![png](output_92_0.png)
     
 
 
@@ -4102,19 +4114,21 @@ for col in ordered_cat_cols:
     --------------------------------------------------
     Column: Adenopathy
     Absolute Frequencies:
-    No                    143
-    Left                    8
-    Right                  26
-    BilateralPosterior      0
-    Extensive               4
+    No           143
+    Left           8
+    Right         26
+    Bilateral     22
+    Posterior      1
+    Extensive      4
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    No                    0.790055
-    Left                  0.044199
-    Right                 0.143646
-    BilateralPosterior    0.000000
-    Extensive             0.022099
+    No           0.700980
+    Left         0.039216
+    Right        0.127451
+    Bilateral    0.107843
+    Posterior    0.004902
+    Extensive    0.019608
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Pathology
@@ -4305,7 +4319,7 @@ plt.show()
 
 
     
-![png](output_96_0.png)
+![png](output_95_0.png)
     
 
 
@@ -4433,7 +4447,7 @@ thyroid_cancer_train_column_filtered.head()
       <td>Yes</td>
       <td>Euthyroid</td>
       <td>Multinodular goiter</td>
-      <td>NaN</td>
+      <td>Bilateral</td>
       <td>Papillary</td>
       <td>Multi-Focal</td>
       <td>High</td>
@@ -4459,15 +4473,15 @@ thyroid_cancer_train_column_filtered.head()
 # to ensure sufficient representation in statistical models 
 # and prevent sparsity issues in cross-validation
 ##################################
-thyroid_cancer_train_column_filtered['Thyroid_Function'] = thyroid_cancer_train_column_filtered['Thyroid_Function'].map(lambda x: 'Euthyroid' if (x in ['Euthyroid'])  else 'Hypothyroidism or Hyperthyroidism')
-thyroid_cancer_train_column_filtered['Physical_Examination'] = thyroid_cancer_train_column_filtered['Physical_Examination'].map(lambda x: 'Normal or Single Nodular Goiter' if (x in ['Normal', 'Single nodular goiter-left', 'Single nodular goiter-right'])  else 'Multinodular or Diffuse Goiter')
-thyroid_cancer_train_column_filtered['Adenopathy'] = thyroid_cancer_train_column_filtered['Adenopathy'].map(lambda x: 'No' if x == 'No' else ('Yes' if pd.notna(x) and x != '' else x))
-thyroid_cancer_train_column_filtered['Pathology'] = thyroid_cancer_train_column_filtered['Pathology'].map(lambda x: 'Non-Papillary' if (x in ['Hurthle Cell', 'Follicular'])  else 'Papillary')
-thyroid_cancer_train_column_filtered['Risk'] = thyroid_cancer_train_column_filtered['Risk'].map(lambda x: 'Low' if (x in ['Low'])  else 'Intermediate to High')
-thyroid_cancer_train_column_filtered['T'] = thyroid_cancer_train_column_filtered['T'].map(lambda x: 'T1 to T2' if (x in ['T1a', 'T1b', 'T2'])  else 'T3 to T4b')
-thyroid_cancer_train_column_filtered['N'] = thyroid_cancer_train_column_filtered['N'].map(lambda x: 'N0' if (x in ['N0'])  else 'N1')
-thyroid_cancer_train_column_filtered['Stage'] = thyroid_cancer_train_column_filtered['Stage'].map(lambda x: 'I' if (x in ['I'])  else 'II to IVB')
-thyroid_cancer_train_column_filtered['Response'] = thyroid_cancer_train_column_filtered['Response'].map(lambda x: 'Indeterminate or Incomplete' if (x in ['Indeterminate', 'Structural Incomplete', 'Biochemical Incomplete'])  else 'Excellent')
+thyroid_cancer_train_column_filtered['Thyroid_Function'] = thyroid_cancer_train_column_filtered['Thyroid_Function'].map(lambda x: 'Euthyroid' if (x in ['Euthyroid'])  else 'Hypothyroidism or Hyperthyroidism').astype('category')
+thyroid_cancer_train_column_filtered['Physical_Examination'] = thyroid_cancer_train_column_filtered['Physical_Examination'].map(lambda x: 'Normal or Single Nodular Goiter' if (x in ['Normal', 'Single nodular goiter-left', 'Single nodular goiter-right'])  else 'Multinodular or Diffuse Goiter').astype('category')
+thyroid_cancer_train_column_filtered['Adenopathy'] = thyroid_cancer_train_column_filtered['Adenopathy'].map(lambda x: 'No' if x == 'No' else ('Yes' if pd.notna(x) and x != '' else x)).astype('category')
+thyroid_cancer_train_column_filtered['Pathology'] = thyroid_cancer_train_column_filtered['Pathology'].map(lambda x: 'Non-Papillary' if (x in ['Hurthle Cell', 'Follicular'])  else 'Papillary').astype('category')
+thyroid_cancer_train_column_filtered['Risk'] = thyroid_cancer_train_column_filtered['Risk'].map(lambda x: 'Low' if (x in ['Low'])  else 'Intermediate to High').astype('category')
+thyroid_cancer_train_column_filtered['T'] = thyroid_cancer_train_column_filtered['T'].map(lambda x: 'T1 to T2' if (x in ['T1a', 'T1b', 'T2'])  else 'T3 to T4b').astype('category')
+thyroid_cancer_train_column_filtered['N'] = thyroid_cancer_train_column_filtered['N'].map(lambda x: 'N0' if (x in ['N0'])  else 'N1').astype('category')
+thyroid_cancer_train_column_filtered['Stage'] = thyroid_cancer_train_column_filtered['Stage'].map(lambda x: 'I' if (x in ['I'])  else 'II to IVB').astype('category')
+thyroid_cancer_train_column_filtered['Response'] = thyroid_cancer_train_column_filtered['Response'].map(lambda x: 'Indeterminate or Incomplete' if (x in ['Indeterminate', 'Structural Incomplete', 'Biochemical Incomplete'])  else 'Excellent').astype('category')
 thyroid_cancer_train_column_filtered.head()
 
 ```
@@ -4585,7 +4599,7 @@ thyroid_cancer_train_column_filtered.head()
       <td>Yes</td>
       <td>Euthyroid</td>
       <td>Multinodular or Diffuse Goiter</td>
-      <td>NaN</td>
+      <td>Yes</td>
       <td>Papillary</td>
       <td>Multi-Focal</td>
       <td>Intermediate to High</td>
@@ -4640,6 +4654,50 @@ for col in ordered_cat_cols:
     Yes    0.156863
     Name: proportion, dtype: float64
     --------------------------------------------------
+    Column: Thyroid_Function
+    Absolute Frequencies:
+    Euthyroid                            176
+    Hypothyroidism or Hyperthyroidism     28
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Euthyroid                            0.862745
+    Hypothyroidism or Hyperthyroidism    0.137255
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Physical_Examination
+    Absolute Frequencies:
+    Multinodular or Diffuse Goiter      83
+    Normal or Single Nodular Goiter    121
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Multinodular or Diffuse Goiter     0.406863
+    Normal or Single Nodular Goiter    0.593137
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Adenopathy
+    Absolute Frequencies:
+    No     143
+    Yes     61
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    No     0.70098
+    Yes    0.29902
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Pathology
+    Absolute Frequencies:
+    Non-Papillary     25
+    Papillary        179
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Non-Papillary    0.122549
+    Papillary        0.877451
+    Name: proportion, dtype: float64
+    --------------------------------------------------
     Column: Focality
     Absolute Frequencies:
     Uni-Focal      118
@@ -4649,6 +4707,61 @@ for col in ordered_cat_cols:
     Normalized Frequencies:
     Uni-Focal      0.578431
     Multi-Focal    0.421569
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Risk
+    Absolute Frequencies:
+    Intermediate to High     73
+    Low                     131
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Intermediate to High    0.357843
+    Low                     0.642157
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: T
+    Absolute Frequencies:
+    T1 to T2     126
+    T3 to T4b     78
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    T1 to T2     0.617647
+    T3 to T4b    0.382353
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: N
+    Absolute Frequencies:
+    N0    140
+    N1     64
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    N0    0.686275
+    N1    0.313725
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Stage
+    Absolute Frequencies:
+    I            178
+    II to IVB     26
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    I            0.872549
+    II to IVB    0.127451
+    Name: proportion, dtype: float64
+    --------------------------------------------------
+    Column: Response
+    Absolute Frequencies:
+    Excellent                      107
+    Indeterminate or Incomplete     97
+    Name: count, dtype: int64
+    
+    Normalized Frequencies:
+    Excellent                      0.52451
+    Indeterminate or Incomplete    0.47549
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Recurred
@@ -4735,585 +4848,11 @@ plt.show()
 
 
     
-![png](output_103_0.png)
+![png](output_102_0.png)
     
 
 
-### 1.4.4 Missing Data Imputation <a class="anchor" id="1.4.4"></a>
-
-1. Missing data for a categorical predictor in the training data noted with Null.Count>0 and Fill.Rate<1.0 were imputed using the iterative imputer algorithm with a random forest estimator.
-    * <span style="color: #FF0000">Adenopathy</span>: Null.Count = 23, Fill.Rate = 0.887
-
-
-
-```python
-##################################
-# Formulating the summary
-# for all columns
-##################################
-data_type_list = list(thyroid_cancer_train_column_filtered.dtypes)
-variable_name_list = list(thyroid_cancer_train_column_filtered.columns)
-row_count_list = list([len(thyroid_cancer_train_column_filtered)] * len(thyroid_cancer_train_column_filtered.columns))
-non_null_count_list = list(thyroid_cancer_train_column_filtered.count())
-null_count_list = list(thyroid_cancer_train_column_filtered.isna().sum(axis=0))
-fill_rate_list = map(truediv, non_null_count_list, row_count_list)
-all_column_quality_summary = pd.DataFrame(zip(variable_name_list,
-                                              data_type_list,
-                                              row_count_list,
-                                              non_null_count_list,
-                                              null_count_list,
-                                              fill_rate_list), 
-                                        columns=['Column.Name',
-                                                 'Column.Type',
-                                                 'Row.Count',
-                                                 'Non.Null.Count',
-                                                 'Null.Count',                                                 
-                                                 'Fill.Rate'])
-display(all_column_quality_summary)
-
-```
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Column.Name</th>
-      <th>Column.Type</th>
-      <th>Row.Count</th>
-      <th>Non.Null.Count</th>
-      <th>Null.Count</th>
-      <th>Fill.Rate</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Age</td>
-      <td>int64</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.000000</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Gender</td>
-      <td>category</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.000000</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Smoking</td>
-      <td>category</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.000000</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Thyroid_Function</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.000000</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Physical_Examination</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.000000</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Adenopathy</td>
-      <td>object</td>
-      <td>204</td>
-      <td>181</td>
-      <td>23</td>
-      <td>0.887255</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Pathology</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.000000</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Focality</td>
-      <td>category</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.000000</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>Risk</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.000000</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>T</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.000000</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>N</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.000000</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>Stage</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.000000</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>Response</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.000000</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>Recurred</td>
-      <td>category</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.000000</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-```python
-##################################
-# Encoding categorical features
-##################################
-encoder = OrdinalEncoder()
-thyroid_cancer_train_column_filtered_encoded = encoder.fit_transform(thyroid_cancer_train_column_filtered)
-
-```
-
-
-```python
-##################################
-# Defining the estimator to be used
-# at each step of the round-robin imputation
-##################################
-rf_classifier_imputer = RandomForestClassifier(n_estimators=100, random_state=88888888)
-
-```
-
-
-```python
-##################################
-# Defining the parameter of the
-# iterative imputer which will estimate 
-# the columns with missing values
-# as a function of the other columns
-# in a round-robin fashion
-##################################
-rf_iterative_imputer = IterativeImputer(
-    estimator=rf_classifier_imputer, 
-    max_iter=10,
-    tol=1e-10,
-    imputation_order='ascending',
-    random_state=88888888
-)
-
-```
-
-
-```python
-##################################
-# Implementing the iterative imputer 
-##################################
-thyroid_cancer_train_column_filtered_imputed_array = rf_iterative_imputer.fit_transform(thyroid_cancer_train_column_filtered_encoded)
-
-```
-
-
-```python
-##################################
-# Convert back to original categories
-##################################
-thyroid_cancer_train_column_filtered_imputed = encoder.inverse_transform(thyroid_cancer_train_column_filtered_imputed_array)
-
-```
-
-
-```python
-##################################
-# Transforming the imputed data
-# from an array to a dataframe
-##################################
-thyroid_cancer_train_column_filtered_imputed = pd.DataFrame(thyroid_cancer_train_column_filtered_imputed, columns=thyroid_cancer_train_column_filtered.columns)
-display(thyroid_cancer_train_column_filtered_imputed.head())
-
-```
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Age</th>
-      <th>Gender</th>
-      <th>Smoking</th>
-      <th>Thyroid_Function</th>
-      <th>Physical_Examination</th>
-      <th>Adenopathy</th>
-      <th>Pathology</th>
-      <th>Focality</th>
-      <th>Risk</th>
-      <th>T</th>
-      <th>N</th>
-      <th>Stage</th>
-      <th>Response</th>
-      <th>Recurred</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>29</td>
-      <td>M</td>
-      <td>No</td>
-      <td>Euthyroid</td>
-      <td>Multinodular or Diffuse Goiter</td>
-      <td>Yes</td>
-      <td>Papillary</td>
-      <td>Multi-Focal</td>
-      <td>Intermediate to High</td>
-      <td>T3 to T4b</td>
-      <td>N1</td>
-      <td>I</td>
-      <td>Indeterminate or Incomplete</td>
-      <td>Yes</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>25</td>
-      <td>F</td>
-      <td>No</td>
-      <td>Euthyroid</td>
-      <td>Normal or Single Nodular Goiter</td>
-      <td>Yes</td>
-      <td>Papillary</td>
-      <td>Multi-Focal</td>
-      <td>Low</td>
-      <td>T1 to T2</td>
-      <td>N1</td>
-      <td>I</td>
-      <td>Excellent</td>
-      <td>No</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>51</td>
-      <td>F</td>
-      <td>No</td>
-      <td>Euthyroid</td>
-      <td>Multinodular or Diffuse Goiter</td>
-      <td>No</td>
-      <td>Papillary</td>
-      <td>Uni-Focal</td>
-      <td>Low</td>
-      <td>T1 to T2</td>
-      <td>N0</td>
-      <td>I</td>
-      <td>Excellent</td>
-      <td>No</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>37</td>
-      <td>F</td>
-      <td>No</td>
-      <td>Hypothyroidism or Hyperthyroidism</td>
-      <td>Normal or Single Nodular Goiter</td>
-      <td>No</td>
-      <td>Papillary</td>
-      <td>Uni-Focal</td>
-      <td>Low</td>
-      <td>T1 to T2</td>
-      <td>N0</td>
-      <td>I</td>
-      <td>Excellent</td>
-      <td>No</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>72</td>
-      <td>M</td>
-      <td>Yes</td>
-      <td>Euthyroid</td>
-      <td>Multinodular or Diffuse Goiter</td>
-      <td>Yes</td>
-      <td>Papillary</td>
-      <td>Multi-Focal</td>
-      <td>Intermediate to High</td>
-      <td>T3 to T4b</td>
-      <td>N1</td>
-      <td>II to IVB</td>
-      <td>Indeterminate or Incomplete</td>
-      <td>Yes</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-```python
-##################################
-# Formulating the summary
-# for all columns
-##################################
-data_type_list = list(thyroid_cancer_train_column_filtered_imputed.dtypes)
-variable_name_list = list(thyroid_cancer_train_column_filtered_imputed.columns)
-row_count_list = list([len(thyroid_cancer_train_column_filtered_imputed)] * len(thyroid_cancer_train_column_filtered_imputed.columns))
-non_null_count_list = list(thyroid_cancer_train_column_filtered_imputed.count())
-null_count_list = list(thyroid_cancer_train_column_filtered_imputed.isna().sum(axis=0))
-fill_rate_list = map(truediv, non_null_count_list, row_count_list)
-all_column_quality_summary = pd.DataFrame(zip(variable_name_list,
-                                              data_type_list,
-                                              row_count_list,
-                                              non_null_count_list,
-                                              null_count_list,
-                                              fill_rate_list), 
-                                        columns=['Column.Name',
-                                                 'Column.Type',
-                                                 'Row.Count',
-                                                 'Non.Null.Count',
-                                                 'Null.Count',                                                 
-                                                 'Fill.Rate'])
-display(all_column_quality_summary)
-
-```
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Column.Name</th>
-      <th>Column.Type</th>
-      <th>Row.Count</th>
-      <th>Non.Null.Count</th>
-      <th>Null.Count</th>
-      <th>Fill.Rate</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Age</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Gender</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Smoking</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Thyroid_Function</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Physical_Examination</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Adenopathy</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Pathology</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Focality</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>Risk</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>T</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>N</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>Stage</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>Response</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>Recurred</td>
-      <td>object</td>
-      <td>204</td>
-      <td>204</td>
-      <td>0</td>
-      <td>1.0</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-### 1.4.5 Outlier and Distributional Shape Analysis <a class="anchor" id="1.4.5"></a>
+### 1.4.4 Outlier and Distributional Shape Analysis <a class="anchor" id="1.4.4"></a>
 
 1. No outliers (Outlier.Count>0, Outlier.Ratio>0.000), high skewness (Skewness>3 or Skewness<(-3)) or abnormal kurtosis (Skewness>2 or Skewness<(-2)) observed for the numeric predictor.
     * <span style="color: #FF0000">Age</span>: Outlier.Count = 0, Outlier.Ratio = 0.000, Skewness = 0.592, Kurtosis = -0.461
@@ -5325,9 +4864,9 @@ display(all_column_quality_summary)
 # Formulating the imputed dataset
 # with numeric columns only
 ##################################
-thyroid_cancer_train_column_filtered_imputed['Age'] = pd.to_numeric(thyroid_cancer_train_column_filtered_imputed['Age'])
-thyroid_cancer_train_column_filtered_imputed_numeric = thyroid_cancer_train_column_filtered_imputed.select_dtypes(include='number')
-thyroid_cancer_train_column_filtered_imputed_numeric = thyroid_cancer_train_column_filtered_imputed_numeric.to_frame() if isinstance(thyroid_cancer_train_column_filtered_imputed_numeric, pd.Series) else thyroid_cancer_train_column_filtered_imputed_numeric
+thyroid_cancer_train_column_filtered['Age'] = pd.to_numeric(thyroid_cancer_train_column_filtered['Age'])
+thyroid_cancer_train_column_filtered_numeric = thyroid_cancer_train_column_filtered.select_dtypes(include='number')
+thyroid_cancer_train_column_filtered_numeric = thyroid_cancer_train_column_filtered_numeric.to_frame() if isinstance(thyroid_cancer_train_column_filtered_numeric, pd.Series) else thyroid_cancer_train_column_filtered_numeric
 
 ```
 
@@ -5336,7 +4875,7 @@ thyroid_cancer_train_column_filtered_imputed_numeric = thyroid_cancer_train_colu
 ##################################
 # Gathering the variable names for each numeric column
 ##################################
-numeric_variable_name_list = list(thyroid_cancer_train_column_filtered_imputed_numeric.columns)
+numeric_variable_name_list = list(thyroid_cancer_train_column_filtered_numeric.columns)
 
 ```
 
@@ -5345,7 +4884,7 @@ numeric_variable_name_list = list(thyroid_cancer_train_column_filtered_imputed_n
 ##################################
 # Gathering the skewness value for each numeric column
 ##################################
-numeric_skewness_list = thyroid_cancer_train_column_filtered_imputed_numeric.skew()
+numeric_skewness_list = thyroid_cancer_train_column_filtered_numeric.skew()
 
 ```
 
@@ -5355,9 +4894,9 @@ numeric_skewness_list = thyroid_cancer_train_column_filtered_imputed_numeric.ske
 # Computing the interquartile range
 # for all columns
 ##################################
-thyroid_cancer_train_column_filtered_imputed_numeric_q1 = thyroid_cancer_train_column_filtered_imputed_numeric.quantile(0.25)
-thyroid_cancer_train_column_filtered_imputed_numeric_q3 = thyroid_cancer_train_column_filtered_imputed_numeric.quantile(0.75)
-thyroid_cancer_train_column_filtered_imputed_numeric_iqr = thyroid_cancer_train_column_filtered_imputed_numeric_q3 - thyroid_cancer_train_column_filtered_imputed_numeric_q1
+thyroid_cancer_train_column_filtered_numeric_q1 = thyroid_cancer_train_column_filtered_numeric.quantile(0.25)
+thyroid_cancer_train_column_filtered_numeric_q3 = thyroid_cancer_train_column_filtered_numeric.quantile(0.75)
+thyroid_cancer_train_column_filtered_numeric_iqr = thyroid_cancer_train_column_filtered_numeric_q3 - thyroid_cancer_train_column_filtered_numeric_q1
 
 ```
 
@@ -5367,7 +4906,7 @@ thyroid_cancer_train_column_filtered_imputed_numeric_iqr = thyroid_cancer_train_
 # Gathering the outlier count for each numeric column
 # based on the interquartile range criterion
 ##################################
-numeric_outlier_count_list = ((thyroid_cancer_train_column_filtered_imputed_numeric < (thyroid_cancer_train_column_filtered_imputed_numeric_q1 - 1.5 * thyroid_cancer_train_column_filtered_imputed_numeric_iqr)) | (thyroid_cancer_train_column_filtered_imputed_numeric > (thyroid_cancer_train_column_filtered_imputed_numeric_q3 + 1.5 * thyroid_cancer_train_column_filtered_imputed_numeric_iqr))).sum() 
+numeric_outlier_count_list = ((thyroid_cancer_train_column_filtered_numeric < (thyroid_cancer_train_column_filtered_numeric_q1 - 1.5 * thyroid_cancer_train_column_filtered_numeric_iqr)) | (thyroid_cancer_train_column_filtered_numeric > (thyroid_cancer_train_column_filtered_numeric_q3 + 1.5 * thyroid_cancer_train_column_filtered_numeric_iqr))).sum() 
 
 ```
 
@@ -5376,7 +4915,7 @@ numeric_outlier_count_list = ((thyroid_cancer_train_column_filtered_imputed_nume
 ##################################
 # Gathering the number of observations for each column
 ##################################
-numeric_row_count_list = list([len(thyroid_cancer_train_column_filtered_imputed_numeric)] * len(thyroid_cancer_train_column_filtered_imputed_numeric.columns))
+numeric_row_count_list = list([len(thyroid_cancer_train_column_filtered_numeric)] * len(thyroid_cancer_train_column_filtered_numeric.columns))
 
 ```
 
@@ -5394,7 +4933,7 @@ numeric_outlier_ratio_list = map(truediv, numeric_outlier_count_list, numeric_ro
 ##################################
 # Gathering the skewness value for each numeric column
 ##################################
-numeric_skewness_list = thyroid_cancer_train_column_filtered_imputed_numeric.skew()
+numeric_skewness_list = thyroid_cancer_train_column_filtered_numeric.skew()
 
 ```
 
@@ -5403,7 +4942,7 @@ numeric_skewness_list = thyroid_cancer_train_column_filtered_imputed_numeric.ske
 ##################################
 # Gathering the kurtosis value for each numeric column
 ##################################
-numeric_kurtosis_list = thyroid_cancer_train_column_filtered_imputed_numeric.kurtosis()
+numeric_kurtosis_list = thyroid_cancer_train_column_filtered_numeric.kurtosis()
 
 ```
 
@@ -5481,19 +5020,19 @@ display(numeric_column_outlier_summary)
 # Formulating the individual boxplots
 # for all numeric columns
 ##################################
-for column in thyroid_cancer_train_column_filtered_imputed_numeric:
+for column in thyroid_cancer_train_column_filtered_numeric:
         plt.figure(figsize=(17,1))
-        sns.boxplot(data=thyroid_cancer_train_column_filtered_imputed_numeric, x=column)
+        sns.boxplot(data=thyroid_cancer_train_column_filtered_numeric, x=column)
     
 ```
 
 
     
-![png](output_124_0.png)
+![png](output_114_0.png)
     
 
 
-### 1.4.6 Collinearity <a class="anchor" id="1.4.6"></a>
+### 1.4.5 Collinearity <a class="anchor" id="1.4.5"></a>
 
 
 ```python
@@ -5503,7 +5042,7 @@ for column in thyroid_cancer_train_column_filtered_imputed_numeric:
 # for correlation analysis
 ##################################
 pd.set_option('future.no_silent_downcasting', True)
-thyroid_cancer_train_correlation = thyroid_cancer_train_column_filtered_imputed.copy()
+thyroid_cancer_train_correlation = thyroid_cancer_train_column_filtered.copy()
 thyroid_cancer_train_correlation_object = thyroid_cancer_train_correlation.iloc[:,1:13].columns
 custom_category_orders = {
     'Gender': ['M', 'F'],  
@@ -5564,7 +5103,7 @@ display(thyroid_cancer_train_correlation)
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
+      <th>335</th>
       <td>29</td>
       <td>0.0</td>
       <td>0.0</td>
@@ -5580,7 +5119,7 @@ display(thyroid_cancer_train_correlation)
       <td>1.0</td>
     </tr>
     <tr>
-      <th>1</th>
+      <th>201</th>
       <td>25</td>
       <td>1.0</td>
       <td>0.0</td>
@@ -5596,7 +5135,7 @@ display(thyroid_cancer_train_correlation)
       <td>0.0</td>
     </tr>
     <tr>
-      <th>2</th>
+      <th>134</th>
       <td>51</td>
       <td>1.0</td>
       <td>0.0</td>
@@ -5612,7 +5151,7 @@ display(thyroid_cancer_train_correlation)
       <td>0.0</td>
     </tr>
     <tr>
-      <th>3</th>
+      <th>35</th>
       <td>37</td>
       <td>1.0</td>
       <td>0.0</td>
@@ -5628,7 +5167,7 @@ display(thyroid_cancer_train_correlation)
       <td>0.0</td>
     </tr>
     <tr>
-      <th>4</th>
+      <th>380</th>
       <td>72</td>
       <td>0.0</td>
       <td>1.0</td>
@@ -5660,7 +5199,7 @@ display(thyroid_cancer_train_correlation)
       <td>...</td>
     </tr>
     <tr>
-      <th>199</th>
+      <th>96</th>
       <td>31</td>
       <td>1.0</td>
       <td>0.0</td>
@@ -5676,7 +5215,7 @@ display(thyroid_cancer_train_correlation)
       <td>1.0</td>
     </tr>
     <tr>
-      <th>200</th>
+      <th>231</th>
       <td>21</td>
       <td>1.0</td>
       <td>0.0</td>
@@ -5692,7 +5231,7 @@ display(thyroid_cancer_train_correlation)
       <td>1.0</td>
     </tr>
     <tr>
-      <th>201</th>
+      <th>297</th>
       <td>61</td>
       <td>1.0</td>
       <td>0.0</td>
@@ -5708,7 +5247,7 @@ display(thyroid_cancer_train_correlation)
       <td>0.0</td>
     </tr>
     <tr>
-      <th>202</th>
+      <th>270</th>
       <td>39</td>
       <td>1.0</td>
       <td>0.0</td>
@@ -5724,13 +5263,13 @@ display(thyroid_cancer_train_correlation)
       <td>1.0</td>
     </tr>
     <tr>
-      <th>203</th>
+      <th>302</th>
       <td>67</td>
       <td>0.0</td>
       <td>1.0</td>
       <td>0.0</td>
       <td>1.0</td>
-      <td>0.0</td>
+      <td>1.0</td>
       <td>1.0</td>
       <td>0.0</td>
       <td>1.0</td>
@@ -5862,7 +5401,7 @@ display(thyroid_cancer_train_correlation_matrix)
       <td>0.384793</td>
       <td>-0.064362</td>
       <td>0.166593</td>
-      <td>0.062571</td>
+      <td>0.075158</td>
       <td>-0.103521</td>
       <td>0.193520</td>
       <td>0.218433</td>
@@ -5878,7 +5417,7 @@ display(thyroid_cancer_train_correlation_matrix)
       <td>-0.605869</td>
       <td>-0.023393</td>
       <td>-0.126177</td>
-      <td>-0.257996</td>
+      <td>-0.262486</td>
       <td>0.048746</td>
       <td>-0.204469</td>
       <td>-0.331298</td>
@@ -5894,7 +5433,7 @@ display(thyroid_cancer_train_correlation_matrix)
       <td>1.000000</td>
       <td>0.023809</td>
       <td>0.136654</td>
-      <td>0.266003</td>
+      <td>0.307114</td>
       <td>-0.208749</td>
       <td>0.232285</td>
       <td>0.352861</td>
@@ -5910,7 +5449,7 @@ display(thyroid_cancer_train_correlation_matrix)
       <td>0.023809</td>
       <td>1.000000</td>
       <td>0.075621</td>
-      <td>-0.093500</td>
+      <td>-0.073821</td>
       <td>-0.068143</td>
       <td>-0.052038</td>
       <td>-0.030299</td>
@@ -5926,7 +5465,7 @@ display(thyroid_cancer_train_correlation_matrix)
       <td>0.136654</td>
       <td>0.075621</td>
       <td>1.000000</td>
-      <td>0.141619</td>
+      <td>0.156521</td>
       <td>0.035651</td>
       <td>0.464966</td>
       <td>0.276835</td>
@@ -5937,19 +5476,19 @@ display(thyroid_cancer_train_correlation_matrix)
     </tr>
     <tr>
       <th>Adenopathy</th>
-      <td>0.062571</td>
-      <td>-0.257996</td>
-      <td>0.266003</td>
-      <td>-0.093500</td>
-      <td>0.141619</td>
+      <td>0.075158</td>
+      <td>-0.262486</td>
+      <td>0.307114</td>
+      <td>-0.073821</td>
+      <td>0.156521</td>
       <td>1.000000</td>
-      <td>0.036713</td>
-      <td>0.298165</td>
-      <td>0.685642</td>
-      <td>0.510376</td>
-      <td>0.838526</td>
-      <td>0.345677</td>
-      <td>0.509657</td>
+      <td>0.015525</td>
+      <td>0.309718</td>
+      <td>0.696240</td>
+      <td>0.521653</td>
+      <td>0.827536</td>
+      <td>0.360418</td>
+      <td>0.514449</td>
     </tr>
     <tr>
       <th>Pathology</th>
@@ -5958,7 +5497,7 @@ display(thyroid_cancer_train_correlation_matrix)
       <td>-0.208749</td>
       <td>-0.068143</td>
       <td>0.035651</td>
-      <td>0.036713</td>
+      <td>0.015525</td>
       <td>1.000000</td>
       <td>-0.104765</td>
       <td>-0.064050</td>
@@ -5974,7 +5513,7 @@ display(thyroid_cancer_train_correlation_matrix)
       <td>0.232285</td>
       <td>-0.052038</td>
       <td>0.464966</td>
-      <td>0.298165</td>
+      <td>0.309718</td>
       <td>-0.104765</td>
       <td>1.000000</td>
       <td>0.439542</td>
@@ -5990,7 +5529,7 @@ display(thyroid_cancer_train_correlation_matrix)
       <td>0.352861</td>
       <td>-0.030299</td>
       <td>0.276835</td>
-      <td>0.685642</td>
+      <td>0.696240</td>
       <td>-0.064050</td>
       <td>0.439542</td>
       <td>1.000000</td>
@@ -6006,7 +5545,7 @@ display(thyroid_cancer_train_correlation_matrix)
       <td>0.243106</td>
       <td>-0.079318</td>
       <td>0.190238</td>
-      <td>0.510376</td>
+      <td>0.521653</td>
       <td>-0.228898</td>
       <td>0.451800</td>
       <td>0.654179</td>
@@ -6022,7 +5561,7 @@ display(thyroid_cancer_train_correlation_matrix)
       <td>0.260305</td>
       <td>-0.054779</td>
       <td>0.192704</td>
-      <td>0.838526</td>
+      <td>0.827536</td>
       <td>0.091596</td>
       <td>0.364112</td>
       <td>0.751465</td>
@@ -6038,7 +5577,7 @@ display(thyroid_cancer_train_correlation_matrix)
       <td>0.522287</td>
       <td>-0.024290</td>
       <td>0.102383</td>
-      <td>0.345677</td>
+      <td>0.360418</td>
       <td>-0.081303</td>
       <td>0.269075</td>
       <td>0.511978</td>
@@ -6054,7 +5593,7 @@ display(thyroid_cancer_train_correlation_matrix)
       <td>0.345057</td>
       <td>-0.151571</td>
       <td>0.170525</td>
-      <td>0.509657</td>
+      <td>0.514449</td>
       <td>-0.212909</td>
       <td>0.379817</td>
       <td>0.620217</td>
@@ -6083,7 +5622,7 @@ plt.show()
 
 
     
-![png](output_129_0.png)
+![png](output_119_0.png)
     
 
 
@@ -6099,9 +5638,9 @@ plt.show()
 # Segregating the target
 # and predictor variables
 ##################################
-thyroid_cancer_train_column_filtered_imputed_predictors = thyroid_cancer_train_column_filtered_imputed.iloc[:,:-1].columns
-thyroid_cancer_train_column_filtered_imputed_predictors_numeric = thyroid_cancer_train_column_filtered_imputed.iloc[:,:-1].loc[:, thyroid_cancer_train_column_filtered_imputed.iloc[:,:-1].columns == 'Age'].columns
-thyroid_cancer_train_column_filtered_imputed_predictors_categorical = thyroid_cancer_train_column_filtered_imputed.iloc[:,:-1].loc[:,thyroid_cancer_train_column_filtered_imputed.iloc[:,:-1].columns != 'Age'].columns
+thyroid_cancer_train_column_filtered_predictors = thyroid_cancer_train_column_filtered.iloc[:,:-1].columns
+thyroid_cancer_train_column_filtered_predictors_numeric = thyroid_cancer_train_column_filtered.iloc[:,:-1].loc[:, thyroid_cancer_train_column_filtered.iloc[:,:-1].columns == 'Age'].columns
+thyroid_cancer_train_column_filtered_predictors_categorical = thyroid_cancer_train_column_filtered.iloc[:,:-1].loc[:,thyroid_cancer_train_column_filtered.iloc[:,:-1].columns != 'Age'].columns
 
 ```
 
@@ -6110,7 +5649,7 @@ thyroid_cancer_train_column_filtered_imputed_predictors_categorical = thyroid_ca
 ##################################
 # Gathering the variable names for each numeric column
 ##################################
-numeric_variable_name_list = thyroid_cancer_train_column_filtered_imputed_predictors_numeric
+numeric_variable_name_list = thyroid_cancer_train_column_filtered_predictors_numeric
 
 ```
 
@@ -6132,18 +5671,18 @@ boxplot_x_variable = numeric_variable_name_list.values[0]
 # against the target variable
 ##################################
 plt.figure(figsize=(7, 5))
-plt.boxplot([group[boxplot_x_variable] for name, group in thyroid_cancer_train_column_filtered_imputed.groupby(boxplot_y_variable, observed=True)])
+plt.boxplot([group[boxplot_x_variable] for name, group in thyroid_cancer_train_column_filtered.groupby(boxplot_y_variable, observed=True)])
 plt.title(f'{boxplot_y_variable} Versus {boxplot_x_variable}')
 plt.xlabel(boxplot_y_variable)
 plt.ylabel(boxplot_x_variable)
-plt.xticks(range(1, len(thyroid_cancer_train_column_filtered_imputed[boxplot_y_variable].unique()) + 1), ['No', 'Yes'])
+plt.xticks(range(1, len(thyroid_cancer_train_column_filtered[boxplot_y_variable].unique()) + 1), ['No', 'Yes'])
 plt.show()
 
 ```
 
 
     
-![png](output_136_0.png)
+![png](output_126_0.png)
     
 
 
@@ -6153,7 +5692,7 @@ plt.show()
 # Segregating the target variable
 # and categorical predictors
 ##################################
-proportion_y_variables = thyroid_cancer_train_column_filtered_imputed_predictors_categorical
+proportion_y_variables = thyroid_cancer_train_column_filtered_predictors_categorical
 proportion_x_variable = 'Recurred'
 
 ```
@@ -6184,7 +5723,7 @@ axes = axes.ravel()
 ##################################
 for i, y_variable in enumerate(proportion_y_variables):
     ax = axes[i]
-    category_counts = thyroid_cancer_train_column_filtered_imputed.groupby([proportion_x_variable, y_variable], observed=True).size().unstack(fill_value=0)
+    category_counts = thyroid_cancer_train_column_filtered.groupby([proportion_x_variable, y_variable], observed=True).size().unstack(fill_value=0)
     category_proportions = category_counts.div(category_counts.sum(axis=1), axis=0)
     category_proportions.plot(kind='bar', stacked=True, ax=ax)
     ax.set_title(f'{proportion_x_variable} Versus {y_variable}')
@@ -6206,7 +5745,7 @@ plt.show()
 
 
     
-![png](output_138_0.png)
+![png](output_128_0.png)
     
 
 
@@ -6221,8 +5760,8 @@ plt.show()
 # and numeric predictor columns
 ##################################
 thyroid_cancer_numeric_ttest_target = {}
-thyroid_cancer_numeric = thyroid_cancer_train_column_filtered_imputed.loc[:,(thyroid_cancer_train_column_filtered_imputed.columns == 'Age') | (thyroid_cancer_train_column_filtered_imputed.columns == 'Recurred')]
-thyroid_cancer_numeric_columns = thyroid_cancer_train_column_filtered_imputed_predictors_numeric
+thyroid_cancer_numeric = thyroid_cancer_train_column_filtered.loc[:,(thyroid_cancer_train_column_filtered.columns == 'Age') | (thyroid_cancer_train_column_filtered.columns == 'Recurred')]
+thyroid_cancer_numeric_columns = thyroid_cancer_train_column_filtered_predictors_numeric
 for numeric_column in thyroid_cancer_numeric_columns:
     group_0 = thyroid_cancer_numeric[thyroid_cancer_numeric.loc[:,'Recurred']=='No']
     group_1 = thyroid_cancer_numeric[thyroid_cancer_numeric.loc[:,'Recurred']=='Yes']
@@ -6242,7 +5781,7 @@ for numeric_column in thyroid_cancer_numeric_columns:
 ##################################
 thyroid_cancer_numeric_summary = thyroid_cancer_numeric.from_dict(thyroid_cancer_numeric_ttest_target, orient='index')
 thyroid_cancer_numeric_summary.columns = ['T.Test.Statistic', 'T.Test.PValue']
-display(thyroid_cancer_numeric_summary.sort_values(by=['T.Test.PValue'], ascending=True).head(len(thyroid_cancer_train_column_filtered_imputed_predictors_numeric)))
+display(thyroid_cancer_numeric_summary.sort_values(by=['T.Test.PValue'], ascending=True).head(len(thyroid_cancer_train_column_filtered_predictors_numeric)))
 
 ```
 
@@ -6289,8 +5828,8 @@ display(thyroid_cancer_numeric_summary.sort_values(by=['T.Test.PValue'], ascendi
 # and categorical predictor columns
 ##################################
 thyroid_cancer_categorical_chisquare_target = {}
-thyroid_cancer_categorical = thyroid_cancer_train_column_filtered_imputed.loc[:,(thyroid_cancer_train_column_filtered_imputed.columns != 'Age') | (thyroid_cancer_train_column_filtered_imputed.columns == 'Recurred')]
-thyroid_cancer_categorical_columns = thyroid_cancer_train_column_filtered_imputed_predictors_categorical
+thyroid_cancer_categorical = thyroid_cancer_train_column_filtered.loc[:,(thyroid_cancer_train_column_filtered.columns != 'Age') | (thyroid_cancer_train_column_filtered.columns == 'Recurred')]
+thyroid_cancer_categorical_columns = thyroid_cancer_train_column_filtered_predictors_categorical
 for categorical_column in thyroid_cancer_categorical_columns:
     contingency_table = pd.crosstab(thyroid_cancer_categorical[categorical_column], 
                                     thyroid_cancer_categorical['Recurred'])
@@ -6308,7 +5847,7 @@ for categorical_column in thyroid_cancer_categorical_columns:
 ##################################
 thyroid_cancer_categorical_summary = thyroid_cancer_categorical.from_dict(thyroid_cancer_categorical_chisquare_target, orient='index')
 thyroid_cancer_categorical_summary.columns = ['ChiSquare.Test.Statistic', 'ChiSquare.Test.PValue']
-display(thyroid_cancer_categorical_summary.sort_values(by=['ChiSquare.Test.PValue'], ascending=True).head(len(thyroid_cancer_train_column_filtered_imputed_predictors_categorical)))
+display(thyroid_cancer_categorical_summary.sort_values(by=['ChiSquare.Test.PValue'], ascending=True).head(len(thyroid_cancer_train_column_filtered_predictors_categorical)))
 
 ```
 
@@ -6353,8 +5892,8 @@ display(thyroid_cancer_categorical_summary.sort_values(by=['ChiSquare.Test.PValu
     </tr>
     <tr>
       <th>Recurred_Adenopathy</th>
-      <td>84.762347</td>
-      <td>3.364713e-20</td>
+      <td>82.909484</td>
+      <td>8.589806e-20</td>
     </tr>
     <tr>
       <th>Recurred_Stage</th>
