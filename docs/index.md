@@ -135,6 +135,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import joblib
 import itertools
 import os
 %matplotlib inline
@@ -142,19 +143,18 @@ import os
 from operator import add,mul,truediv
 from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import IterativeImputer
-from sklearn.preprocessing import OrdinalEncoder, LabelEncoder
-from sklearn.linear_model import LinearRegression
-from sklearn.preprocessing import PowerTransformer, StandardScaler
+from sklearn.preprocessing import OrdinalEncoder
 from scipy import stats
 from scipy.stats import pointbiserialr, chi2_contingency
 
 from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier, StackingClassifier
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix, ConfusionMatrixDisplay, classification_report
-from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score
+from sklearn.model_selection import train_test_split, GridSearchCV, RepeatedStratifiedKFold, cross_val_score
 
 ```
 
@@ -3655,17 +3655,17 @@ thyroid_cancer_train_initial, thyroid_cancer_test = train_test_split(thyroid_can
 ##################################
 X_train_initial = thyroid_cancer_train_initial.drop('Recurred', axis = 1)
 y_train_initial = thyroid_cancer_train_initial['Recurred']
-print('Initial Training Dataset Dimensions: ')
+print('Initial Train Dataset Dimensions: ')
 display(X_train_initial.shape)
 display(y_train_initial.shape)
-print('Initial Training Target Variable Breakdown: ')
+print('Initial Train Target Variable Breakdown: ')
 display(y_train_initial.value_counts())
-print('Initial Training Target Variable Proportion: ')
+print('Initial Train Target Variable Proportion: ')
 display(y_train_initial.value_counts(normalize = True))
 
 ```
 
-    Initial Training Dataset Dimensions: 
+    Initial Train Dataset Dimensions: 
     
 
 
@@ -3676,7 +3676,7 @@ display(y_train_initial.value_counts(normalize = True))
     (273,)
 
 
-    Initial Training Target Variable Breakdown: 
+    Initial Train Target Variable Breakdown: 
     
 
 
@@ -3686,7 +3686,7 @@ display(y_train_initial.value_counts(normalize = True))
     Name: count, dtype: int64
 
 
-    Initial Training Target Variable Proportion: 
+    Initial Train Target Variable Proportion: 
     
 
 
@@ -3768,17 +3768,17 @@ thyroid_cancer_train, thyroid_cancer_validation = train_test_split(thyroid_cance
 ##################################
 X_train = thyroid_cancer_train.drop('Recurred', axis = 1)
 y_train = thyroid_cancer_train['Recurred']
-print('Final Training Dataset Dimensions: ')
+print('Final Train Dataset Dimensions: ')
 display(X_train.shape)
 display(y_train.shape)
-print('Final Training Target Variable Breakdown: ')
+print('Final Train Target Variable Breakdown: ')
 display(y_train.value_counts())
-print('Final Training Target Variable Proportion: ')
+print('Final Train Target Variable Proportion: ')
 display(y_train.value_counts(normalize = True))
 
 ```
 
-    Final Training Dataset Dimensions: 
+    Final Train Dataset Dimensions: 
     
 
 
@@ -3789,7 +3789,7 @@ display(y_train.value_counts(normalize = True))
     (204,)
 
 
-    Final Training Target Variable Breakdown: 
+    Final Train Target Variable Breakdown: 
     
 
 
@@ -3799,7 +3799,7 @@ display(y_train.value_counts(normalize = True))
     Name: count, dtype: int64
 
 
-    Final Training Target Variable Proportion: 
+    Final Train Target Variable Proportion: 
     
 
 
@@ -5821,16 +5821,16 @@ plt.show()
     * **Null**: The categorical predictor is independent of the categorical target variable 
     * **Alternative**: The categorical predictor is dependent of the categorical target variable    
 4. There is sufficient evidence to conclude of a statistically significant relationship between the categories of the categorical predictors and the Yes and No groups of the <span style="color: #FF0000">Recurred</span> target variable in 10 of 12 categorical predictors given their high chisquare statistic values with reported low p-values less than the significance level of 0.05.
-    * <span style="color: #FF0000">Risk</span>: ChiSquare.Test.Statistic=76.764, ChiSquare.Test.PValue=0.000
-    * <span style="color: #FF0000">Response</span>: ChiSquare.Test.Statistic=13.860, ChiSquare.Test.PValue=0.000   
-    * <span style="color: #FF0000">N</span>: ChiSquare.Test.Statistic=10.286, ChiSquare.Test.PValue=0.001 
-    * <span style="color: #FF0000">Adenopathy</span>: ChiSquare.Test.Statistic=9.081, ChiSquare.Test.PValue=0.002
-    * <span style="color: #FF0000">Stage</span>: ChiSquare.Test.Statistic=76.764, ChiSquare.Test.PValue=0.000
-    * <span style="color: #FF0000">T</span>: ChiSquare.Test.Statistic=13.860, ChiSquare.Test.PValue=0.000   
-    * <span style="color: #FF0000">Smoking</span>: ChiSquare.Test.Statistic=10.286, ChiSquare.Test.PValue=0.001 
-    * <span style="color: #FF0000">Gender</span>: ChiSquare.Test.Statistic=9.081, ChiSquare.Test.PValue=0.002
-    * <span style="color: #FF0000">Focality</span>: ChiSquare.Test.Statistic=10.286, ChiSquare.Test.PValue=0.001 
-    * <span style="color: #FF0000">Physical_Examination</span>: ChiSquare.Test.Statistic=9.081, ChiSquare.Test.PValue=0.002
+    * <span style="color: #FF0000">Risk</span>: ChiSquare.Test.Statistic=115.387, ChiSquare.Test.PValue=0.000
+    * <span style="color: #FF0000">Response</span>: ChiSquare.Test.Statistic=93.015, ChiSquare.Test.PValue=0.000   
+    * <span style="color: #FF0000">N</span>: ChiSquare.Test.Statistic=87.380, ChiSquare.Test.PValue=0.001 
+    * <span style="color: #FF0000">Adenopathy</span>: ChiSquare.Test.Statistic=82.909, ChiSquare.Test.PValue=0.002
+    * <span style="color: #FF0000">Stage</span>: ChiSquare.Test.Statistic=58.828, ChiSquare.Test.PValue=0.000
+    * <span style="color: #FF0000">T</span>: ChiSquare.Test.Statistic=57.882, ChiSquare.Test.PValue=0.000   
+    * <span style="color: #FF0000">Smoking</span>: ChiSquare.Test.Statistic=34.318, ChiSquare.Test.PValue=0.001 
+    * <span style="color: #FF0000">Gender</span>: ChiSquare.Test.Statistic=29.114, ChiSquare.Test.PValue=0.002
+    * <span style="color: #FF0000">Focality</span>: ChiSquare.Test.Statistic=27.017, ChiSquare.Test.PValue=0.001 
+    * <span style="color: #FF0000">Physical_Examination</span>: ChiSquare.Test.Statistic=5.717, ChiSquare.Test.PValue=0.016
 
 
 
@@ -6026,8 +6026,8 @@ display(thyroid_cancer_categorical_summary.sort_values(by=['ChiSquare.Test.PValu
 
 ### 1.6.1 Preprocessed Data Description<a class="anchor" id="1.6.1"></a>
 
-1. 6 of the 16 predictors were excluded from the dataset based on the data preprocessing and exploration findings 
-2. 3 categorical predictors were excluded from the dataset after having been observed with extremely low variance containing categories with very few or almost no variations across observations that may have limited predictive power or drive increased model complexity without performance gains:
+1. A total of 6 of the 16 predictors were excluded from the dataset based on the data preprocessing and exploration findings 
+2. There were 3 categorical predictors excluded from the dataset after having been observed with extremely low variance containing categories with very few or almost no variations across observations that may have limited predictive power or drive increased model complexity without performance gains:
     * <span style="color: #FF0000">Hx_Smoking</span>: 
         * **189** <span style="color: #FF0000">Hx_Smoking=No</span>: 92.65%
         * **15** <span style="color: #FF0000">Hx_Smoking=Yes</span>: 7.35%
@@ -6037,10 +6037,10 @@ display(thyroid_cancer_categorical_summary.sort_values(by=['ChiSquare.Test.PValu
     * <span style="color: #FF0000">M</span>: 
         * **192** <span style="color: #FF0000">M=M0</span>: 94.12%
         * **12** <span style="color: #FF0000">M=M1</span>: 5.88%
-2. 1 categorical predictor was excluded from the dataset after having been observed with high pairwise collinearity (Phi.Coefficient>0.70) with other 2 predictors that might provide redundant information, leading to potential instability in regression models.
+2. There was 1 categorical predictor excluded from the dataset after having been observed with high pairwise collinearity (Phi.Coefficient>0.70) with other 2 predictors that might provide redundant information, leading to potential instability in regression models.
     * <span style="color: #FF0000">N</span> was highly associated with <span style="color: #FF0000">Adenopathy</span>: Phi.Coefficient = +0.827
     * <span style="color: #FF0000">N</span> was highly associated with <span style="color: #FF0000">Risk</span>: Phi.Coefficient = +0.751
-3. 2 categorical predictors were excluded from the dataset for not exhibiting a statistically significant association with the Yes and No groups of the <span style="color: #FF0000">Recurred</span> target variable, indicating weak predictive value.
+3. Another 2 categorical predictors were excluded from the dataset for not exhibiting a statistically significant association with the Yes and No groups of the <span style="color: #FF0000">Recurred</span> target variable, indicating weak predictive value.
     * <span style="color: #FF0000">Thyroid_Function</span>: ChiSquare.Test.Statistic=2.962, ChiSquare.Test.PValue=0.085
     * <span style="color: #FF0000">Pathology</span>: ChiSquare.Test.Statistic=0.891, ChiSquare.Test.PValue=0.345   
 4. The **preprocessed train data (final)** subset is comprised of:
@@ -6067,11 +6067,11 @@ display(thyroid_cancer_categorical_summary.sort_values(by=['ChiSquare.Test.PValu
 
 ### 1.6.2 Preprocessing Pipeline Development<a class="anchor" id="1.6.2"></a>
 
-1. A preprocessing pipeline was formulated and applied to the train, validation and test datasets with the following actions:
-    * Excludes specified columns noted with low variance, high collinearity and weak predictive power
-    * Aggregates categories in multiclass categorical variables into binary levels
-    * Converts categorical columns to the appropriate type
-    * Sets the order of category levels for ordinal encoding during modeling pipeline creation
+1. A preprocessing pipeline was formulated and applied to the **train data (final)**, **validation data** and **test data** with the following actions:
+    * Excluded specified columns noted with low variance, high collinearity and weak predictive power
+    * Aggregated categories in multiclass categorical variables into binary levels
+    * Converted categorical columns to the appropriate type
+    * Set the order of category levels for ordinal encoding during modeling pipeline creation
 
 
 
@@ -6142,18 +6142,18 @@ y_preprocessed_train = thyroid_cancer_preprocessed_train['Recurred']
 thyroid_cancer_preprocessed_train.to_csv(os.path.join("..", DATASETS_PREPROCESSED_TRAIN_PATH, "thyroid_cancer_preprocessed_train.csv"), index=False)
 X_preprocessed_train.to_csv(os.path.join("..", DATASETS_PREPROCESSED_TRAIN_FEATURES_PATH, "X_preprocessed_train.csv"), index=False)
 y_preprocessed_train.to_csv(os.path.join("..", DATASETS_PREPROCESSED_TRAIN_TARGET_PATH, "y_preprocessed_train.csv"), index=False)
-print('Final Preprocessed Training Dataset Dimensions: ')
+print('Final Preprocessed Train Dataset Dimensions: ')
 display(X_preprocessed_train.shape)
 display(y_preprocessed_train.shape)
-print('Final Preprocessed Training Target Variable Breakdown: ')
+print('Final Preprocessed Train Target Variable Breakdown: ')
 display(y_preprocessed_train.value_counts())
-print('Final Preprocessed Training Target Variable Proportion: ')
+print('Final Preprocessed Train Target Variable Proportion: ')
 display(y_preprocessed_train.value_counts(normalize = True))
 thyroid_cancer_preprocessed_train.head()
 
 ```
 
-    Final Preprocessed Training Dataset Dimensions: 
+    Final Preprocessed Train Dataset Dimensions: 
     
 
 
@@ -6164,7 +6164,7 @@ thyroid_cancer_preprocessed_train.head()
     (204,)
 
 
-    Final Preprocessed Training Target Variable Breakdown: 
+    Final Preprocessed Train Target Variable Breakdown: 
     
 
 
@@ -6174,7 +6174,7 @@ thyroid_cancer_preprocessed_train.head()
     Name: count, dtype: int64
 
 
-    Final Preprocessed Training Target Variable Proportion: 
+    Final Preprocessed Train Target Variable Proportion: 
     
 
 
@@ -6307,18 +6307,18 @@ y_preprocessed_validation = thyroid_cancer_preprocessed_validation['Recurred']
 thyroid_cancer_preprocessed_validation.to_csv(os.path.join("..", DATASETS_PREPROCESSED_VALIDATION_PATH, "thyroid_cancer_preprocessed_validation.csv"), index=False)
 X_preprocessed_validation.to_csv(os.path.join("..", DATASETS_PREPROCESSED_VALIDATION_FEATURES_PATH, "X_preprocessed_validation.csv"), index=False)
 y_preprocessed_validation.to_csv(os.path.join("..", DATASETS_PREPROCESSED_VALIDATION_TARGET_PATH, "y_preprocessed_validation.csv"), index=False)
-print('Final Preprocessed Validationing Dataset Dimensions: ')
+print('Final Preprocessed Validation Dataset Dimensions: ')
 display(X_preprocessed_validation.shape)
 display(y_preprocessed_validation.shape)
-print('Final Preprocessed Validationing Target Variable Breakdown: ')
+print('Final Preprocessed Validation Target Variable Breakdown: ')
 display(y_preprocessed_validation.value_counts())
-print('Final Preprocessed Validationing Target Variable Proportion: ')
+print('Final Preprocessed Validation Target Variable Proportion: ')
 display(y_preprocessed_validation.value_counts(normalize = True))
 thyroid_cancer_preprocessed_validation.head()
 
 ```
 
-    Final Preprocessed Validationing Dataset Dimensions: 
+    Final Preprocessed Validation Dataset Dimensions: 
     
 
 
@@ -6329,7 +6329,7 @@ thyroid_cancer_preprocessed_validation.head()
     (69,)
 
 
-    Final Preprocessed Validationing Target Variable Breakdown: 
+    Final Preprocessed Validation Target Variable Breakdown: 
     
 
 
@@ -6339,7 +6339,7 @@ thyroid_cancer_preprocessed_validation.head()
     Name: count, dtype: int64
 
 
-    Final Preprocessed Validationing Target Variable Proportion: 
+    Final Preprocessed Validation Target Variable Proportion: 
     
 
 
@@ -6472,18 +6472,18 @@ y_preprocessed_test = thyroid_cancer_preprocessed_test['Recurred']
 thyroid_cancer_preprocessed_test.to_csv(os.path.join("..", DATASETS_PREPROCESSED_TEST_PATH, "thyroid_cancer_preprocessed_test.csv"), index=False)
 X_preprocessed_test.to_csv(os.path.join("..", DATASETS_PREPROCESSED_TEST_FEATURES_PATH, "X_preprocessed_test.csv"), index=False)
 y_preprocessed_test.to_csv(os.path.join("..", DATASETS_PREPROCESSED_TEST_TARGET_PATH, "y_preprocessed_test.csv"), index=False)
-print('Final Preprocessed Testing Dataset Dimensions: ')
+print('Final Preprocessed Test Dataset Dimensions: ')
 display(X_preprocessed_test.shape)
 display(y_preprocessed_test.shape)
-print('Final Preprocessed Testing Target Variable Breakdown: ')
+print('Final Preprocessed Test Target Variable Breakdown: ')
 display(y_preprocessed_test.value_counts())
-print('Final Preprocessed Testing Target Variable Proportion: ')
+print('Final Preprocessed Test Target Variable Proportion: ')
 display(y_preprocessed_test.value_counts(normalize = True))
 thyroid_cancer_preprocessed_test.head()
 
 ```
 
-    Final Preprocessed Testing Dataset Dimensions: 
+    Final Preprocessed Test Dataset Dimensions: 
     
 
 
@@ -6494,7 +6494,7 @@ thyroid_cancer_preprocessed_test.head()
     (91,)
 
 
-    Final Preprocessed Testing Target Variable Breakdown: 
+    Final Preprocessed Test Target Variable Breakdown: 
     
 
 
@@ -6504,7 +6504,7 @@ thyroid_cancer_preprocessed_test.head()
     Name: count, dtype: int64
 
 
-    Final Preprocessed Testing Target Variable Proportion: 
+    Final Preprocessed Test Target Variable Proportion: 
     
 
 
@@ -6628,6 +6628,751 @@ thyroid_cancer_preprocessed_test.head()
 ## 1.7. Bagged Model Development <a class="anchor" id="1.7"></a>
 
 ### 1.7.1 Random Forest <a class="anchor" id="1.7.1"></a>
+
+
+```python
+##################################
+# Defining the categorical preprocessing parameters
+##################################
+categorical_features = ['Gender','Smoking','Physical_Examination','Adenopathy','Focality','Risk','T','Stage','Response']
+categorical_transformer = OrdinalEncoder()
+categorical_preprocessor = ColumnTransformer(transformers=[
+    ('cat', categorical_transformer, categorical_features)],
+                                             remainder='passthrough',
+                                             force_int_remainder_cols=False)
+
+```
+
+
+```python
+##################################
+# Defining the preprocessing and modeling pipeline parameters
+##################################
+bagged_rf_pipeline = Pipeline([
+    ('categorical_preprocessor', categorical_preprocessor),
+    ('bagged_rf_model', RandomForestClassifier(class_weight='balanced', 
+                                               random_state=88888888))
+])
+
+```
+
+
+```python
+##################################
+# Defining hyperparameter grid
+##################################
+bagged_rf_hyperparameter_grid = {
+    'bagged_rf_model__criterion': ['gini', 'entropy'],
+    'bagged_rf_model__max_depth': [3, 5],
+    'bagged_rf_model__min_samples_leaf': [5, 10],
+    'bagged_rf_model__n_estimators': [100, 200]
+}
+
+```
+
+
+```python
+##################################
+# Defining the cross-validation strategy (5-cycle 5-fold CV)
+##################################
+cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
+                                      n_repeats=5, 
+                                      random_state=88888888)
+
+```
+
+
+```python
+##################################
+# Performing Grid Search with cross-validation
+##################################
+bagged_rf_grid_search = GridSearchCV(
+    estimator=bagged_rf_pipeline,
+    param_grid=bagged_rf_hyperparameter_grid,
+    scoring='f1',
+    cv=cv_strategy,
+    n_jobs=-1,
+    verbose=1
+)
+
+```
+
+
+```python
+##################################
+# Encoding the response variables
+# for model evaluation
+##################################
+y_encoder = OrdinalEncoder()
+y_preprocessed_train_encoded = y_encoder.fit_transform(y_preprocessed_train.values.reshape(-1, 1)).ravel()
+y_preprocessed_validation_encoded = y_encoder.fit_transform(y_preprocessed_validation.values.reshape(-1, 1)).ravel()
+
+```
+
+
+```python
+##################################
+# Fitting GridSearchCV
+##################################
+bagged_rf_grid_search.fit(X_preprocessed_train, y_preprocessed_train_encoded)
+
+```
+
+    Fitting 25 folds for each of 16 candidates, totalling 400 fits
+    
+
+
+
+
+<style>#sk-container-id-1 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-1 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-1 pre {
+  padding: 0;
+}
+
+#sk-container-id-1 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-1 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-1 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-1 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-1 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-1 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-1 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-1 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-1 label.sk-toggleable__label {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+#sk-container-id-1 label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-1 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label label.sk-toggleable__label,
+#sk-container-id-1 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-1 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-1 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-1 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-1 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-1 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 0.5em;
+  text-align: center;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-1 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-1 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                                        ColumnTransformer(force_int_remainder_cols=False,
+                                                          remainder=&#x27;passthrough&#x27;,
+                                                          transformers=[(&#x27;cat&#x27;,
+                                                                         OrdinalEncoder(),
+                                                                         [&#x27;Gender&#x27;,
+                                                                          &#x27;Smoking&#x27;,
+                                                                          &#x27;Physical_Examination&#x27;,
+                                                                          &#x27;Adenopathy&#x27;,
+                                                                          &#x27;Focality&#x27;,
+                                                                          &#x27;Risk&#x27;,
+                                                                          &#x27;T&#x27;,
+                                                                          &#x27;Stage&#x27;,
+                                                                          &#x27;Response&#x27;])])),
+                                       (&#x27;bagged_rf_model&#x27;,
+                                        RandomForestClassifier(class_weight=&#x27;balanced&#x27;,
+                                                               random_state=88888888))]),
+             n_jobs=-1,
+             param_grid={&#x27;bagged_rf_model__criterion&#x27;: [&#x27;gini&#x27;, &#x27;entropy&#x27;],
+                         &#x27;bagged_rf_model__max_depth&#x27;: [3, 5],
+                         &#x27;bagged_rf_model__min_samples_leaf&#x27;: [5, 10],
+                         &#x27;bagged_rf_model__n_estimators&#x27;: [100, 200]},
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" ><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                                        ColumnTransformer(force_int_remainder_cols=False,
+                                                          remainder=&#x27;passthrough&#x27;,
+                                                          transformers=[(&#x27;cat&#x27;,
+                                                                         OrdinalEncoder(),
+                                                                         [&#x27;Gender&#x27;,
+                                                                          &#x27;Smoking&#x27;,
+                                                                          &#x27;Physical_Examination&#x27;,
+                                                                          &#x27;Adenopathy&#x27;,
+                                                                          &#x27;Focality&#x27;,
+                                                                          &#x27;Risk&#x27;,
+                                                                          &#x27;T&#x27;,
+                                                                          &#x27;Stage&#x27;,
+                                                                          &#x27;Response&#x27;])])),
+                                       (&#x27;bagged_rf_model&#x27;,
+                                        RandomForestClassifier(class_weight=&#x27;balanced&#x27;,
+                                                               random_state=88888888))]),
+             n_jobs=-1,
+             param_grid={&#x27;bagged_rf_model__criterion&#x27;: [&#x27;gini&#x27;, &#x27;entropy&#x27;],
+                         &#x27;bagged_rf_model__max_depth&#x27;: [3, 5],
+                         &#x27;bagged_rf_model__min_samples_leaf&#x27;: [5, 10],
+                         &#x27;bagged_rf_model__n_estimators&#x27;: [100, 200]},
+             scoring=&#x27;f1&#x27;, verbose=1)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox" ><label for="sk-estimator-id-2" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>best_estimator_: Pipeline</div></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                 ColumnTransformer(force_int_remainder_cols=False,
+                                   remainder=&#x27;passthrough&#x27;,
+                                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
+                                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;,
+                                                   &#x27;Physical_Examination&#x27;,
+                                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;,
+                                                   &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;,
+                                                   &#x27;Response&#x27;])])),
+                (&#x27;bagged_rf_model&#x27;,
+                 RandomForestClassifier(class_weight=&#x27;balanced&#x27;,
+                                        criterion=&#x27;entropy&#x27;, max_depth=5,
+                                        min_samples_leaf=5,
+                                        random_state=88888888))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox" ><label for="sk-estimator-id-3" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                  transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
+                                 [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
+                                  &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-4" type="checkbox" ><label for="sk-estimator-id-4" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-5" type="checkbox" ><label for="sk-estimator-id-5" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-6" type="checkbox" ><label for="sk-estimator-id-6" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-7" type="checkbox" ><label for="sk-estimator-id-7" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-8" type="checkbox" ><label for="sk-estimator-id-8" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>RandomForestClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.ensemble.RandomForestClassifier.html">?<span>Documentation for RandomForestClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>RandomForestClassifier(class_weight=&#x27;balanced&#x27;, criterion=&#x27;entropy&#x27;,
+                       max_depth=5, min_samples_leaf=5, random_state=88888888)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+
+
+
+
+```python
+##################################
+# Identifying the best model
+##################################
+bagged_rf_optimal = bagged_rf_grid_search.best_estimator_
+
+```
+
+
+```python
+##################################
+# Evaluating the F1 scores
+# on the training, cross-validation, and validation data
+##################################
+bagged_rf_optimal_f1_cv = bagged_rf_grid_search.best_score_
+bagged_rf_optimal_f1_train = f1_score(y_preprocessed_train_encoded, bagged_rf_optimal.predict(X_preprocessed_train))
+bagged_rf_optimal_f1_validation = f1_score(y_preprocessed_validation_encoded, bagged_rf_optimal.predict(X_preprocessed_validation))
+
+```
+
+
+```python
+##################################
+# Identifying the optimal model
+##################################
+print('Best Bagged Model - Random Forest: ')
+print(f"Best Random Forest Hyperparameters: {bagged_rf_grid_search.best_params_}")
+
+```
+
+    Best Bagged Model - Random Forest: 
+    Best Random Forest Hyperparameters: {'bagged_rf_model__criterion': 'entropy', 'bagged_rf_model__max_depth': 5, 'bagged_rf_model__min_samples_leaf': 5, 'bagged_rf_model__n_estimators': 100}
+    
+
+
+```python
+##################################
+# Summarizing the F1 score results
+# and classification metrics
+# on the training and cross-validated data
+# to assess overfitting optimism
+##################################
+print(f"F1 Score on Cross-Validated Data: {bagged_rf_optimal_f1_cv:.4f}")
+print(f"F1 Score on Training Data: {bagged_rf_optimal_f1_train:.4f}")
+print("\nClassification Report on Training Data:\n", classification_report(y_preprocessed_train_encoded, bagged_rf_optimal.predict(X_preprocessed_train)))
+
+```
+
+    F1 Score on Cross-Validated Data: 0.8709
+    F1 Score on Training Data: 0.8889
+    
+    Classification Report on Training Data:
+                   precision    recall  f1-score   support
+    
+             0.0       0.96      0.94      0.95       143
+             1.0       0.86      0.92      0.89        61
+    
+        accuracy                           0.93       204
+       macro avg       0.91      0.93      0.92       204
+    weighted avg       0.93      0.93      0.93       204
+    
+    
+
+
+```python
+##################################
+# Formulating the raw and normalized
+# confusion matrices
+# from the train data
+##################################
+cm_raw = confusion_matrix(y_preprocessed_train_encoded, bagged_rf_optimal.predict(X_preprocessed_train))
+cm_normalized = confusion_matrix(y_preprocessed_train_encoded, bagged_rf_optimal.predict(X_preprocessed_train), normalize='true')
+fig, ax = plt.subplots(1, 2, figsize=(17, 8))
+sns.heatmap(cm_raw, annot=True, fmt='d', cmap='Blues', ax=ax[0])
+ax[0].set_title('Confusion Matrix (Raw Count): Optimal Random Forest Model Performance on Train Data')
+ax[0].set_xlabel('Predicted')
+ax[0].set_ylabel('Actual')
+sns.heatmap(cm_normalized, annot=True, fmt='.2f', cmap='Blues', ax=ax[1])
+ax[1].set_title('Confusion Matrix (Normalized): Optimal Random Forest Model Performance on Train Data')
+ax[1].set_xlabel('Predicted')
+ax[1].set_ylabel('Actual')
+plt.tight_layout()
+plt.show()
+
+```
+
+
+    
+![png](output_153_0.png)
+    
+
+
+
+```python
+##################################
+# Summarizing the F1 score results
+# and classification metrics
+# on the validation data
+# to assess overfitting optimism
+##################################
+print(f"F1 Score on Validation Data: {bagged_rf_optimal_f1_validation:.4f}")
+print("\nClassification Report on Validation Data:\n", classification_report(y_preprocessed_validation_encoded, bagged_rf_optimal.predict(X_preprocessed_validation)))
+
+```
+
+    F1 Score on Validation Data: 0.8500
+    
+    Classification Report on Validation Data:
+                   precision    recall  f1-score   support
+    
+             0.0       0.94      0.94      0.94        49
+             1.0       0.85      0.85      0.85        20
+    
+        accuracy                           0.91        69
+       macro avg       0.89      0.89      0.89        69
+    weighted avg       0.91      0.91      0.91        69
+    
+    
+
+
+```python
+##################################
+# Formulating the raw and normalized
+# confusion matrices
+# from the validation data
+##################################
+cm_raw = confusion_matrix(y_preprocessed_validation_encoded, bagged_rf_optimal.predict(X_preprocessed_validation))
+cm_normalized = confusion_matrix(y_preprocessed_validation_encoded, bagged_rf_optimal.predict(X_preprocessed_validation), normalize='true')
+fig, ax = plt.subplots(1, 2, figsize=(17, 8))
+sns.heatmap(cm_raw, annot=True, fmt='d', cmap='Blues', ax=ax[0])
+ax[0].set_title('Confusion Matrix (Raw Count): Optimal Random Forest Model Performance on Validation Data')
+ax[0].set_xlabel('Predicted')
+ax[0].set_ylabel('Actual')
+sns.heatmap(cm_normalized, annot=True, fmt='.2f', cmap='Blues', ax=ax[1])
+ax[1].set_title('Confusion Matrix (Normalized): Optimal Random Forest Model Performance on Validation Data')
+ax[1].set_xlabel('Predicted')
+ax[1].set_ylabel('Actual')
+plt.tight_layout()
+plt.show()
+
+```
+
+
+    
+![png](output_155_0.png)
+    
+
+
+
+```python
+##################################
+# Saving the best individual model
+# developed from the original training data
+################################## 
+joblib.dump(bagged_rf_optimal, 
+            os.path.join("..", MODELS_PATH, "bagged_model_random_forest_optimal.pkl"))
+
+```
+
+
+
+
+    ['..\\models\\bagged_model_random_forest_optimal.pkl']
+
+
 
 ### 1.7.2 Extra Trees <a class="anchor" id="1.7.2"></a>
 
