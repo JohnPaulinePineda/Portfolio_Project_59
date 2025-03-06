@@ -149,9 +149,11 @@ from scipy.stats import pointbiserialr, chi2_contingency
 
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression, RidgeClassifier
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier, BaggingClassifier, AdaBoostClassifier, GradientBoostingClassifier, StackingClassifier
+from sklearn.neural_network import MLPClassifier
 from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier
 from catboost import CatBoostClassifier
@@ -7414,7 +7416,7 @@ bagged_et_pipeline = Pipeline([
 ##################################
 bagged_et_hyperparameter_grid = {
     'bagged_et_model__criterion': ['gini', 'entropy'],
-    'bagged_et_model__max_depth': [3, 5],
+    'bagged_et_model__max_depth': [3, 6],
     'bagged_et_model__min_samples_leaf': [5, 10],
     'bagged_et_model__n_estimators': [100, 200]
 }
@@ -7911,7 +7913,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                              random_state=88888888))]),
              n_jobs=-1,
              param_grid={&#x27;bagged_et_model__criterion&#x27;: [&#x27;gini&#x27;, &#x27;entropy&#x27;],
-                         &#x27;bagged_et_model__max_depth&#x27;: [3, 5],
+                         &#x27;bagged_et_model__max_depth&#x27;: [3, 6],
                          &#x27;bagged_et_model__min_samples_leaf&#x27;: [5, 10],
                          &#x27;bagged_et_model__n_estimators&#x27;: [100, 200]},
              scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-9" type="checkbox" ><label for="sk-estimator-id-9" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
@@ -7934,7 +7936,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                              random_state=88888888))]),
              n_jobs=-1,
              param_grid={&#x27;bagged_et_model__criterion&#x27;: [&#x27;gini&#x27;, &#x27;entropy&#x27;],
-                         &#x27;bagged_et_model__max_depth&#x27;: [3, 5],
+                         &#x27;bagged_et_model__max_depth&#x27;: [3, 6],
                          &#x27;bagged_et_model__min_samples_leaf&#x27;: [5, 10],
                          &#x27;bagged_et_model__n_estimators&#x27;: [100, 200]},
              scoring=&#x27;f1&#x27;, verbose=1)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-10" type="checkbox" ><label for="sk-estimator-id-10" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>best_estimator_: Pipeline</div></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
@@ -7947,13 +7949,13 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;bagged_et_model&#x27;,
-                 ExtraTreesClassifier(class_weight=&#x27;balanced&#x27;, max_depth=5,
+                 ExtraTreesClassifier(class_weight=&#x27;balanced&#x27;, max_depth=3,
                                       min_samples_leaf=5,
                                       random_state=88888888))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-11" type="checkbox" ><label for="sk-estimator-id-11" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
-                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-12" type="checkbox" ><label for="sk-estimator-id-12" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-13" type="checkbox" ><label for="sk-estimator-id-13" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-14" type="checkbox" ><label for="sk-estimator-id-14" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-15" type="checkbox" ><label for="sk-estimator-id-15" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-16" type="checkbox" ><label for="sk-estimator-id-16" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>ExtraTreesClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html">?<span>Documentation for ExtraTreesClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ExtraTreesClassifier(class_weight=&#x27;balanced&#x27;, max_depth=5, min_samples_leaf=5,
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-12" type="checkbox" ><label for="sk-estimator-id-12" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-13" type="checkbox" ><label for="sk-estimator-id-13" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-14" type="checkbox" ><label for="sk-estimator-id-14" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-15" type="checkbox" ><label for="sk-estimator-id-15" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-16" type="checkbox" ><label for="sk-estimator-id-16" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>ExtraTreesClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html">?<span>Documentation for ExtraTreesClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ExtraTreesClassifier(class_weight=&#x27;balanced&#x27;, max_depth=3, min_samples_leaf=5,
                      random_state=88888888)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
@@ -7990,7 +7992,7 @@ print(f"Best Extra Trees Hyperparameters: {bagged_et_grid_search.best_params_}")
 ```
 
     Best Bagged Model – Extra Trees: 
-    Best Extra Trees Hyperparameters: {'bagged_et_model__criterion': 'gini', 'bagged_et_model__max_depth': 5, 'bagged_et_model__min_samples_leaf': 5, 'bagged_et_model__n_estimators': 100}
+    Best Extra Trees Hyperparameters: {'bagged_et_model__criterion': 'gini', 'bagged_et_model__max_depth': 3, 'bagged_et_model__min_samples_leaf': 5, 'bagged_et_model__n_estimators': 100}
     
 
 
@@ -8007,17 +8009,17 @@ print("\nClassification Report on Training Data:\n", classification_report(y_pre
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8774
-    F1 Score on Training Data: 0.8819
+    F1 Score on Cross-Validated Data: 0.8760
+    F1 Score on Training Data: 0.8889
     
     Classification Report on Training Data:
                    precision    recall  f1-score   support
     
-             0.0       0.96      0.93      0.95       143
-             1.0       0.85      0.92      0.88        61
+             0.0       0.96      0.94      0.95       143
+             1.0       0.86      0.92      0.89        61
     
         accuracy                           0.93       204
-       macro avg       0.91      0.92      0.91       204
+       macro avg       0.91      0.93      0.92       204
     weighted avg       0.93      0.93      0.93       204
     
     
@@ -8162,7 +8164,7 @@ bagged_bdt_pipeline = Pipeline([
 ##################################
 bagged_bdt_hyperparameter_grid = {
     'bagged_bdt_model__estimator__criterion': ['gini', 'entropy'],
-    'bagged_bdt_model__estimator__max_depth': [3, 5],
+    'bagged_bdt_model__estimator__max_depth': [3, 6],
     'bagged_bdt_model__estimator__min_samples_leaf': [5, 10],
     'bagged_bdt_model__n_estimators': [100, 200]
 }
@@ -8660,7 +8662,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
              n_jobs=-1,
              param_grid={&#x27;bagged_bdt_model__estimator__criterion&#x27;: [&#x27;gini&#x27;,
                                                                     &#x27;entropy&#x27;],
-                         &#x27;bagged_bdt_model__estimator__max_depth&#x27;: [3, 5],
+                         &#x27;bagged_bdt_model__estimator__max_depth&#x27;: [3, 6],
                          &#x27;bagged_bdt_model__estimator__min_samples_leaf&#x27;: [5,
                                                                            10],
                          &#x27;bagged_bdt_model__n_estimators&#x27;: [100, 200]},
@@ -8685,7 +8687,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
              n_jobs=-1,
              param_grid={&#x27;bagged_bdt_model__estimator__criterion&#x27;: [&#x27;gini&#x27;,
                                                                     &#x27;entropy&#x27;],
-                         &#x27;bagged_bdt_model__estimator__max_depth&#x27;: [3, 5],
+                         &#x27;bagged_bdt_model__estimator__max_depth&#x27;: [3, 6],
                          &#x27;bagged_bdt_model__estimator__min_samples_leaf&#x27;: [5,
                                                                            10],
                          &#x27;bagged_bdt_model__n_estimators&#x27;: [100, 200]},
@@ -8924,7 +8926,7 @@ bagged_blr_pipeline = Pipeline([
 bagged_blr_hyperparameter_grid = {
     'bagged_blr_model__estimator__C': [0.1, 1.0],
     'bagged_blr_model__estimator__penalty': ['l1', 'l2'],
-    'bagged_blr_model__estimator__solver': ['liblinear','saga'],
+    'bagged_blr_model__estimator__solver': ['liblinear', 'saga'],
     'bagged_blr_model__n_estimators': [100, 200]
 }
 
@@ -9665,8 +9667,8 @@ categorical_preprocessor = ColumnTransformer(transformers=[
 bagged_bsvm_pipeline = Pipeline([
     ('categorical_preprocessor', categorical_preprocessor),
     ('bagged_bsvm_model', BaggingClassifier(estimator=SVC(class_weight='balanced', 
-                                                                            random_state=88888888),
-                                           random_state=88888888))
+                                                          random_state=88888888),
+                                            random_state=88888888))
 ])
 
 ```
@@ -11132,14 +11134,14 @@ plt.show()
 # developed from the original training data
 ################################## 
 joblib.dump(boosted_ab_optimal, 
-            os.path.join("..", MODELS_PATH, "boosted_model_boosted_ab_optimal.pkl"))
+            os.path.join("..", MODELS_PATH, "boosted_model_adaboost_optimal.pkl"))
 
 ```
 
 
 
 
-    ['..\\models\\boosted_model_boosted_ab_optimal.pkl']
+    ['..\\models\\boosted_model_adaboost_optimal.pkl']
 
 
 
@@ -11178,8 +11180,8 @@ boosted_gb_pipeline = Pipeline([
 ##################################
 boosted_gb_hyperparameter_grid = {
     'boosted_gb_model__learning_rate': [0.01, 0.10],
-    'boosted_gb_model__max_depth': [3,4], 
-    'boosted_gb_model__min_samples_leaf': [5,10],
+    'boosted_gb_model__max_depth': [3, 6], 
+    'boosted_gb_model__min_samples_leaf': [5, 10],
     'boosted_gb_model__n_estimators': [50, 100] 
 }
 
@@ -11674,7 +11676,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                         GradientBoostingClassifier(random_state=88888888))]),
              n_jobs=-1,
              param_grid={&#x27;boosted_gb_model__learning_rate&#x27;: [0.01, 0.1],
-                         &#x27;boosted_gb_model__max_depth&#x27;: [3, 4],
+                         &#x27;boosted_gb_model__max_depth&#x27;: [3, 6],
                          &#x27;boosted_gb_model__min_samples_leaf&#x27;: [5, 10],
                          &#x27;boosted_gb_model__n_estimators&#x27;: [50, 100]},
              scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-57" type="checkbox" ><label for="sk-estimator-id-57" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
@@ -11696,7 +11698,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                         GradientBoostingClassifier(random_state=88888888))]),
              n_jobs=-1,
              param_grid={&#x27;boosted_gb_model__learning_rate&#x27;: [0.01, 0.1],
-                         &#x27;boosted_gb_model__max_depth&#x27;: [3, 4],
+                         &#x27;boosted_gb_model__max_depth&#x27;: [3, 6],
                          &#x27;boosted_gb_model__min_samples_leaf&#x27;: [5, 10],
                          &#x27;boosted_gb_model__n_estimators&#x27;: [50, 100]},
              scoring=&#x27;f1&#x27;, verbose=1)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-58" type="checkbox" ><label for="sk-estimator-id-58" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>best_estimator_: Pipeline</div></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
@@ -11876,14 +11878,14 @@ plt.show()
 # developed from the original training data
 ################################## 
 joblib.dump(boosted_gb_optimal, 
-            os.path.join("..", MODELS_PATH, "boosted_model_boosted_gb_optimal.pkl"))
+            os.path.join("..", MODELS_PATH, "boosted_model_gradient_boosting_optimal.pkl"))
 
 ```
 
 
 
 
-    ['..\\models\\boosted_model_boosted_gb_optimal.pkl']
+    ['..\\models\\boosted_model_gradient_boosting_optimal.pkl']
 
 
 
@@ -11926,8 +11928,8 @@ boosted_xgb_pipeline = Pipeline([
 ##################################
 boosted_xgb_hyperparameter_grid = {
     'boosted_xgb_model__learning_rate': [0.01, 0.10],
-    'boosted_xgb_model__max_depth': [3,5], 
-    'boosted_xgb_model__gamma': [0.1,0.2],
+    'boosted_xgb_model__max_depth': [3, 6], 
+    'boosted_xgb_model__gamma': [0.1, 0.2],
     'boosted_xgb_model__n_estimators': [50, 100] 
 }
 
@@ -12428,7 +12430,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
              n_jobs=-1,
              param_grid={&#x27;boosted_xgb_model__gamma&#x27;: [0.1, 0.2],
                          &#x27;boosted_xgb_model__learning_rate&#x27;: [0.01, 0.1],
-                         &#x27;boosted_xgb_model__max_depth&#x27;: [3, 5],
+                         &#x27;boosted_xgb_model__max_depth&#x27;: [3, 6],
                          &#x27;boosted_xgb_model__n_estimators&#x27;: [50, 100]},
              scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-65" type="checkbox" ><label for="sk-estimator-id-65" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
@@ -12455,7 +12457,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
              n_jobs=-1,
              param_grid={&#x27;boosted_xgb_model__gamma&#x27;: [0.1, 0.2],
                          &#x27;boosted_xgb_model__learning_rate&#x27;: [0.01, 0.1],
-                         &#x27;boosted_xgb_model__max_depth&#x27;: [3, 5],
+                         &#x27;boosted_xgb_model__max_depth&#x27;: [3, 6],
                          &#x27;boosted_xgb_model__n_estimators&#x27;: [50, 100]},
              scoring=&#x27;f1&#x27;, verbose=1)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-66" type="checkbox" ><label for="sk-estimator-id-66" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>best_estimator_: Pipeline</div></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                  ColumnTransformer(force_int_remainder_cols=False,
@@ -12652,32 +12654,5263 @@ plt.show()
 # developed from the original training data
 ################################## 
 joblib.dump(boosted_xgb_optimal, 
-            os.path.join("..", MODELS_PATH, "boosted_model_boosted_xgb_optimal.pkl"))
+            os.path.join("..", MODELS_PATH, "boosted_model_xgboost_optimal.pkl"))
 
 ```
 
 
 
 
-    ['..\\models\\boosted_model_boosted_xgb_optimal.pkl']
+    ['..\\models\\boosted_model_xgboost_optimal.pkl']
 
 
 
 ### 1.8.4 Light GBM <a class="anchor" id="1.8.4"></a>
 
+
+```python
+##################################
+# Defining the categorical preprocessing parameters
+##################################
+categorical_features = ['Gender','Smoking','Physical_Examination','Adenopathy','Focality','Risk','T','Stage','Response']
+categorical_transformer = OrdinalEncoder()
+categorical_preprocessor = ColumnTransformer(transformers=[
+    ('cat', categorical_transformer, categorical_features)],
+                                             remainder='passthrough',
+                                             force_int_remainder_cols=False)
+
+```
+
+
+```python
+##################################
+# Defining the preprocessing and modeling pipeline parameters
+##################################
+boosted_lgbm_pipeline = Pipeline([
+    ('categorical_preprocessor', categorical_preprocessor),
+    ('boosted_lgbm_model', LGBMClassifier(scale_pos_weight=2.0, 
+                                          random_state=88888888,
+                                          max_depth=-1,
+                                          feature_fraction =0.7,
+                                          bagging_fraction=0.7,
+                                          verbose=-1))
+])
+
+```
+
+
+```python
+##################################
+# Defining hyperparameter grid
+##################################
+boosted_lgbm_hyperparameter_grid = {
+    'boosted_lgbm_model__learning_rate': [0.01, 0.10],
+    'boosted_lgbm_model__min_child_samples': [3, 5], 
+    'boosted_lgbm_model__num_leaves': [8, 16],
+    'boosted_lgbm_model__n_estimators': [50, 100] 
+}
+
+```
+
+
+```python
+##################################
+# Defining the cross-validation strategy (5-cycle 5-fold CV)
+##################################
+cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
+                                      n_repeats=5, 
+                                      random_state=88888888)
+
+```
+
+
+```python
+##################################
+# Performing Grid Search with cross-validation
+##################################
+boosted_lgbm_grid_search = GridSearchCV(
+    estimator=boosted_lgbm_pipeline,
+    param_grid=boosted_lgbm_hyperparameter_grid,
+    scoring='f1',
+    cv=cv_strategy,
+    n_jobs=-1,
+    verbose=1
+)
+
+```
+
+
+```python
+##################################
+# Encoding the response variables
+# for model evaluation
+##################################
+y_encoder = OrdinalEncoder()
+y_encoder.fit(y_preprocessed_train.values.reshape(-1, 1))
+y_preprocessed_train_encoded = y_encoder.transform(y_preprocessed_train.values.reshape(-1, 1)).ravel()
+y_preprocessed_validation_encoded = y_encoder.transform(y_preprocessed_validation.values.reshape(-1, 1)).ravel()
+
+```
+
+
+```python
+##################################
+# Fitting GridSearchCV
+##################################
+boosted_lgbm_grid_search.fit(X_preprocessed_train, y_preprocessed_train_encoded)
+
+```
+
+    Fitting 25 folds for each of 16 candidates, totalling 400 fits
+    
+
+
+
+
+<style>#sk-container-id-9 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-9 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-9 pre {
+  padding: 0;
+}
+
+#sk-container-id-9 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-9 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-9 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-9 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-9 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-9 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-9 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-9 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-9 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-9 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-9 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-9 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-9 label.sk-toggleable__label {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+#sk-container-id-9 label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
+}
+
+#sk-container-id-9 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-9 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-9 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-9 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-9 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-9 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-9 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-9 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-9 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-9 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-9 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-9 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-9 div.sk-label label.sk-toggleable__label,
+#sk-container-id-9 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-9 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-9 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-9 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-9 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-9 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-9 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-9 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-9 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 0.5em;
+  text-align: center;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-9 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-9 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-9 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-9 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div id="sk-container-id-9" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                                        ColumnTransformer(force_int_remainder_cols=False,
+                                                          remainder=&#x27;passthrough&#x27;,
+                                                          transformers=[(&#x27;cat&#x27;,
+                                                                         OrdinalEncoder(),
+                                                                         [&#x27;Gender&#x27;,
+                                                                          &#x27;Smoking&#x27;,
+                                                                          &#x27;Physical_Examination&#x27;,
+                                                                          &#x27;Adenopathy&#x27;,
+                                                                          &#x27;Focality&#x27;,
+                                                                          &#x27;Risk&#x27;,
+                                                                          &#x27;T&#x27;,
+                                                                          &#x27;Stage&#x27;,
+                                                                          &#x27;Response&#x27;])])),
+                                       (&#x27;boosted_lgbm_model&#x27;,
+                                        LGBMClassifier(bagging_fraction=0.7,
+                                                       feature_fraction=0.7,
+                                                       random_state=88888888,
+                                                       scale_pos_weight=2.0,
+                                                       verbose=-1))]),
+             n_jobs=-1,
+             param_grid={&#x27;boosted_lgbm_model__learning_rate&#x27;: [0.01, 0.1],
+                         &#x27;boosted_lgbm_model__min_child_samples&#x27;: [3, 5],
+                         &#x27;boosted_lgbm_model__n_estimators&#x27;: [50, 100],
+                         &#x27;boosted_lgbm_model__num_leaves&#x27;: [8, 16]},
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-73" type="checkbox" ><label for="sk-estimator-id-73" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                                        ColumnTransformer(force_int_remainder_cols=False,
+                                                          remainder=&#x27;passthrough&#x27;,
+                                                          transformers=[(&#x27;cat&#x27;,
+                                                                         OrdinalEncoder(),
+                                                                         [&#x27;Gender&#x27;,
+                                                                          &#x27;Smoking&#x27;,
+                                                                          &#x27;Physical_Examination&#x27;,
+                                                                          &#x27;Adenopathy&#x27;,
+                                                                          &#x27;Focality&#x27;,
+                                                                          &#x27;Risk&#x27;,
+                                                                          &#x27;T&#x27;,
+                                                                          &#x27;Stage&#x27;,
+                                                                          &#x27;Response&#x27;])])),
+                                       (&#x27;boosted_lgbm_model&#x27;,
+                                        LGBMClassifier(bagging_fraction=0.7,
+                                                       feature_fraction=0.7,
+                                                       random_state=88888888,
+                                                       scale_pos_weight=2.0,
+                                                       verbose=-1))]),
+             n_jobs=-1,
+             param_grid={&#x27;boosted_lgbm_model__learning_rate&#x27;: [0.01, 0.1],
+                         &#x27;boosted_lgbm_model__min_child_samples&#x27;: [3, 5],
+                         &#x27;boosted_lgbm_model__n_estimators&#x27;: [50, 100],
+                         &#x27;boosted_lgbm_model__num_leaves&#x27;: [8, 16]},
+             scoring=&#x27;f1&#x27;, verbose=1)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-74" type="checkbox" ><label for="sk-estimator-id-74" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>best_estimator_: Pipeline</div></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                 ColumnTransformer(force_int_remainder_cols=False,
+                                   remainder=&#x27;passthrough&#x27;,
+                                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
+                                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;,
+                                                   &#x27;Physical_Examination&#x27;,
+                                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;,
+                                                   &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;,
+                                                   &#x27;Response&#x27;])])),
+                (&#x27;boosted_lgbm_model&#x27;,
+                 LGBMClassifier(bagging_fraction=0.7, feature_fraction=0.7,
+                                learning_rate=0.01, min_child_samples=5,
+                                num_leaves=8, random_state=88888888,
+                                scale_pos_weight=2.0, verbose=-1))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-75" type="checkbox" ><label for="sk-estimator-id-75" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                  transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
+                                 [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
+                                  &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-76" type="checkbox" ><label for="sk-estimator-id-76" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-77" type="checkbox" ><label for="sk-estimator-id-77" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-78" type="checkbox" ><label for="sk-estimator-id-78" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-79" type="checkbox" ><label for="sk-estimator-id-79" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-80" type="checkbox" ><label for="sk-estimator-id-80" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>LGBMClassifier</div></div></label><div class="sk-toggleable__content fitted"><pre>LGBMClassifier(bagging_fraction=0.7, feature_fraction=0.7, learning_rate=0.01,
+               min_child_samples=5, num_leaves=8, random_state=88888888,
+               scale_pos_weight=2.0, verbose=-1)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+
+
+
+
+```python
+##################################
+# Identifying the best model
+##################################
+boosted_lgbm_optimal = boosted_lgbm_grid_search.best_estimator_
+
+```
+
+
+```python
+##################################
+# Evaluating the F1 scores
+# on the training, cross-validation, and validation data
+##################################
+import warnings
+warnings.filterwarnings('ignore', category=UserWarning, module='sklearn.utils.validation')
+boosted_lgbm_optimal_f1_cv = boosted_lgbm_grid_search.best_score_
+boosted_lgbm_optimal_f1_train = f1_score(y_preprocessed_train_encoded, boosted_lgbm_optimal.predict(X_preprocessed_train))
+boosted_lgbm_optimal_f1_validation = f1_score(y_preprocessed_validation_encoded, boosted_lgbm_optimal.predict(X_preprocessed_validation))
+
+```
+
+
+```python
+##################################
+# Identifying the optimal model
+##################################
+print('Best Boosted Model - Light GBM: ')
+print(f"Best Light GBM Hyperparameters: {boosted_lgbm_grid_search.best_params_}")
+
+```
+
+    Best Boosted Model - Light GBM: 
+    Best Light GBM Hyperparameters: {'boosted_lgbm_model__learning_rate': 0.01, 'boosted_lgbm_model__min_child_samples': 5, 'boosted_lgbm_model__n_estimators': 100, 'boosted_lgbm_model__num_leaves': 8}
+    
+
+
+```python
+##################################
+# Summarizing the F1 score results
+# and classification metrics
+# on the training and cross-validated data
+# to assess overfitting optimism
+##################################
+print(f"F1 Score on Cross-Validated Data: {boosted_lgbm_optimal_f1_cv:.4f}")
+print(f"F1 Score on Training Data: {boosted_lgbm_optimal_f1_train:.4f}")
+print("\nClassification Report on Training Data:\n", classification_report(y_preprocessed_train_encoded, boosted_lgbm_optimal.predict(X_preprocessed_train)))
+
+```
+
+    F1 Score on Cross-Validated Data: 0.8831
+    F1 Score on Training Data: 0.9344
+    
+    Classification Report on Training Data:
+                   precision    recall  f1-score   support
+    
+             0.0       0.97      0.97      0.97       143
+             1.0       0.93      0.93      0.93        61
+    
+        accuracy                           0.96       204
+       macro avg       0.95      0.95      0.95       204
+    weighted avg       0.96      0.96      0.96       204
+    
+    
+
+
+```python
+##################################
+# Formulating the raw and normalized
+# confusion matrices
+# from the train data
+##################################
+cm_raw = confusion_matrix(y_preprocessed_train_encoded, boosted_lgbm_optimal.predict(X_preprocessed_train))
+cm_normalized = confusion_matrix(y_preprocessed_train_encoded, boosted_lgbm_optimal.predict(X_preprocessed_train), normalize='true')
+fig, ax = plt.subplots(1, 2, figsize=(17, 8))
+sns.heatmap(cm_raw, annot=True, fmt='d', cmap='Blues', ax=ax[0])
+ax[0].set_title('Confusion Matrix (Raw Count): Optimal Light GBM Model Performance on Train Data')
+ax[0].set_xlabel('Predicted')
+ax[0].set_ylabel('Actual')
+sns.heatmap(cm_normalized, annot=True, fmt='.2f', cmap='Blues', ax=ax[1])
+ax[1].set_title('Confusion Matrix (Normalized): Optimal Light GBM Model Performance on Train Data')
+ax[1].set_xlabel('Predicted')
+ax[1].set_ylabel('Actual')
+plt.tight_layout()
+plt.show()
+
+```
+
+
+    
+![png](output_282_0.png)
+    
+
+
+
+```python
+##################################
+# Summarizing the F1 score results
+# and classification metrics
+# on the validation data
+# to assess overfitting optimism
+##################################
+print(f"F1 Score on Validation Data: {boosted_lgbm_optimal_f1_validation:.4f}")
+print("\nClassification Report on Validation Data:\n", classification_report(y_preprocessed_validation_encoded, boosted_lgbm_optimal.predict(X_preprocessed_validation)))
+
+```
+
+    F1 Score on Validation Data: 0.8000
+    
+    Classification Report on Validation Data:
+                   precision    recall  f1-score   support
+    
+             0.0       0.92      0.92      0.92        49
+             1.0       0.80      0.80      0.80        20
+    
+        accuracy                           0.88        69
+       macro avg       0.86      0.86      0.86        69
+    weighted avg       0.88      0.88      0.88        69
+    
+    
+
+
+```python
+##################################
+# Formulating the raw and normalized
+# confusion matrices
+# from the validation data
+##################################
+cm_raw = confusion_matrix(y_preprocessed_validation_encoded, boosted_lgbm_optimal.predict(X_preprocessed_validation))
+cm_normalized = confusion_matrix(y_preprocessed_validation_encoded, boosted_lgbm_optimal.predict(X_preprocessed_validation), normalize='true')
+fig, ax = plt.subplots(1, 2, figsize=(17, 8))
+sns.heatmap(cm_raw, annot=True, fmt='d', cmap='Blues', ax=ax[0])
+ax[0].set_title('Confusion Matrix (Raw Count): Optimal Light GBM Model Performance on Validation Data')
+ax[0].set_xlabel('Predicted')
+ax[0].set_ylabel('Actual')
+sns.heatmap(cm_normalized, annot=True, fmt='.2f', cmap='Blues', ax=ax[1])
+ax[1].set_title('Confusion Matrix (Normalized): Optimal Light GBM Model Performance on Validation Data')
+ax[1].set_xlabel('Predicted')
+ax[1].set_ylabel('Actual')
+plt.tight_layout()
+plt.show()
+
+```
+
+
+    
+![png](output_284_0.png)
+    
+
+
+
+```python
+##################################
+# Saving the best individual model
+# developed from the original training data
+################################## 
+joblib.dump(boosted_lgbm_optimal, 
+            os.path.join("..", MODELS_PATH, "boosted_model_light_gbm_optimal.pkl"))
+
+```
+
+
+
+
+    ['..\\models\\boosted_model_light_gbm_optimal.pkl']
+
+
+
 ### 1.8.5 CatBoost <a class="anchor" id="1.8.5"></a>
+
+
+```python
+##################################
+# Defining the categorical preprocessing parameters
+##################################
+categorical_features = ['Gender','Smoking','Physical_Examination','Adenopathy','Focality','Risk','T','Stage','Response']
+categorical_transformer = OrdinalEncoder()
+categorical_preprocessor = ColumnTransformer(transformers=[
+    ('cat', categorical_transformer, categorical_features)],
+                                             remainder='passthrough',
+                                             force_int_remainder_cols=False)
+
+```
+
+
+```python
+##################################
+# Defining the preprocessing and modeling pipeline parameters
+##################################
+boosted_cb_pipeline = Pipeline([
+    ('categorical_preprocessor', categorical_preprocessor),
+    ('boosted_cb_model', LGBMClassifier(scale_pos_weight=2.0, 
+                                        random_state=88888888,
+                                        subsample =0.7,
+                                        colsample_bylevel=0.7))
+])
+
+```
+
+
+```python
+##################################
+# Defining hyperparameter grid
+##################################
+boosted_cb_hyperparameter_grid = {
+    'boosted_cb_model__learning_rate': [0.01, 0.10],
+    'boosted_cb_model__max_depth': [3, 6], 
+    'boosted_cb_model__num_leaves': [8, 16],
+    'boosted_cb_model__iterations': [50, 100] 
+}
+
+```
+
+
+```python
+##################################
+# Defining the cross-validation strategy (5-cycle 5-fold CV)
+##################################
+cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
+                                      n_repeats=5, 
+                                      random_state=88888888)
+
+```
+
+
+```python
+##################################
+# Performing Grid Search with cross-validation
+##################################
+boosted_cb_grid_search = GridSearchCV(
+    estimator=boosted_cb_pipeline,
+    param_grid=boosted_cb_hyperparameter_grid,
+    scoring='f1',
+    cv=cv_strategy,
+    n_jobs=-1,
+    verbose=1
+)
+
+```
+
+
+```python
+##################################
+# Encoding the response variables
+# for model evaluation
+##################################
+y_encoder = OrdinalEncoder()
+y_encoder.fit(y_preprocessed_train.values.reshape(-1, 1))
+y_preprocessed_train_encoded = y_encoder.transform(y_preprocessed_train.values.reshape(-1, 1)).ravel()
+y_preprocessed_validation_encoded = y_encoder.transform(y_preprocessed_validation.values.reshape(-1, 1)).ravel()
+
+```
+
+
+```python
+##################################
+# Fitting GridSearchCV
+##################################
+boosted_cb_grid_search.fit(X_preprocessed_train, y_preprocessed_train_encoded)
+
+```
+
+    Fitting 25 folds for each of 16 candidates, totalling 400 fits
+    
+
+
+
+
+<style>#sk-container-id-10 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-10 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-10 pre {
+  padding: 0;
+}
+
+#sk-container-id-10 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-10 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-10 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-10 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-10 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-10 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-10 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-10 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-10 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-10 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-10 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-10 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-10 label.sk-toggleable__label {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+#sk-container-id-10 label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
+}
+
+#sk-container-id-10 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-10 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-10 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-10 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-10 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-10 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-10 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-10 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-10 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-10 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-10 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-10 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-10 div.sk-label label.sk-toggleable__label,
+#sk-container-id-10 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-10 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-10 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-10 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-10 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-10 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-10 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-10 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-10 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 0.5em;
+  text-align: center;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-10 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-10 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-10 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-10 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div id="sk-container-id-10" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                                        ColumnTransformer(force_int_remainder_cols=False,
+                                                          remainder=&#x27;passthrough&#x27;,
+                                                          transformers=[(&#x27;cat&#x27;,
+                                                                         OrdinalEncoder(),
+                                                                         [&#x27;Gender&#x27;,
+                                                                          &#x27;Smoking&#x27;,
+                                                                          &#x27;Physical_Examination&#x27;,
+                                                                          &#x27;Adenopathy&#x27;,
+                                                                          &#x27;Focality&#x27;,
+                                                                          &#x27;Risk&#x27;,
+                                                                          &#x27;T&#x27;,
+                                                                          &#x27;Stage&#x27;,
+                                                                          &#x27;Response&#x27;])])),
+                                       (&#x27;boosted_cb_model&#x27;,
+                                        LGBMClassifier(colsample_bylevel=0.7,
+                                                       random_state=88888888,
+                                                       scale_pos_weight=2.0,
+                                                       subsample=0.7))]),
+             n_jobs=-1,
+             param_grid={&#x27;boosted_cb_model__iterations&#x27;: [50, 100],
+                         &#x27;boosted_cb_model__learning_rate&#x27;: [0.01, 0.1],
+                         &#x27;boosted_cb_model__max_depth&#x27;: [3, 6],
+                         &#x27;boosted_cb_model__num_leaves&#x27;: [8, 16]},
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-81" type="checkbox" ><label for="sk-estimator-id-81" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                                        ColumnTransformer(force_int_remainder_cols=False,
+                                                          remainder=&#x27;passthrough&#x27;,
+                                                          transformers=[(&#x27;cat&#x27;,
+                                                                         OrdinalEncoder(),
+                                                                         [&#x27;Gender&#x27;,
+                                                                          &#x27;Smoking&#x27;,
+                                                                          &#x27;Physical_Examination&#x27;,
+                                                                          &#x27;Adenopathy&#x27;,
+                                                                          &#x27;Focality&#x27;,
+                                                                          &#x27;Risk&#x27;,
+                                                                          &#x27;T&#x27;,
+                                                                          &#x27;Stage&#x27;,
+                                                                          &#x27;Response&#x27;])])),
+                                       (&#x27;boosted_cb_model&#x27;,
+                                        LGBMClassifier(colsample_bylevel=0.7,
+                                                       random_state=88888888,
+                                                       scale_pos_weight=2.0,
+                                                       subsample=0.7))]),
+             n_jobs=-1,
+             param_grid={&#x27;boosted_cb_model__iterations&#x27;: [50, 100],
+                         &#x27;boosted_cb_model__learning_rate&#x27;: [0.01, 0.1],
+                         &#x27;boosted_cb_model__max_depth&#x27;: [3, 6],
+                         &#x27;boosted_cb_model__num_leaves&#x27;: [8, 16]},
+             scoring=&#x27;f1&#x27;, verbose=1)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-82" type="checkbox" ><label for="sk-estimator-id-82" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>best_estimator_: Pipeline</div></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                 ColumnTransformer(force_int_remainder_cols=False,
+                                   remainder=&#x27;passthrough&#x27;,
+                                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
+                                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;,
+                                                   &#x27;Physical_Examination&#x27;,
+                                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;,
+                                                   &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;,
+                                                   &#x27;Response&#x27;])])),
+                (&#x27;boosted_cb_model&#x27;,
+                 LGBMClassifier(colsample_bylevel=0.7, iterations=50,
+                                learning_rate=0.01, max_depth=6, num_leaves=8,
+                                random_state=88888888, scale_pos_weight=2.0,
+                                subsample=0.7))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-83" type="checkbox" ><label for="sk-estimator-id-83" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                  transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
+                                 [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
+                                  &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-84" type="checkbox" ><label for="sk-estimator-id-84" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-85" type="checkbox" ><label for="sk-estimator-id-85" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-86" type="checkbox" ><label for="sk-estimator-id-86" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-87" type="checkbox" ><label for="sk-estimator-id-87" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-88" type="checkbox" ><label for="sk-estimator-id-88" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>LGBMClassifier</div></div></label><div class="sk-toggleable__content fitted"><pre>LGBMClassifier(colsample_bylevel=0.7, iterations=50, learning_rate=0.01,
+               max_depth=6, num_leaves=8, random_state=88888888,
+               scale_pos_weight=2.0, subsample=0.7)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+
+
+
+
+```python
+##################################
+# Identifying the best model
+##################################
+boosted_cb_optimal = boosted_cb_grid_search.best_estimator_
+
+```
+
+
+```python
+##################################
+# Evaluating the F1 scores
+# on the training, cross-validation, and validation data
+##################################
+boosted_cb_optimal_f1_cv = boosted_cb_grid_search.best_score_
+boosted_cb_optimal_f1_train = f1_score(y_preprocessed_train_encoded, boosted_cb_optimal.predict(X_preprocessed_train))
+boosted_cb_optimal_f1_validation = f1_score(y_preprocessed_validation_encoded, boosted_cb_optimal.predict(X_preprocessed_validation))
+
+```
+
+
+```python
+##################################
+# Identifying the optimal model
+##################################
+print('Best Boosted Model - CatBoost: ')
+print(f"Best CatBoost Hyperparameters: {boosted_cb_grid_search.best_params_}")
+
+```
+
+    Best Boosted Model - CatBoost: 
+    Best CatBoost Hyperparameters: {'boosted_cb_model__iterations': 50, 'boosted_cb_model__learning_rate': 0.01, 'boosted_cb_model__max_depth': 6, 'boosted_cb_model__num_leaves': 8}
+    
+
+
+```python
+##################################
+# Summarizing the F1 score results
+# and classification metrics
+# on the training and cross-validated data
+# to assess overfitting optimism
+##################################
+print(f"F1 Score on Cross-Validated Data: {boosted_cb_optimal_f1_cv:.4f}")
+print(f"F1 Score on Training Data: {boosted_cb_optimal_f1_train:.4f}")
+print("\nClassification Report on Training Data:\n", classification_report(y_preprocessed_train_encoded, boosted_cb_optimal.predict(X_preprocessed_train)))
+
+```
+
+    F1 Score on Cross-Validated Data: 0.8722
+    F1 Score on Training Data: 0.8889
+    
+    Classification Report on Training Data:
+                   precision    recall  f1-score   support
+    
+             0.0       0.96      0.94      0.95       143
+             1.0       0.86      0.92      0.89        61
+    
+        accuracy                           0.93       204
+       macro avg       0.91      0.93      0.92       204
+    weighted avg       0.93      0.93      0.93       204
+    
+    
+
+
+```python
+##################################
+# Formulating the raw and normalized
+# confusion matrices
+# from the train data
+##################################
+cm_raw = confusion_matrix(y_preprocessed_train_encoded, boosted_cb_optimal.predict(X_preprocessed_train))
+cm_normalized = confusion_matrix(y_preprocessed_train_encoded, boosted_cb_optimal.predict(X_preprocessed_train), normalize='true')
+fig, ax = plt.subplots(1, 2, figsize=(17, 8))
+sns.heatmap(cm_raw, annot=True, fmt='d', cmap='Blues', ax=ax[0])
+ax[0].set_title('Confusion Matrix (Raw Count): Optimal CatBoost Model Performance on Train Data')
+ax[0].set_xlabel('Predicted')
+ax[0].set_ylabel('Actual')
+sns.heatmap(cm_normalized, annot=True, fmt='.2f', cmap='Blues', ax=ax[1])
+ax[1].set_title('Confusion Matrix (Normalized): Optimal CatBoost Model Performance on Train Data')
+ax[1].set_xlabel('Predicted')
+ax[1].set_ylabel('Actual')
+plt.tight_layout()
+plt.show()
+
+```
+
+
+    
+![png](output_298_0.png)
+    
+
+
+
+```python
+##################################
+# Summarizing the F1 score results
+# and classification metrics
+# on the validation data
+# to assess overfitting optimism
+##################################
+print(f"F1 Score on Validation Data: {boosted_cb_optimal_f1_validation:.4f}")
+print("\nClassification Report on Validation Data:\n", classification_report(y_preprocessed_validation_encoded, boosted_cb_optimal.predict(X_preprocessed_validation)))
+
+```
+
+    F1 Score on Validation Data: 0.8500
+    
+    Classification Report on Validation Data:
+                   precision    recall  f1-score   support
+    
+             0.0       0.94      0.94      0.94        49
+             1.0       0.85      0.85      0.85        20
+    
+        accuracy                           0.91        69
+       macro avg       0.89      0.89      0.89        69
+    weighted avg       0.91      0.91      0.91        69
+    
+    
+
+
+```python
+##################################
+# Formulating the raw and normalized
+# confusion matrices
+# from the validation data
+##################################
+cm_raw = confusion_matrix(y_preprocessed_validation_encoded, boosted_cb_optimal.predict(X_preprocessed_validation))
+cm_normalized = confusion_matrix(y_preprocessed_validation_encoded, boosted_cb_optimal.predict(X_preprocessed_validation), normalize='true')
+fig, ax = plt.subplots(1, 2, figsize=(17, 8))
+sns.heatmap(cm_raw, annot=True, fmt='d', cmap='Blues', ax=ax[0])
+ax[0].set_title('Confusion Matrix (Raw Count): Optimal CatBoost Model Performance on Validation Data')
+ax[0].set_xlabel('Predicted')
+ax[0].set_ylabel('Actual')
+sns.heatmap(cm_normalized, annot=True, fmt='.2f', cmap='Blues', ax=ax[1])
+ax[1].set_title('Confusion Matrix (Normalized): Optimal CatBoost Model Performance on Validation Data')
+ax[1].set_xlabel('Predicted')
+ax[1].set_ylabel('Actual')
+plt.tight_layout()
+plt.show()
+
+```
+
+
+    
+![png](output_300_0.png)
+    
+
+
+
+```python
+##################################
+# Saving the best individual model
+# developed from the original training data
+################################## 
+joblib.dump(boosted_cb_optimal, 
+            os.path.join("..", MODELS_PATH, "boosted_model_catboost_optimal.pkl"))
+
+```
+
+
+
+
+    ['..\\models\\boosted_model_catboost_optimal.pkl']
+
+
 
 ## 1.9. Stacked Model Development <a class="anchor" id="1.9"></a>
 
 ### 1.9.1 Base Learner - K-Nearest Neighbors <a class="anchor" id="1.9.1"></a>
 
+
+```python
+##################################
+# Defining the categorical preprocessing parameters
+##################################
+categorical_features = ['Gender', 'Smoking', 'Physical_Examination', 'Adenopathy', 'Focality', 'Risk', 'T', 'Stage', 'Response']
+categorical_transformer = OrdinalEncoder()
+categorical_preprocessor = ColumnTransformer(transformers=[
+    ('cat', categorical_transformer, categorical_features)],
+    remainder='passthrough',
+    force_int_remainder_cols=False)
+
+```
+
+
+```python
+##################################
+# Defining the preprocessing and modeling pipeline parameters
+##################################
+stacked_baselearner_knn_pipeline = Pipeline([
+    ('categorical_preprocessor', categorical_preprocessor),
+    ('stacked_baselearner_knn_model', KNeighborsClassifier())
+])
+
+```
+
+
+```python
+##################################
+# Defining hyperparameter grid
+##################################
+stacked_baselearner_knn_hyperparameter_grid = {
+    'stacked_baselearner_knn_model__n_neighbors': [3, 5],
+    'stacked_baselearner_knn_model__weights': ['uniform', 'distance'],
+    'stacked_baselearner_knn_model__metric': ['minkowski', 'euclidean']
+}
+
+```
+
+
+```python
+##################################
+# Defining the cross-validation strategy (5-cycle 5-fold CV)
+##################################
+cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
+                                      n_repeats=5, 
+                                      random_state=88888888)
+
+```
+
+
+```python
+##################################
+# Performing Grid Search with cross-validation
+##################################
+stacked_baselearner_knn_grid_search = GridSearchCV(
+    estimator=stacked_baselearner_knn_pipeline,
+    param_grid=stacked_baselearner_knn_hyperparameter_grid,
+    scoring='f1',
+    cv=cv_strategy,
+    n_jobs=-1,
+    verbose=1
+)
+
+```
+
+
+```python
+##################################
+# Encoding the response variables
+##################################
+y_encoder = OrdinalEncoder()
+y_encoder.fit(y_preprocessed_train.values.reshape(-1, 1))
+y_preprocessed_train_encoded = y_encoder.transform(y_preprocessed_train.values.reshape(-1, 1)).ravel()
+y_preprocessed_validation_encoded = y_encoder.transform(y_preprocessed_validation.values.reshape(-1, 1)).ravel()
+
+```
+
+
+```python
+##################################
+# Fitting GridSearchCV
+##################################
+stacked_baselearner_knn_grid_search.fit(X_preprocessed_train, y_preprocessed_train_encoded)
+
+```
+
+    Fitting 25 folds for each of 8 candidates, totalling 200 fits
+    
+
+
+
+
+<style>#sk-container-id-11 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-11 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-11 pre {
+  padding: 0;
+}
+
+#sk-container-id-11 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-11 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-11 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-11 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-11 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-11 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-11 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-11 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-11 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-11 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-11 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-11 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-11 label.sk-toggleable__label {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+#sk-container-id-11 label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
+}
+
+#sk-container-id-11 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-11 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-11 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-11 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-11 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-11 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-11 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-11 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-11 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-11 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-11 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-11 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-11 div.sk-label label.sk-toggleable__label,
+#sk-container-id-11 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-11 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-11 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-11 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-11 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-11 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-11 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-11 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-11 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 0.5em;
+  text-align: center;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-11 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-11 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-11 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-11 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div id="sk-container-id-11" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                                        ColumnTransformer(force_int_remainder_cols=False,
+                                                          remainder=&#x27;passthrough&#x27;,
+                                                          transformers=[(&#x27;cat&#x27;,
+                                                                         OrdinalEncoder(),
+                                                                         [&#x27;Gender&#x27;,
+                                                                          &#x27;Smoking&#x27;,
+                                                                          &#x27;Physical_Examination&#x27;,
+                                                                          &#x27;Adenopathy&#x27;,
+                                                                          &#x27;Focality&#x27;,
+                                                                          &#x27;Risk&#x27;,
+                                                                          &#x27;T&#x27;,
+                                                                          &#x27;Stage&#x27;,
+                                                                          &#x27;Response&#x27;])])),
+                                       (&#x27;stacked_baselearner_knn_model&#x27;,
+                                        KNeighborsClassifier())]),
+             n_jobs=-1,
+             param_grid={&#x27;stacked_baselearner_knn_model__metric&#x27;: [&#x27;minkowski&#x27;,
+                                                                   &#x27;euclidean&#x27;],
+                         &#x27;stacked_baselearner_knn_model__n_neighbors&#x27;: [3, 5],
+                         &#x27;stacked_baselearner_knn_model__weights&#x27;: [&#x27;uniform&#x27;,
+                                                                    &#x27;distance&#x27;]},
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-89" type="checkbox" ><label for="sk-estimator-id-89" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                                        ColumnTransformer(force_int_remainder_cols=False,
+                                                          remainder=&#x27;passthrough&#x27;,
+                                                          transformers=[(&#x27;cat&#x27;,
+                                                                         OrdinalEncoder(),
+                                                                         [&#x27;Gender&#x27;,
+                                                                          &#x27;Smoking&#x27;,
+                                                                          &#x27;Physical_Examination&#x27;,
+                                                                          &#x27;Adenopathy&#x27;,
+                                                                          &#x27;Focality&#x27;,
+                                                                          &#x27;Risk&#x27;,
+                                                                          &#x27;T&#x27;,
+                                                                          &#x27;Stage&#x27;,
+                                                                          &#x27;Response&#x27;])])),
+                                       (&#x27;stacked_baselearner_knn_model&#x27;,
+                                        KNeighborsClassifier())]),
+             n_jobs=-1,
+             param_grid={&#x27;stacked_baselearner_knn_model__metric&#x27;: [&#x27;minkowski&#x27;,
+                                                                   &#x27;euclidean&#x27;],
+                         &#x27;stacked_baselearner_knn_model__n_neighbors&#x27;: [3, 5],
+                         &#x27;stacked_baselearner_knn_model__weights&#x27;: [&#x27;uniform&#x27;,
+                                                                    &#x27;distance&#x27;]},
+             scoring=&#x27;f1&#x27;, verbose=1)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-90" type="checkbox" ><label for="sk-estimator-id-90" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>best_estimator_: Pipeline</div></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                 ColumnTransformer(force_int_remainder_cols=False,
+                                   remainder=&#x27;passthrough&#x27;,
+                                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
+                                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;,
+                                                   &#x27;Physical_Examination&#x27;,
+                                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;,
+                                                   &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;,
+                                                   &#x27;Response&#x27;])])),
+                (&#x27;stacked_baselearner_knn_model&#x27;,
+                 KNeighborsClassifier(n_neighbors=3, weights=&#x27;distance&#x27;))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-91" type="checkbox" ><label for="sk-estimator-id-91" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                  transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
+                                 [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
+                                  &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-92" type="checkbox" ><label for="sk-estimator-id-92" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-93" type="checkbox" ><label for="sk-estimator-id-93" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-94" type="checkbox" ><label for="sk-estimator-id-94" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-95" type="checkbox" ><label for="sk-estimator-id-95" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-96" type="checkbox" ><label for="sk-estimator-id-96" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>KNeighborsClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.neighbors.KNeighborsClassifier.html">?<span>Documentation for KNeighborsClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>KNeighborsClassifier(n_neighbors=3, weights=&#x27;distance&#x27;)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+
+
+
+
+```python
+##################################
+# Identifying the best model
+##################################
+stacked_baselearner_knn_optimal = stacked_baselearner_knn_grid_search.best_estimator_
+
+```
+
+
+```python
+##################################
+# Evaluating the F1 scores
+# on the training, cross-validation, and validation data
+##################################
+stacked_baselearner_knn_optimal_f1_cv = stacked_baselearner_knn_grid_search.best_score_
+stacked_baselearner_knn_optimal_f1_train = f1_score(y_preprocessed_train_encoded, stacked_baselearner_knn_optimal.predict(X_preprocessed_train))
+stacked_baselearner_knn_optimal_f1_validation = f1_score(y_preprocessed_validation_encoded, stacked_baselearner_knn_optimal.predict(X_preprocessed_validation))
+
+```
+
+
+```python
+##################################
+# Identifying the optimal model
+##################################
+print('Best Bagged Model – Stacked Base Learner KNN: ')
+print(f"Best Stacked Base Learner KNN Hyperparameters: {stacked_baselearner_knn_grid_search.best_params_}")
+
+```
+
+    Best Bagged Model – Stacked Base Learner KNN: 
+    Best Stacked Base Learner KNN Hyperparameters: {'stacked_baselearner_knn_model__metric': 'minkowski', 'stacked_baselearner_knn_model__n_neighbors': 3, 'stacked_baselearner_knn_model__weights': 'distance'}
+    
+
+
+```python
+##################################
+# Summarizing the F1 score results
+# and classification metrics
+# on the training and cross-validated data
+# to assess overfitting optimism
+##################################
+print(f"F1 Score on Cross-Validated Data: {stacked_baselearner_knn_optimal_f1_cv:.4f}")
+print(f"F1 Score on Training Data: {stacked_baselearner_knn_optimal_f1_train:.4f}")
+print("\nClassification Report on Training Data:\n", classification_report(y_preprocessed_train_encoded, stacked_baselearner_knn_optimal.predict(X_preprocessed_train)))
+
+```
+
+    F1 Score on Cross-Validated Data: 0.6792
+    F1 Score on Training Data: 0.9917
+    
+    Classification Report on Training Data:
+                   precision    recall  f1-score   support
+    
+             0.0       0.99      1.00      1.00       143
+             1.0       1.00      0.98      0.99        61
+    
+        accuracy                           1.00       204
+       macro avg       1.00      0.99      0.99       204
+    weighted avg       1.00      1.00      1.00       204
+    
+    
+
+
+```python
+##################################
+# Formulating the raw and normalized
+# confusion matrices
+# from the train data
+##################################
+cm_raw = confusion_matrix(y_preprocessed_train_encoded, stacked_baselearner_knn_optimal.predict(X_preprocessed_train))
+cm_normalized = confusion_matrix(y_preprocessed_train_encoded, stacked_baselearner_knn_optimal.predict(X_preprocessed_train), normalize='true')
+fig, ax = plt.subplots(1, 2, figsize=(17, 8))
+sns.heatmap(cm_raw, annot=True, fmt='d', cmap='Blues', ax=ax[0])
+ax[0].set_title('Confusion Matrix (Raw Count): Optimal Stacked Base Learner KNN Model Performance on Train Data')
+ax[0].set_xlabel('Predicted')
+ax[0].set_ylabel('Actual')
+sns.heatmap(cm_normalized, annot=True, fmt='.2f', cmap='Blues', ax=ax[1])
+ax[1].set_title('Confusion Matrix (Normalized): Optimal Stacked Base Learner KNN Model Performance on Train Data')
+ax[1].set_xlabel('Predicted')
+ax[1].set_ylabel('Actual')
+plt.tight_layout()
+plt.show()
+
+```
+
+
+    
+![png](output_315_0.png)
+    
+
+
+
+```python
+##################################
+# Summarizing the F1 score results
+# and classification metrics
+# on the validation data
+# to assess overfitting optimism
+##################################
+print(f"F1 Score on Validation Data: {stacked_baselearner_knn_optimal_f1_validation:.4f}")
+print("\nClassification Report on Validation Data:\n", classification_report(y_preprocessed_validation_encoded, stacked_baselearner_knn_optimal.predict(X_preprocessed_validation)))
+
+```
+
+    F1 Score on Validation Data: 0.7368
+    
+    Classification Report on Validation Data:
+                   precision    recall  f1-score   support
+    
+             0.0       0.88      0.92      0.90        49
+             1.0       0.78      0.70      0.74        20
+    
+        accuracy                           0.86        69
+       macro avg       0.83      0.81      0.82        69
+    weighted avg       0.85      0.86      0.85        69
+    
+    
+
+
+```python
+##################################
+# Formulating the raw and normalized
+# confusion matrices
+# from the validation data
+##################################
+cm_raw = confusion_matrix(y_preprocessed_validation_encoded, stacked_baselearner_knn_optimal.predict(X_preprocessed_validation))
+cm_normalized = confusion_matrix(y_preprocessed_validation_encoded, stacked_baselearner_knn_optimal.predict(X_preprocessed_validation), normalize='true')
+fig, ax = plt.subplots(1, 2, figsize=(17, 8))
+sns.heatmap(cm_raw, annot=True, fmt='d', cmap='Blues', ax=ax[0])
+ax[0].set_title('Confusion Matrix (Raw Count): Optimal Stacked Base Learner KNN Model Performance on Validation Data')
+ax[0].set_xlabel('Predicted')
+ax[0].set_ylabel('Actual')
+sns.heatmap(cm_normalized, annot=True, fmt='.2f', cmap='Blues', ax=ax[1])
+ax[1].set_title('Confusion Matrix (Normalized): Optimal Stacked Base Learner KNN Model Performance on Validation Data')
+ax[1].set_xlabel('Predicted')
+ax[1].set_ylabel('Actual')
+plt.tight_layout()
+plt.show()
+
+```
+
+
+    
+![png](output_317_0.png)
+    
+
+
+
+```python
+##################################
+# Saving the best individual model
+# developed from the original training data
+################################## 
+joblib.dump(stacked_baselearner_knn_optimal, 
+            os.path.join("..", MODELS_PATH, "stacked_model_baselearner_knn_optimal.pkl"))
+
+```
+
+
+
+
+    ['..\\models\\stacked_model_baselearner_knn_optimal.pkl']
+
+
+
 ### 1.9.2 Base Learner - Support Vector Machine <a class="anchor" id="1.9.2"></a>
+
+
+```python
+##################################
+# Defining the categorical preprocessing parameters
+##################################
+categorical_features = ['Gender','Smoking','Physical_Examination','Adenopathy','Focality','Risk','T','Stage','Response']
+categorical_transformer = OrdinalEncoder()
+categorical_preprocessor = ColumnTransformer(transformers=[
+    ('cat', categorical_transformer, categorical_features)],
+                                             remainder='passthrough',
+                                             force_int_remainder_cols=False)
+
+```
+
+
+```python
+##################################
+# Defining the preprocessing and modeling pipeline parameters
+##################################
+stacked_baselearner_svm_pipeline = Pipeline([
+    ('categorical_preprocessor', categorical_preprocessor),
+    ('stacked_baselearner_svm_model', SVC(class_weight='balanced',
+                                          random_state=88888888))
+])
+
+```
+
+
+```python
+##################################
+# Defining hyperparameter grid
+##################################
+stacked_baselearner_svm_hyperparameter_grid = {
+    'stacked_baselearner_svm_model__C': [0.1, 1.0],
+    'stacked_baselearner_svm_model__kernel': ['linear', 'rbf'],
+    'stacked_baselearner_svm_model__gamma': ['scale','auto']
+}
+
+```
+
+
+```python
+##################################
+# Defining the cross-validation strategy (5-cycle 5-fold CV)
+##################################
+cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
+                                      n_repeats=5, 
+                                      random_state=88888888)
+
+```
+
+
+```python
+##################################
+# Performing Grid Search with cross-validation
+##################################
+stacked_baselearner_svm_grid_search = GridSearchCV(
+    estimator=stacked_baselearner_svm_pipeline,
+    param_grid=stacked_baselearner_svm_hyperparameter_grid,
+    scoring='f1',
+    cv=cv_strategy,
+    n_jobs=-1,
+    verbose=1
+)
+
+```
+
+
+```python
+##################################
+# Encoding the response variables
+# for model evaluation
+##################################
+y_encoder = OrdinalEncoder()
+y_encoder.fit(y_preprocessed_train.values.reshape(-1, 1))
+y_preprocessed_train_encoded = y_encoder.transform(y_preprocessed_train.values.reshape(-1, 1)).ravel()
+y_preprocessed_validation_encoded = y_encoder.transform(y_preprocessed_validation.values.reshape(-1, 1)).ravel()
+
+```
+
+
+```python
+##################################
+# Fitting GridSearchCV
+##################################
+stacked_baselearner_svm_grid_search.fit(X_preprocessed_train, y_preprocessed_train_encoded)
+
+```
+
+    Fitting 25 folds for each of 8 candidates, totalling 200 fits
+    
+
+
+
+
+<style>#sk-container-id-12 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-12 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-12 pre {
+  padding: 0;
+}
+
+#sk-container-id-12 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-12 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-12 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-12 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-12 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-12 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-12 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-12 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-12 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-12 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-12 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-12 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-12 label.sk-toggleable__label {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+#sk-container-id-12 label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
+}
+
+#sk-container-id-12 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-12 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-12 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-12 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-12 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-12 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-12 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-12 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-12 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-12 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-12 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-12 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-12 div.sk-label label.sk-toggleable__label,
+#sk-container-id-12 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-12 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-12 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-12 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-12 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-12 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-12 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-12 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-12 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 0.5em;
+  text-align: center;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-12 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-12 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-12 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-12 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div id="sk-container-id-12" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                                        ColumnTransformer(force_int_remainder_cols=False,
+                                                          remainder=&#x27;passthrough&#x27;,
+                                                          transformers=[(&#x27;cat&#x27;,
+                                                                         OrdinalEncoder(),
+                                                                         [&#x27;Gender&#x27;,
+                                                                          &#x27;Smoking&#x27;,
+                                                                          &#x27;Physical_Examination&#x27;,
+                                                                          &#x27;Adenopathy&#x27;,
+                                                                          &#x27;Focality&#x27;,
+                                                                          &#x27;Risk&#x27;,
+                                                                          &#x27;T&#x27;,
+                                                                          &#x27;Stage&#x27;,
+                                                                          &#x27;Response&#x27;])])),
+                                       (&#x27;stacked_baselearner_svm_model&#x27;,
+                                        SVC(class_weight=&#x27;balanced&#x27;,
+                                            random_state=88888888))]),
+             n_jobs=-1,
+             param_grid={&#x27;stacked_baselearner_svm_model__C&#x27;: [0.1, 1.0],
+                         &#x27;stacked_baselearner_svm_model__gamma&#x27;: [&#x27;scale&#x27;,
+                                                                  &#x27;auto&#x27;],
+                         &#x27;stacked_baselearner_svm_model__kernel&#x27;: [&#x27;linear&#x27;,
+                                                                   &#x27;rbf&#x27;]},
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-97" type="checkbox" ><label for="sk-estimator-id-97" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                                        ColumnTransformer(force_int_remainder_cols=False,
+                                                          remainder=&#x27;passthrough&#x27;,
+                                                          transformers=[(&#x27;cat&#x27;,
+                                                                         OrdinalEncoder(),
+                                                                         [&#x27;Gender&#x27;,
+                                                                          &#x27;Smoking&#x27;,
+                                                                          &#x27;Physical_Examination&#x27;,
+                                                                          &#x27;Adenopathy&#x27;,
+                                                                          &#x27;Focality&#x27;,
+                                                                          &#x27;Risk&#x27;,
+                                                                          &#x27;T&#x27;,
+                                                                          &#x27;Stage&#x27;,
+                                                                          &#x27;Response&#x27;])])),
+                                       (&#x27;stacked_baselearner_svm_model&#x27;,
+                                        SVC(class_weight=&#x27;balanced&#x27;,
+                                            random_state=88888888))]),
+             n_jobs=-1,
+             param_grid={&#x27;stacked_baselearner_svm_model__C&#x27;: [0.1, 1.0],
+                         &#x27;stacked_baselearner_svm_model__gamma&#x27;: [&#x27;scale&#x27;,
+                                                                  &#x27;auto&#x27;],
+                         &#x27;stacked_baselearner_svm_model__kernel&#x27;: [&#x27;linear&#x27;,
+                                                                   &#x27;rbf&#x27;]},
+             scoring=&#x27;f1&#x27;, verbose=1)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-98" type="checkbox" ><label for="sk-estimator-id-98" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>best_estimator_: Pipeline</div></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                 ColumnTransformer(force_int_remainder_cols=False,
+                                   remainder=&#x27;passthrough&#x27;,
+                                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
+                                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;,
+                                                   &#x27;Physical_Examination&#x27;,
+                                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;,
+                                                   &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;,
+                                                   &#x27;Response&#x27;])])),
+                (&#x27;stacked_baselearner_svm_model&#x27;,
+                 SVC(class_weight=&#x27;balanced&#x27;, kernel=&#x27;linear&#x27;,
+                     random_state=88888888))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-99" type="checkbox" ><label for="sk-estimator-id-99" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                  transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
+                                 [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
+                                  &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-100" type="checkbox" ><label for="sk-estimator-id-100" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-101" type="checkbox" ><label for="sk-estimator-id-101" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-102" type="checkbox" ><label for="sk-estimator-id-102" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-103" type="checkbox" ><label for="sk-estimator-id-103" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-104" type="checkbox" ><label for="sk-estimator-id-104" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>SVC</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.svm.SVC.html">?<span>Documentation for SVC</span></a></div></label><div class="sk-toggleable__content fitted"><pre>SVC(class_weight=&#x27;balanced&#x27;, kernel=&#x27;linear&#x27;, random_state=88888888)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+
+
+
+
+```python
+##################################
+# Identifying the best model
+##################################
+stacked_baselearner_svm_optimal = stacked_baselearner_svm_grid_search.best_estimator_
+
+```
+
+
+```python
+##################################
+# Evaluating the F1 scores
+# on the training, cross-validation, and validation data
+##################################
+stacked_baselearner_svm_optimal_f1_cv = stacked_baselearner_svm_grid_search.best_score_
+stacked_baselearner_svm_optimal_f1_train = f1_score(y_preprocessed_train_encoded, stacked_baselearner_svm_optimal.predict(X_preprocessed_train))
+stacked_baselearner_svm_optimal_f1_validation = f1_score(y_preprocessed_validation_encoded, stacked_baselearner_svm_optimal.predict(X_preprocessed_validation))
+
+```
+
+
+```python
+##################################
+# Identifying the optimal model
+##################################
+print('Best Bagged Model – Stacked Base Learner KNN: ')
+print(f"Best Stacked Base Learner KNN Hyperparameters: {stacked_baselearner_svm_grid_search.best_params_}")
+
+```
+
+    Best Bagged Model – Stacked Base Learner KNN: 
+    Best Stacked Base Learner KNN Hyperparameters: {'stacked_baselearner_svm_model__C': 1.0, 'stacked_baselearner_svm_model__gamma': 'scale', 'stacked_baselearner_svm_model__kernel': 'linear'}
+    
+
+
+```python
+##################################
+# Summarizing the F1 score results
+# and classification metrics
+# on the training and cross-validated data
+# to assess overfitting optimism
+##################################
+print(f"F1 Score on Cross-Validated Data: {stacked_baselearner_svm_optimal_f1_cv:.4f}")
+print(f"F1 Score on Training Data: {stacked_baselearner_svm_optimal_f1_train:.4f}")
+print("\nClassification Report on Training Data:\n", classification_report(y_preprocessed_train_encoded, stacked_baselearner_svm_optimal.predict(X_preprocessed_train)))
+
+```
+
+    F1 Score on Cross-Validated Data: 0.8827
+    F1 Score on Training Data: 0.9008
+    
+    Classification Report on Training Data:
+                   precision    recall  f1-score   support
+    
+             0.0       0.99      0.92      0.95       143
+             1.0       0.84      0.97      0.90        61
+    
+        accuracy                           0.94       204
+       macro avg       0.91      0.95      0.93       204
+    weighted avg       0.94      0.94      0.94       204
+    
+    
+
+
+```python
+##################################
+# Formulating the raw and normalized
+# confusion matrices
+# from the train data
+##################################
+cm_raw = confusion_matrix(y_preprocessed_train_encoded, stacked_baselearner_svm_optimal.predict(X_preprocessed_train))
+cm_normalized = confusion_matrix(y_preprocessed_train_encoded, stacked_baselearner_svm_optimal.predict(X_preprocessed_train), normalize='true')
+fig, ax = plt.subplots(1, 2, figsize=(17, 8))
+sns.heatmap(cm_raw, annot=True, fmt='d', cmap='Blues', ax=ax[0])
+ax[0].set_title('Confusion Matrix (Raw Count): Optimal Stacked Base Learner SVM Model Performance on Train Data')
+ax[0].set_xlabel('Predicted')
+ax[0].set_ylabel('Actual')
+sns.heatmap(cm_normalized, annot=True, fmt='.2f', cmap='Blues', ax=ax[1])
+ax[1].set_title('Confusion Matrix (Normalized): Optimal Stacked Base Learner SVM Model Performance on Train Data')
+ax[1].set_xlabel('Predicted')
+ax[1].set_ylabel('Actual')
+plt.tight_layout()
+plt.show()
+
+```
+
+
+    
+![png](output_331_0.png)
+    
+
+
+
+```python
+##################################
+# Summarizing the F1 score results
+# and classification metrics
+# on the validation data
+# to assess overfitting optimism
+##################################
+print(f"F1 Score on Validation Data: {stacked_baselearner_svm_optimal_f1_validation:.4f}")
+print("\nClassification Report on Validation Data:\n", classification_report(y_preprocessed_validation_encoded, stacked_baselearner_svm_optimal.predict(X_preprocessed_validation)))
+
+```
+
+    F1 Score on Validation Data: 0.8293
+    
+    Classification Report on Validation Data:
+                   precision    recall  f1-score   support
+    
+             0.0       0.94      0.92      0.93        49
+             1.0       0.81      0.85      0.83        20
+    
+        accuracy                           0.90        69
+       macro avg       0.87      0.88      0.88        69
+    weighted avg       0.90      0.90      0.90        69
+    
+    
+
+
+```python
+##################################
+# Formulating the raw and normalized
+# confusion matrices
+# from the validation data
+##################################
+cm_raw = confusion_matrix(y_preprocessed_validation_encoded, stacked_baselearner_svm_optimal.predict(X_preprocessed_validation))
+cm_normalized = confusion_matrix(y_preprocessed_validation_encoded, stacked_baselearner_svm_optimal.predict(X_preprocessed_validation), normalize='true')
+fig, ax = plt.subplots(1, 2, figsize=(17, 8))
+sns.heatmap(cm_raw, annot=True, fmt='d', cmap='Blues', ax=ax[0])
+ax[0].set_title('Confusion Matrix (Raw Count): Optimal Stacked Base Learner SVM Model Performance on Validation Data')
+ax[0].set_xlabel('Predicted')
+ax[0].set_ylabel('Actual')
+sns.heatmap(cm_normalized, annot=True, fmt='.2f', cmap='Blues', ax=ax[1])
+ax[1].set_title('Confusion Matrix (Normalized): Optimal Stacked Base Learner SVM Model Performance on Validation Data')
+ax[1].set_xlabel('Predicted')
+ax[1].set_ylabel('Actual')
+plt.tight_layout()
+plt.show()
+
+```
+
+
+    
+![png](output_333_0.png)
+    
+
+
+
+```python
+##################################
+# Saving the best individual model
+# developed from the original training data
+################################## 
+joblib.dump(stacked_baselearner_svm_optimal, 
+            os.path.join("..", MODELS_PATH, "stacked_model_baselearner_svm_optimal.pkl"))
+
+```
+
+
+
+
+    ['..\\models\\stacked_model_baselearner_svm_optimal.pkl']
+
+
 
 ### 1.9.3 Base Learner - Ridge Classifier <a class="anchor" id="1.9.3"></a>
 
+
+```python
+##################################
+# Defining the categorical preprocessing parameters
+##################################
+categorical_features = ['Gender','Smoking','Physical_Examination','Adenopathy','Focality','Risk','T','Stage','Response']
+categorical_transformer = OrdinalEncoder()
+categorical_preprocessor = ColumnTransformer(transformers=[
+    ('cat', categorical_transformer, categorical_features)],
+                                             remainder='passthrough',
+                                             force_int_remainder_cols=False)
+
+```
+
+
+```python
+##################################
+# Defining the preprocessing and modeling pipeline parameters
+##################################
+stacked_baselearner_rc_pipeline = Pipeline([
+    ('categorical_preprocessor', categorical_preprocessor),
+    ('stacked_baselearner_rc_model', RidgeClassifier(class_weight='balanced',
+                                                     random_state=88888888))
+])
+
+```
+
+
+```python
+##################################
+# Defining hyperparameter grid
+##################################
+stacked_baselearner_rc_hyperparameter_grid = {
+    'stacked_baselearner_rc_model__alpha': [1.00, 2.00],
+    'stacked_baselearner_rc_model__solver': ['sag', 'saga'],
+    'stacked_baselearner_rc_model__tol': [1e-3, 1e-4]
+}
+
+```
+
+
+```python
+##################################
+# Defining the cross-validation strategy (5-cycle 5-fold CV)
+##################################
+cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
+                                      n_repeats=5, 
+                                      random_state=88888888)
+
+```
+
+
+```python
+##################################
+# Performing Grid Search with cross-validation
+##################################
+stacked_baselearner_rc_grid_search = GridSearchCV(
+    estimator=stacked_baselearner_rc_pipeline,
+    param_grid=stacked_baselearner_rc_hyperparameter_grid,
+    scoring='f1',
+    cv=cv_strategy,
+    n_jobs=-1,
+    verbose=1
+)
+
+```
+
+
+```python
+##################################
+# Encoding the response variables
+# for model evaluation
+##################################
+y_encoder = OrdinalEncoder()
+y_encoder.fit(y_preprocessed_train.values.reshape(-1, 1))
+y_preprocessed_train_encoded = y_encoder.transform(y_preprocessed_train.values.reshape(-1, 1)).ravel()
+y_preprocessed_validation_encoded = y_encoder.transform(y_preprocessed_validation.values.reshape(-1, 1)).ravel()
+
+```
+
+
+```python
+##################################
+# Fitting GridSearchCV
+##################################
+stacked_baselearner_rc_grid_search.fit(X_preprocessed_train, y_preprocessed_train_encoded)
+
+```
+
+    Fitting 25 folds for each of 8 candidates, totalling 200 fits
+    
+
+
+
+
+<style>#sk-container-id-13 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-13 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-13 pre {
+  padding: 0;
+}
+
+#sk-container-id-13 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-13 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-13 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-13 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-13 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-13 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-13 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-13 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-13 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-13 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-13 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-13 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-13 label.sk-toggleable__label {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+#sk-container-id-13 label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
+}
+
+#sk-container-id-13 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-13 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-13 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-13 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-13 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-13 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-13 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-13 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-13 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-13 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-13 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-13 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-13 div.sk-label label.sk-toggleable__label,
+#sk-container-id-13 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-13 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-13 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-13 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-13 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-13 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-13 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-13 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-13 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 0.5em;
+  text-align: center;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-13 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-13 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-13 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-13 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div id="sk-container-id-13" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                                        ColumnTransformer(force_int_remainder_cols=False,
+                                                          remainder=&#x27;passthrough&#x27;,
+                                                          transformers=[(&#x27;cat&#x27;,
+                                                                         OrdinalEncoder(),
+                                                                         [&#x27;Gender&#x27;,
+                                                                          &#x27;Smoking&#x27;,
+                                                                          &#x27;Physical_Examination&#x27;,
+                                                                          &#x27;Adenopathy&#x27;,
+                                                                          &#x27;Focality&#x27;,
+                                                                          &#x27;Risk&#x27;,
+                                                                          &#x27;T&#x27;,
+                                                                          &#x27;Stage&#x27;,
+                                                                          &#x27;Response&#x27;])])),
+                                       (&#x27;stacked_baselearner_rc_model&#x27;,
+                                        RidgeClassifier(class_weight=&#x27;balanced&#x27;,
+                                                        random_state=88888888))]),
+             n_jobs=-1,
+             param_grid={&#x27;stacked_baselearner_rc_model__alpha&#x27;: [1.0, 2.0],
+                         &#x27;stacked_baselearner_rc_model__solver&#x27;: [&#x27;sag&#x27;,
+                                                                  &#x27;saga&#x27;],
+                         &#x27;stacked_baselearner_rc_model__tol&#x27;: [0.001, 0.0001]},
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-105" type="checkbox" ><label for="sk-estimator-id-105" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                                        ColumnTransformer(force_int_remainder_cols=False,
+                                                          remainder=&#x27;passthrough&#x27;,
+                                                          transformers=[(&#x27;cat&#x27;,
+                                                                         OrdinalEncoder(),
+                                                                         [&#x27;Gender&#x27;,
+                                                                          &#x27;Smoking&#x27;,
+                                                                          &#x27;Physical_Examination&#x27;,
+                                                                          &#x27;Adenopathy&#x27;,
+                                                                          &#x27;Focality&#x27;,
+                                                                          &#x27;Risk&#x27;,
+                                                                          &#x27;T&#x27;,
+                                                                          &#x27;Stage&#x27;,
+                                                                          &#x27;Response&#x27;])])),
+                                       (&#x27;stacked_baselearner_rc_model&#x27;,
+                                        RidgeClassifier(class_weight=&#x27;balanced&#x27;,
+                                                        random_state=88888888))]),
+             n_jobs=-1,
+             param_grid={&#x27;stacked_baselearner_rc_model__alpha&#x27;: [1.0, 2.0],
+                         &#x27;stacked_baselearner_rc_model__solver&#x27;: [&#x27;sag&#x27;,
+                                                                  &#x27;saga&#x27;],
+                         &#x27;stacked_baselearner_rc_model__tol&#x27;: [0.001, 0.0001]},
+             scoring=&#x27;f1&#x27;, verbose=1)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-106" type="checkbox" ><label for="sk-estimator-id-106" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>best_estimator_: Pipeline</div></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                 ColumnTransformer(force_int_remainder_cols=False,
+                                   remainder=&#x27;passthrough&#x27;,
+                                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
+                                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;,
+                                                   &#x27;Physical_Examination&#x27;,
+                                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;,
+                                                   &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;,
+                                                   &#x27;Response&#x27;])])),
+                (&#x27;stacked_baselearner_rc_model&#x27;,
+                 RidgeClassifier(alpha=2.0, class_weight=&#x27;balanced&#x27;,
+                                 random_state=88888888, solver=&#x27;sag&#x27;,
+                                 tol=0.001))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-107" type="checkbox" ><label for="sk-estimator-id-107" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                  transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
+                                 [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
+                                  &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-108" type="checkbox" ><label for="sk-estimator-id-108" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-109" type="checkbox" ><label for="sk-estimator-id-109" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-110" type="checkbox" ><label for="sk-estimator-id-110" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-111" type="checkbox" ><label for="sk-estimator-id-111" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-112" type="checkbox" ><label for="sk-estimator-id-112" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>RidgeClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.linear_model.RidgeClassifier.html">?<span>Documentation for RidgeClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>RidgeClassifier(alpha=2.0, class_weight=&#x27;balanced&#x27;, random_state=88888888,
+                solver=&#x27;sag&#x27;, tol=0.001)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+
+
+
+
+```python
+##################################
+# Identifying the best model
+##################################
+stacked_baselearner_rc_optimal = stacked_baselearner_rc_grid_search.best_estimator_
+
+```
+
+
+```python
+##################################
+# Evaluating the F1 scores
+# on the training, cross-validation, and validation data
+##################################
+stacked_baselearner_rc_optimal_f1_cv = stacked_baselearner_rc_grid_search.best_score_
+stacked_baselearner_rc_optimal_f1_train = f1_score(y_preprocessed_train_encoded, stacked_baselearner_rc_optimal.predict(X_preprocessed_train))
+stacked_baselearner_rc_optimal_f1_validation = f1_score(y_preprocessed_validation_encoded, stacked_baselearner_rc_optimal.predict(X_preprocessed_validation))
+
+```
+
+
+```python
+##################################
+# Identifying the optimal model
+##################################
+print('Best Bagged Model – Stacked Base Learner KNN: ')
+print(f"Best Stacked Base Learner KNN Hyperparameters: {stacked_baselearner_rc_grid_search.best_params_}")
+
+```
+
+    Best Bagged Model – Stacked Base Learner KNN: 
+    Best Stacked Base Learner KNN Hyperparameters: {'stacked_baselearner_rc_model__alpha': 2.0, 'stacked_baselearner_rc_model__solver': 'sag', 'stacked_baselearner_rc_model__tol': 0.001}
+    
+
+
+```python
+##################################
+# Summarizing the F1 score results
+# and classification metrics
+# on the training and cross-validated data
+# to assess overfitting optimism
+##################################
+print(f"F1 Score on Cross-Validated Data: {stacked_baselearner_rc_optimal_f1_cv:.4f}")
+print(f"F1 Score on Training Data: {stacked_baselearner_rc_optimal_f1_train:.4f}")
+print("\nClassification Report on Training Data:\n", classification_report(y_preprocessed_train_encoded, stacked_baselearner_rc_optimal.predict(X_preprocessed_train)))
+
+```
+
+    F1 Score on Cross-Validated Data: 0.8655
+    F1 Score on Training Data: 0.8819
+    
+    Classification Report on Training Data:
+                   precision    recall  f1-score   support
+    
+             0.0       0.96      0.93      0.95       143
+             1.0       0.85      0.92      0.88        61
+    
+        accuracy                           0.93       204
+       macro avg       0.91      0.92      0.91       204
+    weighted avg       0.93      0.93      0.93       204
+    
+    
+
+
+```python
+##################################
+# Formulating the raw and normalized
+# confusion matrices
+# from the train data
+##################################
+cm_raw = confusion_matrix(y_preprocessed_train_encoded, stacked_baselearner_rc_optimal.predict(X_preprocessed_train))
+cm_normalized = confusion_matrix(y_preprocessed_train_encoded, stacked_baselearner_rc_optimal.predict(X_preprocessed_train), normalize='true')
+fig, ax = plt.subplots(1, 2, figsize=(17, 8))
+sns.heatmap(cm_raw, annot=True, fmt='d', cmap='Blues', ax=ax[0])
+ax[0].set_title('Confusion Matrix (Raw Count): Optimal Stacked Base Learner Ridge Classifier Model Performance on Train Data')
+ax[0].set_xlabel('Predicted')
+ax[0].set_ylabel('Actual')
+sns.heatmap(cm_normalized, annot=True, fmt='.2f', cmap='Blues', ax=ax[1])
+ax[1].set_title('Confusion Matrix (Normalized): Optimal Stacked Base Learner Ridge Classifier Model Performance on Train Data')
+ax[1].set_xlabel('Predicted')
+ax[1].set_ylabel('Actual')
+plt.tight_layout()
+plt.show()
+
+```
+
+
+    
+![png](output_347_0.png)
+    
+
+
+
+```python
+##################################
+# Summarizing the F1 score results
+# and classification metrics
+# on the validation data
+# to assess overfitting optimism
+##################################
+print(f"F1 Score on Validation Data: {stacked_baselearner_rc_optimal_f1_validation:.4f}")
+print("\nClassification Report on Validation Data:\n", classification_report(y_preprocessed_validation_encoded, stacked_baselearner_rc_optimal.predict(X_preprocessed_validation)))
+
+```
+
+    F1 Score on Validation Data: 0.8500
+    
+    Classification Report on Validation Data:
+                   precision    recall  f1-score   support
+    
+             0.0       0.94      0.94      0.94        49
+             1.0       0.85      0.85      0.85        20
+    
+        accuracy                           0.91        69
+       macro avg       0.89      0.89      0.89        69
+    weighted avg       0.91      0.91      0.91        69
+    
+    
+
+
+```python
+##################################
+# Formulating the raw and normalized
+# confusion matrices
+# from the validation data
+##################################
+cm_raw = confusion_matrix(y_preprocessed_validation_encoded, stacked_baselearner_rc_optimal.predict(X_preprocessed_validation))
+cm_normalized = confusion_matrix(y_preprocessed_validation_encoded, stacked_baselearner_rc_optimal.predict(X_preprocessed_validation), normalize='true')
+fig, ax = plt.subplots(1, 2, figsize=(17, 8))
+sns.heatmap(cm_raw, annot=True, fmt='d', cmap='Blues', ax=ax[0])
+ax[0].set_title('Confusion Matrix (Raw Count): Optimal Stacked Base Learner Ridge Classifier Model Performance on Validation Data')
+ax[0].set_xlabel('Predicted')
+ax[0].set_ylabel('Actual')
+sns.heatmap(cm_normalized, annot=True, fmt='.2f', cmap='Blues', ax=ax[1])
+ax[1].set_title('Confusion Matrix (Normalized): Optimal Stacked Base Learner Ridge Classifier Model Performance on Validation Data')
+ax[1].set_xlabel('Predicted')
+ax[1].set_ylabel('Actual')
+plt.tight_layout()
+plt.show()
+
+```
+
+
+    
+![png](output_349_0.png)
+    
+
+
+
+```python
+##################################
+# Saving the best individual model
+# developed from the original training data
+################################## 
+joblib.dump(stacked_baselearner_rc_optimal, 
+            os.path.join("..", MODELS_PATH, "stacked_model_baselearner_ridge_classifier_optimal.pkl"))
+
+```
+
+
+
+
+    ['..\\models\\stacked_model_baselearner_ridge_classifier_optimal.pkl']
+
+
+
 ### 1.9.4 Base Learner - Neural Network <a class="anchor" id="1.9.4"></a>
 
+
+```python
+##################################
+# Defining the categorical preprocessing parameters
+##################################
+categorical_features = ['Gender','Smoking','Physical_Examination','Adenopathy','Focality','Risk','T','Stage','Response']
+categorical_transformer = OrdinalEncoder()
+categorical_preprocessor = ColumnTransformer(transformers=[
+    ('cat', categorical_transformer, categorical_features)],
+                                             remainder='passthrough',
+                                             force_int_remainder_cols=False)
+
+```
+
+
+```python
+##################################
+# Defining the preprocessing and modeling pipeline parameters
+##################################
+stacked_baselearner_nn_pipeline = Pipeline([
+    ('categorical_preprocessor', categorical_preprocessor),
+    ('stacked_baselearner_nn_model', MLPClassifier(max_iter=500,
+                                                   early_stopping=False,
+                                                   random_state=88888888))
+])
+
+```
+
+
+```python
+##################################
+# Defining hyperparameter grid
+##################################
+stacked_baselearner_nn_hyperparameter_grid = {
+    'stacked_baselearner_nn_model__hidden_layer_sizes': [(50,), (100,)],
+    'stacked_baselearner_nn_model__activation': ['relu', 'tanh'],
+    'stacked_baselearner_nn_model__alpha': [0.0001, 0.001]
+}
+
+```
+
+
+```python
+##################################
+# Defining the cross-validation strategy (5-cycle 5-fold CV)
+##################################
+cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
+                                      n_repeats=5, 
+                                      random_state=88888888)
+
+```
+
+
+```python
+##################################
+# Performing Grid Search with cross-validation
+##################################
+stacked_baselearner_nn_grid_search = GridSearchCV(
+    estimator=stacked_baselearner_nn_pipeline,
+    param_grid=stacked_baselearner_nn_hyperparameter_grid,
+    scoring='f1',
+    cv=cv_strategy,
+    n_jobs=-1,
+    verbose=1
+)
+
+```
+
+
+```python
+##################################
+# Encoding the response variables
+# for model evaluation
+##################################
+y_encoder = OrdinalEncoder()
+y_encoder.fit(y_preprocessed_train.values.reshape(-1, 1))
+y_preprocessed_train_encoded = y_encoder.transform(y_preprocessed_train.values.reshape(-1, 1)).ravel()
+y_preprocessed_validation_encoded = y_encoder.transform(y_preprocessed_validation.values.reshape(-1, 1)).ravel()
+
+```
+
+
+```python
+##################################
+# Fitting GridSearchCV
+##################################
+stacked_baselearner_nn_grid_search.fit(X_preprocessed_train, y_preprocessed_train_encoded)
+
+```
+
+    Fitting 25 folds for each of 8 candidates, totalling 200 fits
+    
+
+
+
+
+<style>#sk-container-id-14 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-14 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-14 pre {
+  padding: 0;
+}
+
+#sk-container-id-14 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-14 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-14 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-14 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-14 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-14 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-14 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-14 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-14 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-14 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-14 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-14 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-14 label.sk-toggleable__label {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+#sk-container-id-14 label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
+}
+
+#sk-container-id-14 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-14 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-14 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-14 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-14 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-14 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-14 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-14 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-14 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-14 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-14 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-14 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-14 div.sk-label label.sk-toggleable__label,
+#sk-container-id-14 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-14 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-14 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-14 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-14 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-14 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-14 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-14 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-14 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 0.5em;
+  text-align: center;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-14 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-14 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-14 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-14 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div id="sk-container-id-14" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                                        ColumnTransformer(force_int_remainder_cols=False,
+                                                          remainder=&#x27;passthrough&#x27;,
+                                                          transformers=[(&#x27;cat&#x27;,
+                                                                         OrdinalEncoder(),
+                                                                         [&#x27;Gender&#x27;,
+                                                                          &#x27;Smoking&#x27;,
+                                                                          &#x27;Physical_Examination&#x27;,
+                                                                          &#x27;Adenopathy&#x27;,
+                                                                          &#x27;Focality&#x27;,
+                                                                          &#x27;Risk&#x27;,
+                                                                          &#x27;T&#x27;,
+                                                                          &#x27;Stage&#x27;,
+                                                                          &#x27;Response&#x27;])])),
+                                       (&#x27;stacked_baselearner_nn_model&#x27;,
+                                        MLPClassifier(max_iter=500,
+                                                      random_state=88888888))]),
+             n_jobs=-1,
+             param_grid={&#x27;stacked_baselearner_nn_model__activation&#x27;: [&#x27;relu&#x27;,
+                                                                      &#x27;tanh&#x27;],
+                         &#x27;stacked_baselearner_nn_model__alpha&#x27;: [0.0001, 0.001],
+                         &#x27;stacked_baselearner_nn_model__hidden_layer_sizes&#x27;: [(50,),
+                                                                              (100,)]},
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-113" type="checkbox" ><label for="sk-estimator-id-113" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                                        ColumnTransformer(force_int_remainder_cols=False,
+                                                          remainder=&#x27;passthrough&#x27;,
+                                                          transformers=[(&#x27;cat&#x27;,
+                                                                         OrdinalEncoder(),
+                                                                         [&#x27;Gender&#x27;,
+                                                                          &#x27;Smoking&#x27;,
+                                                                          &#x27;Physical_Examination&#x27;,
+                                                                          &#x27;Adenopathy&#x27;,
+                                                                          &#x27;Focality&#x27;,
+                                                                          &#x27;Risk&#x27;,
+                                                                          &#x27;T&#x27;,
+                                                                          &#x27;Stage&#x27;,
+                                                                          &#x27;Response&#x27;])])),
+                                       (&#x27;stacked_baselearner_nn_model&#x27;,
+                                        MLPClassifier(max_iter=500,
+                                                      random_state=88888888))]),
+             n_jobs=-1,
+             param_grid={&#x27;stacked_baselearner_nn_model__activation&#x27;: [&#x27;relu&#x27;,
+                                                                      &#x27;tanh&#x27;],
+                         &#x27;stacked_baselearner_nn_model__alpha&#x27;: [0.0001, 0.001],
+                         &#x27;stacked_baselearner_nn_model__hidden_layer_sizes&#x27;: [(50,),
+                                                                              (100,)]},
+             scoring=&#x27;f1&#x27;, verbose=1)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-114" type="checkbox" ><label for="sk-estimator-id-114" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>best_estimator_: Pipeline</div></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                 ColumnTransformer(force_int_remainder_cols=False,
+                                   remainder=&#x27;passthrough&#x27;,
+                                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
+                                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;,
+                                                   &#x27;Physical_Examination&#x27;,
+                                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;,
+                                                   &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;,
+                                                   &#x27;Response&#x27;])])),
+                (&#x27;stacked_baselearner_nn_model&#x27;,
+                 MLPClassifier(alpha=0.001, max_iter=500,
+                               random_state=88888888))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-115" type="checkbox" ><label for="sk-estimator-id-115" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                  transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
+                                 [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
+                                  &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-116" type="checkbox" ><label for="sk-estimator-id-116" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-117" type="checkbox" ><label for="sk-estimator-id-117" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-118" type="checkbox" ><label for="sk-estimator-id-118" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-119" type="checkbox" ><label for="sk-estimator-id-119" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-120" type="checkbox" ><label for="sk-estimator-id-120" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>MLPClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.neural_network.MLPClassifier.html">?<span>Documentation for MLPClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>MLPClassifier(alpha=0.001, max_iter=500, random_state=88888888)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+
+
+
+
+```python
+##################################
+# Identifying the best model
+##################################
+stacked_baselearner_nn_optimal = stacked_baselearner_nn_grid_search.best_estimator_
+
+```
+
+
+```python
+##################################
+# Evaluating the F1 scores
+# on the training, cross-validation, and validation data
+##################################
+stacked_baselearner_nn_optimal_f1_cv = stacked_baselearner_nn_grid_search.best_score_
+stacked_baselearner_nn_optimal_f1_train = f1_score(y_preprocessed_train_encoded, stacked_baselearner_nn_optimal.predict(X_preprocessed_train))
+stacked_baselearner_nn_optimal_f1_validation = f1_score(y_preprocessed_validation_encoded, stacked_baselearner_nn_optimal.predict(X_preprocessed_validation))
+
+```
+
+
+```python
+##################################
+# Identifying the optimal model
+##################################
+print('Best Bagged Model – Stacked Base Learner KNN: ')
+print(f"Best Stacked Base Learner KNN Hyperparameters: {stacked_baselearner_nn_grid_search.best_params_}")
+
+```
+
+    Best Bagged Model – Stacked Base Learner KNN: 
+    Best Stacked Base Learner KNN Hyperparameters: {'stacked_baselearner_nn_model__activation': 'relu', 'stacked_baselearner_nn_model__alpha': 0.001, 'stacked_baselearner_nn_model__hidden_layer_sizes': (100,)}
+    
+
+
+```python
+##################################
+# Summarizing the F1 score results
+# and classification metrics
+# on the training and cross-validated data
+# to assess overfitting optimism
+##################################
+print(f"F1 Score on Cross-Validated Data: {stacked_baselearner_nn_optimal_f1_cv:.4f}")
+print(f"F1 Score on Training Data: {stacked_baselearner_nn_optimal_f1_train:.4f}")
+print("\nClassification Report on Training Data:\n", classification_report(y_preprocessed_train_encoded, stacked_baselearner_nn_optimal.predict(X_preprocessed_train)))
+
+```
+
+    F1 Score on Cross-Validated Data: 0.8818
+    F1 Score on Training Data: 0.8760
+    
+    Classification Report on Training Data:
+                   precision    recall  f1-score   support
+    
+             0.0       0.94      0.95      0.95       143
+             1.0       0.88      0.87      0.88        61
+    
+        accuracy                           0.93       204
+       macro avg       0.91      0.91      0.91       204
+    weighted avg       0.93      0.93      0.93       204
+    
+    
+
+
+```python
+##################################
+# Formulating the raw and normalized
+# confusion matrices
+# from the train data
+##################################
+cm_raw = confusion_matrix(y_preprocessed_train_encoded, stacked_baselearner_nn_optimal.predict(X_preprocessed_train))
+cm_normalized = confusion_matrix(y_preprocessed_train_encoded, stacked_baselearner_nn_optimal.predict(X_preprocessed_train), normalize='true')
+fig, ax = plt.subplots(1, 2, figsize=(17, 8))
+sns.heatmap(cm_raw, annot=True, fmt='d', cmap='Blues', ax=ax[0])
+ax[0].set_title('Confusion Matrix (Raw Count): Optimal Stacked Base Learner Neural Network Model Performance on Train Data')
+ax[0].set_xlabel('Predicted')
+ax[0].set_ylabel('Actual')
+sns.heatmap(cm_normalized, annot=True, fmt='.2f', cmap='Blues', ax=ax[1])
+ax[1].set_title('Confusion Matrix (Normalized): Optimal Stacked Base Learner Neural Network Model Performance on Train Data')
+ax[1].set_xlabel('Predicted')
+ax[1].set_ylabel('Actual')
+plt.tight_layout()
+plt.show()
+
+```
+
+
+    
+![png](output_363_0.png)
+    
+
+
+
+```python
+##################################
+# Summarizing the F1 score results
+# and classification metrics
+# on the validation data
+# to assess overfitting optimism
+##################################
+print(f"F1 Score on Validation Data: {stacked_baselearner_nn_optimal_f1_validation:.4f}")
+print("\nClassification Report on Validation Data:\n", classification_report(y_preprocessed_validation_encoded, stacked_baselearner_nn_optimal.predict(X_preprocessed_validation)))
+
+```
+
+    F1 Score on Validation Data: 0.8108
+    
+    Classification Report on Validation Data:
+                   precision    recall  f1-score   support
+    
+             0.0       0.90      0.96      0.93        49
+             1.0       0.88      0.75      0.81        20
+    
+        accuracy                           0.90        69
+       macro avg       0.89      0.85      0.87        69
+    weighted avg       0.90      0.90      0.90        69
+    
+    
+
+
+```python
+##################################
+# Formulating the raw and normalized
+# confusion matrices
+# from the validation data
+##################################
+cm_raw = confusion_matrix(y_preprocessed_validation_encoded, stacked_baselearner_nn_optimal.predict(X_preprocessed_validation))
+cm_normalized = confusion_matrix(y_preprocessed_validation_encoded, stacked_baselearner_nn_optimal.predict(X_preprocessed_validation), normalize='true')
+fig, ax = plt.subplots(1, 2, figsize=(17, 8))
+sns.heatmap(cm_raw, annot=True, fmt='d', cmap='Blues', ax=ax[0])
+ax[0].set_title('Confusion Matrix (Raw Count): Optimal Stacked Base Learner Neural Network Model Performance on Validation Data')
+ax[0].set_xlabel('Predicted')
+ax[0].set_ylabel('Actual')
+sns.heatmap(cm_normalized, annot=True, fmt='.2f', cmap='Blues', ax=ax[1])
+ax[1].set_title('Confusion Matrix (Normalized): Optimal Stacked Base Learner Neural Network Model Performance on Validation Data')
+ax[1].set_xlabel('Predicted')
+ax[1].set_ylabel('Actual')
+plt.tight_layout()
+plt.show()
+
+```
+
+
+    
+![png](output_365_0.png)
+    
+
+
+
+```python
+##################################
+# Saving the best individual model
+# developed from the original training data
+################################## 
+joblib.dump(stacked_baselearner_nn_optimal, 
+            os.path.join("..", MODELS_PATH, "stacked_model_baselearner_neural_network_optimal.pkl"))
+
+```
+
+
+
+
+    ['..\\models\\stacked_model_baselearner_neural_network_optimal.pkl']
+
+
+
 ### 1.9.5 Base Learner - Decision Tree <a class="anchor" id="1.9.5"></a>
+
+
+```python
+##################################
+# Defining the categorical preprocessing parameters
+##################################
+categorical_features = ['Gender','Smoking','Physical_Examination','Adenopathy','Focality','Risk','T','Stage','Response']
+categorical_transformer = OrdinalEncoder()
+categorical_preprocessor = ColumnTransformer(transformers=[
+    ('cat', categorical_transformer, categorical_features)],
+                                             remainder='passthrough',
+                                             force_int_remainder_cols=False)
+
+```
+
+
+```python
+##################################
+# Defining the preprocessing and modeling pipeline parameters
+##################################
+stacked_baselearner_dt_pipeline = Pipeline([
+    ('categorical_preprocessor', categorical_preprocessor),
+    ('stacked_baselearner_dt_model', DecisionTreeClassifier(class_weight='balanced',
+                                                            random_state=88888888))
+])
+
+```
+
+
+```python
+##################################
+# Defining hyperparameter grid
+##################################
+stacked_baselearner_dt_hyperparameter_grid = {
+    'stacked_baselearner_dt_model__criterion': ['gini', 'entropy'],
+    'stacked_baselearner_dt_model__max_depth': [3, 5],
+    'stacked_baselearner_dt_model__min_samples_leaf': [5, 10]
+}
+
+```
+
+
+```python
+##################################
+# Defining the cross-validation strategy (5-cycle 5-fold CV)
+##################################
+cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
+                                      n_repeats=5, 
+                                      random_state=88888888)
+
+```
+
+
+```python
+##################################
+# Performing Grid Search with cross-validation
+##################################
+stacked_baselearner_dt_grid_search = GridSearchCV(
+    estimator=stacked_baselearner_dt_pipeline,
+    param_grid=stacked_baselearner_dt_hyperparameter_grid,
+    scoring='f1',
+    cv=cv_strategy,
+    n_jobs=-1,
+    verbose=1
+)
+
+```
+
+
+```python
+##################################
+# Encoding the response variables
+# for model evaluation
+##################################
+y_encoder = OrdinalEncoder()
+y_encoder.fit(y_preprocessed_train.values.reshape(-1, 1))
+y_preprocessed_train_encoded = y_encoder.transform(y_preprocessed_train.values.reshape(-1, 1)).ravel()
+y_preprocessed_validation_encoded = y_encoder.transform(y_preprocessed_validation.values.reshape(-1, 1)).ravel()
+
+```
+
+
+```python
+##################################
+# Fitting GridSearchCV
+##################################
+stacked_baselearner_dt_grid_search.fit(X_preprocessed_train, y_preprocessed_train_encoded)
+
+```
+
+    Fitting 25 folds for each of 8 candidates, totalling 200 fits
+    
+
+
+
+
+<style>#sk-container-id-15 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-15 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-15 pre {
+  padding: 0;
+}
+
+#sk-container-id-15 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-15 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-15 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-15 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-15 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-15 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-15 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-15 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-15 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-15 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-15 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-15 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-15 label.sk-toggleable__label {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+#sk-container-id-15 label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
+}
+
+#sk-container-id-15 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-15 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-15 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-15 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-15 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-15 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-15 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-15 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-15 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-15 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-15 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-15 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-15 div.sk-label label.sk-toggleable__label,
+#sk-container-id-15 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-15 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-15 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-15 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-15 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-15 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-15 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-15 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-15 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 0.5em;
+  text-align: center;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-15 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-15 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-15 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-15 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div id="sk-container-id-15" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                                        ColumnTransformer(force_int_remainder_cols=False,
+                                                          remainder=&#x27;passthrough&#x27;,
+                                                          transformers=[(&#x27;cat&#x27;,
+                                                                         OrdinalEncoder(),
+                                                                         [&#x27;Gender&#x27;,
+                                                                          &#x27;Smoking&#x27;,
+                                                                          &#x27;Physical_Examination&#x27;,
+                                                                          &#x27;Adenopathy&#x27;,
+                                                                          &#x27;Focality&#x27;,
+                                                                          &#x27;Risk&#x27;,
+                                                                          &#x27;T&#x27;,
+                                                                          &#x27;Stage&#x27;,
+                                                                          &#x27;Response&#x27;])])),
+                                       (&#x27;stacked_baselearner_dt_model&#x27;,
+                                        DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;,
+                                                               random_state=88888888))]),
+             n_jobs=-1,
+             param_grid={&#x27;stacked_baselearner_dt_model__criterion&#x27;: [&#x27;gini&#x27;,
+                                                                     &#x27;entropy&#x27;],
+                         &#x27;stacked_baselearner_dt_model__max_depth&#x27;: [3, 5],
+                         &#x27;stacked_baselearner_dt_model__min_samples_leaf&#x27;: [5,
+                                                                            10]},
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-121" type="checkbox" ><label for="sk-estimator-id-121" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                                        ColumnTransformer(force_int_remainder_cols=False,
+                                                          remainder=&#x27;passthrough&#x27;,
+                                                          transformers=[(&#x27;cat&#x27;,
+                                                                         OrdinalEncoder(),
+                                                                         [&#x27;Gender&#x27;,
+                                                                          &#x27;Smoking&#x27;,
+                                                                          &#x27;Physical_Examination&#x27;,
+                                                                          &#x27;Adenopathy&#x27;,
+                                                                          &#x27;Focality&#x27;,
+                                                                          &#x27;Risk&#x27;,
+                                                                          &#x27;T&#x27;,
+                                                                          &#x27;Stage&#x27;,
+                                                                          &#x27;Response&#x27;])])),
+                                       (&#x27;stacked_baselearner_dt_model&#x27;,
+                                        DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;,
+                                                               random_state=88888888))]),
+             n_jobs=-1,
+             param_grid={&#x27;stacked_baselearner_dt_model__criterion&#x27;: [&#x27;gini&#x27;,
+                                                                     &#x27;entropy&#x27;],
+                         &#x27;stacked_baselearner_dt_model__max_depth&#x27;: [3, 5],
+                         &#x27;stacked_baselearner_dt_model__min_samples_leaf&#x27;: [5,
+                                                                            10]},
+             scoring=&#x27;f1&#x27;, verbose=1)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-122" type="checkbox" ><label for="sk-estimator-id-122" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>best_estimator_: Pipeline</div></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
+                 ColumnTransformer(force_int_remainder_cols=False,
+                                   remainder=&#x27;passthrough&#x27;,
+                                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
+                                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;,
+                                                   &#x27;Physical_Examination&#x27;,
+                                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;,
+                                                   &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;,
+                                                   &#x27;Response&#x27;])])),
+                (&#x27;stacked_baselearner_dt_model&#x27;,
+                 DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;,
+                                        criterion=&#x27;entropy&#x27;, max_depth=3,
+                                        min_samples_leaf=5,
+                                        random_state=88888888))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-123" type="checkbox" ><label for="sk-estimator-id-123" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                  transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
+                                 [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
+                                  &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-124" type="checkbox" ><label for="sk-estimator-id-124" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-125" type="checkbox" ><label for="sk-estimator-id-125" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-126" type="checkbox" ><label for="sk-estimator-id-126" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-127" type="checkbox" ><label for="sk-estimator-id-127" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-128" type="checkbox" ><label for="sk-estimator-id-128" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>DecisionTreeClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.tree.DecisionTreeClassifier.html">?<span>Documentation for DecisionTreeClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;, criterion=&#x27;entropy&#x27;,
+                       max_depth=3, min_samples_leaf=5, random_state=88888888)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+
+
+
+
+```python
+##################################
+# Identifying the best model
+##################################
+stacked_baselearner_dt_optimal = stacked_baselearner_dt_grid_search.best_estimator_
+
+```
+
+
+```python
+##################################
+# Evaluating the F1 scores
+# on the training, cross-validation, and validation data
+##################################
+stacked_baselearner_dt_optimal_f1_cv = stacked_baselearner_dt_grid_search.best_score_
+stacked_baselearner_dt_optimal_f1_train = f1_score(y_preprocessed_train_encoded, stacked_baselearner_dt_optimal.predict(X_preprocessed_train))
+stacked_baselearner_dt_optimal_f1_validation = f1_score(y_preprocessed_validation_encoded, stacked_baselearner_dt_optimal.predict(X_preprocessed_validation))
+
+```
+
+
+```python
+##################################
+# Identifying the optimal model
+##################################
+print('Best Bagged Model – Stacked Base Learner Decision Trees: ')
+print(f"Best Stacked Base Learner Decision Trees Hyperparameters: {stacked_baselearner_dt_grid_search.best_params_}")
+
+```
+
+    Best Bagged Model – Stacked Base Learner Decision Trees: 
+    Best Stacked Base Learner Decision Trees Hyperparameters: {'stacked_baselearner_dt_model__criterion': 'entropy', 'stacked_baselearner_dt_model__max_depth': 3, 'stacked_baselearner_dt_model__min_samples_leaf': 5}
+    
+
+
+```python
+##################################
+# Summarizing the F1 score results
+# and classification metrics
+# on the training and cross-validated data
+# to assess overfitting optimism
+##################################
+print(f"F1 Score on Cross-Validated Data: {stacked_baselearner_dt_optimal_f1_cv:.4f}")
+print(f"F1 Score on Training Data: {stacked_baselearner_dt_optimal_f1_train:.4f}")
+print("\nClassification Report on Training Data:\n", classification_report(y_preprocessed_train_encoded, stacked_baselearner_dt_optimal.predict(X_preprocessed_train)))
+
+```
+
+    F1 Score on Cross-Validated Data: 0.8767
+    F1 Score on Training Data: 0.8788
+    
+    Classification Report on Training Data:
+                   precision    recall  f1-score   support
+    
+             0.0       0.98      0.91      0.94       143
+             1.0       0.82      0.95      0.88        61
+    
+        accuracy                           0.92       204
+       macro avg       0.90      0.93      0.91       204
+    weighted avg       0.93      0.92      0.92       204
+    
+    
+
+
+```python
+##################################
+# Formulating the raw and normalized
+# confusion matrices
+# from the train data
+##################################
+cm_raw = confusion_matrix(y_preprocessed_train_encoded, stacked_baselearner_dt_optimal.predict(X_preprocessed_train))
+cm_normalized = confusion_matrix(y_preprocessed_train_encoded, stacked_baselearner_dt_optimal.predict(X_preprocessed_train), normalize='true')
+fig, ax = plt.subplots(1, 2, figsize=(17, 8))
+sns.heatmap(cm_raw, annot=True, fmt='d', cmap='Blues', ax=ax[0])
+ax[0].set_title('Confusion Matrix (Raw Count): Optimal Stacked Base Learner Decision Trees Model Performance on Train Data')
+ax[0].set_xlabel('Predicted')
+ax[0].set_ylabel('Actual')
+sns.heatmap(cm_normalized, annot=True, fmt='.2f', cmap='Blues', ax=ax[1])
+ax[1].set_title('Confusion Matrix (Normalized): Optimal Stacked Base Learner Decision Trees Model Performance on Train Data')
+ax[1].set_xlabel('Predicted')
+ax[1].set_ylabel('Actual')
+plt.tight_layout()
+plt.show()
+
+```
+
+
+    
+![png](output_379_0.png)
+    
+
+
+
+```python
+##################################
+# Summarizing the F1 score results
+# and classification metrics
+# on the validation data
+# to assess overfitting optimism
+##################################
+print(f"F1 Score on Validation Data: {stacked_baselearner_dt_optimal_f1_validation:.4f}")
+print("\nClassification Report on Validation Data:\n", classification_report(y_preprocessed_validation_encoded, stacked_baselearner_dt_optimal.predict(X_preprocessed_validation)))
+
+```
+
+    F1 Score on Validation Data: 0.8500
+    
+    Classification Report on Validation Data:
+                   precision    recall  f1-score   support
+    
+             0.0       0.94      0.94      0.94        49
+             1.0       0.85      0.85      0.85        20
+    
+        accuracy                           0.91        69
+       macro avg       0.89      0.89      0.89        69
+    weighted avg       0.91      0.91      0.91        69
+    
+    
+
+
+```python
+##################################
+# Formulating the raw and normalized
+# confusion matrices
+# from the validation data
+##################################
+cm_raw = confusion_matrix(y_preprocessed_validation_encoded, stacked_baselearner_dt_optimal.predict(X_preprocessed_validation))
+cm_normalized = confusion_matrix(y_preprocessed_validation_encoded, stacked_baselearner_dt_optimal.predict(X_preprocessed_validation), normalize='true')
+fig, ax = plt.subplots(1, 2, figsize=(17, 8))
+sns.heatmap(cm_raw, annot=True, fmt='d', cmap='Blues', ax=ax[0])
+ax[0].set_title('Confusion Matrix (Raw Count): Optimal Stacked Base Learner Decision Trees Model Performance on Validation Data')
+ax[0].set_xlabel('Predicted')
+ax[0].set_ylabel('Actual')
+sns.heatmap(cm_normalized, annot=True, fmt='.2f', cmap='Blues', ax=ax[1])
+ax[1].set_title('Confusion Matrix (Normalized): Optimal Stacked Base Learner Decision Trees Model Performance on Validation Data')
+ax[1].set_xlabel('Predicted')
+ax[1].set_ylabel('Actual')
+plt.tight_layout()
+plt.show()
+
+```
+
+
+    
+![png](output_381_0.png)
+    
+
+
+
+```python
+##################################
+# Saving the best individual model
+# developed from the original training data
+################################## 
+joblib.dump(stacked_baselearner_dt_optimal, 
+            os.path.join("..", MODELS_PATH, "stacked_model_baselearner_decision_trees_optimal.pkl"))
+
+```
+
+
+
+
+    ['..\\models\\stacked_model_baselearner_decision_trees_optimal.pkl']
+
+
 
 ### 1.9.6 Meta Learner - Logistic Regression <a class="anchor" id="1.9.6"></a>
 
