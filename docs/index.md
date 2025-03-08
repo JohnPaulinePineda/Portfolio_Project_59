@@ -2,7 +2,7 @@
 # Supervised Learning : Leveraging Ensemble Learning With Bagging, Boosting, Stacking and Blending Approaches
 
 ***
-### [**John Pauline Pineda**](https://github.com/JohnPaulinePineda) <br> <br> *March 9, 2025*
+### [**John Pauline Pineda**](https://github.com/JohnPaulinePineda) <br> <br> *March 10, 2025*
 ***
 
 * [**1. Table of Contents**](#TOC)
@@ -24,7 +24,7 @@
     * [1.7 Bagged Model Development](#1.7)
         * [1.7.1 Random Forest](#1.7.1)
         * [1.7.2 Extra Trees](#1.7.2)
-        * [1.7.3 Bagged Decision Tree](#1.7.3)
+        * [1.7.3 Bagged Decision Trees](#1.7.3)
         * [1.7.4 Bagged Logistic Regression](#1.7.4)
         * [1.7.5 Bagged Support Vector Machine](#1.7.5)
     * [1.8 Boosted Model Development](#1.8)
@@ -6631,6 +6631,25 @@ thyroid_cancer_preprocessed_test.head()
 
 
 
+
+```python
+##################################
+# Defining a function to compute
+# model performance
+##################################
+def model_performance_evaluation(y_true, y_pred):
+    metric_name = ['Accuracy','Precision','Recall','F1','AUROC']
+    metric_value = [accuracy_score(y_true, y_pred),
+                   precision_score(y_true, y_pred),
+                   recall_score(y_true, y_pred),
+                   f1_score(y_true, y_pred),
+                   roc_auc_score(y_true, y_pred)]    
+    metric_summary = pd.DataFrame(zip(metric_name, metric_value),
+                                  columns=['metric_name','metric_value']) 
+    return(metric_summary)
+    
+```
+
 ## 1.7. Bagged Model Development <a class="anchor" id="1.7"></a>
 
 ### 1.7.1 Random Forest <a class="anchor" id="1.7.1"></a>
@@ -7303,7 +7322,7 @@ plt.show()
 
 
     
-![png](output_153_0.png)
+![png](output_154_0.png)
     
 
 
@@ -7359,8 +7378,174 @@ plt.show()
 
 
     
-![png](output_155_0.png)
+![png](output_156_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+bagged_rf_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, bagged_rf_optimal.predict(X_preprocessed_train))
+bagged_rf_optimal_train['model'] = ['bagged_rf_optimal'] * 5
+bagged_rf_optimal_train['set'] = ['train'] * 5
+print('Optimal Random Forest Train Performance Metrics: ')
+display(bagged_rf_optimal_train)
+
+```
+
+    Optimal Random Forest Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.931373</td>
+      <td>bagged_rf_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.861538</td>
+      <td>bagged_rf_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.918033</td>
+      <td>bagged_rf_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.888889</td>
+      <td>bagged_rf_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.927548</td>
+      <td>bagged_rf_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+bagged_rf_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, bagged_rf_optimal.predict(X_preprocessed_validation))
+bagged_rf_optimal_validation['model'] = ['bagged_rf_optimal'] * 5
+bagged_rf_optimal_validation['set'] = ['validation'] * 5
+print('Optimal Random Forest Validation Performance Metrics: ')
+display(bagged_rf_optimal_validation)
+
+```
+
+    Optimal Random Forest Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.913043</td>
+      <td>bagged_rf_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.850000</td>
+      <td>bagged_rf_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.850000</td>
+      <td>bagged_rf_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.850000</td>
+      <td>bagged_rf_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.894388</td>
+      <td>bagged_rf_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -8050,7 +8235,7 @@ plt.show()
 
 
     
-![png](output_169_0.png)
+![png](output_172_0.png)
     
 
 
@@ -8106,8 +8291,174 @@ plt.show()
 
 
     
-![png](output_171_0.png)
+![png](output_174_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+bagged_et_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, bagged_et_optimal.predict(X_preprocessed_train))
+bagged_et_optimal_train['model'] = ['bagged_et_optimal'] * 5
+bagged_et_optimal_train['set'] = ['train'] * 5
+print('Optimal Extra Trees Train Performance Metrics: ')
+display(bagged_et_optimal_train)
+
+```
+
+    Optimal Extra Trees Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.931373</td>
+      <td>bagged_et_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.861538</td>
+      <td>bagged_et_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.918033</td>
+      <td>bagged_et_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.888889</td>
+      <td>bagged_et_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.927548</td>
+      <td>bagged_et_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+bagged_et_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, bagged_et_optimal.predict(X_preprocessed_validation))
+bagged_et_optimal_validation['model'] = ['bagged_et_optimal'] * 5
+bagged_et_optimal_validation['set'] = ['validation'] * 5
+print('Optimal Extra Trees Validation Performance Metrics: ')
+display(bagged_et_optimal_validation)
+
+```
+
+    Optimal Extra Trees Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.913043</td>
+      <td>bagged_et_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.850000</td>
+      <td>bagged_et_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.850000</td>
+      <td>bagged_et_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.850000</td>
+      <td>bagged_et_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.894388</td>
+      <td>bagged_et_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -8128,7 +8479,7 @@ joblib.dump(bagged_et_optimal,
 
 
 
-### 1.7.3 Bagged Decision Tree <a class="anchor" id="1.7.3"></a>
+### 1.7.3 Bagged Decision Trees <a class="anchor" id="1.7.3"></a>
 
 
 ```python
@@ -8811,7 +9162,7 @@ plt.show()
 
 
     
-![png](output_185_0.png)
+![png](output_190_0.png)
     
 
 
@@ -8867,8 +9218,174 @@ plt.show()
 
 
     
-![png](output_187_0.png)
+![png](output_192_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+bagged_dt_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, bagged_bdt_optimal.predict(X_preprocessed_train))
+bagged_dt_optimal_train['model'] = ['bagged_dt_optimal'] * 5
+bagged_dt_optimal_train['set'] = ['train'] * 5
+print('Optimal Bagged Decision Trees Train Performance Metrics: ')
+display(bagged_dt_optimal_train)
+
+```
+
+    Optimal Bagged Decision Trees Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.931373</td>
+      <td>bagged_dt_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.861538</td>
+      <td>bagged_dt_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.918033</td>
+      <td>bagged_dt_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.888889</td>
+      <td>bagged_dt_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.927548</td>
+      <td>bagged_dt_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+bagged_dt_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, bagged_bdt_optimal.predict(X_preprocessed_validation))
+bagged_dt_optimal_validation['model'] = ['bagged_dt_optimal'] * 5
+bagged_dt_optimal_validation['set'] = ['validation'] * 5
+print('Optimal Bagged Decision Trees Validation Performance Metrics: ')
+display(bagged_dt_optimal_validation)
+
+```
+
+    Optimal Bagged Decision Trees Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.913043</td>
+      <td>bagged_dt_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.850000</td>
+      <td>bagged_dt_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.850000</td>
+      <td>bagged_dt_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.850000</td>
+      <td>bagged_dt_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.894388</td>
+      <td>bagged_dt_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -9566,7 +10083,7 @@ plt.show()
 
 
     
-![png](output_201_0.png)
+![png](output_208_0.png)
     
 
 
@@ -9622,8 +10139,174 @@ plt.show()
 
 
     
-![png](output_203_0.png)
+![png](output_210_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+bagged_blr_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, bagged_blr_optimal.predict(X_preprocessed_train))
+bagged_blr_optimal_train['model'] = ['bagged_blr_optimal'] * 5
+bagged_blr_optimal_train['set'] = ['train'] * 5
+print('Optimal Bagged Logistic Regression Train Performance Metrics: ')
+display(bagged_blr_optimal_train)
+
+```
+
+    Optimal Bagged Logistic Regression Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.931373</td>
+      <td>bagged_blr_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.850746</td>
+      <td>bagged_blr_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.934426</td>
+      <td>bagged_blr_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.890625</td>
+      <td>bagged_blr_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.932248</td>
+      <td>bagged_blr_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+bagged_blr_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, bagged_blr_optimal.predict(X_preprocessed_validation))
+bagged_blr_optimal_validation['model'] = ['bagged_blr_optimal'] * 5
+bagged_blr_optimal_validation['set'] = ['validation'] * 5
+print('Optimal Bagged Logistic Regression Validation Performance Metrics: ')
+display(bagged_blr_optimal_validation)
+
+```
+
+    Optimal Bagged Logistic Regression Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.898551</td>
+      <td>bagged_blr_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.809524</td>
+      <td>bagged_blr_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.850000</td>
+      <td>bagged_blr_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.829268</td>
+      <td>bagged_blr_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.884184</td>
+      <td>bagged_blr_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -10320,7 +11003,7 @@ plt.show()
 
 
     
-![png](output_217_0.png)
+![png](output_226_0.png)
     
 
 
@@ -10376,8 +11059,174 @@ plt.show()
 
 
     
-![png](output_219_0.png)
+![png](output_228_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+bagged_bsvm_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, bagged_bsvm_optimal.predict(X_preprocessed_train))
+bagged_bsvm_optimal_train['model'] = ['bagged_bsvm_optimal'] * 5
+bagged_bsvm_optimal_train['set'] = ['train'] * 5
+print('Optimal Bagged Support Vector Machine Train Performance Metrics: ')
+display(bagged_bsvm_optimal_train)
+
+```
+
+    Optimal Bagged Support Vector Machine Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.941176</td>
+      <td>bagged_bsvm_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.865672</td>
+      <td>bagged_bsvm_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.950820</td>
+      <td>bagged_bsvm_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.906250</td>
+      <td>bagged_bsvm_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.943941</td>
+      <td>bagged_bsvm_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+bagged_bsvm_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, bagged_bsvm_optimal.predict(X_preprocessed_validation))
+bagged_bsvm_optimal_validation['model'] = ['bagged_bsvm_optimal'] * 5
+bagged_bsvm_optimal_validation['set'] = ['validation'] * 5
+print('Optimal Bagged Support Vector Machine Validation Performance Metrics: ')
+display(bagged_bsvm_optimal_validation)
+
+```
+
+    Optimal Bagged Support Vector Machine Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.898551</td>
+      <td>bagged_bsvm_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.809524</td>
+      <td>bagged_bsvm_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.850000</td>
+      <td>bagged_bsvm_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.829268</td>
+      <td>bagged_bsvm_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.884184</td>
+      <td>bagged_bsvm_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -11068,7 +11917,7 @@ plt.show()
 
 
     
-![png](output_234_0.png)
+![png](output_245_0.png)
     
 
 
@@ -11124,8 +11973,174 @@ plt.show()
 
 
     
-![png](output_236_0.png)
+![png](output_247_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+boosted_ab_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, boosted_ab_optimal.predict(X_preprocessed_train))
+boosted_ab_optimal_train['model'] = ['boosted_ab_optimal'] * 5
+boosted_ab_optimal_train['set'] = ['train'] * 5
+print('Optimal AdaBoost Train Performance Metrics: ')
+display(boosted_ab_optimal_train)
+
+```
+
+    Optimal AdaBoost Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.931373</td>
+      <td>boosted_ab_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.861538</td>
+      <td>boosted_ab_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.918033</td>
+      <td>boosted_ab_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.888889</td>
+      <td>boosted_ab_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.927548</td>
+      <td>boosted_ab_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+boosted_ab_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, boosted_ab_optimal.predict(X_preprocessed_validation))
+boosted_ab_optimal_validation['model'] = ['boosted_ab_optimal'] * 5
+boosted_ab_optimal_validation['set'] = ['validation'] * 5
+print('Optimal AdaBoost Validation Performance Metrics: ')
+display(boosted_ab_optimal_validation)
+
+```
+
+    Optimal AdaBoost Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.913043</td>
+      <td>boosted_ab_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.850000</td>
+      <td>boosted_ab_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.850000</td>
+      <td>boosted_ab_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.850000</td>
+      <td>boosted_ab_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.894388</td>
+      <td>boosted_ab_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -11812,7 +12827,7 @@ plt.show()
 
 
     
-![png](output_250_0.png)
+![png](output_263_0.png)
     
 
 
@@ -11868,8 +12883,174 @@ plt.show()
 
 
     
-![png](output_252_0.png)
+![png](output_265_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+boosted_gb_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, boosted_gb_optimal.predict(X_preprocessed_train))
+boosted_gb_optimal_train['model'] = ['boosted_gb_optimal'] * 5
+boosted_gb_optimal_train['set'] = ['train'] * 5
+print('Optimal Gradient Boosting Train Performance Metrics: ')
+display(boosted_gb_optimal_train)
+
+```
+
+    Optimal Gradient Boosting Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.931373</td>
+      <td>boosted_gb_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.861538</td>
+      <td>boosted_gb_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.918033</td>
+      <td>boosted_gb_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.888889</td>
+      <td>boosted_gb_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.927548</td>
+      <td>boosted_gb_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+boosted_gb_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, boosted_gb_optimal.predict(X_preprocessed_validation))
+boosted_gb_optimal_validation['model'] = ['boosted_gb_optimal'] * 5
+boosted_gb_optimal_validation['set'] = ['validation'] * 5
+print('Optimal Gradient Boosting Validation Performance Metrics: ')
+display(boosted_gb_optimal_validation)
+
+```
+
+    Optimal Gradient Boosting Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.913043</td>
+      <td>boosted_gb_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.850000</td>
+      <td>boosted_gb_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.850000</td>
+      <td>boosted_gb_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.850000</td>
+      <td>boosted_gb_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.894388</td>
+      <td>boosted_gb_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -12588,7 +13769,7 @@ plt.show()
 
 
     
-![png](output_266_0.png)
+![png](output_281_0.png)
     
 
 
@@ -12644,8 +13825,174 @@ plt.show()
 
 
     
-![png](output_268_0.png)
+![png](output_283_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+boosted_xgb_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, boosted_xgb_optimal.predict(X_preprocessed_train))
+boosted_xgb_optimal_train['model'] = ['boosted_xgb_optimal'] * 5
+boosted_xgb_optimal_train['set'] = ['train'] * 5
+print('Optimal XGBoost Train Performance Metrics: ')
+display(boosted_xgb_optimal_train)
+
+```
+
+    Optimal XGBoost Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.931373</td>
+      <td>boosted_xgb_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.861538</td>
+      <td>boosted_xgb_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.918033</td>
+      <td>boosted_xgb_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.888889</td>
+      <td>boosted_xgb_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.927548</td>
+      <td>boosted_xgb_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+boosted_xgb_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, boosted_xgb_optimal.predict(X_preprocessed_validation))
+boosted_xgb_optimal_validation['model'] = ['boosted_xgb_optimal'] * 5
+boosted_xgb_optimal_validation['set'] = ['validation'] * 5
+print('Optimal XGBoost Validation Performance Metrics: ')
+display(boosted_xgb_optimal_validation)
+
+```
+
+    Optimal XGBoost Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.913043</td>
+      <td>boosted_xgb_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.850000</td>
+      <td>boosted_xgb_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.850000</td>
+      <td>boosted_xgb_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.850000</td>
+      <td>boosted_xgb_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.894388</td>
+      <td>boosted_xgb_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -13349,7 +14696,7 @@ plt.show()
 
 
     
-![png](output_282_0.png)
+![png](output_299_0.png)
     
 
 
@@ -13405,8 +14752,174 @@ plt.show()
 
 
     
-![png](output_284_0.png)
+![png](output_301_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+boosted_lgbm_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, boosted_lgbm_optimal.predict(X_preprocessed_train))
+boosted_lgbm_optimal_train['model'] = ['boosted_lgbm_optimal'] * 5
+boosted_lgbm_optimal_train['set'] = ['train'] * 5
+print('Optimal Light GBM Train Performance Metrics: ')
+display(boosted_lgbm_optimal_train)
+
+```
+
+    Optimal Light GBM Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.960784</td>
+      <td>boosted_lgbm_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.934426</td>
+      <td>boosted_lgbm_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.934426</td>
+      <td>boosted_lgbm_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.934426</td>
+      <td>boosted_lgbm_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.953227</td>
+      <td>boosted_lgbm_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+boosted_lgbm_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, boosted_lgbm_optimal.predict(X_preprocessed_validation))
+boosted_lgbm_optimal_validation['model'] = ['boosted_lgbm_optimal'] * 5
+boosted_lgbm_optimal_validation['set'] = ['validation'] * 5
+print('Optimal Light GBM Validation Performance Metrics: ')
+display(boosted_lgbm_optimal_validation)
+
+```
+
+    Optimal Light GBM Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.884058</td>
+      <td>boosted_lgbm_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.800000</td>
+      <td>boosted_lgbm_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.800000</td>
+      <td>boosted_lgbm_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.800000</td>
+      <td>boosted_lgbm_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.859184</td>
+      <td>boosted_lgbm_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -14104,7 +15617,7 @@ plt.show()
 
 
     
-![png](output_298_0.png)
+![png](output_317_0.png)
     
 
 
@@ -14160,8 +15673,174 @@ plt.show()
 
 
     
-![png](output_300_0.png)
+![png](output_319_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+boosted_cb_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, boosted_cb_optimal.predict(X_preprocessed_train))
+boosted_cb_optimal_train['model'] = ['boosted_cb_optimal'] * 5
+boosted_cb_optimal_train['set'] = ['train'] * 5
+print('Optimal CatBoost Train Performance Metrics: ')
+display(boosted_cb_optimal_train)
+
+```
+
+    Optimal CatBoost Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.931373</td>
+      <td>boosted_cb_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.861538</td>
+      <td>boosted_cb_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.918033</td>
+      <td>boosted_cb_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.888889</td>
+      <td>boosted_cb_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.927548</td>
+      <td>boosted_cb_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+boosted_cb_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, boosted_cb_optimal.predict(X_preprocessed_validation))
+boosted_cb_optimal_validation['model'] = ['boosted_cb_optimal'] * 5
+boosted_cb_optimal_validation['set'] = ['validation'] * 5
+print('Optimal CatBoost Validation Performance Metrics: ')
+display(boosted_cb_optimal_validation)
+
+```
+
+    Optimal CatBoost Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.913043</td>
+      <td>boosted_cb_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.850000</td>
+      <td>boosted_cb_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.850000</td>
+      <td>boosted_cb_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.850000</td>
+      <td>boosted_cb_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.894388</td>
+      <td>boosted_cb_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -14847,7 +16526,7 @@ plt.show()
 
 
     
-![png](output_315_0.png)
+![png](output_336_0.png)
     
 
 
@@ -14903,8 +16582,174 @@ plt.show()
 
 
     
-![png](output_317_0.png)
+![png](output_338_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+stacked_baselearner_knn_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, stacked_baselearner_knn_optimal.predict(X_preprocessed_train))
+stacked_baselearner_knn_optimal_train['model'] = ['stacked_baselearner_knn_optimal'] * 5
+stacked_baselearner_knn_optimal_train['set'] = ['train'] * 5
+print('Optimal Stacked Base Learner KNN Train Performance Metrics: ')
+display(stacked_baselearner_knn_optimal_train)
+
+```
+
+    Optimal Stacked Base Learner KNN Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.995098</td>
+      <td>stacked_baselearner_knn_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>1.000000</td>
+      <td>stacked_baselearner_knn_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.983607</td>
+      <td>stacked_baselearner_knn_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.991736</td>
+      <td>stacked_baselearner_knn_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.991803</td>
+      <td>stacked_baselearner_knn_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+stacked_baselearner_knn_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, stacked_baselearner_knn_optimal.predict(X_preprocessed_validation))
+stacked_baselearner_knn_optimal_validation['model'] = ['stacked_baselearner_knn_optimal'] * 5
+stacked_baselearner_knn_optimal_validation['set'] = ['validation'] * 5
+print('Optimal Stacked Base Learner KNN Validation Performance Metrics: ')
+display(stacked_baselearner_knn_optimal_validation)
+
+```
+
+    Optimal Stacked Base Learner KNN Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.855072</td>
+      <td>stacked_baselearner_knn_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.777778</td>
+      <td>stacked_baselearner_knn_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.700000</td>
+      <td>stacked_baselearner_knn_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.736842</td>
+      <td>stacked_baselearner_knn_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.809184</td>
+      <td>stacked_baselearner_knn_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -15593,7 +17438,7 @@ plt.show()
 
 
     
-![png](output_331_0.png)
+![png](output_354_0.png)
     
 
 
@@ -15649,8 +17494,174 @@ plt.show()
 
 
     
-![png](output_333_0.png)
+![png](output_356_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+stacked_baselearner_svm_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, stacked_baselearner_svm_optimal.predict(X_preprocessed_train))
+stacked_baselearner_svm_optimal_train['model'] = ['stacked_baselearner_svm_optimal'] * 5
+stacked_baselearner_svm_optimal_train['set'] = ['train'] * 5
+print('Optimal Stacked Base Learner SVM Train Performance Metrics: ')
+display(stacked_baselearner_svm_optimal_train)
+
+```
+
+    Optimal Stacked Base Learner SVM Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.936275</td>
+      <td>stacked_baselearner_svm_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.842857</td>
+      <td>stacked_baselearner_svm_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.967213</td>
+      <td>stacked_baselearner_svm_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.900763</td>
+      <td>stacked_baselearner_svm_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.945145</td>
+      <td>stacked_baselearner_svm_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+stacked_baselearner_svm_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, stacked_baselearner_svm_optimal.predict(X_preprocessed_validation))
+stacked_baselearner_svm_optimal_validation['model'] = ['stacked_baselearner_svm_optimal'] * 5
+stacked_baselearner_svm_optimal_validation['set'] = ['validation'] * 5
+print('Optimal Stacked Base Learner SVM Validation Performance Metrics: ')
+display(stacked_baselearner_svm_optimal_validation)
+
+```
+
+    Optimal Stacked Base Learner SVM Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.898551</td>
+      <td>stacked_baselearner_svm_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.809524</td>
+      <td>stacked_baselearner_svm_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.850000</td>
+      <td>stacked_baselearner_svm_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.829268</td>
+      <td>stacked_baselearner_svm_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.884184</td>
+      <td>stacked_baselearner_svm_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -16339,7 +18350,7 @@ plt.show()
 
 
     
-![png](output_347_0.png)
+![png](output_372_0.png)
     
 
 
@@ -16395,8 +18406,174 @@ plt.show()
 
 
     
-![png](output_349_0.png)
+![png](output_374_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+stacked_baselearner_rc_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, stacked_baselearner_rc_optimal.predict(X_preprocessed_train))
+stacked_baselearner_rc_optimal_train['model'] = ['stacked_baselearner_rc_optimal'] * 5
+stacked_baselearner_rc_optimal_train['set'] = ['train'] * 5
+print('Optimal Stacked Base Learner Ridge Classifier Train Performance Metrics: ')
+display(stacked_baselearner_rc_optimal_train)
+
+```
+
+    Optimal Stacked Base Learner Ridge Classifier Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.926471</td>
+      <td>stacked_baselearner_rc_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.848485</td>
+      <td>stacked_baselearner_rc_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.918033</td>
+      <td>stacked_baselearner_rc_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.881890</td>
+      <td>stacked_baselearner_rc_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.924051</td>
+      <td>stacked_baselearner_rc_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+stacked_baselearner_rc_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, stacked_baselearner_rc_optimal.predict(X_preprocessed_validation))
+stacked_baselearner_rc_optimal_validation['model'] = ['stacked_baselearner_rc_optimal'] * 5
+stacked_baselearner_rc_optimal_validation['set'] = ['validation'] * 5
+print('Optimal Stacked Base Learner Ridge Classifier Validation Performance Metrics: ')
+display(stacked_baselearner_rc_optimal_validation)
+
+```
+
+    Optimal Stacked Base Learner Ridge Classifier Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.913043</td>
+      <td>stacked_baselearner_rc_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.850000</td>
+      <td>stacked_baselearner_rc_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.850000</td>
+      <td>stacked_baselearner_rc_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.850000</td>
+      <td>stacked_baselearner_rc_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.894388</td>
+      <td>stacked_baselearner_rc_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -17090,7 +19267,7 @@ plt.show()
 
 
     
-![png](output_363_0.png)
+![png](output_390_0.png)
     
 
 
@@ -17146,8 +19323,174 @@ plt.show()
 
 
     
-![png](output_365_0.png)
+![png](output_392_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+stacked_baselearner_nn_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, stacked_baselearner_nn_optimal.predict(X_preprocessed_train))
+stacked_baselearner_nn_optimal_train['model'] = ['stacked_baselearner_nn_optimal'] * 5
+stacked_baselearner_nn_optimal_train['set'] = ['train'] * 5
+print('Optimal Stacked Base Learner Neural Network Train Performance Metrics: ')
+display(stacked_baselearner_nn_optimal_train)
+
+```
+
+    Optimal Stacked Base Learner Neural Network Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.950980</td>
+      <td>stacked_baselearner_nn_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.918033</td>
+      <td>stacked_baselearner_nn_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.918033</td>
+      <td>stacked_baselearner_nn_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.918033</td>
+      <td>stacked_baselearner_nn_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.941534</td>
+      <td>stacked_baselearner_nn_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+stacked_baselearner_nn_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, stacked_baselearner_nn_optimal.predict(X_preprocessed_validation))
+stacked_baselearner_nn_optimal_validation['model'] = ['stacked_baselearner_nn_optimal'] * 5
+stacked_baselearner_nn_optimal_validation['set'] = ['validation'] * 5
+print('Optimal Stacked Base Learner Neural Network Validation Performance Metrics: ')
+display(stacked_baselearner_nn_optimal_validation)
+
+```
+
+    Optimal Stacked Base Learner Neural Network Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.869565</td>
+      <td>stacked_baselearner_nn_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.789474</td>
+      <td>stacked_baselearner_nn_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.750000</td>
+      <td>stacked_baselearner_nn_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.769231</td>
+      <td>stacked_baselearner_nn_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.834184</td>
+      <td>stacked_baselearner_nn_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -17825,11 +20168,11 @@ cm_raw = confusion_matrix(y_preprocessed_train_encoded, stacked_baselearner_dt_o
 cm_normalized = confusion_matrix(y_preprocessed_train_encoded, stacked_baselearner_dt_optimal.predict(X_preprocessed_train), normalize='true')
 fig, ax = plt.subplots(1, 2, figsize=(17, 8))
 sns.heatmap(cm_raw, annot=True, fmt='d', cmap='Blues', ax=ax[0])
-ax[0].set_title('Raw Confusion Matrix: Optimal Stacked Base Learner Decision Trees Train Performance', fontsize=11)
+ax[0].set_title('Raw Confusion Matrix: Optimal Stacked Base Learner Decision Tree Train Performance', fontsize=11)
 ax[0].set_xlabel('Predicted')
 ax[0].set_ylabel('Actual')
 sns.heatmap(cm_normalized, annot=True, fmt='.2f', cmap='Blues', ax=ax[1])
-ax[1].set_title('Normalized Confusion Matrix: Optimal Stacked Base Learner Decision Trees Train Performance', fontsize=11)
+ax[1].set_title('Normalized Confusion Matrix: Optimal Stacked Base Learner Decision Tree Train Performance', fontsize=11)
 ax[1].set_xlabel('Predicted')
 ax[1].set_ylabel('Actual')
 plt.tight_layout()
@@ -17839,7 +20182,7 @@ plt.show()
 
 
     
-![png](output_379_0.png)
+![png](output_408_0.png)
     
 
 
@@ -17881,11 +20224,11 @@ cm_raw = confusion_matrix(y_preprocessed_validation_encoded, stacked_baselearner
 cm_normalized = confusion_matrix(y_preprocessed_validation_encoded, stacked_baselearner_dt_optimal.predict(X_preprocessed_validation), normalize='true')
 fig, ax = plt.subplots(1, 2, figsize=(17, 8))
 sns.heatmap(cm_raw, annot=True, fmt='d', cmap='Blues', ax=ax[0])
-ax[0].set_title('Raw Confusion Matrix: Optimal Stacked Base Learner Decision Trees Validation Performance', fontsize=11)
+ax[0].set_title('Raw Confusion Matrix: Optimal Stacked Base Learner Decision Tree Validation Performance', fontsize=11)
 ax[0].set_xlabel('Predicted')
 ax[0].set_ylabel('Actual')
 sns.heatmap(cm_normalized, annot=True, fmt='.2f', cmap='Blues', ax=ax[1])
-ax[1].set_title('Normalized Confusion Matrix: Optimal Stacked Base Learner Decision Trees Validation Performance', fontsize=11)
+ax[1].set_title('Normalized Confusion Matrix: Optimal Stacked Base Learner Decision Tree Validation Performance', fontsize=11)
 ax[1].set_xlabel('Predicted')
 ax[1].set_ylabel('Actual')
 plt.tight_layout()
@@ -17895,8 +20238,174 @@ plt.show()
 
 
     
-![png](output_381_0.png)
+![png](output_410_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+stacked_baselearner_dt_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, stacked_baselearner_dt_optimal.predict(X_preprocessed_train))
+stacked_baselearner_dt_optimal_train['model'] = ['stacked_baselearner_dt_optimal'] * 5
+stacked_baselearner_dt_optimal_train['set'] = ['train'] * 5
+print('Optimal Stacked Base Learner Decision Tree Train Performance Metrics: ')
+display(stacked_baselearner_dt_optimal_train)
+
+```
+
+    Optimal Stacked Base Learner Decision Tree Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.921569</td>
+      <td>stacked_baselearner_dt_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.816901</td>
+      <td>stacked_baselearner_dt_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.950820</td>
+      <td>stacked_baselearner_dt_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.878788</td>
+      <td>stacked_baselearner_dt_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.929955</td>
+      <td>stacked_baselearner_dt_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+stacked_baselearner_dt_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, stacked_baselearner_dt_optimal.predict(X_preprocessed_validation))
+stacked_baselearner_dt_optimal_validation['model'] = ['stacked_baselearner_dt_optimal'] * 5
+stacked_baselearner_dt_optimal_validation['set'] = ['validation'] * 5
+print('Optimal Stacked Base Learner Decision Tree Validation Performance Metrics: ')
+display(stacked_baselearner_dt_optimal_validation)
+
+```
+
+    Optimal Stacked Base Learner Decision Tree Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.913043</td>
+      <td>stacked_baselearner_dt_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.850000</td>
+      <td>stacked_baselearner_dt_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.850000</td>
+      <td>stacked_baselearner_dt_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.850000</td>
+      <td>stacked_baselearner_dt_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.894388</td>
+      <td>stacked_baselearner_dt_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -18538,7 +21047,7 @@ plt.show()
 
 
     
-![png](output_393_0.png)
+![png](output_424_0.png)
     
 
 
@@ -18594,8 +21103,174 @@ plt.show()
 
 
     
-![png](output_395_0.png)
+![png](output_426_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+stacked_metalearner_lr_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, stacked_metalearner_lr_optimal.predict(extract_stacked_metafeature_matrix(X_preprocessed_train)))
+stacked_metalearner_lr_optimal_train['model'] = ['stacked_metalearner_lr_optimal'] * 5
+stacked_metalearner_lr_optimal_train['set'] = ['train'] * 5
+print('Optimal Stacked Meta Learner Logistic Regression Train Performance Metrics: ')
+display(stacked_metalearner_lr_optimal_train)
+
+```
+
+    Optimal Stacked Meta Learner Logistic Regression Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.941176</td>
+      <td>stacked_metalearner_lr_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.865672</td>
+      <td>stacked_metalearner_lr_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.950820</td>
+      <td>stacked_metalearner_lr_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.906250</td>
+      <td>stacked_metalearner_lr_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.943941</td>
+      <td>stacked_metalearner_lr_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+stacked_metalearner_lr_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, stacked_metalearner_lr_optimal.predict(extract_stacked_metafeature_matrix(X_preprocessed_validation)))
+stacked_metalearner_lr_optimal_validation['model'] = ['stacked_metalearner_lr_optimal'] * 5
+stacked_metalearner_lr_optimal_validation['set'] = ['validation'] * 5
+print('Optimal Stacked Meta Learner Logistic Regression Validation Performance Metrics: ')
+display(stacked_metalearner_lr_optimal_validation)
+
+```
+
+    Optimal Stacked Meta Learner Logistic Regression Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.898551</td>
+      <td>stacked_metalearner_lr_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.809524</td>
+      <td>stacked_metalearner_lr_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.850000</td>
+      <td>stacked_metalearner_lr_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.829268</td>
+      <td>stacked_metalearner_lr_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.884184</td>
+      <td>stacked_metalearner_lr_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 ## 1.10. Blended Model Development <a class="anchor" id="1.10"></a>
@@ -19263,7 +21938,7 @@ plt.show()
 
 
     
-![png](output_409_0.png)
+![png](output_442_0.png)
     
 
 
@@ -19319,8 +21994,174 @@ plt.show()
 
 
     
-![png](output_411_0.png)
+![png](output_444_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+stacked_baselearner_knn_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, stacked_baselearner_knn_optimal.predict(X_preprocessed_train))
+stacked_baselearner_knn_optimal_train['model'] = ['stacked_baselearner_knn_optimal'] * 5
+stacked_baselearner_knn_optimal_train['set'] = ['train'] * 5
+print('Optimal Stacked Base Learner KNN Train Performance Metrics: ')
+display(stacked_baselearner_knn_optimal_train)
+
+```
+
+    Optimal Stacked Base Learner KNN Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.995098</td>
+      <td>stacked_baselearner_knn_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>1.000000</td>
+      <td>stacked_baselearner_knn_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.983607</td>
+      <td>stacked_baselearner_knn_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.991736</td>
+      <td>stacked_baselearner_knn_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.991803</td>
+      <td>stacked_baselearner_knn_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+stacked_baselearner_knn_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, stacked_baselearner_knn_optimal.predict(X_preprocessed_validation))
+stacked_baselearner_knn_optimal_validation['model'] = ['stacked_baselearner_knn_optimal'] * 5
+stacked_baselearner_knn_optimal_validation['set'] = ['validation'] * 5
+print('Optimal Stacked Base Learner KNN Validation Performance Metrics: ')
+display(stacked_baselearner_knn_optimal_validation)
+
+```
+
+    Optimal Stacked Base Learner KNN Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.855072</td>
+      <td>stacked_baselearner_knn_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.777778</td>
+      <td>stacked_baselearner_knn_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.700000</td>
+      <td>stacked_baselearner_knn_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.736842</td>
+      <td>stacked_baselearner_knn_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.809184</td>
+      <td>stacked_baselearner_knn_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -20009,7 +22850,7 @@ plt.show()
 
 
     
-![png](output_425_0.png)
+![png](output_460_0.png)
     
 
 
@@ -20065,8 +22906,174 @@ plt.show()
 
 
     
-![png](output_427_0.png)
+![png](output_462_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+stacked_baselearner_svm_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, stacked_baselearner_svm_optimal.predict(X_preprocessed_train))
+stacked_baselearner_svm_optimal_train['model'] = ['stacked_baselearner_svm_optimal'] * 5
+stacked_baselearner_svm_optimal_train['set'] = ['train'] * 5
+print('Optimal Stacked Base Learner SVM Train Performance Metrics: ')
+display(stacked_baselearner_svm_optimal_train)
+
+```
+
+    Optimal Stacked Base Learner SVM Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.936275</td>
+      <td>stacked_baselearner_svm_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.842857</td>
+      <td>stacked_baselearner_svm_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.967213</td>
+      <td>stacked_baselearner_svm_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.900763</td>
+      <td>stacked_baselearner_svm_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.945145</td>
+      <td>stacked_baselearner_svm_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+stacked_baselearner_svm_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, stacked_baselearner_svm_optimal.predict(X_preprocessed_validation))
+stacked_baselearner_svm_optimal_validation['model'] = ['stacked_baselearner_svm_optimal'] * 5
+stacked_baselearner_svm_optimal_validation['set'] = ['validation'] * 5
+print('Optimal Stacked Base Learner SVM Validation Performance Metrics: ')
+display(stacked_baselearner_svm_optimal_validation)
+
+```
+
+    Optimal Stacked Base Learner SVM Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.898551</td>
+      <td>stacked_baselearner_svm_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.809524</td>
+      <td>stacked_baselearner_svm_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.850000</td>
+      <td>stacked_baselearner_svm_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.829268</td>
+      <td>stacked_baselearner_svm_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.884184</td>
+      <td>stacked_baselearner_svm_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -20755,7 +23762,7 @@ plt.show()
 
 
     
-![png](output_441_0.png)
+![png](output_478_0.png)
     
 
 
@@ -20811,8 +23818,174 @@ plt.show()
 
 
     
-![png](output_443_0.png)
+![png](output_480_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+stacked_baselearner_rc_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, stacked_baselearner_rc_optimal.predict(X_preprocessed_train))
+stacked_baselearner_rc_optimal_train['model'] = ['stacked_baselearner_rc_optimal'] * 5
+stacked_baselearner_rc_optimal_train['set'] = ['train'] * 5
+print('Optimal Stacked Base Learner Ridge Classifier Train Performance Metrics: ')
+display(stacked_baselearner_rc_optimal_train)
+
+```
+
+    Optimal Stacked Base Learner Ridge Classifier Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.926471</td>
+      <td>stacked_baselearner_rc_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.848485</td>
+      <td>stacked_baselearner_rc_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.918033</td>
+      <td>stacked_baselearner_rc_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.881890</td>
+      <td>stacked_baselearner_rc_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.924051</td>
+      <td>stacked_baselearner_rc_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+stacked_baselearner_rc_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, stacked_baselearner_rc_optimal.predict(X_preprocessed_validation))
+stacked_baselearner_rc_optimal_validation['model'] = ['stacked_baselearner_rc_optimal'] * 5
+stacked_baselearner_rc_optimal_validation['set'] = ['validation'] * 5
+print('Optimal Stacked Base Learner Ridge Classifier Validation Performance Metrics: ')
+display(stacked_baselearner_rc_optimal_validation)
+
+```
+
+    Optimal Stacked Base Learner Ridge Classifier Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.913043</td>
+      <td>stacked_baselearner_rc_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.850000</td>
+      <td>stacked_baselearner_rc_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.850000</td>
+      <td>stacked_baselearner_rc_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.850000</td>
+      <td>stacked_baselearner_rc_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.894388</td>
+      <td>stacked_baselearner_rc_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -21506,7 +24679,7 @@ plt.show()
 
 
     
-![png](output_457_0.png)
+![png](output_496_0.png)
     
 
 
@@ -21562,8 +24735,174 @@ plt.show()
 
 
     
-![png](output_459_0.png)
+![png](output_498_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+stacked_baselearner_nn_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, stacked_baselearner_nn_optimal.predict(X_preprocessed_train))
+stacked_baselearner_nn_optimal_train['model'] = ['stacked_baselearner_nn_optimal'] * 5
+stacked_baselearner_nn_optimal_train['set'] = ['train'] * 5
+print('Optimal Stacked Base Learner Neural Network Train Performance Metrics: ')
+display(stacked_baselearner_nn_optimal_train)
+
+```
+
+    Optimal Stacked Base Learner Neural Network Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.950980</td>
+      <td>stacked_baselearner_nn_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.918033</td>
+      <td>stacked_baselearner_nn_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.918033</td>
+      <td>stacked_baselearner_nn_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.918033</td>
+      <td>stacked_baselearner_nn_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.941534</td>
+      <td>stacked_baselearner_nn_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+stacked_baselearner_nn_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, stacked_baselearner_nn_optimal.predict(X_preprocessed_validation))
+stacked_baselearner_nn_optimal_validation['model'] = ['stacked_baselearner_nn_optimal'] * 5
+stacked_baselearner_nn_optimal_validation['set'] = ['validation'] * 5
+print('Optimal Stacked Base Learner Neural Network Validation Performance Metrics: ')
+display(stacked_baselearner_nn_optimal_validation)
+
+```
+
+    Optimal Stacked Base Learner Neural Network Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.869565</td>
+      <td>stacked_baselearner_nn_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.789474</td>
+      <td>stacked_baselearner_nn_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.750000</td>
+      <td>stacked_baselearner_nn_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.769231</td>
+      <td>stacked_baselearner_nn_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.834184</td>
+      <td>stacked_baselearner_nn_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -22255,7 +25594,7 @@ plt.show()
 
 
     
-![png](output_473_0.png)
+![png](output_514_0.png)
     
 
 
@@ -22311,8 +25650,174 @@ plt.show()
 
 
     
-![png](output_475_0.png)
+![png](output_516_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+blended_baselearner_dt_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, blended_baselearner_dt_optimal.predict(X_preprocessed_train))
+blended_baselearner_dt_optimal_train['model'] = ['blended_baselearner_dt_optimal'] * 5
+blended_baselearner_dt_optimal_train['set'] = ['train'] * 5
+print('Optimal Blended Base Learner Decision Tree Train Performance Metrics: ')
+display(blended_baselearner_dt_optimal_train)
+
+```
+
+    Optimal Blended Base Learner Decision Tree Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.921569</td>
+      <td>blended_baselearner_dt_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.816901</td>
+      <td>blended_baselearner_dt_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.950820</td>
+      <td>blended_baselearner_dt_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.878788</td>
+      <td>blended_baselearner_dt_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.929955</td>
+      <td>blended_baselearner_dt_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+blended_baselearner_dt_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, blended_baselearner_dt_optimal.predict(X_preprocessed_validation))
+blended_baselearner_dt_optimal_validation['model'] = ['blended_baselearner_dt_optimal'] * 5
+blended_baselearner_dt_optimal_validation['set'] = ['validation'] * 5
+print('Optimal Blended Base Learner Decision Tree Validation Performance Metrics: ')
+display(blended_baselearner_dt_optimal_validation)
+
+```
+
+    Optimal Blended Base Learner Decision Tree Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.913043</td>
+      <td>blended_baselearner_dt_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.850000</td>
+      <td>blended_baselearner_dt_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.850000</td>
+      <td>blended_baselearner_dt_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.850000</td>
+      <td>blended_baselearner_dt_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.894388</td>
+      <td>blended_baselearner_dt_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -22936,7 +26441,7 @@ plt.show()
 
 
     
-![png](output_487_0.png)
+![png](output_530_0.png)
     
 
 
@@ -22992,8 +26497,174 @@ plt.show()
 
 
     
-![png](output_489_0.png)
+![png](output_532_0.png)
     
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the train data
+##################################
+blended_metalearner_lr_optimal_train = model_performance_evaluation(y_preprocessed_train_encoded, blended_metalearner_lr_optimal.predict(extract_blended_metafeature_matrix(X_preprocessed_train)))
+blended_metalearner_lr_optimal_train['model'] = ['blended_metalearner_lr_optimal'] * 5
+blended_metalearner_lr_optimal_train['set'] = ['train'] * 5
+print('Optimal Blended Meta Learner Logistic Regression Train Performance Metrics: ')
+display(blended_metalearner_lr_optimal_train)
+
+```
+
+    Optimal Blended Meta Learner Logistic Regression Train Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.936275</td>
+      <td>blended_metalearner_lr_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.863636</td>
+      <td>blended_metalearner_lr_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.934426</td>
+      <td>blended_metalearner_lr_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.897638</td>
+      <td>blended_metalearner_lr_optimal</td>
+      <td>train</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.935745</td>
+      <td>blended_metalearner_lr_optimal</td>
+      <td>train</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+##################################
+# Gathering the model evaluation metrics
+# for the validation data
+##################################
+blended_metalearner_lr_optimal_validation = model_performance_evaluation(y_preprocessed_validation_encoded, blended_metalearner_lr_optimal.predict(extract_blended_metafeature_matrix(X_preprocessed_validation)))
+blended_metalearner_lr_optimal_validation['model'] = ['blended_metalearner_lr_optimal'] * 5
+blended_metalearner_lr_optimal_validation['set'] = ['validation'] * 5
+print('Optimal Blended Meta Learner Logistic Regression Validation Performance Metrics: ')
+display(blended_metalearner_lr_optimal_validation)
+
+```
+
+    Optimal Blended Meta Learner Logistic Regression Validation Performance Metrics: 
+    
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metric_name</th>
+      <th>metric_value</th>
+      <th>model</th>
+      <th>set</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Accuracy</td>
+      <td>0.898551</td>
+      <td>blended_metalearner_lr_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Precision</td>
+      <td>0.809524</td>
+      <td>blended_metalearner_lr_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Recall</td>
+      <td>0.850000</td>
+      <td>blended_metalearner_lr_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F1</td>
+      <td>0.829268</td>
+      <td>blended_metalearner_lr_optimal</td>
+      <td>validation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUROC</td>
+      <td>0.884184</td>
+      <td>blended_metalearner_lr_optimal</td>
+      <td>validation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 ## 1.11. Consolidated Summary<a class="anchor" id="1.11"></a>
