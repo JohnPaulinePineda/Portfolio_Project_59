@@ -2,7 +2,7 @@
 # Supervised Learning : Leveraging Ensemble Learning With Bagging, Boosting, Stacking and Blending Approaches
 
 ***
-### [**John Pauline Pineda**](https://github.com/JohnPaulinePineda) <br> <br> *March 10, 2025*
+### [**John Pauline Pineda**](https://github.com/JohnPaulinePineda) <br> <br> *March 12, 2025*
 ***
 
 * [**1. Table of Contents**](#TOC)
@@ -161,6 +161,7 @@ from catboost import CatBoostClassifier
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix, ConfusionMatrixDisplay, classification_report
 from sklearn.model_selection import train_test_split, GridSearchCV, RepeatedStratifiedKFold, KFold, cross_val_score
+from sklearn.inspection import permutation_importance
 
 ```
 
@@ -3649,7 +3650,7 @@ display(thyroid_cancer_breakdown)
 thyroid_cancer_train_initial, thyroid_cancer_test = train_test_split(thyroid_cancer_baseline, 
                                                                test_size=0.25, 
                                                                stratify=thyroid_cancer_baseline['Recurred'], 
-                                                               random_state=88888888)
+                                                               random_state=987654321)
 
 ```
 
@@ -3762,7 +3763,7 @@ display(y_test.value_counts(normalize = True))
 thyroid_cancer_train, thyroid_cancer_validation = train_test_split(thyroid_cancer_train_initial, 
                                                              test_size=0.25, 
                                                              stratify=thyroid_cancer_train_initial['Recurred'], 
-                                                             random_state=88888888)
+                                                             random_state=987654321)
 
 ```
 
@@ -4050,215 +4051,215 @@ for col in ordered_cat_cols:
 
     Column: Gender
     Absolute Frequencies:
-    M     46
-    F    158
+    M     44
+    F    160
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    M    0.22549
-    F    0.77451
+    M    0.215686
+    F    0.784314
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Smoking
     Absolute Frequencies:
-    No     172
-    Yes     32
+    No     177
+    Yes     27
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    No     0.843137
-    Yes    0.156863
+    No     0.867647
+    Yes    0.132353
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Hx_Smoking
     Absolute Frequencies:
-    No     189
-    Yes     15
+    No     193
+    Yes     11
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    No     0.926471
-    Yes    0.073529
+    No     0.946078
+    Yes    0.053922
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Hx_Radiotherapy
     Absolute Frequencies:
-    No     199
-    Yes      5
+    No     202
+    Yes      2
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    No     0.97549
-    Yes    0.02451
+    No     0.990196
+    Yes    0.009804
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Thyroid_Function
     Absolute Frequencies:
-    Euthyroid                      176
-    Subclinical Hypothyroidism       8
+    Euthyroid                      171
+    Subclinical Hypothyroidism      10
     Subclinical Hyperthyroidism      3
-    Clinical Hypothyroidism          6
-    Clinical Hyperthyroidism        11
+    Clinical Hypothyroidism          7
+    Clinical Hyperthyroidism        13
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Euthyroid                      0.862745
-    Subclinical Hypothyroidism     0.039216
+    Euthyroid                      0.838235
+    Subclinical Hypothyroidism     0.049020
     Subclinical Hyperthyroidism    0.014706
-    Clinical Hypothyroidism        0.029412
-    Clinical Hyperthyroidism       0.053922
+    Clinical Hypothyroidism        0.034314
+    Clinical Hyperthyroidism       0.063725
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Physical_Examination
     Absolute Frequencies:
-    Normal                          5
-    Single nodular goiter-left     47
-    Single nodular goiter-right    69
-    Multinodular goiter            78
-    Diffuse goiter                  5
+    Normal                          4
+    Single nodular goiter-left     50
+    Single nodular goiter-right    68
+    Multinodular goiter            79
+    Diffuse goiter                  3
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Normal                         0.024510
-    Single nodular goiter-left     0.230392
-    Single nodular goiter-right    0.338235
-    Multinodular goiter            0.382353
-    Diffuse goiter                 0.024510
+    Normal                         0.019608
+    Single nodular goiter-left     0.245098
+    Single nodular goiter-right    0.333333
+    Multinodular goiter            0.387255
+    Diffuse goiter                 0.014706
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Adenopathy
     Absolute Frequencies:
-    No           143
-    Left           8
-    Right         26
-    Bilateral     22
-    Posterior      1
+    No           144
+    Left          14
+    Right         21
+    Bilateral     19
+    Posterior      2
     Extensive      4
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    No           0.700980
-    Left         0.039216
-    Right        0.127451
-    Bilateral    0.107843
-    Posterior    0.004902
+    No           0.705882
+    Left         0.068627
+    Right        0.102941
+    Bilateral    0.093137
+    Posterior    0.009804
     Extensive    0.019608
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Pathology
     Absolute Frequencies:
-    Hurthle Cell       11
+    Hurthle Cell       15
     Follicular         14
-    Micropapillary     28
-    Papillary         151
+    Micropapillary     26
+    Papillary         149
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Hurthle Cell      0.053922
+    Hurthle Cell      0.073529
     Follicular        0.068627
-    Micropapillary    0.137255
-    Papillary         0.740196
+    Micropapillary    0.127451
+    Papillary         0.730392
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Focality
     Absolute Frequencies:
-    Uni-Focal      118
-    Multi-Focal     86
+    Uni-Focal      129
+    Multi-Focal     75
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Uni-Focal      0.578431
-    Multi-Focal    0.421569
+    Uni-Focal      0.632353
+    Multi-Focal    0.367647
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Risk
     Absolute Frequencies:
-    Low             131
-    Intermediate     55
-    High             18
+    Low             127
+    Intermediate     60
+    High             17
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Low             0.642157
-    Intermediate    0.269608
-    High            0.088235
+    Low             0.622549
+    Intermediate    0.294118
+    High            0.083333
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: T
     Absolute Frequencies:
-    T1a    27
-    T1b    20
-    T2     79
-    T3a    55
-    T3b     6
-    T4a    11
-    T4b     6
+    T1a    26
+    T1b    21
+    T2     73
+    T3a    58
+    T3b    10
+    T4a    12
+    T4b     4
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    T1a    0.132353
-    T1b    0.098039
-    T2     0.387255
-    T3a    0.269608
-    T3b    0.029412
-    T4a    0.053922
-    T4b    0.029412
+    T1a    0.127451
+    T1b    0.102941
+    T2     0.357843
+    T3a    0.284314
+    T3b    0.049020
+    T4a    0.058824
+    T4b    0.019608
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: N
     Absolute Frequencies:
-    N0     140
-    N1a     13
-    N1b     51
+    N0     139
+    N1a     11
+    N1b     54
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    N0     0.686275
-    N1a    0.063725
-    N1b    0.250000
+    N0     0.681373
+    N1a    0.053922
+    N1b    0.264706
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: M
     Absolute Frequencies:
-    M0    192
-    M1     12
+    M0    194
+    M1     10
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    M0    0.941176
-    M1    0.058824
+    M0    0.95098
+    M1    0.04902
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Stage
     Absolute Frequencies:
-    I      178
-    II      16
-    III      1
-    IVA      3
-    IVB      6
+    I      174
+    II      21
+    III      2
+    IVA      2
+    IVB      5
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    I      0.872549
-    II     0.078431
-    III    0.004902
-    IVA    0.014706
-    IVB    0.029412
+    I      0.852941
+    II     0.102941
+    III    0.009804
+    IVA    0.009804
+    IVB    0.024510
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Response
     Absolute Frequencies:
-    Excellent                 107
-    Structural Incomplete      54
-    Biochemical Incomplete     17
-    Indeterminate              26
+    Excellent                 109
+    Structural Incomplete      53
+    Biochemical Incomplete      8
+    Indeterminate              34
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Excellent                 0.524510
-    Structural Incomplete     0.264706
-    Biochemical Incomplete    0.083333
-    Indeterminate             0.127451
+    Excellent                 0.534314
+    Structural Incomplete     0.259804
+    Biochemical Incomplete    0.039216
+    Indeterminate             0.166667
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Recurred
@@ -4387,89 +4388,89 @@ thyroid_cancer_train_column_filtered.head()
   </thead>
   <tbody>
     <tr>
-      <th>335</th>
-      <td>29</td>
-      <td>M</td>
+      <th>140</th>
+      <td>28</td>
+      <td>F</td>
       <td>No</td>
       <td>Euthyroid</td>
       <td>Multinodular goiter</td>
-      <td>Extensive</td>
+      <td>No</td>
       <td>Papillary</td>
-      <td>Multi-Focal</td>
-      <td>Intermediate</td>
-      <td>T3a</td>
-      <td>N1b</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T2</td>
+      <td>N0</td>
       <td>I</td>
-      <td>Structural Incomplete</td>
-      <td>Yes</td>
+      <td>Excellent</td>
+      <td>No</td>
     </tr>
     <tr>
-      <th>201</th>
-      <td>25</td>
+      <th>205</th>
+      <td>36</td>
       <td>F</td>
       <td>No</td>
       <td>Euthyroid</td>
       <td>Single nodular goiter-right</td>
       <td>Right</td>
       <td>Papillary</td>
-      <td>Multi-Focal</td>
+      <td>Uni-Focal</td>
       <td>Low</td>
       <td>T2</td>
       <td>N1b</td>
       <td>I</td>
-      <td>Excellent</td>
+      <td>Indeterminate</td>
       <td>No</td>
     </tr>
     <tr>
-      <th>134</th>
-      <td>51</td>
-      <td>F</td>
-      <td>No</td>
-      <td>Euthyroid</td>
-      <td>Multinodular goiter</td>
-      <td>No</td>
-      <td>Papillary</td>
-      <td>Uni-Focal</td>
-      <td>Low</td>
-      <td>T2</td>
-      <td>N0</td>
-      <td>I</td>
-      <td>Excellent</td>
-      <td>No</td>
-    </tr>
-    <tr>
-      <th>35</th>
-      <td>37</td>
-      <td>F</td>
-      <td>No</td>
-      <td>Subclinical Hypothyroidism</td>
-      <td>Single nodular goiter-left</td>
-      <td>No</td>
-      <td>Micropapillary</td>
-      <td>Uni-Focal</td>
-      <td>Low</td>
-      <td>T1a</td>
-      <td>N0</td>
-      <td>I</td>
-      <td>Excellent</td>
-      <td>No</td>
-    </tr>
-    <tr>
-      <th>380</th>
-      <td>72</td>
+      <th>277</th>
+      <td>41</td>
       <td>M</td>
       <td>Yes</td>
       <td>Euthyroid</td>
-      <td>Multinodular goiter</td>
-      <td>Bilateral</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
+      <td>Hurthle Cell</td>
+      <td>Multi-Focal</td>
+      <td>Intermediate</td>
+      <td>T3a</td>
+      <td>N0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>294</th>
+      <td>42</td>
+      <td>M</td>
+      <td>No</td>
+      <td>Subclinical Hypothyroidism</td>
+      <td>Single nodular goiter-right</td>
+      <td>No</td>
       <td>Papillary</td>
       <td>Multi-Focal</td>
-      <td>High</td>
-      <td>T4b</td>
-      <td>N1b</td>
-      <td>IVB</td>
-      <td>Structural Incomplete</td>
-      <td>Yes</td>
+      <td>Intermediate</td>
+      <td>T3a</td>
+      <td>N1a</td>
+      <td>I</td>
+      <td>Indeterminate</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>268</th>
+      <td>32</td>
+      <td>F</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Single nodular goiter-left</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T3a</td>
+      <td>N0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
     </tr>
   </tbody>
 </table>
@@ -4569,42 +4570,8 @@ thyroid_cancer_train_column_filtered.head()
   </thead>
   <tbody>
     <tr>
-      <th>335</th>
-      <td>29</td>
-      <td>M</td>
-      <td>No</td>
-      <td>Euthyroid</td>
-      <td>Multinodular or Diffuse Goiter</td>
-      <td>Yes</td>
-      <td>Papillary</td>
-      <td>Multi-Focal</td>
-      <td>Intermediate to High</td>
-      <td>T3 to T4b</td>
-      <td>N1</td>
-      <td>I</td>
-      <td>Indeterminate or Incomplete</td>
-      <td>Yes</td>
-    </tr>
-    <tr>
-      <th>201</th>
-      <td>25</td>
-      <td>F</td>
-      <td>No</td>
-      <td>Euthyroid</td>
-      <td>Normal or Single Nodular Goiter</td>
-      <td>Yes</td>
-      <td>Papillary</td>
-      <td>Multi-Focal</td>
-      <td>Low</td>
-      <td>T1 to T2</td>
-      <td>N1</td>
-      <td>I</td>
-      <td>Excellent</td>
-      <td>No</td>
-    </tr>
-    <tr>
-      <th>134</th>
-      <td>51</td>
+      <th>140</th>
+      <td>28</td>
       <td>F</td>
       <td>No</td>
       <td>Euthyroid</td>
@@ -4620,38 +4587,72 @@ thyroid_cancer_train_column_filtered.head()
       <td>No</td>
     </tr>
     <tr>
-      <th>35</th>
-      <td>37</td>
+      <th>205</th>
+      <td>36</td>
       <td>F</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Normal or Single Nodular Goiter</td>
+      <td>Yes</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1 to T2</td>
+      <td>N1</td>
+      <td>I</td>
+      <td>Indeterminate or Incomplete</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>277</th>
+      <td>41</td>
+      <td>M</td>
+      <td>Yes</td>
+      <td>Euthyroid</td>
+      <td>Normal or Single Nodular Goiter</td>
+      <td>No</td>
+      <td>Non-Papillary</td>
+      <td>Multi-Focal</td>
+      <td>Intermediate to High</td>
+      <td>T3 to T4b</td>
+      <td>N0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>294</th>
+      <td>42</td>
+      <td>M</td>
       <td>No</td>
       <td>Hypothyroidism or Hyperthyroidism</td>
       <td>Normal or Single Nodular Goiter</td>
       <td>No</td>
       <td>Papillary</td>
-      <td>Uni-Focal</td>
-      <td>Low</td>
-      <td>T1 to T2</td>
-      <td>N0</td>
-      <td>I</td>
-      <td>Excellent</td>
-      <td>No</td>
-    </tr>
-    <tr>
-      <th>380</th>
-      <td>72</td>
-      <td>M</td>
-      <td>Yes</td>
-      <td>Euthyroid</td>
-      <td>Multinodular or Diffuse Goiter</td>
-      <td>Yes</td>
-      <td>Papillary</td>
       <td>Multi-Focal</td>
       <td>Intermediate to High</td>
       <td>T3 to T4b</td>
       <td>N1</td>
-      <td>II to IVB</td>
+      <td>I</td>
       <td>Indeterminate or Incomplete</td>
-      <td>Yes</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>268</th>
+      <td>32</td>
+      <td>F</td>
+      <td>No</td>
+      <td>Euthyroid</td>
+      <td>Normal or Single Nodular Goiter</td>
+      <td>No</td>
+      <td>Papillary</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T3 to T4b</td>
+      <td>N0</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
     </tr>
   </tbody>
 </table>
@@ -4678,134 +4679,134 @@ for col in ordered_cat_cols:
 
     Column: Gender
     Absolute Frequencies:
-    M     46
-    F    158
+    M     44
+    F    160
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    M    0.22549
-    F    0.77451
+    M    0.215686
+    F    0.784314
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Smoking
     Absolute Frequencies:
-    No     172
-    Yes     32
+    No     177
+    Yes     27
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    No     0.843137
-    Yes    0.156863
+    No     0.867647
+    Yes    0.132353
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Thyroid_Function
     Absolute Frequencies:
-    Euthyroid                            176
-    Hypothyroidism or Hyperthyroidism     28
+    Euthyroid                            171
+    Hypothyroidism or Hyperthyroidism     33
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Euthyroid                            0.862745
-    Hypothyroidism or Hyperthyroidism    0.137255
+    Euthyroid                            0.838235
+    Hypothyroidism or Hyperthyroidism    0.161765
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Physical_Examination
     Absolute Frequencies:
-    Multinodular or Diffuse Goiter      83
-    Normal or Single Nodular Goiter    121
+    Multinodular or Diffuse Goiter      82
+    Normal or Single Nodular Goiter    122
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Multinodular or Diffuse Goiter     0.406863
-    Normal or Single Nodular Goiter    0.593137
+    Multinodular or Diffuse Goiter     0.401961
+    Normal or Single Nodular Goiter    0.598039
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Adenopathy
     Absolute Frequencies:
-    No     143
-    Yes     61
+    No     144
+    Yes     60
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    No     0.70098
-    Yes    0.29902
+    No     0.705882
+    Yes    0.294118
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Pathology
     Absolute Frequencies:
-    Non-Papillary     25
-    Papillary        179
+    Non-Papillary     29
+    Papillary        175
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Non-Papillary    0.122549
-    Papillary        0.877451
+    Non-Papillary    0.142157
+    Papillary        0.857843
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Focality
     Absolute Frequencies:
-    Uni-Focal      118
-    Multi-Focal     86
+    Uni-Focal      129
+    Multi-Focal     75
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Uni-Focal      0.578431
-    Multi-Focal    0.421569
+    Uni-Focal      0.632353
+    Multi-Focal    0.367647
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Risk
     Absolute Frequencies:
-    Intermediate to High     73
-    Low                     131
+    Intermediate to High     77
+    Low                     127
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Intermediate to High    0.357843
-    Low                     0.642157
+    Intermediate to High    0.377451
+    Low                     0.622549
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: T
     Absolute Frequencies:
-    T1 to T2     126
-    T3 to T4b     78
+    T1 to T2     120
+    T3 to T4b     84
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    T1 to T2     0.617647
-    T3 to T4b    0.382353
+    T1 to T2     0.588235
+    T3 to T4b    0.411765
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: N
     Absolute Frequencies:
-    N0    140
-    N1     64
+    N0    139
+    N1     65
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    N0    0.686275
-    N1    0.313725
+    N0    0.681373
+    N1    0.318627
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Stage
     Absolute Frequencies:
-    I            178
-    II to IVB     26
+    I            174
+    II to IVB     30
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    I            0.872549
-    II to IVB    0.127451
+    I            0.852941
+    II to IVB    0.147059
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Response
     Absolute Frequencies:
-    Excellent                      107
-    Indeterminate or Incomplete     97
+    Excellent                      109
+    Indeterminate or Incomplete     95
     Name: count, dtype: int64
     
     Normalized Frequencies:
-    Excellent                      0.52451
-    Indeterminate or Incomplete    0.47549
+    Excellent                      0.534314
+    Indeterminate or Incomplete    0.465686
     Name: proportion, dtype: float64
     --------------------------------------------------
     Column: Recurred
@@ -5046,12 +5047,12 @@ display(numeric_column_outlier_summary)
     <tr>
       <th>0</th>
       <td>Age</td>
-      <td>0.592572</td>
+      <td>0.525218</td>
       <td>0</td>
       <td>204</td>
       <td>0.0</td>
-      <td>0.592572</td>
-      <td>-0.461287</td>
+      <td>0.525218</td>
+      <td>-0.494286</td>
     </tr>
   </tbody>
 </table>
@@ -5154,40 +5155,8 @@ display(thyroid_cancer_train_correlation)
   </thead>
   <tbody>
     <tr>
-      <th>335</th>
-      <td>29</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>201</th>
-      <td>25</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>134</th>
-      <td>51</td>
+      <th>140</th>
+      <td>28</td>
       <td>1.0</td>
       <td>0.0</td>
       <td>0.0</td>
@@ -5202,36 +5171,68 @@ display(thyroid_cancer_train_correlation)
       <td>0.0</td>
     </tr>
     <tr>
-      <th>35</th>
-      <td>37</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
+      <th>205</th>
+      <td>36</td>
       <td>1.0</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>277</th>
+      <td>41</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
     </tr>
     <tr>
-      <th>380</th>
-      <td>72</td>
+      <th>294</th>
+      <td>42</td>
+      <td>0.0</td>
       <td>0.0</td>
       <td>1.0</td>
       <td>0.0</td>
+      <td>0.0</td>
       <td>1.0</td>
       <td>1.0</td>
       <td>1.0</td>
       <td>1.0</td>
       <td>1.0</td>
+      <td>0.0</td>
       <td>1.0</td>
+    </tr>
+    <tr>
+      <th>268</th>
+      <td>32</td>
       <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>...</th>
@@ -5250,83 +5251,83 @@ display(thyroid_cancer_train_correlation)
       <td>...</td>
     </tr>
     <tr>
-      <th>96</th>
-      <td>31</td>
+      <th>300</th>
+      <td>67</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>1.0</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
       <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
+      <td>1.0</td>
       <td>1.0</td>
     </tr>
     <tr>
-      <th>231</th>
+      <th>115</th>
+      <td>37</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>51</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>161</th>
+      <td>22</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>55</th>
       <td>21</td>
       <td>1.0</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>297</th>
-      <td>61</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>270</th>
-      <td>39</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
       <td>0.0</td>
       <td>1.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>1.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>302</th>
-      <td>67</td>
       <td>0.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -5448,209 +5449,209 @@ display(thyroid_cancer_train_correlation_matrix)
     <tr>
       <th>Age</th>
       <td>1.000000</td>
-      <td>-0.194235</td>
-      <td>0.384793</td>
-      <td>-0.064362</td>
-      <td>0.166593</td>
-      <td>0.075158</td>
-      <td>-0.103521</td>
-      <td>0.193520</td>
-      <td>0.218433</td>
-      <td>0.230384</td>
-      <td>0.032385</td>
-      <td>0.548657</td>
-      <td>0.277894</td>
+      <td>-0.185530</td>
+      <td>0.299971</td>
+      <td>0.077845</td>
+      <td>0.012021</td>
+      <td>0.073931</td>
+      <td>-0.215274</td>
+      <td>0.195272</td>
+      <td>0.205360</td>
+      <td>0.246838</td>
+      <td>0.013195</td>
+      <td>0.528144</td>
+      <td>0.317978</td>
     </tr>
     <tr>
       <th>Gender</th>
-      <td>-0.194235</td>
+      <td>-0.185530</td>
       <td>1.000000</td>
-      <td>-0.605869</td>
-      <td>-0.023393</td>
-      <td>-0.126177</td>
-      <td>-0.262486</td>
-      <td>0.048746</td>
-      <td>-0.204469</td>
-      <td>-0.331298</td>
-      <td>-0.178901</td>
-      <td>-0.292449</td>
-      <td>-0.286223</td>
-      <td>-0.261361</td>
+      <td>-0.604101</td>
+      <td>-0.093290</td>
+      <td>-0.031935</td>
+      <td>-0.158480</td>
+      <td>0.127817</td>
+      <td>-0.218103</td>
+      <td>-0.255507</td>
+      <td>-0.215101</td>
+      <td>-0.178550</td>
+      <td>-0.219727</td>
+      <td>-0.179431</td>
     </tr>
     <tr>
       <th>Smoking</th>
-      <td>0.384793</td>
-      <td>-0.605869</td>
+      <td>0.299971</td>
+      <td>-0.604101</td>
       <td>1.000000</td>
-      <td>0.023809</td>
-      <td>0.136654</td>
-      <td>0.307114</td>
-      <td>-0.208749</td>
-      <td>0.232285</td>
-      <td>0.352861</td>
-      <td>0.243106</td>
-      <td>0.260305</td>
-      <td>0.522287</td>
-      <td>0.345057</td>
+      <td>0.064124</td>
+      <td>0.004339</td>
+      <td>0.192350</td>
+      <td>-0.338086</td>
+      <td>0.182212</td>
+      <td>0.233024</td>
+      <td>0.231679</td>
+      <td>0.105463</td>
+      <td>0.327952</td>
+      <td>0.215362</td>
     </tr>
     <tr>
       <th>Thyroid_Function</th>
-      <td>-0.064362</td>
-      <td>-0.023393</td>
-      <td>0.023809</td>
+      <td>0.077845</td>
+      <td>-0.093290</td>
+      <td>0.064124</td>
       <td>1.000000</td>
-      <td>0.075621</td>
-      <td>-0.073821</td>
-      <td>-0.068143</td>
-      <td>-0.052038</td>
-      <td>-0.030299</td>
-      <td>-0.079318</td>
-      <td>-0.054779</td>
-      <td>-0.024290</td>
-      <td>-0.151571</td>
+      <td>0.019964</td>
+      <td>-0.137486</td>
+      <td>-0.049893</td>
+      <td>0.051564</td>
+      <td>-0.012519</td>
+      <td>-0.042960</td>
+      <td>-0.043275</td>
+      <td>0.080702</td>
+      <td>-0.036498</td>
     </tr>
     <tr>
       <th>Physical_Examination</th>
-      <td>0.166593</td>
-      <td>-0.126177</td>
-      <td>0.136654</td>
-      <td>0.075621</td>
+      <td>0.012021</td>
+      <td>-0.031935</td>
+      <td>0.004339</td>
+      <td>0.019964</td>
       <td>1.000000</td>
-      <td>0.156521</td>
-      <td>0.035651</td>
-      <td>0.464966</td>
-      <td>0.276835</td>
-      <td>0.190238</td>
-      <td>0.192704</td>
-      <td>0.102383</td>
-      <td>0.170525</td>
+      <td>0.063246</td>
+      <td>0.018806</td>
+      <td>0.245779</td>
+      <td>0.166012</td>
+      <td>0.086039</td>
+      <td>0.104553</td>
+      <td>0.054799</td>
+      <td>0.116526</td>
     </tr>
     <tr>
       <th>Adenopathy</th>
-      <td>0.075158</td>
-      <td>-0.262486</td>
-      <td>0.307114</td>
-      <td>-0.073821</td>
-      <td>0.156521</td>
+      <td>0.073931</td>
+      <td>-0.158480</td>
+      <td>0.192350</td>
+      <td>-0.137486</td>
+      <td>0.063246</td>
       <td>1.000000</td>
-      <td>0.015525</td>
-      <td>0.309718</td>
-      <td>0.696240</td>
-      <td>0.521653</td>
-      <td>0.827536</td>
-      <td>0.360418</td>
-      <td>0.514449</td>
+      <td>0.047117</td>
+      <td>0.288750</td>
+      <td>0.673638</td>
+      <td>0.421762</td>
+      <td>0.805406</td>
+      <td>0.278749</td>
+      <td>0.518887</td>
     </tr>
     <tr>
       <th>Pathology</th>
-      <td>-0.103521</td>
-      <td>0.048746</td>
-      <td>-0.208749</td>
-      <td>-0.068143</td>
-      <td>0.035651</td>
-      <td>0.015525</td>
+      <td>-0.215274</td>
+      <td>0.127817</td>
+      <td>-0.338086</td>
+      <td>-0.049893</td>
+      <td>0.018806</td>
+      <td>0.047117</td>
       <td>1.000000</td>
-      <td>-0.104765</td>
-      <td>-0.064050</td>
-      <td>-0.228898</td>
-      <td>0.091596</td>
-      <td>-0.081303</td>
-      <td>-0.212909</td>
+      <td>-0.126299</td>
+      <td>-0.117392</td>
+      <td>-0.286899</td>
+      <td>0.157869</td>
+      <td>-0.187683</td>
+      <td>-0.154637</td>
     </tr>
     <tr>
       <th>Focality</th>
-      <td>0.193520</td>
-      <td>-0.204469</td>
-      <td>0.232285</td>
-      <td>-0.052038</td>
-      <td>0.464966</td>
-      <td>0.309718</td>
-      <td>-0.104765</td>
+      <td>0.195272</td>
+      <td>-0.218103</td>
+      <td>0.182212</td>
+      <td>0.051564</td>
+      <td>0.245779</td>
+      <td>0.288750</td>
+      <td>-0.126299</td>
       <td>1.000000</td>
-      <td>0.439542</td>
-      <td>0.451800</td>
-      <td>0.364112</td>
-      <td>0.269075</td>
-      <td>0.379817</td>
+      <td>0.454926</td>
+      <td>0.518864</td>
+      <td>0.307716</td>
+      <td>0.372331</td>
+      <td>0.388741</td>
     </tr>
     <tr>
       <th>Risk</th>
-      <td>0.218433</td>
-      <td>-0.331298</td>
-      <td>0.352861</td>
-      <td>-0.030299</td>
-      <td>0.276835</td>
-      <td>0.696240</td>
-      <td>-0.064050</td>
-      <td>0.439542</td>
+      <td>0.205360</td>
+      <td>-0.255507</td>
+      <td>0.233024</td>
+      <td>-0.012519</td>
+      <td>0.166012</td>
+      <td>0.673638</td>
+      <td>-0.117392</td>
+      <td>0.454926</td>
       <td>1.000000</td>
-      <td>0.654179</td>
-      <td>0.751465</td>
-      <td>0.511978</td>
-      <td>0.620217</td>
+      <td>0.622459</td>
+      <td>0.726304</td>
+      <td>0.533264</td>
+      <td>0.631330</td>
     </tr>
     <tr>
       <th>T</th>
-      <td>0.230384</td>
-      <td>-0.178901</td>
-      <td>0.243106</td>
-      <td>-0.079318</td>
-      <td>0.190238</td>
-      <td>0.521653</td>
-      <td>-0.228898</td>
-      <td>0.451800</td>
-      <td>0.654179</td>
+      <td>0.246838</td>
+      <td>-0.215101</td>
+      <td>0.231679</td>
+      <td>-0.042960</td>
+      <td>0.086039</td>
+      <td>0.421762</td>
+      <td>-0.286899</td>
+      <td>0.518864</td>
+      <td>0.622459</td>
       <td>1.000000</td>
-      <td>0.489771</td>
-      <td>0.425255</td>
-      <td>0.583975</td>
+      <td>0.368430</td>
+      <td>0.468168</td>
+      <td>0.556742</td>
     </tr>
     <tr>
       <th>N</th>
-      <td>0.032385</td>
-      <td>-0.292449</td>
-      <td>0.260305</td>
-      <td>-0.054779</td>
-      <td>0.192704</td>
-      <td>0.827536</td>
-      <td>0.091596</td>
-      <td>0.364112</td>
-      <td>0.751465</td>
-      <td>0.489771</td>
+      <td>0.013195</td>
+      <td>-0.178550</td>
+      <td>0.105463</td>
+      <td>-0.043275</td>
+      <td>0.104553</td>
+      <td>0.805406</td>
+      <td>0.157869</td>
+      <td>0.307716</td>
+      <td>0.726304</td>
+      <td>0.368430</td>
       <td>1.000000</td>
-      <td>0.375186</td>
-      <td>0.519732</td>
+      <td>0.310156</td>
+      <td>0.542672</td>
     </tr>
     <tr>
       <th>Stage</th>
-      <td>0.548657</td>
-      <td>-0.286223</td>
-      <td>0.522287</td>
-      <td>-0.024290</td>
-      <td>0.102383</td>
-      <td>0.360418</td>
-      <td>-0.081303</td>
-      <td>0.269075</td>
-      <td>0.511978</td>
-      <td>0.425255</td>
-      <td>0.375186</td>
+      <td>0.528144</td>
+      <td>-0.219727</td>
+      <td>0.327952</td>
+      <td>0.080702</td>
+      <td>0.054799</td>
+      <td>0.278749</td>
+      <td>-0.187683</td>
+      <td>0.372331</td>
+      <td>0.533264</td>
+      <td>0.468168</td>
+      <td>0.310156</td>
       <td>1.000000</td>
-      <td>0.371970</td>
+      <td>0.417025</td>
     </tr>
     <tr>
       <th>Response</th>
-      <td>0.277894</td>
-      <td>-0.261361</td>
-      <td>0.345057</td>
-      <td>-0.151571</td>
-      <td>0.170525</td>
-      <td>0.514449</td>
-      <td>-0.212909</td>
-      <td>0.379817</td>
-      <td>0.620217</td>
-      <td>0.583975</td>
-      <td>0.519732</td>
-      <td>0.371970</td>
+      <td>0.317978</td>
+      <td>-0.179431</td>
+      <td>0.215362</td>
+      <td>-0.036498</td>
+      <td>0.116526</td>
+      <td>0.518887</td>
+      <td>-0.154637</td>
+      <td>0.388741</td>
+      <td>0.631330</td>
+      <td>0.556742</td>
+      <td>0.542672</td>
+      <td>0.417025</td>
       <td>1.000000</td>
     </tr>
   </tbody>
@@ -5899,8 +5900,8 @@ display(thyroid_cancer_numeric_summary.sort_values(by=['T.Test.PValue'], ascendi
   <tbody>
     <tr>
       <th>Recurred_Age</th>
-      <td>-3.791048</td>
-      <td>0.000198</td>
+      <td>-3.747942</td>
+      <td>0.000233</td>
     </tr>
   </tbody>
 </table>
@@ -5965,63 +5966,63 @@ display(thyroid_cancer_categorical_summary.sort_values(by=['ChiSquare.Test.PValu
   <tbody>
     <tr>
       <th>Recurred_Risk</th>
-      <td>115.387077</td>
-      <td>6.474266e-27</td>
+      <td>98.599608</td>
+      <td>3.090804e-23</td>
     </tr>
     <tr>
       <th>Recurred_Response</th>
-      <td>93.015440</td>
-      <td>5.188795e-22</td>
-    </tr>
-    <tr>
-      <th>Recurred_N</th>
-      <td>87.380222</td>
-      <td>8.954142e-21</td>
+      <td>90.866461</td>
+      <td>1.537030e-21</td>
     </tr>
     <tr>
       <th>Recurred_Adenopathy</th>
-      <td>82.909484</td>
-      <td>8.589806e-20</td>
+      <td>73.585561</td>
+      <td>9.636704e-18</td>
     </tr>
     <tr>
-      <th>Recurred_Stage</th>
-      <td>58.828665</td>
-      <td>1.720169e-14</td>
+      <th>Recurred_N</th>
+      <td>73.176134</td>
+      <td>1.185810e-17</td>
     </tr>
     <tr>
       <th>Recurred_T</th>
-      <td>57.882234</td>
-      <td>2.782892e-14</td>
+      <td>62.205367</td>
+      <td>3.094435e-15</td>
     </tr>
     <tr>
-      <th>Recurred_Smoking</th>
-      <td>34.318952</td>
-      <td>4.678040e-09</td>
-    </tr>
-    <tr>
-      <th>Recurred_Gender</th>
-      <td>29.114212</td>
-      <td>6.823460e-08</td>
+      <th>Recurred_Stage</th>
+      <td>44.963917</td>
+      <td>2.006987e-11</td>
     </tr>
     <tr>
       <th>Recurred_Focality</th>
-      <td>27.017885</td>
-      <td>2.015816e-07</td>
+      <td>32.859398</td>
+      <td>9.907099e-09</td>
+    </tr>
+    <tr>
+      <th>Recurred_Gender</th>
+      <td>17.787641</td>
+      <td>2.469824e-05</td>
+    </tr>
+    <tr>
+      <th>Recurred_Smoking</th>
+      <td>14.460357</td>
+      <td>1.431406e-04</td>
     </tr>
     <tr>
       <th>Recurred_Physical_Examination</th>
-      <td>5.717930</td>
-      <td>1.679252e-02</td>
+      <td>2.413115</td>
+      <td>1.203227e-01</td>
     </tr>
     <tr>
       <th>Recurred_Thyroid_Function</th>
-      <td>2.961746</td>
-      <td>8.525584e-02</td>
+      <td>0.966826</td>
+      <td>3.254729e-01</td>
     </tr>
     <tr>
       <th>Recurred_Pathology</th>
-      <td>0.891397</td>
-      <td>3.450989e-01</td>
+      <td>0.131614</td>
+      <td>7.167646e-01</td>
     </tr>
   </tbody>
 </table>
@@ -6226,36 +6227,8 @@ thyroid_cancer_preprocessed_train.head()
   </thead>
   <tbody>
     <tr>
-      <th>335</th>
-      <td>29</td>
-      <td>M</td>
-      <td>No</td>
-      <td>Multinodular or Diffuse Goiter</td>
-      <td>Yes</td>
-      <td>Multi-Focal</td>
-      <td>Intermediate to High</td>
-      <td>T3 to T4b</td>
-      <td>I</td>
-      <td>Indeterminate or Incomplete</td>
-      <td>Yes</td>
-    </tr>
-    <tr>
-      <th>201</th>
-      <td>25</td>
-      <td>F</td>
-      <td>No</td>
-      <td>Normal or Single Nodular Goiter</td>
-      <td>Yes</td>
-      <td>Multi-Focal</td>
-      <td>Low</td>
-      <td>T1 to T2</td>
-      <td>I</td>
-      <td>Excellent</td>
-      <td>No</td>
-    </tr>
-    <tr>
-      <th>134</th>
-      <td>51</td>
+      <th>140</th>
+      <td>28</td>
       <td>F</td>
       <td>No</td>
       <td>Multinodular or Diffuse Goiter</td>
@@ -6268,32 +6241,60 @@ thyroid_cancer_preprocessed_train.head()
       <td>No</td>
     </tr>
     <tr>
-      <th>35</th>
-      <td>37</td>
+      <th>205</th>
+      <td>36</td>
+      <td>F</td>
+      <td>No</td>
+      <td>Normal or Single Nodular Goiter</td>
+      <td>Yes</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1 to T2</td>
+      <td>I</td>
+      <td>Indeterminate or Incomplete</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>277</th>
+      <td>41</td>
+      <td>M</td>
+      <td>Yes</td>
+      <td>Normal or Single Nodular Goiter</td>
+      <td>No</td>
+      <td>Multi-Focal</td>
+      <td>Intermediate to High</td>
+      <td>T3 to T4b</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>294</th>
+      <td>42</td>
+      <td>M</td>
+      <td>No</td>
+      <td>Normal or Single Nodular Goiter</td>
+      <td>No</td>
+      <td>Multi-Focal</td>
+      <td>Intermediate to High</td>
+      <td>T3 to T4b</td>
+      <td>I</td>
+      <td>Indeterminate or Incomplete</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>268</th>
+      <td>32</td>
       <td>F</td>
       <td>No</td>
       <td>Normal or Single Nodular Goiter</td>
       <td>No</td>
       <td>Uni-Focal</td>
       <td>Low</td>
-      <td>T1 to T2</td>
+      <td>T3 to T4b</td>
       <td>I</td>
       <td>Excellent</td>
       <td>No</td>
-    </tr>
-    <tr>
-      <th>380</th>
-      <td>72</td>
-      <td>M</td>
-      <td>Yes</td>
-      <td>Multinodular or Diffuse Goiter</td>
-      <td>Yes</td>
-      <td>Multi-Focal</td>
-      <td>Intermediate to High</td>
-      <td>T3 to T4b</td>
-      <td>II to IVB</td>
-      <td>Indeterminate or Incomplete</td>
-      <td>Yes</td>
     </tr>
   </tbody>
 </table>
@@ -6391,64 +6392,36 @@ thyroid_cancer_preprocessed_validation.head()
   </thead>
   <tbody>
     <tr>
-      <th>49</th>
-      <td>29</td>
-      <td>F</td>
-      <td>No</td>
-      <td>Multinodular or Diffuse Goiter</td>
-      <td>No</td>
-      <td>Uni-Focal</td>
-      <td>Low</td>
-      <td>T1 to T2</td>
-      <td>I</td>
-      <td>Excellent</td>
-      <td>No</td>
-    </tr>
-    <tr>
-      <th>353</th>
-      <td>73</td>
-      <td>F</td>
-      <td>No</td>
-      <td>Normal or Single Nodular Goiter</td>
-      <td>Yes</td>
-      <td>Multi-Focal</td>
-      <td>Intermediate to High</td>
-      <td>T3 to T4b</td>
-      <td>II to IVB</td>
-      <td>Indeterminate or Incomplete</td>
-      <td>Yes</td>
-    </tr>
-    <tr>
-      <th>204</th>
-      <td>36</td>
-      <td>F</td>
-      <td>No</td>
-      <td>Normal or Single Nodular Goiter</td>
-      <td>Yes</td>
-      <td>Uni-Focal</td>
-      <td>Low</td>
-      <td>T1 to T2</td>
-      <td>I</td>
-      <td>Excellent</td>
-      <td>No</td>
-    </tr>
-    <tr>
-      <th>283</th>
+      <th>173</th>
       <td>30</td>
       <td>F</td>
       <td>No</td>
       <td>Normal or Single Nodular Goiter</td>
       <td>No</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1 to T2</td>
+      <td>I</td>
+      <td>Indeterminate or Incomplete</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>164</th>
+      <td>29</td>
+      <td>F</td>
+      <td>No</td>
+      <td>Normal or Single Nodular Goiter</td>
+      <td>No</td>
       <td>Multi-Focal</td>
-      <td>Intermediate to High</td>
-      <td>T3 to T4b</td>
+      <td>Low</td>
+      <td>T1 to T2</td>
       <td>I</td>
       <td>Excellent</td>
       <td>No</td>
     </tr>
     <tr>
-      <th>254</th>
-      <td>31</td>
+      <th>256</th>
+      <td>21</td>
       <td>M</td>
       <td>Yes</td>
       <td>Normal or Single Nodular Goiter</td>
@@ -6458,6 +6431,34 @@ thyroid_cancer_preprocessed_validation.head()
       <td>T3 to T4b</td>
       <td>I</td>
       <td>Indeterminate or Incomplete</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>348</th>
+      <td>58</td>
+      <td>F</td>
+      <td>No</td>
+      <td>Multinodular or Diffuse Goiter</td>
+      <td>Yes</td>
+      <td>Multi-Focal</td>
+      <td>Intermediate to High</td>
+      <td>T3 to T4b</td>
+      <td>II to IVB</td>
+      <td>Indeterminate or Incomplete</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <th>131</th>
+      <td>31</td>
+      <td>F</td>
+      <td>No</td>
+      <td>Normal or Single Nodular Goiter</td>
+      <td>No</td>
+      <td>Uni-Focal</td>
+      <td>Low</td>
+      <td>T1 to T2</td>
+      <td>I</td>
+      <td>Excellent</td>
       <td>No</td>
     </tr>
   </tbody>
@@ -6556,26 +6557,54 @@ thyroid_cancer_preprocessed_test.head()
   </thead>
   <tbody>
     <tr>
-      <th>379</th>
-      <td>81</td>
-      <td>M</td>
-      <td>Yes</td>
+      <th>345</th>
+      <td>25</td>
+      <td>F</td>
+      <td>No</td>
       <td>Multinodular or Diffuse Goiter</td>
       <td>Yes</td>
       <td>Multi-Focal</td>
       <td>Intermediate to High</td>
       <td>T3 to T4b</td>
-      <td>II to IVB</td>
+      <td>I</td>
       <td>Indeterminate or Incomplete</td>
       <td>Yes</td>
     </tr>
     <tr>
-      <th>125</th>
-      <td>31</td>
+      <th>249</th>
+      <td>46</td>
       <td>F</td>
       <td>No</td>
       <td>Normal or Single Nodular Goiter</td>
-      <td>Yes</td>
+      <td>No</td>
+      <td>Multi-Focal</td>
+      <td>Low</td>
+      <td>T3 to T4b</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>83</th>
+      <td>40</td>
+      <td>F</td>
+      <td>No</td>
+      <td>Normal or Single Nodular Goiter</td>
+      <td>No</td>
+      <td>Uni-Focal</td>
+      <td>Intermediate to High</td>
+      <td>T1 to T2</td>
+      <td>I</td>
+      <td>Excellent</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>184</th>
+      <td>67</td>
+      <td>F</td>
+      <td>No</td>
+      <td>Normal or Single Nodular Goiter</td>
+      <td>No</td>
       <td>Uni-Focal</td>
       <td>Low</td>
       <td>T1 to T2</td>
@@ -6584,46 +6613,18 @@ thyroid_cancer_preprocessed_test.head()
       <td>No</td>
     </tr>
     <tr>
-      <th>286</th>
-      <td>58</td>
-      <td>F</td>
-      <td>No</td>
-      <td>Multinodular or Diffuse Goiter</td>
-      <td>No</td>
-      <td>Multi-Focal</td>
-      <td>Intermediate to High</td>
-      <td>T3 to T4b</td>
-      <td>II to IVB</td>
-      <td>Indeterminate or Incomplete</td>
-      <td>No</td>
-    </tr>
-    <tr>
-      <th>244</th>
-      <td>35</td>
+      <th>146</th>
+      <td>25</td>
       <td>F</td>
       <td>No</td>
       <td>Multinodular or Diffuse Goiter</td>
       <td>No</td>
       <td>Uni-Focal</td>
       <td>Low</td>
-      <td>T3 to T4b</td>
+      <td>T1 to T2</td>
       <td>I</td>
-      <td>Excellent</td>
-      <td>No</td>
-    </tr>
-    <tr>
-      <th>369</th>
-      <td>71</td>
-      <td>M</td>
-      <td>Yes</td>
-      <td>Multinodular or Diffuse Goiter</td>
-      <td>Yes</td>
-      <td>Multi-Focal</td>
-      <td>Intermediate to High</td>
-      <td>T3 to T4b</td>
-      <td>II to IVB</td>
       <td>Indeterminate or Incomplete</td>
-      <td>Yes</td>
+      <td>No</td>
     </tr>
   </tbody>
 </table>
@@ -6676,7 +6677,7 @@ categorical_preprocessor = ColumnTransformer(transformers=[
 bagged_rf_pipeline = Pipeline([
     ('categorical_preprocessor', categorical_preprocessor),
     ('bagged_rf_model', RandomForestClassifier(class_weight='balanced', 
-                                               random_state=88888888))
+                                               random_state=987654321))
 ])
 
 ```
@@ -6702,7 +6703,7 @@ bagged_rf_hyperparameter_grid = {
 ##################################
 cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
                                       n_repeats=5, 
-                                      random_state=88888888)
+                                      random_state=987654321)
 
 ```
 
@@ -7165,7 +7166,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -7182,13 +7183,13 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;bagged_rf_model&#x27;,
                                         RandomForestClassifier(class_weight=&#x27;balanced&#x27;,
-                                                               random_state=88888888))]),
+                                                               random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;bagged_rf_model__criterion&#x27;: [&#x27;gini&#x27;, &#x27;entropy&#x27;],
                          &#x27;bagged_rf_model__max_depth&#x27;: [3, 5],
                          &#x27;bagged_rf_model__min_samples_leaf&#x27;: [5, 10],
                          &#x27;bagged_rf_model__n_estimators&#x27;: [100, 200]},
-             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" ><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" ><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -7205,7 +7206,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;bagged_rf_model&#x27;,
                                         RandomForestClassifier(class_weight=&#x27;balanced&#x27;,
-                                                               random_state=88888888))]),
+                                                               random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;bagged_rf_model__criterion&#x27;: [&#x27;gini&#x27;, &#x27;entropy&#x27;],
                          &#x27;bagged_rf_model__max_depth&#x27;: [3, 5],
@@ -7223,13 +7224,14 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                 (&#x27;bagged_rf_model&#x27;,
                  RandomForestClassifier(class_weight=&#x27;balanced&#x27;,
                                         criterion=&#x27;entropy&#x27;, max_depth=5,
-                                        min_samples_leaf=5,
-                                        random_state=88888888))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox" ><label for="sk-estimator-id-3" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                                        min_samples_leaf=10, n_estimators=200,
+                                        random_state=987654321))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox" ><label for="sk-estimator-id-3" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
                                   &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-4" type="checkbox" ><label for="sk-estimator-id-4" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-5" type="checkbox" ><label for="sk-estimator-id-5" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-6" type="checkbox" ><label for="sk-estimator-id-6" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-7" type="checkbox" ><label for="sk-estimator-id-7" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-8" type="checkbox" ><label for="sk-estimator-id-8" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>RandomForestClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.ensemble.RandomForestClassifier.html">?<span>Documentation for RandomForestClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>RandomForestClassifier(class_weight=&#x27;balanced&#x27;, criterion=&#x27;entropy&#x27;,
-                       max_depth=5, min_samples_leaf=5, random_state=88888888)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+                       max_depth=5, min_samples_leaf=10, n_estimators=200,
+                       random_state=987654321)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
 
@@ -7265,7 +7267,7 @@ print(f"Best Random Forest Hyperparameters: {bagged_rf_grid_search.best_params_}
 ```
 
     Best Bagged Model - Random Forest: 
-    Best Random Forest Hyperparameters: {'bagged_rf_model__criterion': 'entropy', 'bagged_rf_model__max_depth': 5, 'bagged_rf_model__min_samples_leaf': 5, 'bagged_rf_model__n_estimators': 100}
+    Best Random Forest Hyperparameters: {'bagged_rf_model__criterion': 'entropy', 'bagged_rf_model__max_depth': 5, 'bagged_rf_model__min_samples_leaf': 10, 'bagged_rf_model__n_estimators': 200}
     
 
 
@@ -7282,18 +7284,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8709
-    F1 Score on Training Data: 0.8889
+    F1 Score on Cross-Validated Data: 0.8218
+    F1 Score on Training Data: 0.8333
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.96      0.94      0.95       143
-             1.0       0.86      0.92      0.89        61
+             0.0       0.95      0.89      0.92       143
+             1.0       0.77      0.90      0.83        61
     
-        accuracy                           0.93       204
-       macro avg       0.91      0.93      0.92       204
-    weighted avg       0.93      0.93      0.93       204
+        accuracy                           0.89       204
+       macro avg       0.86      0.89      0.88       204
+    weighted avg       0.90      0.89      0.89       204
     
     
 
@@ -7339,17 +7341,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.8500
+    F1 Score on Validation Data: 0.8372
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.94      0.94      0.94        49
-             1.0       0.85      0.85      0.85        20
+             0.0       0.96      0.90      0.93        49
+             1.0       0.78      0.90      0.84        20
     
-        accuracy                           0.91        69
-       macro avg       0.89      0.89      0.89        69
-    weighted avg       0.91      0.91      0.91        69
+        accuracy                           0.90        69
+       macro avg       0.87      0.90      0.88        69
+    weighted avg       0.91      0.90      0.90        69
     
     
 
@@ -7428,35 +7430,35 @@ display(bagged_rf_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.931373</td>
+      <td>0.892157</td>
       <td>bagged_rf_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.861538</td>
+      <td>0.774648</td>
       <td>bagged_rf_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.918033</td>
+      <td>0.901639</td>
       <td>bagged_rf_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.888889</td>
+      <td>0.833333</td>
       <td>bagged_rf_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.927548</td>
+      <td>0.894876</td>
       <td>bagged_rf_optimal</td>
       <td>train</td>
     </tr>
@@ -7511,35 +7513,35 @@ display(bagged_rf_optimal_validation)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.913043</td>
+      <td>0.898551</td>
       <td>bagged_rf_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.850000</td>
+      <td>0.782609</td>
       <td>bagged_rf_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.850000</td>
+      <td>0.900000</td>
       <td>bagged_rf_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.850000</td>
+      <td>0.837209</td>
       <td>bagged_rf_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.894388</td>
+      <td>0.898980</td>
       <td>bagged_rf_optimal</td>
       <td>validation</td>
     </tr>
@@ -7590,7 +7592,7 @@ categorical_preprocessor = ColumnTransformer(transformers=[
 bagged_et_pipeline = Pipeline([
     ('categorical_preprocessor', categorical_preprocessor),
     ('bagged_et_model', ExtraTreesClassifier(class_weight='balanced', 
-                                               random_state=88888888))
+                                               random_state=987654321))
 ])
 
 ```
@@ -7616,7 +7618,7 @@ bagged_et_hyperparameter_grid = {
 ##################################
 cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
                                       n_repeats=5, 
-                                      random_state=88888888)
+                                      random_state=987654321)
 
 ```
 
@@ -8079,7 +8081,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-2" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+</style><div id="sk-container-id-2" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -8096,13 +8098,13 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;bagged_et_model&#x27;,
                                         ExtraTreesClassifier(class_weight=&#x27;balanced&#x27;,
-                                                             random_state=88888888))]),
+                                                             random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;bagged_et_model__criterion&#x27;: [&#x27;gini&#x27;, &#x27;entropy&#x27;],
                          &#x27;bagged_et_model__max_depth&#x27;: [3, 6],
                          &#x27;bagged_et_model__min_samples_leaf&#x27;: [5, 10],
                          &#x27;bagged_et_model__n_estimators&#x27;: [100, 200]},
-             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-9" type="checkbox" ><label for="sk-estimator-id-9" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-9" type="checkbox" ><label for="sk-estimator-id-9" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -8119,7 +8121,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;bagged_et_model&#x27;,
                                         ExtraTreesClassifier(class_weight=&#x27;balanced&#x27;,
-                                                             random_state=88888888))]),
+                                                             random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;bagged_et_model__criterion&#x27;: [&#x27;gini&#x27;, &#x27;entropy&#x27;],
                          &#x27;bagged_et_model__max_depth&#x27;: [3, 6],
@@ -8135,14 +8137,16 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;bagged_et_model&#x27;,
-                 ExtraTreesClassifier(class_weight=&#x27;balanced&#x27;, max_depth=3,
-                                      min_samples_leaf=5,
-                                      random_state=88888888))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-11" type="checkbox" ><label for="sk-estimator-id-11" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                 ExtraTreesClassifier(class_weight=&#x27;balanced&#x27;,
+                                      criterion=&#x27;entropy&#x27;, max_depth=6,
+                                      min_samples_leaf=10, n_estimators=200,
+                                      random_state=987654321))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-11" type="checkbox" ><label for="sk-estimator-id-11" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
-                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-12" type="checkbox" ><label for="sk-estimator-id-12" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-13" type="checkbox" ><label for="sk-estimator-id-13" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-14" type="checkbox" ><label for="sk-estimator-id-14" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-15" type="checkbox" ><label for="sk-estimator-id-15" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-16" type="checkbox" ><label for="sk-estimator-id-16" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>ExtraTreesClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html">?<span>Documentation for ExtraTreesClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ExtraTreesClassifier(class_weight=&#x27;balanced&#x27;, max_depth=3, min_samples_leaf=5,
-                     random_state=88888888)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-12" type="checkbox" ><label for="sk-estimator-id-12" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-13" type="checkbox" ><label for="sk-estimator-id-13" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-14" type="checkbox" ><label for="sk-estimator-id-14" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-15" type="checkbox" ><label for="sk-estimator-id-15" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-16" type="checkbox" ><label for="sk-estimator-id-16" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>ExtraTreesClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html">?<span>Documentation for ExtraTreesClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ExtraTreesClassifier(class_weight=&#x27;balanced&#x27;, criterion=&#x27;entropy&#x27;, max_depth=6,
+                     min_samples_leaf=10, n_estimators=200,
+                     random_state=987654321)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
 
@@ -8178,7 +8182,7 @@ print(f"Best Extra Trees Hyperparameters: {bagged_et_grid_search.best_params_}")
 ```
 
     Best Bagged Model – Extra Trees: 
-    Best Extra Trees Hyperparameters: {'bagged_et_model__criterion': 'gini', 'bagged_et_model__max_depth': 3, 'bagged_et_model__min_samples_leaf': 5, 'bagged_et_model__n_estimators': 100}
+    Best Extra Trees Hyperparameters: {'bagged_et_model__criterion': 'entropy', 'bagged_et_model__max_depth': 6, 'bagged_et_model__min_samples_leaf': 10, 'bagged_et_model__n_estimators': 200}
     
 
 
@@ -8195,18 +8199,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8760
-    F1 Score on Training Data: 0.8889
+    F1 Score on Cross-Validated Data: 0.8101
+    F1 Score on Training Data: 0.8333
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.96      0.94      0.95       143
-             1.0       0.86      0.92      0.89        61
+             0.0       0.95      0.89      0.92       143
+             1.0       0.77      0.90      0.83        61
     
-        accuracy                           0.93       204
-       macro avg       0.91      0.93      0.92       204
-    weighted avg       0.93      0.93      0.93       204
+        accuracy                           0.89       204
+       macro avg       0.86      0.89      0.88       204
+    weighted avg       0.90      0.89      0.89       204
     
     
 
@@ -8252,17 +8256,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.8500
+    F1 Score on Validation Data: 0.8372
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.94      0.94      0.94        49
-             1.0       0.85      0.85      0.85        20
+             0.0       0.96      0.90      0.93        49
+             1.0       0.78      0.90      0.84        20
     
-        accuracy                           0.91        69
-       macro avg       0.89      0.89      0.89        69
-    weighted avg       0.91      0.91      0.91        69
+        accuracy                           0.90        69
+       macro avg       0.87      0.90      0.88        69
+    weighted avg       0.91      0.90      0.90        69
     
     
 
@@ -8341,35 +8345,35 @@ display(bagged_et_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.931373</td>
+      <td>0.892157</td>
       <td>bagged_et_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.861538</td>
+      <td>0.774648</td>
       <td>bagged_et_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.918033</td>
+      <td>0.901639</td>
       <td>bagged_et_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.888889</td>
+      <td>0.833333</td>
       <td>bagged_et_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.927548</td>
+      <td>0.894876</td>
       <td>bagged_et_optimal</td>
       <td>train</td>
     </tr>
@@ -8424,35 +8428,35 @@ display(bagged_et_optimal_validation)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.913043</td>
+      <td>0.898551</td>
       <td>bagged_et_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.850000</td>
+      <td>0.782609</td>
       <td>bagged_et_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.850000</td>
+      <td>0.900000</td>
       <td>bagged_et_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.850000</td>
+      <td>0.837209</td>
       <td>bagged_et_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.894388</td>
+      <td>0.898980</td>
       <td>bagged_et_optimal</td>
       <td>validation</td>
     </tr>
@@ -8503,8 +8507,8 @@ categorical_preprocessor = ColumnTransformer(transformers=[
 bagged_bdt_pipeline = Pipeline([
     ('categorical_preprocessor', categorical_preprocessor),
     ('bagged_bdt_model', BaggingClassifier(estimator=DecisionTreeClassifier(class_weight='balanced', 
-                                                                            random_state=88888888),
-                                           random_state=88888888))
+                                                                            random_state=987654321),
+                                           random_state=987654321))
 ])
 
 ```
@@ -8530,7 +8534,7 @@ bagged_bdt_hyperparameter_grid = {
 ##################################
 cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
                                       n_repeats=5, 
-                                      random_state=88888888)
+                                      random_state=987654321)
 
 ```
 
@@ -8993,7 +8997,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-3" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+</style><div id="sk-container-id-3" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -9007,10 +9011,10 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Risk&#x27;,
                                                                           &#x27;T&#x27;,
                                                                           &#x27;Stage&#x27;,
-                                                                          &#x27;Response&#x27;])]...
+                                                                          &#x27;Response&#x27;])...
                                         BaggingClassifier(estimator=DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;,
-                                                                                           random_state=88888888),
-                                                          random_state=88888888))]),
+                                                                                           random_state=987654321),
+                                                          random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;bagged_bdt_model__estimator__criterion&#x27;: [&#x27;gini&#x27;,
                                                                     &#x27;entropy&#x27;],
@@ -9018,7 +9022,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                          &#x27;bagged_bdt_model__estimator__min_samples_leaf&#x27;: [5,
                                                                            10],
                          &#x27;bagged_bdt_model__n_estimators&#x27;: [100, 200]},
-             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-17" type="checkbox" ><label for="sk-estimator-id-17" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-17" type="checkbox" ><label for="sk-estimator-id-17" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -9032,10 +9036,10 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Risk&#x27;,
                                                                           &#x27;T&#x27;,
                                                                           &#x27;Stage&#x27;,
-                                                                          &#x27;Response&#x27;])]...
+                                                                          &#x27;Response&#x27;])...
                                         BaggingClassifier(estimator=DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;,
-                                                                                           random_state=88888888),
-                                                          random_state=88888888))]),
+                                                                                           random_state=987654321),
+                                                          random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;bagged_bdt_model__estimator__criterion&#x27;: [&#x27;gini&#x27;,
                                                                     &#x27;entropy&#x27;],
@@ -9054,22 +9058,20 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;bagged_bdt_model&#x27;,
                  BaggingClassifier(estimator=DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;,
-                                                                    criterion=&#x27;entropy&#x27;,
-                                                                    max_depth=3,
+                                                                    max_depth=6,
                                                                     min_samples_leaf=5,
-                                                                    random_state=88888888),
-                                   n_estimators=100, random_state=88888888))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-19" type="checkbox" ><label for="sk-estimator-id-19" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                                                                    random_state=987654321),
+                                   n_estimators=200, random_state=987654321))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-19" type="checkbox" ><label for="sk-estimator-id-19" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
                                   &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-20" type="checkbox" ><label for="sk-estimator-id-20" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-21" type="checkbox" ><label for="sk-estimator-id-21" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-22" type="checkbox" ><label for="sk-estimator-id-22" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-23" type="checkbox" ><label for="sk-estimator-id-23" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-24" type="checkbox" ><label for="sk-estimator-id-24" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>bagged_bdt_model: BaggingClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.ensemble.BaggingClassifier.html">?<span>Documentation for bagged_bdt_model: BaggingClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>BaggingClassifier(estimator=DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;,
-                                                   criterion=&#x27;entropy&#x27;,
-                                                   max_depth=3,
+                                                   max_depth=6,
                                                    min_samples_leaf=5,
-                                                   random_state=88888888),
-                  n_estimators=100, random_state=88888888)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-25" type="checkbox" ><label for="sk-estimator-id-25" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>estimator: DecisionTreeClassifier</div></div></label><div class="sk-toggleable__content fitted"><pre>DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;, criterion=&#x27;entropy&#x27;,
-                       max_depth=3, min_samples_leaf=5, random_state=88888888)</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-26" type="checkbox" ><label for="sk-estimator-id-26" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>DecisionTreeClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.tree.DecisionTreeClassifier.html">?<span>Documentation for DecisionTreeClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;, criterion=&#x27;entropy&#x27;,
-                       max_depth=3, min_samples_leaf=5, random_state=88888888)</pre></div> </div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div>
+                                                   random_state=987654321),
+                  n_estimators=200, random_state=987654321)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-25" type="checkbox" ><label for="sk-estimator-id-25" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>estimator: DecisionTreeClassifier</div></div></label><div class="sk-toggleable__content fitted"><pre>DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;, max_depth=6, min_samples_leaf=5,
+                       random_state=987654321)</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-26" type="checkbox" ><label for="sk-estimator-id-26" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>DecisionTreeClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.tree.DecisionTreeClassifier.html">?<span>Documentation for DecisionTreeClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;, max_depth=6, min_samples_leaf=5,
+                       random_state=987654321)</pre></div> </div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div>
 
 
 
@@ -9105,7 +9107,7 @@ print(f"Best Bagged Decision Trees Hyperparameters: {bagged_bdt_grid_search.best
 ```
 
     Best Bagged Model – Bagged Decision Trees: 
-    Best Bagged Decision Trees Hyperparameters: {'bagged_bdt_model__estimator__criterion': 'entropy', 'bagged_bdt_model__estimator__max_depth': 3, 'bagged_bdt_model__estimator__min_samples_leaf': 5, 'bagged_bdt_model__n_estimators': 100}
+    Best Bagged Decision Trees Hyperparameters: {'bagged_bdt_model__estimator__criterion': 'gini', 'bagged_bdt_model__estimator__max_depth': 6, 'bagged_bdt_model__estimator__min_samples_leaf': 5, 'bagged_bdt_model__n_estimators': 200}
     
 
 
@@ -9122,18 +9124,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8792
-    F1 Score on Training Data: 0.8889
+    F1 Score on Cross-Validated Data: 0.8287
+    F1 Score on Training Data: 0.8462
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.96      0.94      0.95       143
-             1.0       0.86      0.92      0.89        61
+             0.0       0.96      0.90      0.93       143
+             1.0       0.80      0.90      0.85        61
     
-        accuracy                           0.93       204
-       macro avg       0.91      0.93      0.92       204
-    weighted avg       0.93      0.93      0.93       204
+        accuracy                           0.90       204
+       macro avg       0.88      0.90      0.89       204
+    weighted avg       0.91      0.90      0.90       204
     
     
 
@@ -9179,17 +9181,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.8500
+    F1 Score on Validation Data: 0.8571
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.94      0.94      0.94        49
-             1.0       0.85      0.85      0.85        20
+             0.0       0.96      0.92      0.94        49
+             1.0       0.82      0.90      0.86        20
     
         accuracy                           0.91        69
-       macro avg       0.89      0.89      0.89        69
-    weighted avg       0.91      0.91      0.91        69
+       macro avg       0.89      0.91      0.90        69
+    weighted avg       0.92      0.91      0.91        69
     
     
 
@@ -9268,35 +9270,35 @@ display(bagged_bdt_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.931373</td>
+      <td>0.901961</td>
       <td>bagged_bdt_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.861538</td>
+      <td>0.797101</td>
       <td>bagged_bdt_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.918033</td>
+      <td>0.901639</td>
       <td>bagged_bdt_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.888889</td>
+      <td>0.846154</td>
       <td>bagged_bdt_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.927548</td>
+      <td>0.901869</td>
       <td>bagged_bdt_optimal</td>
       <td>train</td>
     </tr>
@@ -9358,28 +9360,28 @@ display(bagged_bdt_optimal_validation)
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.850000</td>
+      <td>0.818182</td>
       <td>bagged_bdt_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.850000</td>
+      <td>0.900000</td>
       <td>bagged_bdt_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.850000</td>
+      <td>0.857143</td>
       <td>bagged_bdt_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.894388</td>
+      <td>0.909184</td>
       <td>bagged_bdt_optimal</td>
       <td>validation</td>
     </tr>
@@ -9430,8 +9432,8 @@ categorical_preprocessor = ColumnTransformer(transformers=[
 bagged_blr_pipeline = Pipeline([
     ('categorical_preprocessor', categorical_preprocessor),
     ('bagged_blr_model', BaggingClassifier(estimator=LogisticRegression(class_weight='balanced', 
-                                                                        random_state=88888888),
-                                           random_state=88888888))
+                                                                        random_state=987654321),
+                                           random_state=987654321))
 ])
 
 ```
@@ -9457,7 +9459,7 @@ bagged_blr_hyperparameter_grid = {
 ##################################
 cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
                                       n_repeats=5, 
-                                      random_state=88888888)
+                                      random_state=987654321)
 
 ```
 
@@ -9920,7 +9922,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-4" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+</style><div id="sk-container-id-4" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -9934,17 +9936,17 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Risk&#x27;,
                                                                           &#x27;T&#x27;,
                                                                           &#x27;Stage&#x27;,
-                                                                          &#x27;Response&#x27;])]...
+                                                                          &#x27;Response&#x27;])...
                                         BaggingClassifier(estimator=LogisticRegression(class_weight=&#x27;balanced&#x27;,
-                                                                                       random_state=88888888),
-                                                          random_state=88888888))]),
+                                                                                       random_state=987654321),
+                                                          random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;bagged_blr_model__estimator__C&#x27;: [0.1, 1.0],
                          &#x27;bagged_blr_model__estimator__penalty&#x27;: [&#x27;l1&#x27;, &#x27;l2&#x27;],
                          &#x27;bagged_blr_model__estimator__solver&#x27;: [&#x27;liblinear&#x27;,
                                                                  &#x27;saga&#x27;],
                          &#x27;bagged_blr_model__n_estimators&#x27;: [100, 200]},
-             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-27" type="checkbox" ><label for="sk-estimator-id-27" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-27" type="checkbox" ><label for="sk-estimator-id-27" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -9958,10 +9960,10 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Risk&#x27;,
                                                                           &#x27;T&#x27;,
                                                                           &#x27;Stage&#x27;,
-                                                                          &#x27;Response&#x27;])]...
+                                                                          &#x27;Response&#x27;])...
                                         BaggingClassifier(estimator=LogisticRegression(class_weight=&#x27;balanced&#x27;,
-                                                                                       random_state=88888888),
-                                                          random_state=88888888))]),
+                                                                                       random_state=987654321),
+                                                          random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;bagged_blr_model__estimator__C&#x27;: [0.1, 1.0],
                          &#x27;bagged_blr_model__estimator__penalty&#x27;: [&#x27;l1&#x27;, &#x27;l2&#x27;],
@@ -9979,18 +9981,20 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;bagged_blr_model&#x27;,
                  BaggingClassifier(estimator=LogisticRegression(class_weight=&#x27;balanced&#x27;,
-                                                                random_state=88888888,
+                                                                penalty=&#x27;l1&#x27;,
+                                                                random_state=987654321,
                                                                 solver=&#x27;liblinear&#x27;),
-                                   n_estimators=200, random_state=88888888))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-29" type="checkbox" ><label for="sk-estimator-id-29" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                                   n_estimators=200, random_state=987654321))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-29" type="checkbox" ><label for="sk-estimator-id-29" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
                                   &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-30" type="checkbox" ><label for="sk-estimator-id-30" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-31" type="checkbox" ><label for="sk-estimator-id-31" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-32" type="checkbox" ><label for="sk-estimator-id-32" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-33" type="checkbox" ><label for="sk-estimator-id-33" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-34" type="checkbox" ><label for="sk-estimator-id-34" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>bagged_blr_model: BaggingClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.ensemble.BaggingClassifier.html">?<span>Documentation for bagged_blr_model: BaggingClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>BaggingClassifier(estimator=LogisticRegression(class_weight=&#x27;balanced&#x27;,
-                                               random_state=88888888,
+                                               penalty=&#x27;l1&#x27;,
+                                               random_state=987654321,
                                                solver=&#x27;liblinear&#x27;),
-                  n_estimators=200, random_state=88888888)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-35" type="checkbox" ><label for="sk-estimator-id-35" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>estimator: LogisticRegression</div></div></label><div class="sk-toggleable__content fitted"><pre>LogisticRegression(class_weight=&#x27;balanced&#x27;, random_state=88888888,
-                   solver=&#x27;liblinear&#x27;)</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-36" type="checkbox" ><label for="sk-estimator-id-36" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>LogisticRegression</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.linear_model.LogisticRegression.html">?<span>Documentation for LogisticRegression</span></a></div></label><div class="sk-toggleable__content fitted"><pre>LogisticRegression(class_weight=&#x27;balanced&#x27;, random_state=88888888,
-                   solver=&#x27;liblinear&#x27;)</pre></div> </div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div>
+                  n_estimators=200, random_state=987654321)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-35" type="checkbox" ><label for="sk-estimator-id-35" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>estimator: LogisticRegression</div></div></label><div class="sk-toggleable__content fitted"><pre>LogisticRegression(class_weight=&#x27;balanced&#x27;, penalty=&#x27;l1&#x27;,
+                   random_state=987654321, solver=&#x27;liblinear&#x27;)</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-36" type="checkbox" ><label for="sk-estimator-id-36" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>LogisticRegression</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.linear_model.LogisticRegression.html">?<span>Documentation for LogisticRegression</span></a></div></label><div class="sk-toggleable__content fitted"><pre>LogisticRegression(class_weight=&#x27;balanced&#x27;, penalty=&#x27;l1&#x27;,
+                   random_state=987654321, solver=&#x27;liblinear&#x27;)</pre></div> </div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div>
 
 
 
@@ -10026,7 +10030,7 @@ print(f"Best Bagged Logistic Regression Hyperparameters: {bagged_blr_grid_search
 ```
 
     Best Bagged Model – Bagged Logistic Regression: 
-    Best Bagged Logistic Regression Hyperparameters: {'bagged_blr_model__estimator__C': 1.0, 'bagged_blr_model__estimator__penalty': 'l2', 'bagged_blr_model__estimator__solver': 'liblinear', 'bagged_blr_model__n_estimators': 200}
+    Best Bagged Logistic Regression Hyperparameters: {'bagged_blr_model__estimator__C': 1.0, 'bagged_blr_model__estimator__penalty': 'l1', 'bagged_blr_model__estimator__solver': 'liblinear', 'bagged_blr_model__n_estimators': 200}
     
 
 
@@ -10043,18 +10047,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8763
-    F1 Score on Training Data: 0.8906
+    F1 Score on Cross-Validated Data: 0.8213
+    F1 Score on Training Data: 0.8333
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.97      0.93      0.95       143
-             1.0       0.85      0.93      0.89        61
+             0.0       0.95      0.89      0.92       143
+             1.0       0.77      0.90      0.83        61
     
-        accuracy                           0.93       204
-       macro avg       0.91      0.93      0.92       204
-    weighted avg       0.93      0.93      0.93       204
+        accuracy                           0.89       204
+       macro avg       0.86      0.89      0.88       204
+    weighted avg       0.90      0.89      0.89       204
     
     
 
@@ -10100,17 +10104,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.8293
+    F1 Score on Validation Data: 0.8372
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.94      0.92      0.93        49
-             1.0       0.81      0.85      0.83        20
+             0.0       0.96      0.90      0.93        49
+             1.0       0.78      0.90      0.84        20
     
         accuracy                           0.90        69
-       macro avg       0.87      0.88      0.88        69
-    weighted avg       0.90      0.90      0.90        69
+       macro avg       0.87      0.90      0.88        69
+    weighted avg       0.91      0.90      0.90        69
     
     
 
@@ -10189,35 +10193,35 @@ display(bagged_blr_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.931373</td>
+      <td>0.892157</td>
       <td>bagged_blr_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.850746</td>
+      <td>0.774648</td>
       <td>bagged_blr_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.934426</td>
+      <td>0.901639</td>
       <td>bagged_blr_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.890625</td>
+      <td>0.833333</td>
       <td>bagged_blr_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.932248</td>
+      <td>0.894876</td>
       <td>bagged_blr_optimal</td>
       <td>train</td>
     </tr>
@@ -10279,28 +10283,28 @@ display(bagged_blr_optimal_validation)
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.809524</td>
+      <td>0.782609</td>
       <td>bagged_blr_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.850000</td>
+      <td>0.900000</td>
       <td>bagged_blr_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.829268</td>
+      <td>0.837209</td>
       <td>bagged_blr_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.884184</td>
+      <td>0.898980</td>
       <td>bagged_blr_optimal</td>
       <td>validation</td>
     </tr>
@@ -10351,8 +10355,8 @@ categorical_preprocessor = ColumnTransformer(transformers=[
 bagged_bsvm_pipeline = Pipeline([
     ('categorical_preprocessor', categorical_preprocessor),
     ('bagged_bsvm_model', BaggingClassifier(estimator=SVC(class_weight='balanced', 
-                                                          random_state=88888888),
-                                            random_state=88888888))
+                                                          random_state=987654321),
+                                            random_state=987654321))
 ])
 
 ```
@@ -10378,7 +10382,7 @@ bagged_bsvm_hyperparameter_grid = {
 ##################################
 cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
                                       n_repeats=5, 
-                                      random_state=88888888)
+                                      random_state=987654321)
 
 ```
 
@@ -10841,7 +10845,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-5" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+</style><div id="sk-container-id-5" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -10855,10 +10859,10 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Risk&#x27;,
                                                                           &#x27;T&#x27;,
                                                                           &#x27;Stage&#x27;,
-                                                                          &#x27;Response&#x27;])]...
+                                                                          &#x27;Response&#x27;])...
                                         BaggingClassifier(estimator=SVC(class_weight=&#x27;balanced&#x27;,
-                                                                        random_state=88888888),
-                                                          random_state=88888888))]),
+                                                                        random_state=987654321),
+                                                          random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;bagged_bsvm_model__estimator__C&#x27;: [0.1, 1.0],
                          &#x27;bagged_bsvm_model__estimator__gamma&#x27;: [&#x27;scale&#x27;,
@@ -10866,7 +10870,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                          &#x27;bagged_bsvm_model__estimator__kernel&#x27;: [&#x27;linear&#x27;,
                                                                   &#x27;rbf&#x27;],
                          &#x27;bagged_bsvm_model__n_estimators&#x27;: [100, 200]},
-             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-37" type="checkbox" ><label for="sk-estimator-id-37" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-37" type="checkbox" ><label for="sk-estimator-id-37" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -10880,10 +10884,10 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Risk&#x27;,
                                                                           &#x27;T&#x27;,
                                                                           &#x27;Stage&#x27;,
-                                                                          &#x27;Response&#x27;])]...
+                                                                          &#x27;Response&#x27;])...
                                         BaggingClassifier(estimator=SVC(class_weight=&#x27;balanced&#x27;,
-                                                                        random_state=88888888),
-                                                          random_state=88888888))]),
+                                                                        random_state=987654321),
+                                                          random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;bagged_bsvm_model__estimator__C&#x27;: [0.1, 1.0],
                          &#x27;bagged_bsvm_model__estimator__gamma&#x27;: [&#x27;scale&#x27;,
@@ -10903,14 +10907,14 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                 (&#x27;bagged_bsvm_model&#x27;,
                  BaggingClassifier(estimator=SVC(class_weight=&#x27;balanced&#x27;,
                                                  kernel=&#x27;linear&#x27;,
-                                                 random_state=88888888),
-                                   n_estimators=100, random_state=88888888))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-39" type="checkbox" ><label for="sk-estimator-id-39" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                                                 random_state=987654321),
+                                   n_estimators=100, random_state=987654321))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-39" type="checkbox" ><label for="sk-estimator-id-39" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
                                   &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-40" type="checkbox" ><label for="sk-estimator-id-40" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-41" type="checkbox" ><label for="sk-estimator-id-41" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-42" type="checkbox" ><label for="sk-estimator-id-42" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-43" type="checkbox" ><label for="sk-estimator-id-43" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-44" type="checkbox" ><label for="sk-estimator-id-44" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>bagged_bsvm_model: BaggingClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.ensemble.BaggingClassifier.html">?<span>Documentation for bagged_bsvm_model: BaggingClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>BaggingClassifier(estimator=SVC(class_weight=&#x27;balanced&#x27;, kernel=&#x27;linear&#x27;,
-                                random_state=88888888),
-                  n_estimators=100, random_state=88888888)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-45" type="checkbox" ><label for="sk-estimator-id-45" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>estimator: SVC</div></div></label><div class="sk-toggleable__content fitted"><pre>SVC(class_weight=&#x27;balanced&#x27;, kernel=&#x27;linear&#x27;, random_state=88888888)</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-46" type="checkbox" ><label for="sk-estimator-id-46" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>SVC</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.svm.SVC.html">?<span>Documentation for SVC</span></a></div></label><div class="sk-toggleable__content fitted"><pre>SVC(class_weight=&#x27;balanced&#x27;, kernel=&#x27;linear&#x27;, random_state=88888888)</pre></div> </div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div>
+                                random_state=987654321),
+                  n_estimators=100, random_state=987654321)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-45" type="checkbox" ><label for="sk-estimator-id-45" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>estimator: SVC</div></div></label><div class="sk-toggleable__content fitted"><pre>SVC(class_weight=&#x27;balanced&#x27;, kernel=&#x27;linear&#x27;, random_state=987654321)</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-46" type="checkbox" ><label for="sk-estimator-id-46" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>SVC</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.svm.SVC.html">?<span>Documentation for SVC</span></a></div></label><div class="sk-toggleable__content fitted"><pre>SVC(class_weight=&#x27;balanced&#x27;, kernel=&#x27;linear&#x27;, random_state=987654321)</pre></div> </div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div>
 
 
 
@@ -10963,18 +10967,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8829
-    F1 Score on Training Data: 0.9062
+    F1 Score on Cross-Validated Data: 0.8209
+    F1 Score on Training Data: 0.8527
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.98      0.94      0.96       143
-             1.0       0.87      0.95      0.91        61
+             0.0       0.96      0.91      0.93       143
+             1.0       0.81      0.90      0.85        61
     
-        accuracy                           0.94       204
-       macro avg       0.92      0.94      0.93       204
-    weighted avg       0.94      0.94      0.94       204
+        accuracy                           0.91       204
+       macro avg       0.88      0.91      0.89       204
+    weighted avg       0.91      0.91      0.91       204
     
     
 
@@ -11020,17 +11024,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.8293
+    F1 Score on Validation Data: 0.8571
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.94      0.92      0.93        49
-             1.0       0.81      0.85      0.83        20
+             0.0       0.96      0.92      0.94        49
+             1.0       0.82      0.90      0.86        20
     
-        accuracy                           0.90        69
-       macro avg       0.87      0.88      0.88        69
-    weighted avg       0.90      0.90      0.90        69
+        accuracy                           0.91        69
+       macro avg       0.89      0.91      0.90        69
+    weighted avg       0.92      0.91      0.91        69
     
     
 
@@ -11109,35 +11113,35 @@ display(bagged_bsvm_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.941176</td>
+      <td>0.906863</td>
       <td>bagged_bsvm_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.865672</td>
+      <td>0.808824</td>
       <td>bagged_bsvm_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.950820</td>
+      <td>0.901639</td>
       <td>bagged_bsvm_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.906250</td>
+      <td>0.852713</td>
       <td>bagged_bsvm_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.943941</td>
+      <td>0.905365</td>
       <td>bagged_bsvm_optimal</td>
       <td>train</td>
     </tr>
@@ -11192,35 +11196,35 @@ display(bagged_bsvm_optimal_validation)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.898551</td>
+      <td>0.913043</td>
       <td>bagged_bsvm_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.809524</td>
+      <td>0.818182</td>
       <td>bagged_bsvm_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.850000</td>
+      <td>0.900000</td>
       <td>bagged_bsvm_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.829268</td>
+      <td>0.857143</td>
       <td>bagged_bsvm_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.884184</td>
+      <td>0.909184</td>
       <td>bagged_bsvm_optimal</td>
       <td>validation</td>
     </tr>
@@ -11272,8 +11276,8 @@ categorical_preprocessor = ColumnTransformer(transformers=[
 ##################################
 boosted_ab_pipeline = Pipeline([
     ('categorical_preprocessor', categorical_preprocessor),
-    ('boosted_ab_model', AdaBoostClassifier(estimator=DecisionTreeClassifier(random_state=88888888),
-                                            random_state=88888888))
+    ('boosted_ab_model', AdaBoostClassifier(estimator=DecisionTreeClassifier(random_state=987654321),
+                                            random_state=987654321))
 ])
 
 ```
@@ -11298,7 +11302,7 @@ boosted_ab_hyperparameter_grid = {
 ##################################
 cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
                                       n_repeats=5, 
-                                      random_state=88888888)
+                                      random_state=987654321)
 
 ```
 
@@ -11761,7 +11765,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-6" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+</style><div id="sk-container-id-6" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -11777,13 +11781,13 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Stage&#x27;,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;boosted_ab_model&#x27;,
-                                        AdaBoostClassifier(estimator=DecisionTreeClassifier(random_state=88888888),
-                                                           random_state=88888888))]),
+                                        AdaBoostClassifier(estimator=DecisionTreeClassifier(random_state=987654321),
+                                                           random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;boosted_ab_model__estimator__max_depth&#x27;: [1, 2],
                          &#x27;boosted_ab_model__learning_rate&#x27;: [0.01, 0.1],
                          &#x27;boosted_ab_model__n_estimators&#x27;: [50, 100]},
-             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-47" type="checkbox" ><label for="sk-estimator-id-47" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-47" type="checkbox" ><label for="sk-estimator-id-47" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -11799,8 +11803,8 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Stage&#x27;,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;boosted_ab_model&#x27;,
-                                        AdaBoostClassifier(estimator=DecisionTreeClassifier(random_state=88888888),
-                                                           random_state=88888888))]),
+                                        AdaBoostClassifier(estimator=DecisionTreeClassifier(random_state=987654321),
+                                                           random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;boosted_ab_model__estimator__max_depth&#x27;: [1, 2],
                          &#x27;boosted_ab_model__learning_rate&#x27;: [0.01, 0.1],
@@ -11816,15 +11820,15 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;boosted_ab_model&#x27;,
                  AdaBoostClassifier(estimator=DecisionTreeClassifier(max_depth=2,
-                                                                     random_state=88888888),
+                                                                     random_state=987654321),
                                     learning_rate=0.01,
-                                    random_state=88888888))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-49" type="checkbox" ><label for="sk-estimator-id-49" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                                    random_state=987654321))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-49" type="checkbox" ><label for="sk-estimator-id-49" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
                                   &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-50" type="checkbox" ><label for="sk-estimator-id-50" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-51" type="checkbox" ><label for="sk-estimator-id-51" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-52" type="checkbox" ><label for="sk-estimator-id-52" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-53" type="checkbox" ><label for="sk-estimator-id-53" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-54" type="checkbox" ><label for="sk-estimator-id-54" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>boosted_ab_model: AdaBoostClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.ensemble.AdaBoostClassifier.html">?<span>Documentation for boosted_ab_model: AdaBoostClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>AdaBoostClassifier(estimator=DecisionTreeClassifier(max_depth=2,
-                                                    random_state=88888888),
-                   learning_rate=0.01, random_state=88888888)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-55" type="checkbox" ><label for="sk-estimator-id-55" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>estimator: DecisionTreeClassifier</div></div></label><div class="sk-toggleable__content fitted"><pre>DecisionTreeClassifier(max_depth=2, random_state=88888888)</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-56" type="checkbox" ><label for="sk-estimator-id-56" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>DecisionTreeClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.tree.DecisionTreeClassifier.html">?<span>Documentation for DecisionTreeClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>DecisionTreeClassifier(max_depth=2, random_state=88888888)</pre></div> </div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div>
+                                                    random_state=987654321),
+                   learning_rate=0.01, random_state=987654321)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-55" type="checkbox" ><label for="sk-estimator-id-55" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>estimator: DecisionTreeClassifier</div></div></label><div class="sk-toggleable__content fitted"><pre>DecisionTreeClassifier(max_depth=2, random_state=987654321)</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-56" type="checkbox" ><label for="sk-estimator-id-56" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>DecisionTreeClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.tree.DecisionTreeClassifier.html">?<span>Documentation for DecisionTreeClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>DecisionTreeClassifier(max_depth=2, random_state=987654321)</pre></div> </div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div>
 
 
 
@@ -11877,18 +11881,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8900
-    F1 Score on Training Data: 0.8889
+    F1 Score on Cross-Validated Data: 0.8364
+    F1 Score on Training Data: 0.8438
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.96      0.94      0.95       143
-             1.0       0.86      0.92      0.89        61
+             0.0       0.95      0.91      0.93       143
+             1.0       0.81      0.89      0.84        61
     
-        accuracy                           0.93       204
-       macro avg       0.91      0.93      0.92       204
-    weighted avg       0.93      0.93      0.93       204
+        accuracy                           0.90       204
+       macro avg       0.88      0.90      0.89       204
+    weighted avg       0.91      0.90      0.90       204
     
     
 
@@ -11934,17 +11938,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.8500
+    F1 Score on Validation Data: 0.8571
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.94      0.94      0.94        49
-             1.0       0.85      0.85      0.85        20
+             0.0       0.96      0.92      0.94        49
+             1.0       0.82      0.90      0.86        20
     
         accuracy                           0.91        69
-       macro avg       0.89      0.89      0.89        69
-    weighted avg       0.91      0.91      0.91        69
+       macro avg       0.89      0.91      0.90        69
+    weighted avg       0.92      0.91      0.91        69
     
     
 
@@ -12023,35 +12027,35 @@ display(boosted_ab_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.931373</td>
+      <td>0.901961</td>
       <td>boosted_ab_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.861538</td>
+      <td>0.805970</td>
       <td>boosted_ab_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.918033</td>
+      <td>0.885246</td>
       <td>boosted_ab_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.888889</td>
+      <td>0.843750</td>
       <td>boosted_ab_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.927548</td>
+      <td>0.897168</td>
       <td>boosted_ab_optimal</td>
       <td>train</td>
     </tr>
@@ -12113,28 +12117,28 @@ display(boosted_ab_optimal_validation)
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.850000</td>
+      <td>0.818182</td>
       <td>boosted_ab_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.850000</td>
+      <td>0.900000</td>
       <td>boosted_ab_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.850000</td>
+      <td>0.857143</td>
       <td>boosted_ab_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.894388</td>
+      <td>0.909184</td>
       <td>boosted_ab_optimal</td>
       <td>validation</td>
     </tr>
@@ -12184,7 +12188,7 @@ categorical_preprocessor = ColumnTransformer(transformers=[
 ##################################
 boosted_gb_pipeline = Pipeline([
     ('categorical_preprocessor', categorical_preprocessor),
-    ('boosted_gb_model', GradientBoostingClassifier(random_state=88888888))
+    ('boosted_gb_model', GradientBoostingClassifier(random_state=987654321))
 ])
 
 ```
@@ -12210,7 +12214,7 @@ boosted_gb_hyperparameter_grid = {
 ##################################
 cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
                                       n_repeats=5, 
-                                      random_state=88888888)
+                                      random_state=987654321)
 
 ```
 
@@ -12673,7 +12677,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-7" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+</style><div id="sk-container-id-7" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -12689,13 +12693,13 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Stage&#x27;,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;boosted_gb_model&#x27;,
-                                        GradientBoostingClassifier(random_state=88888888))]),
+                                        GradientBoostingClassifier(random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;boosted_gb_model__learning_rate&#x27;: [0.01, 0.1],
                          &#x27;boosted_gb_model__max_depth&#x27;: [3, 6],
                          &#x27;boosted_gb_model__min_samples_leaf&#x27;: [5, 10],
                          &#x27;boosted_gb_model__n_estimators&#x27;: [50, 100]},
-             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-57" type="checkbox" ><label for="sk-estimator-id-57" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-57" type="checkbox" ><label for="sk-estimator-id-57" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -12711,7 +12715,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Stage&#x27;,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;boosted_gb_model&#x27;,
-                                        GradientBoostingClassifier(random_state=88888888))]),
+                                        GradientBoostingClassifier(random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;boosted_gb_model__learning_rate&#x27;: [0.01, 0.1],
                          &#x27;boosted_gb_model__max_depth&#x27;: [3, 6],
@@ -12727,14 +12731,14 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;boosted_gb_model&#x27;,
-                 GradientBoostingClassifier(learning_rate=0.01,
-                                            min_samples_leaf=5,
-                                            random_state=88888888))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-59" type="checkbox" ><label for="sk-estimator-id-59" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                 GradientBoostingClassifier(min_samples_leaf=10,
+                                            n_estimators=50,
+                                            random_state=987654321))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-59" type="checkbox" ><label for="sk-estimator-id-59" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
-                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-60" type="checkbox" ><label for="sk-estimator-id-60" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-61" type="checkbox" ><label for="sk-estimator-id-61" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-62" type="checkbox" ><label for="sk-estimator-id-62" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-63" type="checkbox" ><label for="sk-estimator-id-63" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-64" type="checkbox" ><label for="sk-estimator-id-64" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GradientBoostingClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html">?<span>Documentation for GradientBoostingClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>GradientBoostingClassifier(learning_rate=0.01, min_samples_leaf=5,
-                           random_state=88888888)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-60" type="checkbox" ><label for="sk-estimator-id-60" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-61" type="checkbox" ><label for="sk-estimator-id-61" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-62" type="checkbox" ><label for="sk-estimator-id-62" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-63" type="checkbox" ><label for="sk-estimator-id-63" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-64" type="checkbox" ><label for="sk-estimator-id-64" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GradientBoostingClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html">?<span>Documentation for GradientBoostingClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>GradientBoostingClassifier(min_samples_leaf=10, n_estimators=50,
+                           random_state=987654321)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
 
@@ -12770,7 +12774,7 @@ print(f"Best Gradient Boosting Hyperparameters: {boosted_gb_grid_search.best_par
 ```
 
     Best Boosted Model - Gradient Boosting: 
-    Best Gradient Boosting Hyperparameters: {'boosted_gb_model__learning_rate': 0.01, 'boosted_gb_model__max_depth': 3, 'boosted_gb_model__min_samples_leaf': 5, 'boosted_gb_model__n_estimators': 100}
+    Best Gradient Boosting Hyperparameters: {'boosted_gb_model__learning_rate': 0.1, 'boosted_gb_model__max_depth': 3, 'boosted_gb_model__min_samples_leaf': 10, 'boosted_gb_model__n_estimators': 50}
     
 
 
@@ -12787,18 +12791,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8803
-    F1 Score on Training Data: 0.8889
+    F1 Score on Cross-Validated Data: 0.8131
+    F1 Score on Training Data: 0.9106
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.96      0.94      0.95       143
-             1.0       0.86      0.92      0.89        61
+             0.0       0.96      0.96      0.96       143
+             1.0       0.90      0.92      0.91        61
     
-        accuracy                           0.93       204
-       macro avg       0.91      0.93      0.92       204
-    weighted avg       0.93      0.93      0.93       204
+        accuracy                           0.95       204
+       macro avg       0.93      0.94      0.94       204
+    weighted avg       0.95      0.95      0.95       204
     
     
 
@@ -12844,17 +12848,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.8500
+    F1 Score on Validation Data: 0.8293
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.94      0.94      0.94        49
-             1.0       0.85      0.85      0.85        20
+             0.0       0.94      0.92      0.93        49
+             1.0       0.81      0.85      0.83        20
     
-        accuracy                           0.91        69
-       macro avg       0.89      0.89      0.89        69
-    weighted avg       0.91      0.91      0.91        69
+        accuracy                           0.90        69
+       macro avg       0.87      0.88      0.88        69
+    weighted avg       0.90      0.90      0.90        69
     
     
 
@@ -12933,14 +12937,14 @@ display(boosted_gb_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.931373</td>
+      <td>0.946078</td>
       <td>boosted_gb_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.861538</td>
+      <td>0.903226</td>
       <td>boosted_gb_optimal</td>
       <td>train</td>
     </tr>
@@ -12954,14 +12958,14 @@ display(boosted_gb_optimal_train)
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.888889</td>
+      <td>0.910569</td>
       <td>boosted_gb_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.927548</td>
+      <td>0.938037</td>
       <td>boosted_gb_optimal</td>
       <td>train</td>
     </tr>
@@ -13016,14 +13020,14 @@ display(boosted_gb_optimal_validation)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.913043</td>
+      <td>0.898551</td>
       <td>boosted_gb_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.850000</td>
+      <td>0.809524</td>
       <td>boosted_gb_optimal</td>
       <td>validation</td>
     </tr>
@@ -13037,14 +13041,14 @@ display(boosted_gb_optimal_validation)
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.850000</td>
+      <td>0.829268</td>
       <td>boosted_gb_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.894388</td>
+      <td>0.884184</td>
       <td>boosted_gb_optimal</td>
       <td>validation</td>
     </tr>
@@ -13095,7 +13099,7 @@ categorical_preprocessor = ColumnTransformer(transformers=[
 boosted_xgb_pipeline = Pipeline([
     ('categorical_preprocessor', categorical_preprocessor),
     ('boosted_xgb_model', XGBClassifier(scale_pos_weight=2.0, 
-                                        random_state=88888888,
+                                        random_state=987654321,
                                         subsample=0.7,
                                         colsample_bytree=0.7,
                                         eval_metric='logloss'))
@@ -13124,7 +13128,7 @@ boosted_xgb_hyperparameter_grid = {
 ##################################
 cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
                                       n_repeats=5, 
-                                      random_state=88888888)
+                                      random_state=987654321)
 
 ```
 
@@ -13587,7 +13591,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-8" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+</style><div id="sk-container-id-8" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -13601,20 +13605,20 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Risk&#x27;,
                                                                           &#x27;T&#x27;,
                                                                           &#x27;Stage&#x27;,
-                                                                          &#x27;Response&#x27;])]...
+                                                                          &#x27;Response&#x27;])...
                                                       missing=nan,
                                                       monotone_constraints=None,
                                                       multi_strategy=None,
                                                       n_estimators=None,
                                                       n_jobs=None,
                                                       num_parallel_tree=None,
-                                                      random_state=88888888, ...))]),
+                                                      random_state=987654321, ...))]),
              n_jobs=-1,
              param_grid={&#x27;boosted_xgb_model__gamma&#x27;: [0.1, 0.2],
                          &#x27;boosted_xgb_model__learning_rate&#x27;: [0.01, 0.1],
                          &#x27;boosted_xgb_model__max_depth&#x27;: [3, 6],
                          &#x27;boosted_xgb_model__n_estimators&#x27;: [50, 100]},
-             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-65" type="checkbox" ><label for="sk-estimator-id-65" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-65" type="checkbox" ><label for="sk-estimator-id-65" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -13628,14 +13632,14 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Risk&#x27;,
                                                                           &#x27;T&#x27;,
                                                                           &#x27;Stage&#x27;,
-                                                                          &#x27;Response&#x27;])]...
+                                                                          &#x27;Response&#x27;])...
                                                       missing=nan,
                                                       monotone_constraints=None,
                                                       multi_strategy=None,
                                                       n_estimators=None,
                                                       n_jobs=None,
                                                       num_parallel_tree=None,
-                                                      random_state=88888888, ...))]),
+                                                      random_state=987654321, ...))]),
              n_jobs=-1,
              param_grid={&#x27;boosted_xgb_model__gamma&#x27;: [0.1, 0.2],
                          &#x27;boosted_xgb_model__learning_rate&#x27;: [0.01, 0.1],
@@ -13662,7 +13666,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                min_child_weight=None, missing=nan,
                                monotone_constraints=None, multi_strategy=None,
                                n_estimators=50, n_jobs=None,
-                               num_parallel_tree=None, random_state=88888888, ...))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-67" type="checkbox" ><label for="sk-estimator-id-67" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                               num_parallel_tree=None, random_state=987654321, ...))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-67" type="checkbox" ><label for="sk-estimator-id-67" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
@@ -13676,7 +13680,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
               max_cat_to_onehot=None, max_delta_step=None, max_depth=3,
               max_leaves=None, min_child_weight=None, missing=nan,
               monotone_constraints=None, multi_strategy=None, n_estimators=50,
-              n_jobs=None, num_parallel_tree=None, random_state=88888888, ...)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+              n_jobs=None, num_parallel_tree=None, random_state=987654321, ...)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
 
@@ -13729,18 +13733,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8900
-    F1 Score on Training Data: 0.8889
+    F1 Score on Cross-Validated Data: 0.8322
+    F1 Score on Training Data: 0.8504
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.96      0.94      0.95       143
-             1.0       0.86      0.92      0.89        61
+             0.0       0.95      0.92      0.93       143
+             1.0       0.82      0.89      0.85        61
     
-        accuracy                           0.93       204
-       macro avg       0.91      0.93      0.92       204
-    weighted avg       0.93      0.93      0.93       204
+        accuracy                           0.91       204
+       macro avg       0.88      0.90      0.89       204
+    weighted avg       0.91      0.91      0.91       204
     
     
 
@@ -13786,17 +13790,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.8500
+    F1 Score on Validation Data: 0.8571
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.94      0.94      0.94        49
-             1.0       0.85      0.85      0.85        20
+             0.0       0.96      0.92      0.94        49
+             1.0       0.82      0.90      0.86        20
     
         accuracy                           0.91        69
-       macro avg       0.89      0.89      0.89        69
-    weighted avg       0.91      0.91      0.91        69
+       macro avg       0.89      0.91      0.90        69
+    weighted avg       0.92      0.91      0.91        69
     
     
 
@@ -13875,35 +13879,35 @@ display(boosted_xgb_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.931373</td>
+      <td>0.906863</td>
       <td>boosted_xgb_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.861538</td>
+      <td>0.818182</td>
       <td>boosted_xgb_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.918033</td>
+      <td>0.885246</td>
       <td>boosted_xgb_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.888889</td>
+      <td>0.850394</td>
       <td>boosted_xgb_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.927548</td>
+      <td>0.900665</td>
       <td>boosted_xgb_optimal</td>
       <td>train</td>
     </tr>
@@ -13965,28 +13969,28 @@ display(boosted_xgb_optimal_validation)
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.850000</td>
+      <td>0.818182</td>
       <td>boosted_xgb_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.850000</td>
+      <td>0.900000</td>
       <td>boosted_xgb_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.850000</td>
+      <td>0.857143</td>
       <td>boosted_xgb_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.894388</td>
+      <td>0.909184</td>
       <td>boosted_xgb_optimal</td>
       <td>validation</td>
     </tr>
@@ -14037,7 +14041,7 @@ categorical_preprocessor = ColumnTransformer(transformers=[
 boosted_lgbm_pipeline = Pipeline([
     ('categorical_preprocessor', categorical_preprocessor),
     ('boosted_lgbm_model', LGBMClassifier(scale_pos_weight=2.0, 
-                                          random_state=88888888,
+                                          random_state=987654321,
                                           max_depth=-1,
                                           feature_fraction =0.7,
                                           bagging_fraction=0.7,
@@ -14067,7 +14071,7 @@ boosted_lgbm_hyperparameter_grid = {
 ##################################
 cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
                                       n_repeats=5, 
-                                      random_state=88888888)
+                                      random_state=987654321)
 
 ```
 
@@ -14530,7 +14534,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-9" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+</style><div id="sk-container-id-9" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -14544,11 +14548,11 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Risk&#x27;,
                                                                           &#x27;T&#x27;,
                                                                           &#x27;Stage&#x27;,
-                                                                          &#x27;Response&#x27;])])),
+                                                                          &#x27;Response&#x27;])...
                                        (&#x27;boosted_lgbm_model&#x27;,
                                         LGBMClassifier(bagging_fraction=0.7,
                                                        feature_fraction=0.7,
-                                                       random_state=88888888,
+                                                       random_state=987654321,
                                                        scale_pos_weight=2.0,
                                                        verbose=-1))]),
              n_jobs=-1,
@@ -14556,7 +14560,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                          &#x27;boosted_lgbm_model__min_child_samples&#x27;: [3, 5],
                          &#x27;boosted_lgbm_model__n_estimators&#x27;: [50, 100],
                          &#x27;boosted_lgbm_model__num_leaves&#x27;: [8, 16]},
-             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-73" type="checkbox" ><label for="sk-estimator-id-73" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-73" type="checkbox" ><label for="sk-estimator-id-73" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -14570,11 +14574,11 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Risk&#x27;,
                                                                           &#x27;T&#x27;,
                                                                           &#x27;Stage&#x27;,
-                                                                          &#x27;Response&#x27;])])),
+                                                                          &#x27;Response&#x27;])...
                                        (&#x27;boosted_lgbm_model&#x27;,
                                         LGBMClassifier(bagging_fraction=0.7,
                                                        feature_fraction=0.7,
-                                                       random_state=88888888,
+                                                       random_state=987654321,
                                                        scale_pos_weight=2.0,
                                                        verbose=-1))]),
              n_jobs=-1,
@@ -14594,13 +14598,13 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                 (&#x27;boosted_lgbm_model&#x27;,
                  LGBMClassifier(bagging_fraction=0.7, feature_fraction=0.7,
                                 learning_rate=0.01, min_child_samples=5,
-                                num_leaves=8, random_state=88888888,
+                                num_leaves=16, random_state=987654321,
                                 scale_pos_weight=2.0, verbose=-1))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-75" type="checkbox" ><label for="sk-estimator-id-75" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
                                   &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-76" type="checkbox" ><label for="sk-estimator-id-76" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-77" type="checkbox" ><label for="sk-estimator-id-77" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-78" type="checkbox" ><label for="sk-estimator-id-78" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-79" type="checkbox" ><label for="sk-estimator-id-79" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-80" type="checkbox" ><label for="sk-estimator-id-80" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>LGBMClassifier</div></div></label><div class="sk-toggleable__content fitted"><pre>LGBMClassifier(bagging_fraction=0.7, feature_fraction=0.7, learning_rate=0.01,
-               min_child_samples=5, num_leaves=8, random_state=88888888,
+               min_child_samples=5, num_leaves=16, random_state=987654321,
                scale_pos_weight=2.0, verbose=-1)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
@@ -14639,7 +14643,7 @@ print(f"Best Light GBM Hyperparameters: {boosted_lgbm_grid_search.best_params_}"
 ```
 
     Best Boosted Model - Light GBM: 
-    Best Light GBM Hyperparameters: {'boosted_lgbm_model__learning_rate': 0.01, 'boosted_lgbm_model__min_child_samples': 5, 'boosted_lgbm_model__n_estimators': 100, 'boosted_lgbm_model__num_leaves': 8}
+    Best Light GBM Hyperparameters: {'boosted_lgbm_model__learning_rate': 0.01, 'boosted_lgbm_model__min_child_samples': 5, 'boosted_lgbm_model__n_estimators': 100, 'boosted_lgbm_model__num_leaves': 16}
     
 
 
@@ -14656,18 +14660,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8831
-    F1 Score on Training Data: 0.9344
+    F1 Score on Cross-Validated Data: 0.8164
+    F1 Score on Training Data: 0.9194
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.97      0.97      0.97       143
-             1.0       0.93      0.93      0.93        61
+             0.0       0.97      0.96      0.96       143
+             1.0       0.90      0.93      0.92        61
     
-        accuracy                           0.96       204
-       macro avg       0.95      0.95      0.95       204
-    weighted avg       0.96      0.96      0.96       204
+        accuracy                           0.95       204
+       macro avg       0.94      0.95      0.94       204
+    weighted avg       0.95      0.95      0.95       204
     
     
 
@@ -14713,17 +14717,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.8000
+    F1 Score on Validation Data: 0.8500
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.92      0.92      0.92        49
-             1.0       0.80      0.80      0.80        20
+             0.0       0.94      0.94      0.94        49
+             1.0       0.85      0.85      0.85        20
     
-        accuracy                           0.88        69
-       macro avg       0.86      0.86      0.86        69
-    weighted avg       0.88      0.88      0.88        69
+        accuracy                           0.91        69
+       macro avg       0.89      0.89      0.89        69
+    weighted avg       0.91      0.91      0.91        69
     
     
 
@@ -14802,14 +14806,14 @@ display(boosted_lgbm_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.960784</td>
+      <td>0.950980</td>
       <td>boosted_lgbm_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.934426</td>
+      <td>0.904762</td>
       <td>boosted_lgbm_optimal</td>
       <td>train</td>
     </tr>
@@ -14823,14 +14827,14 @@ display(boosted_lgbm_optimal_train)
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.934426</td>
+      <td>0.919355</td>
       <td>boosted_lgbm_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.953227</td>
+      <td>0.946234</td>
       <td>boosted_lgbm_optimal</td>
       <td>train</td>
     </tr>
@@ -14885,35 +14889,35 @@ display(boosted_lgbm_optimal_validation)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.884058</td>
+      <td>0.913043</td>
       <td>boosted_lgbm_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.800000</td>
+      <td>0.850000</td>
       <td>boosted_lgbm_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.800000</td>
+      <td>0.850000</td>
       <td>boosted_lgbm_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.800000</td>
+      <td>0.850000</td>
       <td>boosted_lgbm_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.859184</td>
+      <td>0.894388</td>
       <td>boosted_lgbm_optimal</td>
       <td>validation</td>
     </tr>
@@ -14964,7 +14968,7 @@ categorical_preprocessor = ColumnTransformer(transformers=[
 boosted_cb_pipeline = Pipeline([
     ('categorical_preprocessor', categorical_preprocessor),
     ('boosted_cb_model', LGBMClassifier(scale_pos_weight=2.0, 
-                                        random_state=88888888,
+                                        random_state=987654321,
                                         subsample =0.7,
                                         colsample_bylevel=0.7))
 ])
@@ -14992,7 +14996,7 @@ boosted_cb_hyperparameter_grid = {
 ##################################
 cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
                                       n_repeats=5, 
-                                      random_state=88888888)
+                                      random_state=987654321)
 
 ```
 
@@ -15455,7 +15459,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-10" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+</style><div id="sk-container-id-10" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -15472,7 +15476,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;boosted_cb_model&#x27;,
                                         LGBMClassifier(colsample_bylevel=0.7,
-                                                       random_state=88888888,
+                                                       random_state=987654321,
                                                        scale_pos_weight=2.0,
                                                        subsample=0.7))]),
              n_jobs=-1,
@@ -15480,7 +15484,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                          &#x27;boosted_cb_model__learning_rate&#x27;: [0.01, 0.1],
                          &#x27;boosted_cb_model__max_depth&#x27;: [3, 6],
                          &#x27;boosted_cb_model__num_leaves&#x27;: [8, 16]},
-             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-81" type="checkbox" ><label for="sk-estimator-id-81" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-81" type="checkbox" ><label for="sk-estimator-id-81" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -15497,7 +15501,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;boosted_cb_model&#x27;,
                                         LGBMClassifier(colsample_bylevel=0.7,
-                                                       random_state=88888888,
+                                                       random_state=987654321,
                                                        scale_pos_weight=2.0,
                                                        subsample=0.7))]),
              n_jobs=-1,
@@ -15516,14 +15520,14 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;boosted_cb_model&#x27;,
                  LGBMClassifier(colsample_bylevel=0.7, iterations=50,
-                                learning_rate=0.01, max_depth=6, num_leaves=8,
-                                random_state=88888888, scale_pos_weight=2.0,
+                                learning_rate=0.01, max_depth=3, num_leaves=8,
+                                random_state=987654321, scale_pos_weight=2.0,
                                 subsample=0.7))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-83" type="checkbox" ><label for="sk-estimator-id-83" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
                                   &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-84" type="checkbox" ><label for="sk-estimator-id-84" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-85" type="checkbox" ><label for="sk-estimator-id-85" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-86" type="checkbox" ><label for="sk-estimator-id-86" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-87" type="checkbox" ><label for="sk-estimator-id-87" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-88" type="checkbox" ><label for="sk-estimator-id-88" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>LGBMClassifier</div></div></label><div class="sk-toggleable__content fitted"><pre>LGBMClassifier(colsample_bylevel=0.7, iterations=50, learning_rate=0.01,
-               max_depth=6, num_leaves=8, random_state=88888888,
+               max_depth=3, num_leaves=8, random_state=987654321,
                scale_pos_weight=2.0, subsample=0.7)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
@@ -15560,7 +15564,7 @@ print(f"Best CatBoost Hyperparameters: {boosted_cb_grid_search.best_params_}")
 ```
 
     Best Boosted Model - CatBoost: 
-    Best CatBoost Hyperparameters: {'boosted_cb_model__iterations': 50, 'boosted_cb_model__learning_rate': 0.01, 'boosted_cb_model__max_depth': 6, 'boosted_cb_model__num_leaves': 8}
+    Best CatBoost Hyperparameters: {'boosted_cb_model__iterations': 50, 'boosted_cb_model__learning_rate': 0.01, 'boosted_cb_model__max_depth': 3, 'boosted_cb_model__num_leaves': 8}
     
 
 
@@ -15577,18 +15581,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8722
-    F1 Score on Training Data: 0.8889
+    F1 Score on Cross-Validated Data: 0.8277
+    F1 Score on Training Data: 0.8438
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.96      0.94      0.95       143
-             1.0       0.86      0.92      0.89        61
+             0.0       0.95      0.91      0.93       143
+             1.0       0.81      0.89      0.84        61
     
-        accuracy                           0.93       204
-       macro avg       0.91      0.93      0.92       204
-    weighted avg       0.93      0.93      0.93       204
+        accuracy                           0.90       204
+       macro avg       0.88      0.90      0.89       204
+    weighted avg       0.91      0.90      0.90       204
     
     
 
@@ -15634,17 +15638,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.8500
+    F1 Score on Validation Data: 0.8571
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.94      0.94      0.94        49
-             1.0       0.85      0.85      0.85        20
+             0.0       0.96      0.92      0.94        49
+             1.0       0.82      0.90      0.86        20
     
         accuracy                           0.91        69
-       macro avg       0.89      0.89      0.89        69
-    weighted avg       0.91      0.91      0.91        69
+       macro avg       0.89      0.91      0.90        69
+    weighted avg       0.92      0.91      0.91        69
     
     
 
@@ -15723,35 +15727,35 @@ display(boosted_cb_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.931373</td>
+      <td>0.901961</td>
       <td>boosted_cb_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.861538</td>
+      <td>0.805970</td>
       <td>boosted_cb_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.918033</td>
+      <td>0.885246</td>
       <td>boosted_cb_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.888889</td>
+      <td>0.843750</td>
       <td>boosted_cb_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.927548</td>
+      <td>0.897168</td>
       <td>boosted_cb_optimal</td>
       <td>train</td>
     </tr>
@@ -15813,28 +15817,28 @@ display(boosted_cb_optimal_validation)
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.850000</td>
+      <td>0.818182</td>
       <td>boosted_cb_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.850000</td>
+      <td>0.900000</td>
       <td>boosted_cb_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.850000</td>
+      <td>0.857143</td>
       <td>boosted_cb_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.894388</td>
+      <td>0.909184</td>
       <td>boosted_cb_optimal</td>
       <td>validation</td>
     </tr>
@@ -15911,7 +15915,7 @@ stacked_baselearner_knn_hyperparameter_grid = {
 ##################################
 cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
                                       n_repeats=5, 
-                                      random_state=88888888)
+                                      random_state=987654321)
 
 ```
 
@@ -16373,7 +16377,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-11" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+</style><div id="sk-container-id-11" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -16396,7 +16400,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                          &#x27;stacked_baselearner_knn_model__n_neighbors&#x27;: [3, 5],
                          &#x27;stacked_baselearner_knn_model__weights&#x27;: [&#x27;uniform&#x27;,
                                                                     &#x27;distance&#x27;]},
-             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-89" type="checkbox" ><label for="sk-estimator-id-89" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-89" type="checkbox" ><label for="sk-estimator-id-89" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -16429,11 +16433,11 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;stacked_baselearner_knn_model&#x27;,
-                 KNeighborsClassifier(n_neighbors=3, weights=&#x27;distance&#x27;))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-91" type="checkbox" ><label for="sk-estimator-id-91" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                 KNeighborsClassifier(n_neighbors=3))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-91" type="checkbox" ><label for="sk-estimator-id-91" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
-                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-92" type="checkbox" ><label for="sk-estimator-id-92" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-93" type="checkbox" ><label for="sk-estimator-id-93" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-94" type="checkbox" ><label for="sk-estimator-id-94" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-95" type="checkbox" ><label for="sk-estimator-id-95" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-96" type="checkbox" ><label for="sk-estimator-id-96" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>KNeighborsClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.neighbors.KNeighborsClassifier.html">?<span>Documentation for KNeighborsClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>KNeighborsClassifier(n_neighbors=3, weights=&#x27;distance&#x27;)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-92" type="checkbox" ><label for="sk-estimator-id-92" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-93" type="checkbox" ><label for="sk-estimator-id-93" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-94" type="checkbox" ><label for="sk-estimator-id-94" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-95" type="checkbox" ><label for="sk-estimator-id-95" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-96" type="checkbox" ><label for="sk-estimator-id-96" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>KNeighborsClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.neighbors.KNeighborsClassifier.html">?<span>Documentation for KNeighborsClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>KNeighborsClassifier(n_neighbors=3)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
 
@@ -16469,7 +16473,7 @@ print(f"Best Stacked Base Learner KNN Hyperparameters: {stacked_baselearner_knn_
 ```
 
     Best Stacked Base Learner KNN: 
-    Best Stacked Base Learner KNN Hyperparameters: {'stacked_baselearner_knn_model__metric': 'minkowski', 'stacked_baselearner_knn_model__n_neighbors': 3, 'stacked_baselearner_knn_model__weights': 'distance'}
+    Best Stacked Base Learner KNN Hyperparameters: {'stacked_baselearner_knn_model__metric': 'minkowski', 'stacked_baselearner_knn_model__n_neighbors': 3, 'stacked_baselearner_knn_model__weights': 'uniform'}
     
 
 
@@ -16486,18 +16490,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.6792
-    F1 Score on Training Data: 0.9917
+    F1 Score on Cross-Validated Data: 0.6417
+    F1 Score on Training Data: 0.8621
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.99      1.00      1.00       143
-             1.0       1.00      0.98      0.99        61
+             0.0       0.93      0.97      0.95       143
+             1.0       0.91      0.82      0.86        61
     
-        accuracy                           1.00       204
-       macro avg       1.00      0.99      0.99       204
-    weighted avg       1.00      1.00      1.00       204
+        accuracy                           0.92       204
+       macro avg       0.92      0.89      0.90       204
+    weighted avg       0.92      0.92      0.92       204
     
     
 
@@ -16543,17 +16547,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.7368
+    F1 Score on Validation Data: 0.6486
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.88      0.92      0.90        49
-             1.0       0.78      0.70      0.74        20
+             0.0       0.85      0.90      0.87        49
+             1.0       0.71      0.60      0.65        20
     
-        accuracy                           0.86        69
-       macro avg       0.83      0.81      0.82        69
-    weighted avg       0.85      0.86      0.85        69
+        accuracy                           0.81        69
+       macro avg       0.78      0.75      0.76        69
+    weighted avg       0.81      0.81      0.81        69
     
     
 
@@ -16632,35 +16636,35 @@ display(stacked_baselearner_knn_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.995098</td>
+      <td>0.921569</td>
       <td>stacked_baselearner_knn_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>1.000000</td>
+      <td>0.909091</td>
       <td>stacked_baselearner_knn_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.983607</td>
+      <td>0.819672</td>
       <td>stacked_baselearner_knn_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.991736</td>
+      <td>0.862069</td>
       <td>stacked_baselearner_knn_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.991803</td>
+      <td>0.892354</td>
       <td>stacked_baselearner_knn_optimal</td>
       <td>train</td>
     </tr>
@@ -16715,35 +16719,35 @@ display(stacked_baselearner_knn_optimal_validation)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.855072</td>
+      <td>0.811594</td>
       <td>stacked_baselearner_knn_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.777778</td>
+      <td>0.705882</td>
       <td>stacked_baselearner_knn_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.700000</td>
+      <td>0.600000</td>
       <td>stacked_baselearner_knn_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.736842</td>
+      <td>0.648649</td>
       <td>stacked_baselearner_knn_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.809184</td>
+      <td>0.748980</td>
       <td>stacked_baselearner_knn_optimal</td>
       <td>validation</td>
     </tr>
@@ -16794,7 +16798,7 @@ categorical_preprocessor = ColumnTransformer(transformers=[
 stacked_baselearner_svm_pipeline = Pipeline([
     ('categorical_preprocessor', categorical_preprocessor),
     ('stacked_baselearner_svm_model', SVC(class_weight='balanced',
-                                          random_state=88888888))
+                                          random_state=987654321))
 ])
 
 ```
@@ -16819,7 +16823,7 @@ stacked_baselearner_svm_hyperparameter_grid = {
 ##################################
 cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
                                       n_repeats=5, 
-                                      random_state=88888888)
+                                      random_state=987654321)
 
 ```
 
@@ -17282,7 +17286,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-12" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+</style><div id="sk-container-id-12" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -17299,14 +17303,14 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;stacked_baselearner_svm_model&#x27;,
                                         SVC(class_weight=&#x27;balanced&#x27;,
-                                            random_state=88888888))]),
+                                            random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;stacked_baselearner_svm_model__C&#x27;: [0.1, 1.0],
                          &#x27;stacked_baselearner_svm_model__gamma&#x27;: [&#x27;scale&#x27;,
                                                                   &#x27;auto&#x27;],
                          &#x27;stacked_baselearner_svm_model__kernel&#x27;: [&#x27;linear&#x27;,
                                                                    &#x27;rbf&#x27;]},
-             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-97" type="checkbox" ><label for="sk-estimator-id-97" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-97" type="checkbox" ><label for="sk-estimator-id-97" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -17323,7 +17327,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;stacked_baselearner_svm_model&#x27;,
                                         SVC(class_weight=&#x27;balanced&#x27;,
-                                            random_state=88888888))]),
+                                            random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;stacked_baselearner_svm_model__C&#x27;: [0.1, 1.0],
                          &#x27;stacked_baselearner_svm_model__gamma&#x27;: [&#x27;scale&#x27;,
@@ -17341,11 +17345,11 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;stacked_baselearner_svm_model&#x27;,
                  SVC(class_weight=&#x27;balanced&#x27;, kernel=&#x27;linear&#x27;,
-                     random_state=88888888))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-99" type="checkbox" ><label for="sk-estimator-id-99" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                     random_state=987654321))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-99" type="checkbox" ><label for="sk-estimator-id-99" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
-                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-100" type="checkbox" ><label for="sk-estimator-id-100" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-101" type="checkbox" ><label for="sk-estimator-id-101" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-102" type="checkbox" ><label for="sk-estimator-id-102" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-103" type="checkbox" ><label for="sk-estimator-id-103" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-104" type="checkbox" ><label for="sk-estimator-id-104" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>SVC</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.svm.SVC.html">?<span>Documentation for SVC</span></a></div></label><div class="sk-toggleable__content fitted"><pre>SVC(class_weight=&#x27;balanced&#x27;, kernel=&#x27;linear&#x27;, random_state=88888888)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-100" type="checkbox" ><label for="sk-estimator-id-100" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-101" type="checkbox" ><label for="sk-estimator-id-101" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-102" type="checkbox" ><label for="sk-estimator-id-102" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-103" type="checkbox" ><label for="sk-estimator-id-103" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-104" type="checkbox" ><label for="sk-estimator-id-104" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>SVC</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.svm.SVC.html">?<span>Documentation for SVC</span></a></div></label><div class="sk-toggleable__content fitted"><pre>SVC(class_weight=&#x27;balanced&#x27;, kernel=&#x27;linear&#x27;, random_state=987654321)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
 
@@ -17398,18 +17402,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8827
-    F1 Score on Training Data: 0.9008
+    F1 Score on Cross-Validated Data: 0.8219
+    F1 Score on Training Data: 0.8438
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.99      0.92      0.95       143
-             1.0       0.84      0.97      0.90        61
+             0.0       0.95      0.91      0.93       143
+             1.0       0.81      0.89      0.84        61
     
-        accuracy                           0.94       204
-       macro avg       0.91      0.95      0.93       204
-    weighted avg       0.94      0.94      0.94       204
+        accuracy                           0.90       204
+       macro avg       0.88      0.90      0.89       204
+    weighted avg       0.91      0.90      0.90       204
     
     
 
@@ -17455,17 +17459,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.8293
+    F1 Score on Validation Data: 0.8571
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.94      0.92      0.93        49
-             1.0       0.81      0.85      0.83        20
+             0.0       0.96      0.92      0.94        49
+             1.0       0.82      0.90      0.86        20
     
-        accuracy                           0.90        69
-       macro avg       0.87      0.88      0.88        69
-    weighted avg       0.90      0.90      0.90        69
+        accuracy                           0.91        69
+       macro avg       0.89      0.91      0.90        69
+    weighted avg       0.92      0.91      0.91        69
     
     
 
@@ -17544,35 +17548,35 @@ display(stacked_baselearner_svm_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.936275</td>
+      <td>0.901961</td>
       <td>stacked_baselearner_svm_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.842857</td>
+      <td>0.805970</td>
       <td>stacked_baselearner_svm_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.967213</td>
+      <td>0.885246</td>
       <td>stacked_baselearner_svm_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.900763</td>
+      <td>0.843750</td>
       <td>stacked_baselearner_svm_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.945145</td>
+      <td>0.897168</td>
       <td>stacked_baselearner_svm_optimal</td>
       <td>train</td>
     </tr>
@@ -17627,35 +17631,35 @@ display(stacked_baselearner_svm_optimal_validation)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.898551</td>
+      <td>0.913043</td>
       <td>stacked_baselearner_svm_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.809524</td>
+      <td>0.818182</td>
       <td>stacked_baselearner_svm_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.850000</td>
+      <td>0.900000</td>
       <td>stacked_baselearner_svm_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.829268</td>
+      <td>0.857143</td>
       <td>stacked_baselearner_svm_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.884184</td>
+      <td>0.909184</td>
       <td>stacked_baselearner_svm_optimal</td>
       <td>validation</td>
     </tr>
@@ -17706,7 +17710,7 @@ categorical_preprocessor = ColumnTransformer(transformers=[
 stacked_baselearner_rc_pipeline = Pipeline([
     ('categorical_preprocessor', categorical_preprocessor),
     ('stacked_baselearner_rc_model', RidgeClassifier(class_weight='balanced',
-                                                     random_state=88888888))
+                                                     random_state=987654321))
 ])
 
 ```
@@ -17731,7 +17735,7 @@ stacked_baselearner_rc_hyperparameter_grid = {
 ##################################
 cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
                                       n_repeats=5, 
-                                      random_state=88888888)
+                                      random_state=987654321)
 
 ```
 
@@ -18194,7 +18198,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-13" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+</style><div id="sk-container-id-13" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -18211,13 +18215,13 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;stacked_baselearner_rc_model&#x27;,
                                         RidgeClassifier(class_weight=&#x27;balanced&#x27;,
-                                                        random_state=88888888))]),
+                                                        random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;stacked_baselearner_rc_model__alpha&#x27;: [1.0, 2.0],
                          &#x27;stacked_baselearner_rc_model__solver&#x27;: [&#x27;sag&#x27;,
                                                                   &#x27;saga&#x27;],
                          &#x27;stacked_baselearner_rc_model__tol&#x27;: [0.001, 0.0001]},
-             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-105" type="checkbox" ><label for="sk-estimator-id-105" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-105" type="checkbox" ><label for="sk-estimator-id-105" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -18234,7 +18238,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;stacked_baselearner_rc_model&#x27;,
                                         RidgeClassifier(class_weight=&#x27;balanced&#x27;,
-                                                        random_state=88888888))]),
+                                                        random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;stacked_baselearner_rc_model__alpha&#x27;: [1.0, 2.0],
                          &#x27;stacked_baselearner_rc_model__solver&#x27;: [&#x27;sag&#x27;,
@@ -18251,13 +18255,12 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;stacked_baselearner_rc_model&#x27;,
                  RidgeClassifier(alpha=2.0, class_weight=&#x27;balanced&#x27;,
-                                 random_state=88888888, solver=&#x27;sag&#x27;,
-                                 tol=0.001))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-107" type="checkbox" ><label for="sk-estimator-id-107" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                                 random_state=987654321, solver=&#x27;saga&#x27;))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-107" type="checkbox" ><label for="sk-estimator-id-107" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
-                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-108" type="checkbox" ><label for="sk-estimator-id-108" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-109" type="checkbox" ><label for="sk-estimator-id-109" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-110" type="checkbox" ><label for="sk-estimator-id-110" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-111" type="checkbox" ><label for="sk-estimator-id-111" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-112" type="checkbox" ><label for="sk-estimator-id-112" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>RidgeClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.linear_model.RidgeClassifier.html">?<span>Documentation for RidgeClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>RidgeClassifier(alpha=2.0, class_weight=&#x27;balanced&#x27;, random_state=88888888,
-                solver=&#x27;sag&#x27;, tol=0.001)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-108" type="checkbox" ><label for="sk-estimator-id-108" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-109" type="checkbox" ><label for="sk-estimator-id-109" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-110" type="checkbox" ><label for="sk-estimator-id-110" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-111" type="checkbox" ><label for="sk-estimator-id-111" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-112" type="checkbox" ><label for="sk-estimator-id-112" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>RidgeClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.linear_model.RidgeClassifier.html">?<span>Documentation for RidgeClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>RidgeClassifier(alpha=2.0, class_weight=&#x27;balanced&#x27;, random_state=987654321,
+                solver=&#x27;saga&#x27;)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
 
@@ -18293,7 +18296,7 @@ print(f"Best Stacked Base Learner Ridge Classifier Hyperparameters: {stacked_bas
 ```
 
     Best Stacked Base Learner Ridge Classifier: 
-    Best Stacked Base Learner Ridge Classifier Hyperparameters: {'stacked_baselearner_rc_model__alpha': 2.0, 'stacked_baselearner_rc_model__solver': 'sag', 'stacked_baselearner_rc_model__tol': 0.001}
+    Best Stacked Base Learner Ridge Classifier Hyperparameters: {'stacked_baselearner_rc_model__alpha': 2.0, 'stacked_baselearner_rc_model__solver': 'saga', 'stacked_baselearner_rc_model__tol': 0.0001}
     
 
 
@@ -18310,18 +18313,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8655
-    F1 Score on Training Data: 0.8819
+    F1 Score on Cross-Validated Data: 0.8097
+    F1 Score on Training Data: 0.8271
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.96      0.93      0.95       143
-             1.0       0.85      0.92      0.88        61
+             0.0       0.95      0.88      0.92       143
+             1.0       0.76      0.90      0.83        61
     
-        accuracy                           0.93       204
-       macro avg       0.91      0.92      0.91       204
-    weighted avg       0.93      0.93      0.93       204
+        accuracy                           0.89       204
+       macro avg       0.86      0.89      0.87       204
+    weighted avg       0.90      0.89      0.89       204
     
     
 
@@ -18367,17 +18370,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.8500
+    F1 Score on Validation Data: 0.8372
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.94      0.94      0.94        49
-             1.0       0.85      0.85      0.85        20
+             0.0       0.96      0.90      0.93        49
+             1.0       0.78      0.90      0.84        20
     
-        accuracy                           0.91        69
-       macro avg       0.89      0.89      0.89        69
-    weighted avg       0.91      0.91      0.91        69
+        accuracy                           0.90        69
+       macro avg       0.87      0.90      0.88        69
+    weighted avg       0.91      0.90      0.90        69
     
     
 
@@ -18456,35 +18459,35 @@ display(stacked_baselearner_rc_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.926471</td>
+      <td>0.887255</td>
       <td>stacked_baselearner_rc_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.848485</td>
+      <td>0.763889</td>
       <td>stacked_baselearner_rc_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.918033</td>
+      <td>0.901639</td>
       <td>stacked_baselearner_rc_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.881890</td>
+      <td>0.827068</td>
       <td>stacked_baselearner_rc_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.924051</td>
+      <td>0.891379</td>
       <td>stacked_baselearner_rc_optimal</td>
       <td>train</td>
     </tr>
@@ -18539,35 +18542,35 @@ display(stacked_baselearner_rc_optimal_validation)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.913043</td>
+      <td>0.898551</td>
       <td>stacked_baselearner_rc_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.850000</td>
+      <td>0.782609</td>
       <td>stacked_baselearner_rc_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.850000</td>
+      <td>0.900000</td>
       <td>stacked_baselearner_rc_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.850000</td>
+      <td>0.837209</td>
       <td>stacked_baselearner_rc_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.894388</td>
+      <td>0.898980</td>
       <td>stacked_baselearner_rc_optimal</td>
       <td>validation</td>
     </tr>
@@ -18620,7 +18623,7 @@ stacked_baselearner_nn_pipeline = Pipeline([
     ('stacked_baselearner_nn_model', MLPClassifier(max_iter=500,
                                                    solver='lbfgs',
                                                    early_stopping=False,
-                                                   random_state=88888888))
+                                                   random_state=987654321))
 ])
 
 ```
@@ -18645,7 +18648,7 @@ stacked_baselearner_nn_hyperparameter_grid = {
 ##################################
 cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
                                       n_repeats=5, 
-                                      random_state=88888888)
+                                      random_state=987654321)
 
 ```
 
@@ -19108,7 +19111,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-14" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+</style><div id="sk-container-id-14" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -19125,7 +19128,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;stacked_baselearner_nn_model&#x27;,
                                         MLPClassifier(max_iter=500,
-                                                      random_state=88888888,
+                                                      random_state=987654321,
                                                       solver=&#x27;lbfgs&#x27;))]),
              n_jobs=-1,
              param_grid={&#x27;stacked_baselearner_nn_model__activation&#x27;: [&#x27;relu&#x27;,
@@ -19133,7 +19136,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                          &#x27;stacked_baselearner_nn_model__alpha&#x27;: [0.0001, 0.001],
                          &#x27;stacked_baselearner_nn_model__hidden_layer_sizes&#x27;: [(50,),
                                                                               (100,)]},
-             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-113" type="checkbox" ><label for="sk-estimator-id-113" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-113" type="checkbox" ><label for="sk-estimator-id-113" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -19150,7 +19153,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;stacked_baselearner_nn_model&#x27;,
                                         MLPClassifier(max_iter=500,
-                                                      random_state=88888888,
+                                                      random_state=987654321,
                                                       solver=&#x27;lbfgs&#x27;))]),
              n_jobs=-1,
              param_grid={&#x27;stacked_baselearner_nn_model__activation&#x27;: [&#x27;relu&#x27;,
@@ -19169,11 +19172,11 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;stacked_baselearner_nn_model&#x27;,
                  MLPClassifier(hidden_layer_sizes=(50,), max_iter=500,
-                               random_state=88888888, solver=&#x27;lbfgs&#x27;))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-115" type="checkbox" ><label for="sk-estimator-id-115" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                               random_state=987654321, solver=&#x27;lbfgs&#x27;))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-115" type="checkbox" ><label for="sk-estimator-id-115" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
-                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-116" type="checkbox" ><label for="sk-estimator-id-116" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-117" type="checkbox" ><label for="sk-estimator-id-117" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-118" type="checkbox" ><label for="sk-estimator-id-118" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-119" type="checkbox" ><label for="sk-estimator-id-119" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-120" type="checkbox" ><label for="sk-estimator-id-120" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>MLPClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.neural_network.MLPClassifier.html">?<span>Documentation for MLPClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>MLPClassifier(hidden_layer_sizes=(50,), max_iter=500, random_state=88888888,
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-116" type="checkbox" ><label for="sk-estimator-id-116" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-117" type="checkbox" ><label for="sk-estimator-id-117" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-118" type="checkbox" ><label for="sk-estimator-id-118" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-119" type="checkbox" ><label for="sk-estimator-id-119" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-120" type="checkbox" ><label for="sk-estimator-id-120" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>MLPClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.neural_network.MLPClassifier.html">?<span>Documentation for MLPClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>MLPClassifier(hidden_layer_sizes=(50,), max_iter=500, random_state=987654321,
               solver=&#x27;lbfgs&#x27;)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
@@ -19227,18 +19230,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8674
-    F1 Score on Training Data: 0.9180
+    F1 Score on Cross-Validated Data: 0.8063
+    F1 Score on Training Data: 0.8226
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.97      0.97      0.97       143
-             1.0       0.92      0.92      0.92        61
+             0.0       0.93      0.92      0.92       143
+             1.0       0.81      0.84      0.82        61
     
-        accuracy                           0.95       204
-       macro avg       0.94      0.94      0.94       204
-    weighted avg       0.95      0.95      0.95       204
+        accuracy                           0.89       204
+       macro avg       0.87      0.88      0.87       204
+    weighted avg       0.89      0.89      0.89       204
     
     
 
@@ -19284,17 +19287,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.7692
+    F1 Score on Validation Data: 0.8095
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.90      0.92      0.91        49
-             1.0       0.79      0.75      0.77        20
+             0.0       0.94      0.90      0.92        49
+             1.0       0.77      0.85      0.81        20
     
-        accuracy                           0.87        69
-       macro avg       0.84      0.83      0.84        69
-    weighted avg       0.87      0.87      0.87        69
+        accuracy                           0.88        69
+       macro avg       0.85      0.87      0.86        69
+    weighted avg       0.89      0.88      0.89        69
     
     
 
@@ -19373,35 +19376,35 @@ display(stacked_baselearner_nn_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.950980</td>
+      <td>0.892157</td>
       <td>stacked_baselearner_nn_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.918033</td>
+      <td>0.809524</td>
       <td>stacked_baselearner_nn_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.918033</td>
+      <td>0.836066</td>
       <td>stacked_baselearner_nn_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.918033</td>
+      <td>0.822581</td>
       <td>stacked_baselearner_nn_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.941534</td>
+      <td>0.876075</td>
       <td>stacked_baselearner_nn_optimal</td>
       <td>train</td>
     </tr>
@@ -19456,35 +19459,35 @@ display(stacked_baselearner_nn_optimal_validation)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.869565</td>
+      <td>0.884058</td>
       <td>stacked_baselearner_nn_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.789474</td>
+      <td>0.772727</td>
       <td>stacked_baselearner_nn_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.750000</td>
+      <td>0.850000</td>
       <td>stacked_baselearner_nn_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.769231</td>
+      <td>0.809524</td>
       <td>stacked_baselearner_nn_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.834184</td>
+      <td>0.873980</td>
       <td>stacked_baselearner_nn_optimal</td>
       <td>validation</td>
     </tr>
@@ -19535,7 +19538,7 @@ categorical_preprocessor = ColumnTransformer(transformers=[
 stacked_baselearner_dt_pipeline = Pipeline([
     ('categorical_preprocessor', categorical_preprocessor),
     ('stacked_baselearner_dt_model', DecisionTreeClassifier(class_weight='balanced',
-                                                            random_state=88888888))
+                                                            random_state=987654321))
 ])
 
 ```
@@ -19560,7 +19563,7 @@ stacked_baselearner_dt_hyperparameter_grid = {
 ##################################
 cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
                                       n_repeats=5, 
-                                      random_state=88888888)
+                                      random_state=987654321)
 
 ```
 
@@ -20023,7 +20026,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-15" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+</style><div id="sk-container-id-15" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -20040,14 +20043,14 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;stacked_baselearner_dt_model&#x27;,
                                         DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;,
-                                                               random_state=88888888))]),
+                                                               random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;stacked_baselearner_dt_model__criterion&#x27;: [&#x27;gini&#x27;,
                                                                      &#x27;entropy&#x27;],
                          &#x27;stacked_baselearner_dt_model__max_depth&#x27;: [3, 5],
                          &#x27;stacked_baselearner_dt_model__min_samples_leaf&#x27;: [5,
                                                                             10]},
-             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-121" type="checkbox" ><label for="sk-estimator-id-121" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-121" type="checkbox" ><label for="sk-estimator-id-121" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -20064,7 +20067,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;stacked_baselearner_dt_model&#x27;,
                                         DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;,
-                                                               random_state=88888888))]),
+                                                               random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;stacked_baselearner_dt_model__criterion&#x27;: [&#x27;gini&#x27;,
                                                                      &#x27;entropy&#x27;],
@@ -20082,14 +20085,14 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;stacked_baselearner_dt_model&#x27;,
                  DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;,
-                                        criterion=&#x27;entropy&#x27;, max_depth=3,
+                                        criterion=&#x27;entropy&#x27;, max_depth=5,
                                         min_samples_leaf=5,
-                                        random_state=88888888))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-123" type="checkbox" ><label for="sk-estimator-id-123" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                                        random_state=987654321))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-123" type="checkbox" ><label for="sk-estimator-id-123" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
                                   &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-124" type="checkbox" ><label for="sk-estimator-id-124" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-125" type="checkbox" ><label for="sk-estimator-id-125" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-126" type="checkbox" ><label for="sk-estimator-id-126" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-127" type="checkbox" ><label for="sk-estimator-id-127" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-128" type="checkbox" ><label for="sk-estimator-id-128" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>DecisionTreeClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.tree.DecisionTreeClassifier.html">?<span>Documentation for DecisionTreeClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;, criterion=&#x27;entropy&#x27;,
-                       max_depth=3, min_samples_leaf=5, random_state=88888888)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+                       max_depth=5, min_samples_leaf=5, random_state=987654321)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
 
@@ -20125,7 +20128,7 @@ print(f"Best Stacked Base Learner Decision Trees Hyperparameters: {stacked_basel
 ```
 
     Best Stacked Base Learner Decision Trees: 
-    Best Stacked Base Learner Decision Trees Hyperparameters: {'stacked_baselearner_dt_model__criterion': 'entropy', 'stacked_baselearner_dt_model__max_depth': 3, 'stacked_baselearner_dt_model__min_samples_leaf': 5}
+    Best Stacked Base Learner Decision Trees Hyperparameters: {'stacked_baselearner_dt_model__criterion': 'entropy', 'stacked_baselearner_dt_model__max_depth': 5, 'stacked_baselearner_dt_model__min_samples_leaf': 5}
     
 
 
@@ -20142,18 +20145,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8767
-    F1 Score on Training Data: 0.8788
+    F1 Score on Cross-Validated Data: 0.8100
+    F1 Score on Training Data: 0.8511
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.98      0.91      0.94       143
-             1.0       0.82      0.95      0.88        61
+             0.0       0.99      0.86      0.92       143
+             1.0       0.75      0.98      0.85        61
     
-        accuracy                           0.92       204
-       macro avg       0.90      0.93      0.91       204
-    weighted avg       0.93      0.92      0.92       204
+        accuracy                           0.90       204
+       macro avg       0.87      0.92      0.89       204
+    weighted avg       0.92      0.90      0.90       204
     
     
 
@@ -20199,17 +20202,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.8500
+    F1 Score on Validation Data: 0.8000
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.94      0.94      0.94        49
-             1.0       0.85      0.85      0.85        20
+             0.0       1.00      0.80      0.89        49
+             1.0       0.67      1.00      0.80        20
     
-        accuracy                           0.91        69
-       macro avg       0.89      0.89      0.89        69
-    weighted avg       0.91      0.91      0.91        69
+        accuracy                           0.86        69
+       macro avg       0.83      0.90      0.84        69
+    weighted avg       0.90      0.86      0.86        69
     
     
 
@@ -20288,35 +20291,35 @@ display(stacked_baselearner_dt_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.921569</td>
+      <td>0.897059</td>
       <td>stacked_baselearner_dt_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.816901</td>
+      <td>0.750000</td>
       <td>stacked_baselearner_dt_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.950820</td>
+      <td>0.983607</td>
       <td>stacked_baselearner_dt_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.878788</td>
+      <td>0.851064</td>
       <td>stacked_baselearner_dt_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.929955</td>
+      <td>0.921873</td>
       <td>stacked_baselearner_dt_optimal</td>
       <td>train</td>
     </tr>
@@ -20371,35 +20374,35 @@ display(stacked_baselearner_dt_optimal_validation)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.913043</td>
+      <td>0.855072</td>
       <td>stacked_baselearner_dt_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.850000</td>
+      <td>0.666667</td>
       <td>stacked_baselearner_dt_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.850000</td>
+      <td>1.000000</td>
       <td>stacked_baselearner_dt_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.850000</td>
+      <td>0.800000</td>
       <td>stacked_baselearner_dt_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.894388</td>
+      <td>0.897959</td>
       <td>stacked_baselearner_dt_optimal</td>
       <td>validation</td>
     </tr>
@@ -20435,7 +20438,7 @@ joblib.dump(stacked_baselearner_dt_optimal,
 ##################################
 stacking_strategy = KFold(n_splits=5,
                           shuffle=True,
-                          random_state=88888888)
+                          random_state=987654321)
 
 ```
 
@@ -20494,7 +20497,7 @@ stacked_metalearner_lr_optimal = LogisticRegression(class_weight='balanced',
                                             penalty='l2',
                                             C=1.0,
                                             solver='lbfgs',
-                                            random_state=88888888)
+                                            random_state=987654321)
 stacked_metalearner_lr_optimal.fit(meta_train_stacked, y_preprocessed_train_encoded)
 
 ```
@@ -20917,7 +20920,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-16" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>LogisticRegression(class_weight=&#x27;balanced&#x27;, random_state=88888888)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-129" type="checkbox" checked><label for="sk-estimator-id-129" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>LogisticRegression</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.linear_model.LogisticRegression.html">?<span>Documentation for LogisticRegression</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>LogisticRegression(class_weight=&#x27;balanced&#x27;, random_state=88888888)</pre></div> </div></div></div></div>
+</style><div id="sk-container-id-16" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>LogisticRegression(class_weight=&#x27;balanced&#x27;, random_state=987654321)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-129" type="checkbox" checked><label for="sk-estimator-id-129" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>LogisticRegression</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.linear_model.LogisticRegression.html">?<span>Documentation for LogisticRegression</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>LogisticRegression(class_weight=&#x27;balanced&#x27;, random_state=987654321)</pre></div> </div></div></div></div>
 
 
 
@@ -21008,17 +21011,17 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Training Data: 0.9062
+    F1 Score on Training Data: 0.8527
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.98      0.94      0.96       143
-             1.0       0.87      0.95      0.91        61
+             0.0       0.96      0.91      0.93       143
+             1.0       0.81      0.90      0.85        61
     
-        accuracy                           0.94       204
-       macro avg       0.92      0.94      0.93       204
-    weighted avg       0.94      0.94      0.94       204
+        accuracy                           0.91       204
+       macro avg       0.88      0.91      0.89       204
+    weighted avg       0.91      0.91      0.91       204
     
     
 
@@ -21064,17 +21067,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validationing Data: 0.8293
+    F1 Score on Validationing Data: 0.8571
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.94      0.92      0.93        49
-             1.0       0.81      0.85      0.83        20
+             0.0       0.96      0.92      0.94        49
+             1.0       0.82      0.90      0.86        20
     
-        accuracy                           0.90        69
-       macro avg       0.87      0.88      0.88        69
-    weighted avg       0.90      0.90      0.90        69
+        accuracy                           0.91        69
+       macro avg       0.89      0.91      0.90        69
+    weighted avg       0.92      0.91      0.91        69
     
     
 
@@ -21153,35 +21156,35 @@ display(stacked_metalearner_lr_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.941176</td>
+      <td>0.906863</td>
       <td>stacked_metalearner_lr_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.865672</td>
+      <td>0.808824</td>
       <td>stacked_metalearner_lr_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.950820</td>
+      <td>0.901639</td>
       <td>stacked_metalearner_lr_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.906250</td>
+      <td>0.852713</td>
       <td>stacked_metalearner_lr_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.943941</td>
+      <td>0.905365</td>
       <td>stacked_metalearner_lr_optimal</td>
       <td>train</td>
     </tr>
@@ -21236,35 +21239,35 @@ display(stacked_metalearner_lr_optimal_validation)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.898551</td>
+      <td>0.913043</td>
       <td>stacked_metalearner_lr_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.809524</td>
+      <td>0.818182</td>
       <td>stacked_metalearner_lr_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.850000</td>
+      <td>0.900000</td>
       <td>stacked_metalearner_lr_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.829268</td>
+      <td>0.857143</td>
       <td>stacked_metalearner_lr_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.884184</td>
+      <td>0.909184</td>
       <td>stacked_metalearner_lr_optimal</td>
       <td>validation</td>
     </tr>
@@ -21323,7 +21326,7 @@ blended_baselearner_knn_hyperparameter_grid = {
 ##################################
 cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
                                       n_repeats=5, 
-                                      random_state=88888888)
+                                      random_state=987654321)
 
 ```
 
@@ -21785,7 +21788,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-17" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+</style><div id="sk-container-id-17" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -21808,7 +21811,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                          &#x27;blended_baselearner_knn_model__n_neighbors&#x27;: [3, 5],
                          &#x27;blended_baselearner_knn_model__weights&#x27;: [&#x27;uniform&#x27;,
                                                                     &#x27;distance&#x27;]},
-             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-130" type="checkbox" ><label for="sk-estimator-id-130" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-130" type="checkbox" ><label for="sk-estimator-id-130" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -21841,11 +21844,11 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;blended_baselearner_knn_model&#x27;,
-                 KNeighborsClassifier(n_neighbors=3, weights=&#x27;distance&#x27;))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-132" type="checkbox" ><label for="sk-estimator-id-132" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                 KNeighborsClassifier(n_neighbors=3))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-132" type="checkbox" ><label for="sk-estimator-id-132" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
-                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-133" type="checkbox" ><label for="sk-estimator-id-133" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-134" type="checkbox" ><label for="sk-estimator-id-134" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-135" type="checkbox" ><label for="sk-estimator-id-135" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-136" type="checkbox" ><label for="sk-estimator-id-136" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-137" type="checkbox" ><label for="sk-estimator-id-137" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>KNeighborsClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.neighbors.KNeighborsClassifier.html">?<span>Documentation for KNeighborsClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>KNeighborsClassifier(n_neighbors=3, weights=&#x27;distance&#x27;)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-133" type="checkbox" ><label for="sk-estimator-id-133" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-134" type="checkbox" ><label for="sk-estimator-id-134" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-135" type="checkbox" ><label for="sk-estimator-id-135" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-136" type="checkbox" ><label for="sk-estimator-id-136" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-137" type="checkbox" ><label for="sk-estimator-id-137" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>KNeighborsClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.neighbors.KNeighborsClassifier.html">?<span>Documentation for KNeighborsClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>KNeighborsClassifier(n_neighbors=3)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
 
@@ -21881,7 +21884,7 @@ print(f"Best Blended Base Learner KNN Hyperparameters: {blended_baselearner_knn_
 ```
 
     Best Blended Base Learner KNN: 
-    Best Blended Base Learner KNN Hyperparameters: {'blended_baselearner_knn_model__metric': 'minkowski', 'blended_baselearner_knn_model__n_neighbors': 3, 'blended_baselearner_knn_model__weights': 'distance'}
+    Best Blended Base Learner KNN Hyperparameters: {'blended_baselearner_knn_model__metric': 'minkowski', 'blended_baselearner_knn_model__n_neighbors': 3, 'blended_baselearner_knn_model__weights': 'uniform'}
     
 
 
@@ -21898,18 +21901,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.6792
-    F1 Score on Training Data: 0.9917
+    F1 Score on Cross-Validated Data: 0.6417
+    F1 Score on Training Data: 0.8621
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.99      1.00      1.00       143
-             1.0       1.00      0.98      0.99        61
+             0.0       0.93      0.97      0.95       143
+             1.0       0.91      0.82      0.86        61
     
-        accuracy                           1.00       204
-       macro avg       1.00      0.99      0.99       204
-    weighted avg       1.00      1.00      1.00       204
+        accuracy                           0.92       204
+       macro avg       0.92      0.89      0.90       204
+    weighted avg       0.92      0.92      0.92       204
     
     
 
@@ -21955,17 +21958,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.7368
+    F1 Score on Validation Data: 0.6486
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.88      0.92      0.90        49
-             1.0       0.78      0.70      0.74        20
+             0.0       0.85      0.90      0.87        49
+             1.0       0.71      0.60      0.65        20
     
-        accuracy                           0.86        69
-       macro avg       0.83      0.81      0.82        69
-    weighted avg       0.85      0.86      0.85        69
+        accuracy                           0.81        69
+       macro avg       0.78      0.75      0.76        69
+    weighted avg       0.81      0.81      0.81        69
     
     
 
@@ -22044,35 +22047,35 @@ display(blended_baselearner_knn_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.995098</td>
+      <td>0.921569</td>
       <td>blended_baselearner_knn_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>1.000000</td>
+      <td>0.909091</td>
       <td>blended_baselearner_knn_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.983607</td>
+      <td>0.819672</td>
       <td>blended_baselearner_knn_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.991736</td>
+      <td>0.862069</td>
       <td>blended_baselearner_knn_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.991803</td>
+      <td>0.892354</td>
       <td>blended_baselearner_knn_optimal</td>
       <td>train</td>
     </tr>
@@ -22127,35 +22130,35 @@ display(blended_baselearner_knn_optimal_validation)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.855072</td>
+      <td>0.811594</td>
       <td>blended_baselearner_knn_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.777778</td>
+      <td>0.705882</td>
       <td>blended_baselearner_knn_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.700000</td>
+      <td>0.600000</td>
       <td>blended_baselearner_knn_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.736842</td>
+      <td>0.648649</td>
       <td>blended_baselearner_knn_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.809184</td>
+      <td>0.748980</td>
       <td>blended_baselearner_knn_optimal</td>
       <td>validation</td>
     </tr>
@@ -22206,7 +22209,7 @@ categorical_preprocessor = ColumnTransformer(transformers=[
 blended_baselearner_svm_pipeline = Pipeline([
     ('categorical_preprocessor', categorical_preprocessor),
     ('blended_baselearner_svm_model', SVC(class_weight='balanced',
-                                          random_state=88888888))
+                                          random_state=987654321))
 ])
 
 ```
@@ -22231,7 +22234,7 @@ blended_baselearner_svm_hyperparameter_grid = {
 ##################################
 cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
                                       n_repeats=5, 
-                                      random_state=88888888)
+                                      random_state=987654321)
 
 ```
 
@@ -22694,7 +22697,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-18" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+</style><div id="sk-container-id-18" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -22711,14 +22714,14 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;blended_baselearner_svm_model&#x27;,
                                         SVC(class_weight=&#x27;balanced&#x27;,
-                                            random_state=88888888))]),
+                                            random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;blended_baselearner_svm_model__C&#x27;: [0.1, 1.0],
                          &#x27;blended_baselearner_svm_model__gamma&#x27;: [&#x27;scale&#x27;,
                                                                   &#x27;auto&#x27;],
                          &#x27;blended_baselearner_svm_model__kernel&#x27;: [&#x27;linear&#x27;,
                                                                    &#x27;rbf&#x27;]},
-             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-138" type="checkbox" ><label for="sk-estimator-id-138" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-138" type="checkbox" ><label for="sk-estimator-id-138" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -22735,7 +22738,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;blended_baselearner_svm_model&#x27;,
                                         SVC(class_weight=&#x27;balanced&#x27;,
-                                            random_state=88888888))]),
+                                            random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;blended_baselearner_svm_model__C&#x27;: [0.1, 1.0],
                          &#x27;blended_baselearner_svm_model__gamma&#x27;: [&#x27;scale&#x27;,
@@ -22753,11 +22756,11 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;blended_baselearner_svm_model&#x27;,
                  SVC(class_weight=&#x27;balanced&#x27;, kernel=&#x27;linear&#x27;,
-                     random_state=88888888))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-140" type="checkbox" ><label for="sk-estimator-id-140" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                     random_state=987654321))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-140" type="checkbox" ><label for="sk-estimator-id-140" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
-                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-141" type="checkbox" ><label for="sk-estimator-id-141" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-142" type="checkbox" ><label for="sk-estimator-id-142" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-143" type="checkbox" ><label for="sk-estimator-id-143" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-144" type="checkbox" ><label for="sk-estimator-id-144" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-145" type="checkbox" ><label for="sk-estimator-id-145" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>SVC</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.svm.SVC.html">?<span>Documentation for SVC</span></a></div></label><div class="sk-toggleable__content fitted"><pre>SVC(class_weight=&#x27;balanced&#x27;, kernel=&#x27;linear&#x27;, random_state=88888888)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-141" type="checkbox" ><label for="sk-estimator-id-141" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-142" type="checkbox" ><label for="sk-estimator-id-142" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-143" type="checkbox" ><label for="sk-estimator-id-143" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-144" type="checkbox" ><label for="sk-estimator-id-144" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-145" type="checkbox" ><label for="sk-estimator-id-145" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>SVC</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.svm.SVC.html">?<span>Documentation for SVC</span></a></div></label><div class="sk-toggleable__content fitted"><pre>SVC(class_weight=&#x27;balanced&#x27;, kernel=&#x27;linear&#x27;, random_state=987654321)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
 
@@ -22810,18 +22813,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8827
-    F1 Score on Training Data: 0.9008
+    F1 Score on Cross-Validated Data: 0.8219
+    F1 Score on Training Data: 0.8438
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.99      0.92      0.95       143
-             1.0       0.84      0.97      0.90        61
+             0.0       0.95      0.91      0.93       143
+             1.0       0.81      0.89      0.84        61
     
-        accuracy                           0.94       204
-       macro avg       0.91      0.95      0.93       204
-    weighted avg       0.94      0.94      0.94       204
+        accuracy                           0.90       204
+       macro avg       0.88      0.90      0.89       204
+    weighted avg       0.91      0.90      0.90       204
     
     
 
@@ -22867,17 +22870,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.8293
+    F1 Score on Validation Data: 0.8571
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.94      0.92      0.93        49
-             1.0       0.81      0.85      0.83        20
+             0.0       0.96      0.92      0.94        49
+             1.0       0.82      0.90      0.86        20
     
-        accuracy                           0.90        69
-       macro avg       0.87      0.88      0.88        69
-    weighted avg       0.90      0.90      0.90        69
+        accuracy                           0.91        69
+       macro avg       0.89      0.91      0.90        69
+    weighted avg       0.92      0.91      0.91        69
     
     
 
@@ -22956,35 +22959,35 @@ display(blended_baselearner_svm_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.936275</td>
+      <td>0.901961</td>
       <td>blended_baselearner_svm_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.842857</td>
+      <td>0.805970</td>
       <td>blended_baselearner_svm_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.967213</td>
+      <td>0.885246</td>
       <td>blended_baselearner_svm_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.900763</td>
+      <td>0.843750</td>
       <td>blended_baselearner_svm_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.945145</td>
+      <td>0.897168</td>
       <td>blended_baselearner_svm_optimal</td>
       <td>train</td>
     </tr>
@@ -23039,35 +23042,35 @@ display(blended_baselearner_svm_optimal_validation)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.898551</td>
+      <td>0.913043</td>
       <td>blended_baselearner_svm_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.809524</td>
+      <td>0.818182</td>
       <td>blended_baselearner_svm_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.850000</td>
+      <td>0.900000</td>
       <td>blended_baselearner_svm_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.829268</td>
+      <td>0.857143</td>
       <td>blended_baselearner_svm_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.884184</td>
+      <td>0.909184</td>
       <td>blended_baselearner_svm_optimal</td>
       <td>validation</td>
     </tr>
@@ -23118,7 +23121,7 @@ categorical_preprocessor = ColumnTransformer(transformers=[
 blended_baselearner_rc_pipeline = Pipeline([
     ('categorical_preprocessor', categorical_preprocessor),
     ('blended_baselearner_rc_model', RidgeClassifier(class_weight='balanced',
-                                                     random_state=88888888))
+                                                     random_state=987654321))
 ])
 
 ```
@@ -23143,7 +23146,7 @@ blended_baselearner_rc_hyperparameter_grid = {
 ##################################
 cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
                                       n_repeats=5, 
-                                      random_state=88888888)
+                                      random_state=987654321)
 
 ```
 
@@ -23606,7 +23609,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-19" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+</style><div id="sk-container-id-19" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -23623,13 +23626,13 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;blended_baselearner_rc_model&#x27;,
                                         RidgeClassifier(class_weight=&#x27;balanced&#x27;,
-                                                        random_state=88888888))]),
+                                                        random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;blended_baselearner_rc_model__alpha&#x27;: [1.0, 2.0],
                          &#x27;blended_baselearner_rc_model__solver&#x27;: [&#x27;sag&#x27;,
                                                                   &#x27;saga&#x27;],
                          &#x27;blended_baselearner_rc_model__tol&#x27;: [0.001, 0.0001]},
-             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-146" type="checkbox" ><label for="sk-estimator-id-146" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-146" type="checkbox" ><label for="sk-estimator-id-146" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -23646,7 +23649,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;blended_baselearner_rc_model&#x27;,
                                         RidgeClassifier(class_weight=&#x27;balanced&#x27;,
-                                                        random_state=88888888))]),
+                                                        random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;blended_baselearner_rc_model__alpha&#x27;: [1.0, 2.0],
                          &#x27;blended_baselearner_rc_model__solver&#x27;: [&#x27;sag&#x27;,
@@ -23663,13 +23666,12 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;blended_baselearner_rc_model&#x27;,
                  RidgeClassifier(alpha=2.0, class_weight=&#x27;balanced&#x27;,
-                                 random_state=88888888, solver=&#x27;sag&#x27;,
-                                 tol=0.001))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-148" type="checkbox" ><label for="sk-estimator-id-148" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                                 random_state=987654321, solver=&#x27;saga&#x27;))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-148" type="checkbox" ><label for="sk-estimator-id-148" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
-                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-149" type="checkbox" ><label for="sk-estimator-id-149" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-150" type="checkbox" ><label for="sk-estimator-id-150" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-151" type="checkbox" ><label for="sk-estimator-id-151" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-152" type="checkbox" ><label for="sk-estimator-id-152" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-153" type="checkbox" ><label for="sk-estimator-id-153" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>RidgeClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.linear_model.RidgeClassifier.html">?<span>Documentation for RidgeClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>RidgeClassifier(alpha=2.0, class_weight=&#x27;balanced&#x27;, random_state=88888888,
-                solver=&#x27;sag&#x27;, tol=0.001)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-149" type="checkbox" ><label for="sk-estimator-id-149" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-150" type="checkbox" ><label for="sk-estimator-id-150" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-151" type="checkbox" ><label for="sk-estimator-id-151" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-152" type="checkbox" ><label for="sk-estimator-id-152" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-153" type="checkbox" ><label for="sk-estimator-id-153" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>RidgeClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.linear_model.RidgeClassifier.html">?<span>Documentation for RidgeClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>RidgeClassifier(alpha=2.0, class_weight=&#x27;balanced&#x27;, random_state=987654321,
+                solver=&#x27;saga&#x27;)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
 
@@ -23705,7 +23707,7 @@ print(f"Best Blended Base Learner Ridge Classifier Hyperparameters: {blended_bas
 ```
 
     Best Blended Base Learner Ridge Classifier: 
-    Best Blended Base Learner Ridge Classifier Hyperparameters: {'blended_baselearner_rc_model__alpha': 2.0, 'blended_baselearner_rc_model__solver': 'sag', 'blended_baselearner_rc_model__tol': 0.001}
+    Best Blended Base Learner Ridge Classifier Hyperparameters: {'blended_baselearner_rc_model__alpha': 2.0, 'blended_baselearner_rc_model__solver': 'saga', 'blended_baselearner_rc_model__tol': 0.0001}
     
 
 
@@ -23722,18 +23724,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8655
-    F1 Score on Training Data: 0.8819
+    F1 Score on Cross-Validated Data: 0.8097
+    F1 Score on Training Data: 0.8271
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.96      0.93      0.95       143
-             1.0       0.85      0.92      0.88        61
+             0.0       0.95      0.88      0.92       143
+             1.0       0.76      0.90      0.83        61
     
-        accuracy                           0.93       204
-       macro avg       0.91      0.92      0.91       204
-    weighted avg       0.93      0.93      0.93       204
+        accuracy                           0.89       204
+       macro avg       0.86      0.89      0.87       204
+    weighted avg       0.90      0.89      0.89       204
     
     
 
@@ -23779,17 +23781,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.8500
+    F1 Score on Validation Data: 0.8372
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.94      0.94      0.94        49
-             1.0       0.85      0.85      0.85        20
+             0.0       0.96      0.90      0.93        49
+             1.0       0.78      0.90      0.84        20
     
-        accuracy                           0.91        69
-       macro avg       0.89      0.89      0.89        69
-    weighted avg       0.91      0.91      0.91        69
+        accuracy                           0.90        69
+       macro avg       0.87      0.90      0.88        69
+    weighted avg       0.91      0.90      0.90        69
     
     
 
@@ -23868,35 +23870,35 @@ display(blended_baselearner_rc_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.926471</td>
+      <td>0.887255</td>
       <td>blended_baselearner_rc_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.848485</td>
+      <td>0.763889</td>
       <td>blended_baselearner_rc_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.918033</td>
+      <td>0.901639</td>
       <td>blended_baselearner_rc_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.881890</td>
+      <td>0.827068</td>
       <td>blended_baselearner_rc_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.924051</td>
+      <td>0.891379</td>
       <td>blended_baselearner_rc_optimal</td>
       <td>train</td>
     </tr>
@@ -23951,35 +23953,35 @@ display(blended_baselearner_rc_optimal_validation)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.913043</td>
+      <td>0.898551</td>
       <td>blended_baselearner_rc_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.850000</td>
+      <td>0.782609</td>
       <td>blended_baselearner_rc_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.850000</td>
+      <td>0.900000</td>
       <td>blended_baselearner_rc_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.850000</td>
+      <td>0.837209</td>
       <td>blended_baselearner_rc_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.894388</td>
+      <td>0.898980</td>
       <td>blended_baselearner_rc_optimal</td>
       <td>validation</td>
     </tr>
@@ -24032,7 +24034,7 @@ blended_baselearner_nn_pipeline = Pipeline([
     ('blended_baselearner_nn_model', MLPClassifier(max_iter=500,
                                                    solver='lbfgs',
                                                    early_stopping=False,
-                                                   random_state=88888888))
+                                                   random_state=987654321))
 ])
 
 ```
@@ -24057,7 +24059,7 @@ blended_baselearner_nn_hyperparameter_grid = {
 ##################################
 cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
                                       n_repeats=5, 
-                                      random_state=88888888)
+                                      random_state=987654321)
 
 ```
 
@@ -24520,7 +24522,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-20" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+</style><div id="sk-container-id-20" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -24537,7 +24539,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;blended_baselearner_nn_model&#x27;,
                                         MLPClassifier(max_iter=500,
-                                                      random_state=88888888,
+                                                      random_state=987654321,
                                                       solver=&#x27;lbfgs&#x27;))]),
              n_jobs=-1,
              param_grid={&#x27;blended_baselearner_nn_model__activation&#x27;: [&#x27;relu&#x27;,
@@ -24545,7 +24547,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                          &#x27;blended_baselearner_nn_model__alpha&#x27;: [0.0001, 0.001],
                          &#x27;blended_baselearner_nn_model__hidden_layer_sizes&#x27;: [(50,),
                                                                               (100,)]},
-             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-154" type="checkbox" ><label for="sk-estimator-id-154" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-154" type="checkbox" ><label for="sk-estimator-id-154" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -24562,7 +24564,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;blended_baselearner_nn_model&#x27;,
                                         MLPClassifier(max_iter=500,
-                                                      random_state=88888888,
+                                                      random_state=987654321,
                                                       solver=&#x27;lbfgs&#x27;))]),
              n_jobs=-1,
              param_grid={&#x27;blended_baselearner_nn_model__activation&#x27;: [&#x27;relu&#x27;,
@@ -24581,11 +24583,11 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;blended_baselearner_nn_model&#x27;,
                  MLPClassifier(hidden_layer_sizes=(50,), max_iter=500,
-                               random_state=88888888, solver=&#x27;lbfgs&#x27;))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-156" type="checkbox" ><label for="sk-estimator-id-156" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                               random_state=987654321, solver=&#x27;lbfgs&#x27;))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-156" type="checkbox" ><label for="sk-estimator-id-156" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
-                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-157" type="checkbox" ><label for="sk-estimator-id-157" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-158" type="checkbox" ><label for="sk-estimator-id-158" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-159" type="checkbox" ><label for="sk-estimator-id-159" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-160" type="checkbox" ><label for="sk-estimator-id-160" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-161" type="checkbox" ><label for="sk-estimator-id-161" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>MLPClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.neural_network.MLPClassifier.html">?<span>Documentation for MLPClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>MLPClassifier(hidden_layer_sizes=(50,), max_iter=500, random_state=88888888,
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-157" type="checkbox" ><label for="sk-estimator-id-157" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-158" type="checkbox" ><label for="sk-estimator-id-158" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-159" type="checkbox" ><label for="sk-estimator-id-159" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-160" type="checkbox" ><label for="sk-estimator-id-160" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-161" type="checkbox" ><label for="sk-estimator-id-161" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>MLPClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.neural_network.MLPClassifier.html">?<span>Documentation for MLPClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>MLPClassifier(hidden_layer_sizes=(50,), max_iter=500, random_state=987654321,
               solver=&#x27;lbfgs&#x27;)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
@@ -24639,18 +24641,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8674
-    F1 Score on Training Data: 0.9180
+    F1 Score on Cross-Validated Data: 0.8063
+    F1 Score on Training Data: 0.8226
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.97      0.97      0.97       143
-             1.0       0.92      0.92      0.92        61
+             0.0       0.93      0.92      0.92       143
+             1.0       0.81      0.84      0.82        61
     
-        accuracy                           0.95       204
-       macro avg       0.94      0.94      0.94       204
-    weighted avg       0.95      0.95      0.95       204
+        accuracy                           0.89       204
+       macro avg       0.87      0.88      0.87       204
+    weighted avg       0.89      0.89      0.89       204
     
     
 
@@ -24696,17 +24698,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.7692
+    F1 Score on Validation Data: 0.8095
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.90      0.92      0.91        49
-             1.0       0.79      0.75      0.77        20
+             0.0       0.94      0.90      0.92        49
+             1.0       0.77      0.85      0.81        20
     
-        accuracy                           0.87        69
-       macro avg       0.84      0.83      0.84        69
-    weighted avg       0.87      0.87      0.87        69
+        accuracy                           0.88        69
+       macro avg       0.85      0.87      0.86        69
+    weighted avg       0.89      0.88      0.89        69
     
     
 
@@ -24785,35 +24787,35 @@ display(blended_baselearner_nn_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.950980</td>
+      <td>0.892157</td>
       <td>blended_baselearner_nn_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.918033</td>
+      <td>0.809524</td>
       <td>blended_baselearner_nn_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.918033</td>
+      <td>0.836066</td>
       <td>blended_baselearner_nn_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.918033</td>
+      <td>0.822581</td>
       <td>blended_baselearner_nn_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.941534</td>
+      <td>0.876075</td>
       <td>blended_baselearner_nn_optimal</td>
       <td>train</td>
     </tr>
@@ -24868,35 +24870,35 @@ display(blended_baselearner_nn_optimal_validation)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.869565</td>
+      <td>0.884058</td>
       <td>blended_baselearner_nn_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.789474</td>
+      <td>0.772727</td>
       <td>blended_baselearner_nn_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.750000</td>
+      <td>0.850000</td>
       <td>blended_baselearner_nn_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.769231</td>
+      <td>0.809524</td>
       <td>blended_baselearner_nn_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.834184</td>
+      <td>0.873980</td>
       <td>blended_baselearner_nn_optimal</td>
       <td>validation</td>
     </tr>
@@ -24947,7 +24949,7 @@ categorical_preprocessor = ColumnTransformer(transformers=[
 blended_baselearner_dt_pipeline = Pipeline([
     ('categorical_preprocessor', categorical_preprocessor),
     ('blended_baselearner_dt_model', DecisionTreeClassifier(class_weight='balanced',
-                                                            random_state=88888888))
+                                                            random_state=987654321))
 ])
 
 ```
@@ -24972,7 +24974,7 @@ blended_baselearner_dt_hyperparameter_grid = {
 ##################################
 cv_strategy = RepeatedStratifiedKFold(n_splits=5, 
                                       n_repeats=5, 
-                                      random_state=88888888)
+                                      random_state=987654321)
 
 ```
 
@@ -25435,7 +25437,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-21" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+</style><div id="sk-container-id-21" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -25452,14 +25454,14 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;blended_baselearner_dt_model&#x27;,
                                         DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;,
-                                                               random_state=88888888))]),
+                                                               random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;blended_baselearner_dt_model__criterion&#x27;: [&#x27;gini&#x27;,
                                                                      &#x27;entropy&#x27;],
                          &#x27;blended_baselearner_dt_model__max_depth&#x27;: [3, 5],
                          &#x27;blended_baselearner_dt_model__min_samples_leaf&#x27;: [5,
                                                                             10]},
-             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-162" type="checkbox" ><label for="sk-estimator-id-162" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=88888888),
+             scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-162" type="checkbox" ><label for="sk-estimator-id-162" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
              estimator=Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
                                         ColumnTransformer(force_int_remainder_cols=False,
                                                           remainder=&#x27;passthrough&#x27;,
@@ -25476,7 +25478,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;blended_baselearner_dt_model&#x27;,
                                         DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;,
-                                                               random_state=88888888))]),
+                                                               random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;blended_baselearner_dt_model__criterion&#x27;: [&#x27;gini&#x27;,
                                                                      &#x27;entropy&#x27;],
@@ -25494,14 +25496,14 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;blended_baselearner_dt_model&#x27;,
                  DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;,
-                                        criterion=&#x27;entropy&#x27;, max_depth=3,
+                                        criterion=&#x27;entropy&#x27;, max_depth=5,
                                         min_samples_leaf=5,
-                                        random_state=88888888))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-164" type="checkbox" ><label for="sk-estimator-id-164" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                                        random_state=987654321))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-164" type="checkbox" ><label for="sk-estimator-id-164" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
                                   &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-165" type="checkbox" ><label for="sk-estimator-id-165" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-166" type="checkbox" ><label for="sk-estimator-id-166" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-167" type="checkbox" ><label for="sk-estimator-id-167" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-168" type="checkbox" ><label for="sk-estimator-id-168" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-169" type="checkbox" ><label for="sk-estimator-id-169" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>DecisionTreeClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.tree.DecisionTreeClassifier.html">?<span>Documentation for DecisionTreeClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;, criterion=&#x27;entropy&#x27;,
-                       max_depth=3, min_samples_leaf=5, random_state=88888888)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+                       max_depth=5, min_samples_leaf=5, random_state=987654321)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
 
@@ -25537,7 +25539,7 @@ print(f"Best Blended Base Learner Decision Trees Hyperparameters: {blended_basel
 ```
 
     Best Blended Base Learner Decision Trees: 
-    Best Blended Base Learner Decision Trees Hyperparameters: {'blended_baselearner_dt_model__criterion': 'entropy', 'blended_baselearner_dt_model__max_depth': 3, 'blended_baselearner_dt_model__min_samples_leaf': 5}
+    Best Blended Base Learner Decision Trees Hyperparameters: {'blended_baselearner_dt_model__criterion': 'entropy', 'blended_baselearner_dt_model__max_depth': 5, 'blended_baselearner_dt_model__min_samples_leaf': 5}
     
 
 
@@ -25554,18 +25556,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8767
-    F1 Score on Training Data: 0.8788
+    F1 Score on Cross-Validated Data: 0.8100
+    F1 Score on Training Data: 0.8511
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.98      0.91      0.94       143
-             1.0       0.82      0.95      0.88        61
+             0.0       0.99      0.86      0.92       143
+             1.0       0.75      0.98      0.85        61
     
-        accuracy                           0.92       204
-       macro avg       0.90      0.93      0.91       204
-    weighted avg       0.93      0.92      0.92       204
+        accuracy                           0.90       204
+       macro avg       0.87      0.92      0.89       204
+    weighted avg       0.92      0.90      0.90       204
     
     
 
@@ -25611,17 +25613,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.8500
+    F1 Score on Validation Data: 0.8000
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.94      0.94      0.94        49
-             1.0       0.85      0.85      0.85        20
+             0.0       1.00      0.80      0.89        49
+             1.0       0.67      1.00      0.80        20
     
-        accuracy                           0.91        69
-       macro avg       0.89      0.89      0.89        69
-    weighted avg       0.91      0.91      0.91        69
+        accuracy                           0.86        69
+       macro avg       0.83      0.90      0.84        69
+    weighted avg       0.90      0.86      0.86        69
     
     
 
@@ -25700,35 +25702,35 @@ display(blended_baselearner_dt_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.921569</td>
+      <td>0.897059</td>
       <td>blended_baselearner_dt_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.816901</td>
+      <td>0.750000</td>
       <td>blended_baselearner_dt_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.950820</td>
+      <td>0.983607</td>
       <td>blended_baselearner_dt_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.878788</td>
+      <td>0.851064</td>
       <td>blended_baselearner_dt_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.929955</td>
+      <td>0.921873</td>
       <td>blended_baselearner_dt_optimal</td>
       <td>train</td>
     </tr>
@@ -25783,35 +25785,35 @@ display(blended_baselearner_dt_optimal_validation)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.913043</td>
+      <td>0.855072</td>
       <td>blended_baselearner_dt_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.850000</td>
+      <td>0.666667</td>
       <td>blended_baselearner_dt_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.850000</td>
+      <td>1.000000</td>
       <td>blended_baselearner_dt_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.850000</td>
+      <td>0.800000</td>
       <td>blended_baselearner_dt_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.894388</td>
+      <td>0.897959</td>
       <td>blended_baselearner_dt_optimal</td>
       <td>validation</td>
     </tr>
@@ -25848,7 +25850,7 @@ joblib.dump(blended_baselearner_dt_optimal,
 X_preprocessed_train_development, X_preprocessed_holdout, y_preprocessed_train_development, y_preprocessed_holdout = train_test_split(
     X_preprocessed_train, y_preprocessed_train_encoded, 
     test_size=0.25, 
-    random_state=88888888
+    random_state=987654321
 )
 
 ```
@@ -25898,7 +25900,7 @@ blended_metalearner_lr_optimal = LogisticRegression(class_weight='balanced',
                                                     penalty='l2', 
                                                     C=1.0, 
                                                     solver='lbfgs', 
-                                                    random_state=88888888)
+                                                    random_state=987654321)
 blended_metalearner_lr_optimal.fit(meta_train_blended, y_preprocessed_holdout)
 
 ```
@@ -26321,7 +26323,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-22" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>LogisticRegression(class_weight=&#x27;balanced&#x27;, random_state=88888888)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-170" type="checkbox" checked><label for="sk-estimator-id-170" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>LogisticRegression</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.linear_model.LogisticRegression.html">?<span>Documentation for LogisticRegression</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>LogisticRegression(class_weight=&#x27;balanced&#x27;, random_state=88888888)</pre></div> </div></div></div></div>
+</style><div id="sk-container-id-22" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>LogisticRegression(class_weight=&#x27;balanced&#x27;, random_state=987654321)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-170" type="checkbox" checked><label for="sk-estimator-id-170" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>LogisticRegression</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.linear_model.LogisticRegression.html">?<span>Documentation for LogisticRegression</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>LogisticRegression(class_weight=&#x27;balanced&#x27;, random_state=987654321)</pre></div> </div></div></div></div>
 
 
 
@@ -26402,17 +26404,17 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Training Data: 0.8976
+    F1 Score on Training Data: 0.8485
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.97      0.94      0.95       143
-             1.0       0.86      0.93      0.90        61
+             0.0       0.96      0.90      0.93       143
+             1.0       0.79      0.92      0.85        61
     
-        accuracy                           0.94       204
-       macro avg       0.92      0.94      0.93       204
-    weighted avg       0.94      0.94      0.94       204
+        accuracy                           0.90       204
+       macro avg       0.88      0.91      0.89       204
+    weighted avg       0.91      0.90      0.90       204
     
     
 
@@ -26458,17 +26460,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validationing Data: 0.8293
+    F1 Score on Validationing Data: 0.8837
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.94      0.92      0.93        49
-             1.0       0.81      0.85      0.83        20
+             0.0       0.98      0.92      0.95        49
+             1.0       0.83      0.95      0.88        20
     
-        accuracy                           0.90        69
-       macro avg       0.87      0.88      0.88        69
-    weighted avg       0.90      0.90      0.90        69
+        accuracy                           0.93        69
+       macro avg       0.90      0.93      0.92        69
+    weighted avg       0.93      0.93      0.93        69
     
     
 
@@ -26547,35 +26549,35 @@ display(blended_metalearner_lr_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.936275</td>
+      <td>0.901961</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.863636</td>
+      <td>0.788732</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.934426</td>
+      <td>0.918033</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.897638</td>
+      <td>0.848485</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.935745</td>
+      <td>0.906569</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>train</td>
     </tr>
@@ -26630,35 +26632,35 @@ display(blended_metalearner_lr_optimal_validation)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.898551</td>
+      <td>0.927536</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.809524</td>
+      <td>0.826087</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.850000</td>
+      <td>0.950000</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.829268</td>
+      <td>0.883721</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.884184</td>
+      <td>0.934184</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>validation</td>
     </tr>
@@ -26759,35 +26761,35 @@ display(ensemble_train_validation_all_performance)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.931373</td>
+      <td>0.892157</td>
       <td>bagged_rf_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.861538</td>
+      <td>0.774648</td>
       <td>bagged_rf_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.918033</td>
+      <td>0.901639</td>
       <td>bagged_rf_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.888889</td>
+      <td>0.833333</td>
       <td>bagged_rf_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.927548</td>
+      <td>0.894876</td>
       <td>bagged_rf_optimal</td>
       <td>train</td>
     </tr>
@@ -26801,35 +26803,35 @@ display(ensemble_train_validation_all_performance)
     <tr>
       <th>215</th>
       <td>Accuracy</td>
-      <td>0.898551</td>
+      <td>0.927536</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>216</th>
       <td>Precision</td>
-      <td>0.809524</td>
+      <td>0.826087</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>217</th>
       <td>Recall</td>
-      <td>0.850000</td>
+      <td>0.950000</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>218</th>
       <td>F1</td>
-      <td>0.829268</td>
+      <td>0.883721</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>219</th>
       <td>AUROC</td>
-      <td>0.884184</td>
+      <td>0.934184</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>validation</td>
     </tr>
@@ -26837,6 +26839,200 @@ display(ensemble_train_validation_all_performance)
 </table>
 <p>220 rows × 4 columns</p>
 </div>
+
+
+
+```python
+##################################
+# Consolidating all the F1 score
+# model performance measures
+# between the train and validation data
+##################################
+ensemble_train_validation_all_performance_F1 = ensemble_train_validation_all_performance[ensemble_train_validation_all_performance['metric_name']=='F1']
+ensemble_train_validation_all_performance_F1_train = ensemble_train_validation_all_performance_F1[ensemble_train_validation_all_performance_F1['set']=='train'].loc[:,"metric_value"]
+ensemble_train_validation_all_performance_F1_validation = ensemble_train_validation_all_performance_F1[ensemble_train_validation_all_performance_F1['set']=='validation'].loc[:,"metric_value"]
+
+```
+
+
+```python
+##################################
+# Combining all the F1 score
+# model performance measures
+# between the train and validation data
+##################################
+ensemble_train_validation_all_performance_F1_plot = pd.DataFrame({'train': ensemble_train_validation_all_performance_F1_train.values,
+                                                              'validation': ensemble_train_validation_all_performance_F1_validation.values},
+                                                             index=ensemble_train_validation_all_performance_F1['model'].unique())
+ensemble_train_validation_all_performance_F1_plot
+
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>train</th>
+      <th>validation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>bagged_rf_optimal</th>
+      <td>0.833333</td>
+      <td>0.837209</td>
+    </tr>
+    <tr>
+      <th>bagged_et_optimal</th>
+      <td>0.833333</td>
+      <td>0.837209</td>
+    </tr>
+    <tr>
+      <th>bagged_bdt_optimal</th>
+      <td>0.846154</td>
+      <td>0.857143</td>
+    </tr>
+    <tr>
+      <th>bagged_blr_optimal</th>
+      <td>0.833333</td>
+      <td>0.837209</td>
+    </tr>
+    <tr>
+      <th>bagged_bsvm_optimal</th>
+      <td>0.852713</td>
+      <td>0.857143</td>
+    </tr>
+    <tr>
+      <th>boosted_ab_optimal</th>
+      <td>0.843750</td>
+      <td>0.857143</td>
+    </tr>
+    <tr>
+      <th>boosted_gb_optimal</th>
+      <td>0.910569</td>
+      <td>0.829268</td>
+    </tr>
+    <tr>
+      <th>boosted_xgb_optimal</th>
+      <td>0.850394</td>
+      <td>0.857143</td>
+    </tr>
+    <tr>
+      <th>boosted_lgbm_optimal</th>
+      <td>0.919355</td>
+      <td>0.850000</td>
+    </tr>
+    <tr>
+      <th>boosted_cb_optimal</th>
+      <td>0.843750</td>
+      <td>0.857143</td>
+    </tr>
+    <tr>
+      <th>stacked_baselearner_knn_optimal</th>
+      <td>0.862069</td>
+      <td>0.648649</td>
+    </tr>
+    <tr>
+      <th>stacked_baselearner_svm_optimal</th>
+      <td>0.843750</td>
+      <td>0.857143</td>
+    </tr>
+    <tr>
+      <th>stacked_baselearner_rc_optimal</th>
+      <td>0.827068</td>
+      <td>0.837209</td>
+    </tr>
+    <tr>
+      <th>stacked_baselearner_nn_optimal</th>
+      <td>0.822581</td>
+      <td>0.809524</td>
+    </tr>
+    <tr>
+      <th>stacked_baselearner_dt_optimal</th>
+      <td>0.851064</td>
+      <td>0.800000</td>
+    </tr>
+    <tr>
+      <th>stacked_metalearner_lr_optimal</th>
+      <td>0.852713</td>
+      <td>0.857143</td>
+    </tr>
+    <tr>
+      <th>blended_baselearner_knn_optimal</th>
+      <td>0.862069</td>
+      <td>0.648649</td>
+    </tr>
+    <tr>
+      <th>blended_baselearner_svm_optimal</th>
+      <td>0.843750</td>
+      <td>0.857143</td>
+    </tr>
+    <tr>
+      <th>blended_baselearner_rc_optimal</th>
+      <td>0.827068</td>
+      <td>0.837209</td>
+    </tr>
+    <tr>
+      <th>blended_baselearner_nn_optimal</th>
+      <td>0.822581</td>
+      <td>0.809524</td>
+    </tr>
+    <tr>
+      <th>blended_baselearner_dt_optimal</th>
+      <td>0.851064</td>
+      <td>0.800000</td>
+    </tr>
+    <tr>
+      <th>blended_metalearner_lr_optimal</th>
+      <td>0.848485</td>
+      <td>0.883721</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+##################################
+# Plotting all the F1 score
+# model performance measures
+# between the train and validation sets
+##################################
+ensemble_train_validation_all_performance_F1_plot = ensemble_train_validation_all_performance_F1_plot.plot.barh(figsize=(10, 20), width=0.9)
+ensemble_train_validation_all_performance_F1_plot.set_xlim(0.00,1.00)
+ensemble_train_validation_all_performance_F1_plot.set_title("Model Comparison by F1 Score Performance on Train and Validation Data")
+ensemble_train_validation_all_performance_F1_plot.set_xlabel("F1 Score Performance")
+ensemble_train_validation_all_performance_F1_plot.set_ylabel("Ensemble Model")
+ensemble_train_validation_all_performance_F1_plot.grid(False)
+ensemble_train_validation_all_performance_F1_plot.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
+for container in ensemble_train_validation_all_performance_F1_plot.containers:
+    ensemble_train_validation_all_performance_F1_plot.bar_label(container, fmt='%.5f', padding=-50, color='white', fontweight='bold')
+
+```
+
+
+    
+![png](output_539_0.png)
+    
 
 
 
@@ -26887,35 +27083,35 @@ display(ensemble_train_validation_performance)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.931373</td>
+      <td>0.892157</td>
       <td>bagged_rf_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.861538</td>
+      <td>0.774648</td>
       <td>bagged_rf_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.918033</td>
+      <td>0.901639</td>
       <td>bagged_rf_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.888889</td>
+      <td>0.833333</td>
       <td>bagged_rf_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.927548</td>
+      <td>0.894876</td>
       <td>bagged_rf_optimal</td>
       <td>train</td>
     </tr>
@@ -26929,35 +27125,35 @@ display(ensemble_train_validation_performance)
     <tr>
       <th>215</th>
       <td>Accuracy</td>
-      <td>0.898551</td>
+      <td>0.927536</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>216</th>
       <td>Precision</td>
-      <td>0.809524</td>
+      <td>0.826087</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>217</th>
       <td>Recall</td>
-      <td>0.850000</td>
+      <td>0.950000</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>218</th>
       <td>F1</td>
-      <td>0.829268</td>
+      <td>0.883721</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>219</th>
       <td>AUROC</td>
-      <td>0.884184</td>
+      <td>0.934184</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>validation</td>
     </tr>
@@ -26988,8 +27184,8 @@ ensemble_train_validation_performance_F1_validation = ensemble_train_validation_
 # between the train and validation data
 ##################################
 ensemble_train_validation_performance_F1_plot = pd.DataFrame({'train': ensemble_train_validation_performance_F1_train.values,
-                                                                 'validation': ensemble_train_validation_performance_F1_validation.values},
-                                                                index=ensemble_train_validation_performance_F1['model'].unique())
+                                                              'validation': ensemble_train_validation_performance_F1_validation.values},
+                                                             index=ensemble_train_validation_performance_F1['model'].unique())
 ensemble_train_validation_performance_F1_plot
 
 ```
@@ -27022,63 +27218,63 @@ ensemble_train_validation_performance_F1_plot
   <tbody>
     <tr>
       <th>bagged_rf_optimal</th>
-      <td>0.888889</td>
-      <td>0.850000</td>
+      <td>0.833333</td>
+      <td>0.837209</td>
     </tr>
     <tr>
       <th>bagged_et_optimal</th>
-      <td>0.888889</td>
-      <td>0.850000</td>
+      <td>0.833333</td>
+      <td>0.837209</td>
     </tr>
     <tr>
       <th>bagged_bdt_optimal</th>
-      <td>0.888889</td>
-      <td>0.850000</td>
+      <td>0.846154</td>
+      <td>0.857143</td>
     </tr>
     <tr>
       <th>bagged_blr_optimal</th>
-      <td>0.890625</td>
-      <td>0.829268</td>
+      <td>0.833333</td>
+      <td>0.837209</td>
     </tr>
     <tr>
       <th>bagged_bsvm_optimal</th>
-      <td>0.906250</td>
-      <td>0.829268</td>
+      <td>0.852713</td>
+      <td>0.857143</td>
     </tr>
     <tr>
       <th>boosted_ab_optimal</th>
-      <td>0.888889</td>
-      <td>0.850000</td>
+      <td>0.843750</td>
+      <td>0.857143</td>
     </tr>
     <tr>
       <th>boosted_gb_optimal</th>
-      <td>0.888889</td>
-      <td>0.850000</td>
+      <td>0.910569</td>
+      <td>0.829268</td>
     </tr>
     <tr>
       <th>boosted_xgb_optimal</th>
-      <td>0.888889</td>
-      <td>0.850000</td>
+      <td>0.850394</td>
+      <td>0.857143</td>
     </tr>
     <tr>
       <th>boosted_lgbm_optimal</th>
-      <td>0.934426</td>
-      <td>0.800000</td>
-    </tr>
-    <tr>
-      <th>boosted_cb_optimal</th>
-      <td>0.888889</td>
+      <td>0.919355</td>
       <td>0.850000</td>
     </tr>
     <tr>
+      <th>boosted_cb_optimal</th>
+      <td>0.843750</td>
+      <td>0.857143</td>
+    </tr>
+    <tr>
       <th>stacked_metalearner_lr_optimal</th>
-      <td>0.906250</td>
-      <td>0.829268</td>
+      <td>0.852713</td>
+      <td>0.857143</td>
     </tr>
     <tr>
       <th>blended_metalearner_lr_optimal</th>
-      <td>0.897638</td>
-      <td>0.829268</td>
+      <td>0.848485</td>
+      <td>0.883721</td>
     </tr>
   </tbody>
 </table>
@@ -27107,7 +27303,7 @@ for container in ensemble_train_validation_performance_F1_plot.containers:
 
 
     
-![png](output_540_0.png)
+![png](output_543_0.png)
     
 
 
@@ -27172,78 +27368,70 @@ ensemble_train_validation_performance_all_plot_validation
   <tbody>
     <tr>
       <th>bagged_rf_optimal</th>
-      <td>0.913043</td>
-      <td>0.850000</td>
-      <td>0.85</td>
-      <td>0.850000</td>
-      <td>0.894388</td>
+      <td>0.898551</td>
+      <td>0.782609</td>
+      <td>0.90</td>
+      <td>0.837209</td>
+      <td>0.898980</td>
     </tr>
     <tr>
       <th>bagged_et_optimal</th>
-      <td>0.913043</td>
-      <td>0.850000</td>
-      <td>0.85</td>
-      <td>0.850000</td>
-      <td>0.894388</td>
+      <td>0.898551</td>
+      <td>0.782609</td>
+      <td>0.90</td>
+      <td>0.837209</td>
+      <td>0.898980</td>
     </tr>
     <tr>
       <th>bagged_bdt_optimal</th>
       <td>0.913043</td>
-      <td>0.850000</td>
-      <td>0.85</td>
-      <td>0.850000</td>
-      <td>0.894388</td>
+      <td>0.818182</td>
+      <td>0.90</td>
+      <td>0.857143</td>
+      <td>0.909184</td>
     </tr>
     <tr>
       <th>bagged_blr_optimal</th>
       <td>0.898551</td>
-      <td>0.809524</td>
-      <td>0.85</td>
-      <td>0.829268</td>
-      <td>0.884184</td>
+      <td>0.782609</td>
+      <td>0.90</td>
+      <td>0.837209</td>
+      <td>0.898980</td>
     </tr>
     <tr>
       <th>bagged_bsvm_optimal</th>
-      <td>0.898551</td>
-      <td>0.809524</td>
-      <td>0.85</td>
-      <td>0.829268</td>
-      <td>0.884184</td>
+      <td>0.913043</td>
+      <td>0.818182</td>
+      <td>0.90</td>
+      <td>0.857143</td>
+      <td>0.909184</td>
     </tr>
     <tr>
       <th>boosted_ab_optimal</th>
       <td>0.913043</td>
-      <td>0.850000</td>
-      <td>0.85</td>
-      <td>0.850000</td>
-      <td>0.894388</td>
+      <td>0.818182</td>
+      <td>0.90</td>
+      <td>0.857143</td>
+      <td>0.909184</td>
     </tr>
     <tr>
       <th>boosted_gb_optimal</th>
-      <td>0.913043</td>
-      <td>0.850000</td>
+      <td>0.898551</td>
+      <td>0.809524</td>
       <td>0.85</td>
-      <td>0.850000</td>
-      <td>0.894388</td>
+      <td>0.829268</td>
+      <td>0.884184</td>
     </tr>
     <tr>
       <th>boosted_xgb_optimal</th>
       <td>0.913043</td>
-      <td>0.850000</td>
-      <td>0.85</td>
-      <td>0.850000</td>
-      <td>0.894388</td>
+      <td>0.818182</td>
+      <td>0.90</td>
+      <td>0.857143</td>
+      <td>0.909184</td>
     </tr>
     <tr>
       <th>boosted_lgbm_optimal</th>
-      <td>0.884058</td>
-      <td>0.800000</td>
-      <td>0.80</td>
-      <td>0.800000</td>
-      <td>0.859184</td>
-    </tr>
-    <tr>
-      <th>boosted_cb_optimal</th>
       <td>0.913043</td>
       <td>0.850000</td>
       <td>0.85</td>
@@ -27251,20 +27439,28 @@ ensemble_train_validation_performance_all_plot_validation
       <td>0.894388</td>
     </tr>
     <tr>
+      <th>boosted_cb_optimal</th>
+      <td>0.913043</td>
+      <td>0.818182</td>
+      <td>0.90</td>
+      <td>0.857143</td>
+      <td>0.909184</td>
+    </tr>
+    <tr>
       <th>stacked_metalearner_lr_optimal</th>
-      <td>0.898551</td>
-      <td>0.809524</td>
-      <td>0.85</td>
-      <td>0.829268</td>
-      <td>0.884184</td>
+      <td>0.913043</td>
+      <td>0.818182</td>
+      <td>0.90</td>
+      <td>0.857143</td>
+      <td>0.909184</td>
     </tr>
     <tr>
       <th>blended_metalearner_lr_optimal</th>
-      <td>0.898551</td>
-      <td>0.809524</td>
-      <td>0.85</td>
-      <td>0.829268</td>
-      <td>0.884184</td>
+      <td>0.927536</td>
+      <td>0.826087</td>
+      <td>0.95</td>
+      <td>0.883721</td>
+      <td>0.934184</td>
     </tr>
   </tbody>
 </table>
@@ -27399,35 +27595,35 @@ display(ensemble_test_all_performance)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.846154</td>
+      <td>0.901099</td>
       <td>bagged_rf_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.709677</td>
+      <td>0.821429</td>
       <td>bagged_rf_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.814815</td>
+      <td>0.851852</td>
       <td>bagged_rf_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.758621</td>
+      <td>0.836364</td>
       <td>bagged_rf_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.837095</td>
+      <td>0.886863</td>
       <td>bagged_rf_optimal</td>
       <td>test</td>
     </tr>
@@ -27441,35 +27637,35 @@ display(ensemble_test_all_performance)
     <tr>
       <th>105</th>
       <td>Accuracy</td>
-      <td>0.835165</td>
+      <td>0.923077</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>106</th>
       <td>Precision</td>
-      <td>0.676471</td>
+      <td>0.833333</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>107</th>
       <td>Recall</td>
-      <td>0.851852</td>
+      <td>0.925926</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>108</th>
       <td>F1</td>
-      <td>0.754098</td>
+      <td>0.877193</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>109</th>
       <td>AUROC</td>
-      <td>0.839988</td>
+      <td>0.923900</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
@@ -27527,420 +27723,420 @@ display(ensemble_test_performance)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.846154</td>
+      <td>0.901099</td>
       <td>bagged_rf_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.709677</td>
+      <td>0.821429</td>
       <td>bagged_rf_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.814815</td>
+      <td>0.851852</td>
       <td>bagged_rf_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.758621</td>
+      <td>0.836364</td>
       <td>bagged_rf_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.837095</td>
+      <td>0.886863</td>
       <td>bagged_rf_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>5</th>
       <td>Accuracy</td>
-      <td>0.846154</td>
+      <td>0.912088</td>
       <td>bagged_et_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>6</th>
       <td>Precision</td>
-      <td>0.709677</td>
+      <td>0.851852</td>
       <td>bagged_et_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>7</th>
       <td>Recall</td>
-      <td>0.814815</td>
+      <td>0.851852</td>
       <td>bagged_et_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>8</th>
       <td>F1</td>
-      <td>0.758621</td>
+      <td>0.851852</td>
       <td>bagged_et_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>9</th>
       <td>AUROC</td>
-      <td>0.837095</td>
+      <td>0.894676</td>
       <td>bagged_et_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>10</th>
       <td>Accuracy</td>
-      <td>0.846154</td>
+      <td>0.912088</td>
       <td>bagged_bdt_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>11</th>
       <td>Precision</td>
-      <td>0.709677</td>
+      <td>0.851852</td>
       <td>bagged_bdt_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>12</th>
       <td>Recall</td>
-      <td>0.814815</td>
+      <td>0.851852</td>
       <td>bagged_bdt_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>13</th>
       <td>F1</td>
-      <td>0.758621</td>
+      <td>0.851852</td>
       <td>bagged_bdt_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>14</th>
       <td>AUROC</td>
-      <td>0.837095</td>
+      <td>0.894676</td>
       <td>bagged_bdt_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>15</th>
       <td>Accuracy</td>
-      <td>0.824176</td>
+      <td>0.901099</td>
       <td>bagged_blr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>16</th>
       <td>Precision</td>
-      <td>0.657143</td>
+      <td>0.800000</td>
       <td>bagged_blr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>17</th>
       <td>Recall</td>
-      <td>0.851852</td>
+      <td>0.888889</td>
       <td>bagged_blr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>18</th>
       <td>F1</td>
-      <td>0.741935</td>
+      <td>0.842105</td>
       <td>bagged_blr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>19</th>
       <td>AUROC</td>
-      <td>0.832176</td>
+      <td>0.897569</td>
       <td>bagged_blr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>20</th>
       <td>Accuracy</td>
-      <td>0.824176</td>
+      <td>0.912088</td>
       <td>bagged_bsvm_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>21</th>
       <td>Precision</td>
-      <td>0.657143</td>
+      <td>0.827586</td>
       <td>bagged_bsvm_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>22</th>
       <td>Recall</td>
-      <td>0.851852</td>
+      <td>0.888889</td>
       <td>bagged_bsvm_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>23</th>
       <td>F1</td>
-      <td>0.741935</td>
+      <td>0.857143</td>
       <td>bagged_bsvm_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>24</th>
       <td>AUROC</td>
-      <td>0.832176</td>
+      <td>0.905382</td>
       <td>bagged_bsvm_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>25</th>
       <td>Accuracy</td>
-      <td>0.846154</td>
+      <td>0.912088</td>
       <td>boosted_ab_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>26</th>
       <td>Precision</td>
-      <td>0.709677</td>
+      <td>0.851852</td>
       <td>boosted_ab_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>27</th>
       <td>Recall</td>
-      <td>0.814815</td>
+      <td>0.851852</td>
       <td>boosted_ab_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>28</th>
       <td>F1</td>
-      <td>0.758621</td>
+      <td>0.851852</td>
       <td>boosted_ab_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>29</th>
       <td>AUROC</td>
-      <td>0.837095</td>
+      <td>0.894676</td>
       <td>boosted_ab_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>30</th>
       <td>Accuracy</td>
-      <td>0.846154</td>
+      <td>0.923077</td>
       <td>boosted_gb_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>31</th>
       <td>Precision</td>
-      <td>0.709677</td>
+      <td>0.884615</td>
       <td>boosted_gb_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>32</th>
       <td>Recall</td>
-      <td>0.814815</td>
+      <td>0.851852</td>
       <td>boosted_gb_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>33</th>
       <td>F1</td>
-      <td>0.758621</td>
+      <td>0.867925</td>
       <td>boosted_gb_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>34</th>
       <td>AUROC</td>
-      <td>0.837095</td>
+      <td>0.902488</td>
       <td>boosted_gb_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>35</th>
       <td>Accuracy</td>
-      <td>0.857143</td>
+      <td>0.901099</td>
       <td>boosted_xgb_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>36</th>
       <td>Precision</td>
-      <td>0.718750</td>
+      <td>0.846154</td>
       <td>boosted_xgb_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>37</th>
       <td>Recall</td>
-      <td>0.851852</td>
+      <td>0.814815</td>
       <td>boosted_xgb_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>38</th>
       <td>F1</td>
-      <td>0.779661</td>
+      <td>0.830189</td>
       <td>boosted_xgb_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>39</th>
       <td>AUROC</td>
-      <td>0.855613</td>
+      <td>0.876157</td>
       <td>boosted_xgb_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>40</th>
       <td>Accuracy</td>
-      <td>0.835165</td>
+      <td>0.901099</td>
       <td>boosted_lgbm_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>41</th>
       <td>Precision</td>
-      <td>0.687500</td>
+      <td>0.875000</td>
       <td>boosted_lgbm_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>42</th>
       <td>Recall</td>
-      <td>0.814815</td>
+      <td>0.777778</td>
       <td>boosted_lgbm_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>43</th>
       <td>F1</td>
-      <td>0.745763</td>
+      <td>0.823529</td>
       <td>boosted_lgbm_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>44</th>
       <td>AUROC</td>
-      <td>0.829282</td>
+      <td>0.865451</td>
       <td>boosted_lgbm_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>45</th>
       <td>Accuracy</td>
-      <td>0.846154</td>
+      <td>0.912088</td>
       <td>boosted_cb_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>46</th>
       <td>Precision</td>
-      <td>0.709677</td>
+      <td>0.851852</td>
       <td>boosted_cb_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>47</th>
       <td>Recall</td>
-      <td>0.814815</td>
+      <td>0.851852</td>
       <td>boosted_cb_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>48</th>
       <td>F1</td>
-      <td>0.758621</td>
+      <td>0.851852</td>
       <td>boosted_cb_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>49</th>
       <td>AUROC</td>
-      <td>0.837095</td>
+      <td>0.894676</td>
       <td>boosted_cb_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>75</th>
       <td>Accuracy</td>
-      <td>0.835165</td>
+      <td>0.923077</td>
       <td>stacked_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>76</th>
       <td>Precision</td>
-      <td>0.676471</td>
+      <td>0.857143</td>
       <td>stacked_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>77</th>
       <td>Recall</td>
-      <td>0.851852</td>
+      <td>0.888889</td>
       <td>stacked_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>78</th>
       <td>F1</td>
-      <td>0.754098</td>
+      <td>0.872727</td>
       <td>stacked_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>79</th>
       <td>AUROC</td>
-      <td>0.839988</td>
+      <td>0.913194</td>
       <td>stacked_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>105</th>
       <td>Accuracy</td>
-      <td>0.835165</td>
+      <td>0.923077</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>106</th>
       <td>Precision</td>
-      <td>0.676471</td>
+      <td>0.833333</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>107</th>
       <td>Recall</td>
-      <td>0.851852</td>
+      <td>0.925926</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>108</th>
       <td>F1</td>
-      <td>0.754098</td>
+      <td>0.877193</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>109</th>
       <td>AUROC</td>
-      <td>0.839988</td>
+      <td>0.923900</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
@@ -28010,99 +28206,99 @@ ensemble_test_performance_all_plot_test
   <tbody>
     <tr>
       <th>bagged_rf_optimal</th>
-      <td>0.846154</td>
-      <td>0.709677</td>
-      <td>0.814815</td>
-      <td>0.758621</td>
-      <td>0.837095</td>
+      <td>0.901099</td>
+      <td>0.821429</td>
+      <td>0.851852</td>
+      <td>0.836364</td>
+      <td>0.886863</td>
     </tr>
     <tr>
       <th>bagged_et_optimal</th>
-      <td>0.846154</td>
-      <td>0.709677</td>
-      <td>0.814815</td>
-      <td>0.758621</td>
-      <td>0.837095</td>
+      <td>0.912088</td>
+      <td>0.851852</td>
+      <td>0.851852</td>
+      <td>0.851852</td>
+      <td>0.894676</td>
     </tr>
     <tr>
       <th>bagged_bdt_optimal</th>
-      <td>0.846154</td>
-      <td>0.709677</td>
-      <td>0.814815</td>
-      <td>0.758621</td>
-      <td>0.837095</td>
+      <td>0.912088</td>
+      <td>0.851852</td>
+      <td>0.851852</td>
+      <td>0.851852</td>
+      <td>0.894676</td>
     </tr>
     <tr>
       <th>bagged_blr_optimal</th>
-      <td>0.824176</td>
-      <td>0.657143</td>
-      <td>0.851852</td>
-      <td>0.741935</td>
-      <td>0.832176</td>
+      <td>0.901099</td>
+      <td>0.800000</td>
+      <td>0.888889</td>
+      <td>0.842105</td>
+      <td>0.897569</td>
     </tr>
     <tr>
       <th>bagged_bsvm_optimal</th>
-      <td>0.824176</td>
-      <td>0.657143</td>
-      <td>0.851852</td>
-      <td>0.741935</td>
-      <td>0.832176</td>
+      <td>0.912088</td>
+      <td>0.827586</td>
+      <td>0.888889</td>
+      <td>0.857143</td>
+      <td>0.905382</td>
     </tr>
     <tr>
       <th>boosted_ab_optimal</th>
-      <td>0.846154</td>
-      <td>0.709677</td>
-      <td>0.814815</td>
-      <td>0.758621</td>
-      <td>0.837095</td>
+      <td>0.912088</td>
+      <td>0.851852</td>
+      <td>0.851852</td>
+      <td>0.851852</td>
+      <td>0.894676</td>
     </tr>
     <tr>
       <th>boosted_gb_optimal</th>
-      <td>0.846154</td>
-      <td>0.709677</td>
-      <td>0.814815</td>
-      <td>0.758621</td>
-      <td>0.837095</td>
+      <td>0.923077</td>
+      <td>0.884615</td>
+      <td>0.851852</td>
+      <td>0.867925</td>
+      <td>0.902488</td>
     </tr>
     <tr>
       <th>boosted_xgb_optimal</th>
-      <td>0.857143</td>
-      <td>0.718750</td>
-      <td>0.851852</td>
-      <td>0.779661</td>
-      <td>0.855613</td>
+      <td>0.901099</td>
+      <td>0.846154</td>
+      <td>0.814815</td>
+      <td>0.830189</td>
+      <td>0.876157</td>
     </tr>
     <tr>
       <th>boosted_lgbm_optimal</th>
-      <td>0.835165</td>
-      <td>0.687500</td>
-      <td>0.814815</td>
-      <td>0.745763</td>
-      <td>0.829282</td>
+      <td>0.901099</td>
+      <td>0.875000</td>
+      <td>0.777778</td>
+      <td>0.823529</td>
+      <td>0.865451</td>
     </tr>
     <tr>
       <th>boosted_cb_optimal</th>
-      <td>0.846154</td>
-      <td>0.709677</td>
-      <td>0.814815</td>
-      <td>0.758621</td>
-      <td>0.837095</td>
+      <td>0.912088</td>
+      <td>0.851852</td>
+      <td>0.851852</td>
+      <td>0.851852</td>
+      <td>0.894676</td>
     </tr>
     <tr>
       <th>stacked_metalearner_lr_optimal</th>
-      <td>0.835165</td>
-      <td>0.676471</td>
-      <td>0.851852</td>
-      <td>0.754098</td>
-      <td>0.839988</td>
+      <td>0.923077</td>
+      <td>0.857143</td>
+      <td>0.888889</td>
+      <td>0.872727</td>
+      <td>0.913194</td>
     </tr>
     <tr>
       <th>blended_metalearner_lr_optimal</th>
-      <td>0.835165</td>
-      <td>0.676471</td>
-      <td>0.851852</td>
-      <td>0.754098</td>
-      <td>0.839988</td>
+      <td>0.923077</td>
+      <td>0.833333</td>
+      <td>0.925926</td>
+      <td>0.877193</td>
+      <td>0.923900</td>
     </tr>
   </tbody>
 </table>
@@ -28180,75 +28376,75 @@ ensemble_overall_performance_F1_plot
   <tbody>
     <tr>
       <th>bagged_rf_optimal</th>
-      <td>0.888889</td>
-      <td>0.850000</td>
-      <td>0.758621</td>
+      <td>0.833333</td>
+      <td>0.837209</td>
+      <td>0.836364</td>
     </tr>
     <tr>
       <th>bagged_et_optimal</th>
-      <td>0.888889</td>
-      <td>0.850000</td>
-      <td>0.758621</td>
+      <td>0.833333</td>
+      <td>0.837209</td>
+      <td>0.851852</td>
     </tr>
     <tr>
       <th>bagged_bdt_optimal</th>
-      <td>0.888889</td>
-      <td>0.850000</td>
-      <td>0.758621</td>
+      <td>0.846154</td>
+      <td>0.857143</td>
+      <td>0.851852</td>
     </tr>
     <tr>
       <th>bagged_blr_optimal</th>
-      <td>0.890625</td>
-      <td>0.829268</td>
-      <td>0.741935</td>
+      <td>0.833333</td>
+      <td>0.837209</td>
+      <td>0.842105</td>
     </tr>
     <tr>
       <th>bagged_bsvm_optimal</th>
-      <td>0.906250</td>
-      <td>0.829268</td>
-      <td>0.741935</td>
+      <td>0.852713</td>
+      <td>0.857143</td>
+      <td>0.857143</td>
     </tr>
     <tr>
       <th>boosted_ab_optimal</th>
-      <td>0.888889</td>
-      <td>0.850000</td>
-      <td>0.758621</td>
+      <td>0.843750</td>
+      <td>0.857143</td>
+      <td>0.851852</td>
     </tr>
     <tr>
       <th>boosted_gb_optimal</th>
-      <td>0.888889</td>
-      <td>0.850000</td>
-      <td>0.758621</td>
+      <td>0.910569</td>
+      <td>0.829268</td>
+      <td>0.867925</td>
     </tr>
     <tr>
       <th>boosted_xgb_optimal</th>
-      <td>0.888889</td>
-      <td>0.850000</td>
-      <td>0.779661</td>
+      <td>0.850394</td>
+      <td>0.857143</td>
+      <td>0.830189</td>
     </tr>
     <tr>
       <th>boosted_lgbm_optimal</th>
-      <td>0.934426</td>
-      <td>0.800000</td>
-      <td>0.745763</td>
+      <td>0.919355</td>
+      <td>0.850000</td>
+      <td>0.823529</td>
     </tr>
     <tr>
       <th>boosted_cb_optimal</th>
-      <td>0.888889</td>
-      <td>0.850000</td>
-      <td>0.758621</td>
+      <td>0.843750</td>
+      <td>0.857143</td>
+      <td>0.851852</td>
     </tr>
     <tr>
       <th>stacked_metalearner_lr_optimal</th>
-      <td>0.906250</td>
-      <td>0.829268</td>
-      <td>0.754098</td>
+      <td>0.852713</td>
+      <td>0.857143</td>
+      <td>0.872727</td>
     </tr>
     <tr>
       <th>blended_metalearner_lr_optimal</th>
-      <td>0.897638</td>
-      <td>0.829268</td>
-      <td>0.754098</td>
+      <td>0.848485</td>
+      <td>0.883721</td>
+      <td>0.877193</td>
     </tr>
   </tbody>
 </table>
@@ -28277,7 +28473,175 @@ for container in ensemble_overall_performance_F1_plot.containers:
 
 
     
-![png](output_553_0.png)
+![png](output_556_0.png)
+    
+
+
+
+```python
+##################################
+# Computing the permutation importance
+# for the final model determined as the blended model
+# with a Logistic Regression meta learner comprised of the 
+# KNN, SVM, Ridge Classifier, Neural Network and Decision Tree base learners
+##################################
+base_learner_names = ['KNN', 'SVM', 'Ridge Classifier', 'Neural Network', 'Decision Tree']
+perm_importance = permutation_importance(
+    blended_metalearner_lr_optimal,  # Meta Learner
+    meta_validation_blended,         # Meta Features (Base Learner Predictions)
+    y_preprocessed_validation_encoded,       # True Labels
+    n_repeats=10, 
+    random_state=42
+)
+
+# Obtaining the sorted indices in descending order
+sorted_idx = perm_importance.importances_mean.argsort()[::-1]
+
+# Plotting the feature importance
+plt.figure(figsize=(17, 5))
+plt.bar(range(len(perm_importance.importances_mean)), perm_importance.importances_mean[sorted_idx], align='center')
+plt.xticks(range(len(perm_importance.importances_mean)), np.array(base_learner_names)[sorted_idx], rotation=90)
+plt.xlabel("Base Learner")
+plt.ylabel("Permutation Importance Score")
+plt.title("Permutation Importance: Blended Model (Meta Learner: Logistic Regression, Base Learners: KNN, SVM, Ridge Classifier, Neural Network, Decision Tree")
+plt.show()
+
+```
+
+
+    
+![png](output_557_0.png)
+    
+
+
+
+```python
+##################################
+# Creating a function to compute the permutation importance
+# for the KNN, SVM, Ridge Classifier, Neural Network and Decision Tree base learners
+##################################
+feature_names = ['Gender','Smoking','Physical_Examination','Adenopathy','Focality','Risk','T','Stage','Response','Age']
+def compute_permutation_importance(model, X_evaluation, y_evaluation, model_name="Model", feature_names=feature_names, n_repeats=10, random_state=42):
+    # Computing permutation importance
+    perm_importance = permutation_importance(model, X_evaluation, y_evaluation, n_repeats=n_repeats, random_state=random_state)
+
+    # Getting the sorted indices (descending order)
+    sorted_idx = perm_importance.importances_mean.argsort()[::-1]
+
+    # Using feature names if provided, else using column indices
+    if feature_names is None:
+        feature_names = [f"Feature {i}" for i in range(X_evaluation.shape[1])]
+
+    # Plotting feature importance
+    plt.figure(figsize=(17, 5))
+    plt.bar(range(len(perm_importance.importances_mean)), perm_importance.importances_mean[sorted_idx], align='center')
+    plt.xticks(range(len(perm_importance.importances_mean)), np.array(feature_names)[sorted_idx], rotation=90)
+    plt.xlabel("Feature")
+    plt.ylabel("Permutation Importance Score")
+    plt.title(f"Feature Importance (Permutation): {model_name}")
+    plt.show()
+
+    return perm_importance
+
+```
+
+
+```python
+##################################
+# Computing the permutation importance
+# for the Ridge Classifier base learner
+##################################
+perm_importance_blended_baselearner_rc_optimal = compute_permutation_importance(blended_baselearner_rc_optimal, 
+                                                                                X_preprocessed_train, 
+                                                                                y_preprocessed_train_encoded, 
+                                                                                "Optimal Blended Base Learner Ridge Classifier",
+                                                                                feature_names=feature_names)
+
+```
+
+
+    
+![png](output_559_0.png)
+    
+
+
+
+```python
+##################################
+# Computing the permutation importance
+# for the Ridge Classifier base learner
+##################################
+perm_importance_blended_baselearner_svm_optimal = compute_permutation_importance(blended_baselearner_svm_optimal, 
+                                                                                 X_preprocessed_train, 
+                                                                                 y_preprocessed_train_encoded, 
+                                                                                 "Optimal Blended Base Learner SVM",
+                                                                                 feature_names=feature_names)
+
+```
+
+
+    
+![png](output_560_0.png)
+    
+
+
+
+```python
+##################################
+# Computing the permutation importance
+# for the Decision Tree base learner
+##################################
+perm_importance_blended_baselearner_dt_optimal = compute_permutation_importance(blended_baselearner_dt_optimal, 
+                                                                                X_preprocessed_train, 
+                                                                                y_preprocessed_train_encoded, 
+                                                                                "Optimal Blended Base Learner Decision Tree",
+                                                                                feature_names=feature_names)
+
+```
+
+
+    
+![png](output_561_0.png)
+    
+
+
+
+```python
+##################################
+# Computing the permutation importance
+# for the Neural Network base learner
+##################################
+perm_importance_blended_baselearner_nn_optimal = compute_permutation_importance(blended_baselearner_nn_optimal, 
+                                                                                X_preprocessed_train, 
+                                                                                y_preprocessed_train_encoded, 
+                                                                                "Optimal Blended Base Learner Neural Network",
+                                                                                feature_names=feature_names)
+
+```
+
+
+    
+![png](output_562_0.png)
+    
+
+
+
+```python
+##################################
+# Computing the permutation importance
+# for the KNN base learner
+##################################
+perm_importance_blended_baselearner_knn_optimal = compute_permutation_importance(blended_baselearner_knn_optimal, 
+                                                                                 X_preprocessed_train, 
+                                                                                 y_preprocessed_train_encoded, 
+                                                                                 "Optimal Blended Base Learner KNN",
+                                                                                 feature_names=feature_names)
+
+```
+
+
+    
+![png](output_563_0.png)
     
 
 
