@@ -3912,66 +3912,66 @@ y_test.to_csv(os.path.join("..", DATASETS_FINAL_TEST_TARGET_PATH, "y_test.csv"),
 1. No distributional anomalies were obseerved for the numeric predictor <span style="color: #FF0000">Age</span>.
 2. 9 categorical predictors were observed with categories consisting of too few cases that risk poor generalization and cross-validation issues:
     * <span style="color: #FF0000">Thyroid_Function</span>: 
-        * **176** <span style="color: #FF0000">Thyroid_Function=Euthyroid</span>: 86.27%
-        * **8** <span style="color: #FF0000">Thyroid_Function=Subclinical Hypothyroidism</span>: 3.92%
+        * **171** <span style="color: #FF0000">Thyroid_Function=Euthyroid</span>: 83.82%
+        * **10** <span style="color: #FF0000">Thyroid_Function=Subclinical Hypothyroidism</span>: 4.90%
         * **3** <span style="color: #FF0000">Thyroid_Function=Subclinical Hyperthyroidism</span>: 1.47%
-        * **6** <span style="color: #FF0000">Thyroid_Function=Clinical Hypothyroidism</span>: 2.94%
-        * **11** <span style="color: #FF0000">Thyroid_Function=Clinical Hyperthyroidism</span>: 5.39%
+        * **7** <span style="color: #FF0000">Thyroid_Function=Clinical Hypothyroidism</span>: 3.43%
+        * **13** <span style="color: #FF0000">Thyroid_Function=Clinical Hyperthyroidism</span>: 6.37%
     * <span style="color: #FF0000">Physical_Examination</span>:
-        * **5** <span style="color: #FF0000">Physical_Examination=Normal</span>: 2.45%
-        * **47** <span style="color: #FF0000">Physical_Examination=Single nodular goiter-left</span>: 23.04%
-        * **69** <span style="color: #FF0000">Physical_Examination=Single nodular goiter-right</span>: 33.82%
-        * **78** <span style="color: #FF0000">Physical_Examination=Multinodular goiter</span>: 38.24%
-        * **5** <span style="color: #FF0000">Physical_Examination=Diffuse goiter</span>: 2.45%
+        * **4** <span style="color: #FF0000">Physical_Examination=Normal</span>: 1.96%
+        * **50** <span style="color: #FF0000">Physical_Examination=Single nodular goiter-left</span>: 24.50%
+        * **68** <span style="color: #FF0000">Physical_Examination=Single nodular goiter-right</span>: 33.33%
+        * **79** <span style="color: #FF0000">Physical_Examination=Multinodular goiter</span>: 38.72%
+        * **3** <span style="color: #FF0000">Physical_Examination=Diffuse goiter</span>: 1.47%
     * <span style="color: #FF0000">Adenopathy</span>:
-        * **143** <span style="color: #FF0000">Adenopathy=No</span>: 70.09%
-        * **8** <span style="color: #FF0000">Adenopathy=Left</span>: 3.92%
-        * **26** <span style="color: #FF0000">Adenopathy=Right</span>: 12.75%
-        * **1** <span style="color: #FF0000">Adenopathy=Posterior</span>: 0.49%
-        * **22** <span style="color: #FF0000">Adenopathy=Bilateral</span>: 10.78%
+        * **144** <span style="color: #FF0000">Adenopathy=No</span>: 70.59%
+        * **14** <span style="color: #FF0000">Adenopathy=Left</span>: 6.86%
+        * **21** <span style="color: #FF0000">Adenopathy=Right</span>: 10.29%
+        * **19** <span style="color: #FF0000">Adenopathy=Bilateral</span>: 9.31%
+        * **2** <span style="color: #FF0000">Adenopathy=Posterior</span>: 9.84%
         * **4** <span style="color: #FF0000">Adenopathy=Extensive</span>: 1.96%
     * <span style="color: #FF0000">Pathology</span>:
-        * **11** <span style="color: #FF0000">Pathology=Hurthle Cell</span>: 5.39%
+        * **15** <span style="color: #FF0000">Pathology=Hurthle Cell</span>: 7.35%
         * **14** <span style="color: #FF0000">Pathology=Follicular</span>: 6.86%
-        * **28** <span style="color: #FF0000">Pathology=Micropapillary</span>: 13.73%
-        * **151** <span style="color: #FF0000">Pathology=Papillary</span>: 74.02%
+        * **26** <span style="color: #FF0000">Pathology=Micropapillary</span>: 12.74%
+        * **149** <span style="color: #FF0000">Pathology=Papillary</span>: 73.03%
     * <span style="color: #FF0000">Risk</span>:
-        * **131** <span style="color: #FF0000">Risk=Low</span>: 64.22%
-        * **55** <span style="color: #FF0000">Risk=Intermediate</span>: 26.96%
-        * **18** <span style="color: #FF0000">Risk=High</span>: 8.82%
+        * **127** <span style="color: #FF0000">Risk=Low</span>: 62.25%
+        * **60** <span style="color: #FF0000">Risk=Intermediate</span>: 29.41%
+        * **17** <span style="color: #FF0000">Risk=High</span>: 8.33%
     * <span style="color: #FF0000">T</span>:
-        * **27** <span style="color: #FF0000">T=T1a</span>: 13.23%
-        * **20** <span style="color: #FF0000">T=T1b</span>: 9.80%
-        * **79** <span style="color: #FF0000">T=T2</span>: 38.72%
-        * **55** <span style="color: #FF0000">T=T3a</span>: 26.96%
-        * **6** <span style="color: #FF0000">T=T3b</span>: 2.94%
-        * **11** <span style="color: #FF0000">T=T4a</span>: 5.39%
-        * **6** <span style="color: #FF0000">T=T4b</span>: 2.94%
+        * **26** <span style="color: #FF0000">T=T1a</span>: 12.74%
+        * **21** <span style="color: #FF0000">T=T1b</span>: 10.29%
+        * **73** <span style="color: #FF0000">T=T2</span>: 35.78%
+        * **58** <span style="color: #FF0000">T=T3a</span>: 28.43%
+        * **10** <span style="color: #FF0000">T=T3b</span>: 4.90%
+        * **12** <span style="color: #FF0000">T=T4a</span>: 5.88%
+        * **4** <span style="color: #FF0000">T=T4b</span>: 1.96%
     * <span style="color: #FF0000">N</span>:
-        * **140** <span style="color: #FF0000">N=N0</span>: 68.63%
-        * **13** <span style="color: #FF0000">N=N1a</span>: 6.37%
-        * **51** <span style="color: #FF0000">N=N1b</span>: 25.00%
+        * **139** <span style="color: #FF0000">N=N0</span>: 68.13%
+        * **11** <span style="color: #FF0000">N=N1a</span>: 5.39%
+        * **54** <span style="color: #FF0000">N=N1b</span>: 26.47%
     * <span style="color: #FF0000">Stage</span>:
-        * **178** <span style="color: #FF0000">Stage=I</span>: 87.25%
-        * **16** <span style="color: #FF0000">Stage=II</span>: 7.84%
-        * **1** <span style="color: #FF0000">Stage=III</span>: 0.49%
-        * **3** <span style="color: #FF0000">Stage=IVA</span>: 1.47%
-        * **6** <span style="color: #FF0000">Stage=IVB</span>: 2.94%
+        * **174** <span style="color: #FF0000">Stage=I</span>: 85.29%
+        * **21** <span style="color: #FF0000">Stage=II</span>: 10.29%
+        * **2** <span style="color: #FF0000">Stage=III</span>: 0.98%
+        * **2** <span style="color: #FF0000">Stage=IVA</span>: 0.98%
+        * **5** <span style="color: #FF0000">Stage=IVB</span>: 2.45%
     * <span style="color: #FF0000">Response</span>:
-        * **107** <span style="color: #FF0000">Response=Excellent</span>: 52.45%
-        * **54** <span style="color: #FF0000">Response=Structural Incomplete</span>: 26.47%
-        * **17** <span style="color: #FF0000">Response=Biochemical Incomplete</span>: 8.33%
-        * **26** <span style="color: #FF0000">Response=Indeterminate</span>: 12.75%
+        * **109** <span style="color: #FF0000">Response=Excellent</span>: 53.43%
+        * **53** <span style="color: #FF0000">Response=Structural Incomplete</span>: 25.98%
+        * **8** <span style="color: #FF0000">Response=Biochemical Incomplete</span>: 3.92%
+        * **34** <span style="color: #FF0000">Response=Indeterminate</span>: 16.67%
 3. 3 categorical predictors were excluded from the dataset after having been observed with extremely low variance containing categories with very few or almost no variations across observations that may have limited predictive power or drive increased model complexity without performance gains:
     * <span style="color: #FF0000">Hx_Smoking</span>: 
-        * **189** <span style="color: #FF0000">Hx_Smoking=No</span>: 92.65%
-        * **15** <span style="color: #FF0000">Hx_Smoking=Yes</span>: 7.35%
+        * **193** <span style="color: #FF0000">Hx_Smoking=No</span>: 94.61%
+        * **11** <span style="color: #FF0000">Hx_Smoking=Yes</span>: 5.39%
     * <span style="color: #FF0000">Hx_Radiotherapy</span>: 
-        * **199** <span style="color: #FF0000">Hx_Radiotherapy=No</span>: 97.55%
-        * **15** <span style="color: #FF0000">Hx_Radiotherapy=Yes</span>: 2.45%
+        * **202** <span style="color: #FF0000">Hx_Radiotherapy=No</span>: 99.02%
+        * **2** <span style="color: #FF0000">Hx_Radiotherapy=Yes</span>: 0.98%
     * <span style="color: #FF0000">M</span>: 
-        * **192** <span style="color: #FF0000">M=M0</span>: 94.12%
-        * **12** <span style="color: #FF0000">M=M1</span>: 5.88%
+        * **194** <span style="color: #FF0000">M=M0</span>: 95.10%
+        * **10** <span style="color: #FF0000">M=M1</span>: 4.90%
 
 
 
@@ -4482,32 +4482,32 @@ thyroid_cancer_train_column_filtered.head()
 
 1. Category aggregation was applied to the previously identified categorical predictors observed with many levels (high-cardinality) containing only a few observations to improve model stability during cross-validation and enhance generalization:
     * <span style="color: #FF0000">Thyroid_Function</span>: 
-        * **176** <span style="color: #FF0000">Thyroid_Function=Euthyroid</span>: 86.27%
-        * **28** <span style="color: #FF0000">Thyroid_Function=Hypothyroidism or Hyperthyroidism</span>: 13.73%
+        * **171** <span style="color: #FF0000">Thyroid_Function=Euthyroid</span>: 83.82%
+        * **33** <span style="color: #FF0000">Thyroid_Function=Hypothyroidism or Hyperthyroidism</span>: 16.18%
     * <span style="color: #FF0000">Physical_Examination</span>:
-        * **121** <span style="color: #FF0000">Physical_Examination=Normal or Single Nodular Goiter </span>: 59.31%
-        * **83** <span style="color: #FF0000">Physical_Examination=Multinodular or Diffuse Goiter</span>: 40.69%
+        * **122** <span style="color: #FF0000">Physical_Examination=Normal or Single Nodular Goiter </span>: 59.80%
+        * **82** <span style="color: #FF0000">Physical_Examination=Multinodular or Diffuse Goiter</span>: 40.20%
     * <span style="color: #FF0000">Adenopathy</span>:
-        * **143** <span style="color: #FF0000">Adenopathy=No</span>: 70.09%
-        * **61** <span style="color: #FF0000">Adenopathy=Yes</span>: 29.90%
+        * **144** <span style="color: #FF0000">Adenopathy=No</span>: 70.59%
+        * **60** <span style="color: #FF0000">Adenopathy=Yes</span>: 29.41%
     * <span style="color: #FF0000">Pathology</span>:
-        * **25** <span style="color: #FF0000">Pathology=Non-Papillary </span>: 12.25%
-        * **179** <span style="color: #FF0000">Pathology=Papillary</span>: 87.74%
+        * **29** <span style="color: #FF0000">Pathology=Non-Papillary </span>: 14.22%
+        * **175** <span style="color: #FF0000">Pathology=Papillary</span>: 85.78%
     * <span style="color: #FF0000">Risk</span>:
-        * **131** <span style="color: #FF0000">Risk=Low</span>: 64.22%
-        * **73** <span style="color: #FF0000">Risk=Intermediate to High</span>: 35.78%
+        * **127** <span style="color: #FF0000">Risk=Low</span>: 62.25%
+        * **77** <span style="color: #FF0000">Risk=Intermediate to High</span>: 37.75%
     * <span style="color: #FF0000">T</span>:
-        * **126** <span style="color: #FF0000">T=T1 to T2</span>: 61.76%
-        * **78** <span style="color: #FF0000">T=T3 to T4b</span>: 38.23%
+        * **120** <span style="color: #FF0000">T=T1 to T2</span>: 58.82%
+        * **84** <span style="color: #FF0000">T=T3 to T4b</span>: 41.18%
     * <span style="color: #FF0000">N</span>:
-        * **140** <span style="color: #FF0000">N=N0</span>: 68.63%
-        * **65** <span style="color: #FF0000">N=N1</span>: 31.37%
+        * **139** <span style="color: #FF0000">N=N0</span>: 68.14%
+        * **65** <span style="color: #FF0000">N=N1</span>: 31.86%
     * <span style="color: #FF0000">Stage</span>:
-        * **178** <span style="color: #FF0000">Stage=I</span>: 87.25%
-        * **26** <span style="color: #FF0000">Stage=II to IVB</span>: 12.75%
+        * **174** <span style="color: #FF0000">Stage=I</span>: 85.29%
+        * **30** <span style="color: #FF0000">Stage=II to IVB</span>: 14.71%
     * <span style="color: #FF0000">Response</span>:
-        * **107** <span style="color: #FF0000">Response=Excellent</span>: 52.45%
-        * **97** <span style="color: #FF0000">Response=Indeterminate or Incomplete</span>: 47.55%
+        * **109** <span style="color: #FF0000">Response=Excellent</span>: 53.43%
+        * **95** <span style="color: #FF0000">Response=Indeterminate or Incomplete</span>: 46.57%
 
 
 
@@ -4900,7 +4900,7 @@ plt.show()
 ### 1.4.4 Outlier and Distributional Shape Analysis <a class="anchor" id="1.4.4"></a>
 
 1. No outliers (Outlier.Count>0, Outlier.Ratio>0.000), high skewness (Skewness>3 or Skewness<(-3)) or abnormal kurtosis (Skewness>2 or Skewness<(-2)) observed for the numeric predictor.
-    * <span style="color: #FF0000">Age</span>: Outlier.Count = 0, Outlier.Ratio = 0.000, Skewness = 0.592, Kurtosis = -0.461
+    * <span style="color: #FF0000">Age</span>: Outlier.Count = 0, Outlier.Ratio = 0.000, Skewness = 0.525, Kurtosis = -0.494
 
 
 
@@ -5081,9 +5081,9 @@ for column in thyroid_cancer_train_column_filtered_numeric:
 
 1. Majority of the predictors reported low (<0.50) to moderate (0.50 to 0.75) correlation.
 2. Among pairwise combinations of categorical predictors, high Phi.Coefficient values were noted for:
-    * <span style="color: #FF0000">N</span> and <span style="color: #FF0000">Adenopathy</span>: Phi.Coefficient = +0.827
-    * <span style="color: #FF0000">N</span> and <span style="color: #FF0000">Risk</span>: Phi.Coefficient = +0.751
-    * <span style="color: #FF0000">Adenopathy</span> and <span style="color: #FF0000">Risk</span>: Phi.Coefficient = +0.696
+    * <span style="color: #FF0000">N</span> and <span style="color: #FF0000">Adenopathy</span>: Phi.Coefficient = +0.805
+    * <span style="color: #FF0000">N</span> and <span style="color: #FF0000">Risk</span>: Phi.Coefficient = +0.726
+    * <span style="color: #FF0000">Adenopathy</span> and <span style="color: #FF0000">Risk</span>: Phi.Coefficient = +0.674
    
 
 
@@ -5683,7 +5683,7 @@ plt.show()
 ### 1.5.1 Exploratory Data Analysis <a class="anchor" id="1.5.1"></a>
 
 1. Bivariate analysis identified individual predictors with generally positive association to the target variable based on visual inspection.
-2. Higher values or higher proportions for the following predictors are associated with the <span style="color: #FF0000">Recurred=Yes</span>category: 
+2. Higher values or higher proportions for the following predictors are associated with the <span style="color: #FF0000">Recurred=Yes</span> category: 
     * <span style="color: #FF0000">Age</span>
     * <span style="color: #FF0000">Gender=M</span>    
     * <span style="color: #FF0000">Smoking=Yes</span>    
@@ -5827,17 +5827,19 @@ plt.show()
 3. The relationship between the categorical predictors to the <span style="color: #FF0000">Recurred</span> target variable was statistically evaluated using the following hypotheses:
     * **Null**: The categorical predictor is independent of the categorical target variable 
     * **Alternative**: The categorical predictor is dependent of the categorical target variable    
-4. There is sufficient evidence to conclude of a statistically significant relationship between the categories of the categorical predictors and the Yes and No groups of the <span style="color: #FF0000">Recurred</span> target variable in 10 of 12 categorical predictors given their high chisquare statistic values with reported low p-values less than the significance level of 0.05.
-    * <span style="color: #FF0000">Risk</span>: ChiSquare.Test.Statistic=115.387, ChiSquare.Test.PValue=0.000
-    * <span style="color: #FF0000">Response</span>: ChiSquare.Test.Statistic=93.015, ChiSquare.Test.PValue=0.000   
-    * <span style="color: #FF0000">N</span>: ChiSquare.Test.Statistic=87.380, ChiSquare.Test.PValue=0.001 
-    * <span style="color: #FF0000">Adenopathy</span>: ChiSquare.Test.Statistic=82.909, ChiSquare.Test.PValue=0.002
-    * <span style="color: #FF0000">Stage</span>: ChiSquare.Test.Statistic=58.828, ChiSquare.Test.PValue=0.000
-    * <span style="color: #FF0000">T</span>: ChiSquare.Test.Statistic=57.882, ChiSquare.Test.PValue=0.000   
-    * <span style="color: #FF0000">Smoking</span>: ChiSquare.Test.Statistic=34.318, ChiSquare.Test.PValue=0.001 
-    * <span style="color: #FF0000">Gender</span>: ChiSquare.Test.Statistic=29.114, ChiSquare.Test.PValue=0.002
-    * <span style="color: #FF0000">Focality</span>: ChiSquare.Test.Statistic=27.017, ChiSquare.Test.PValue=0.001 
-    * <span style="color: #FF0000">Physical_Examination</span>: ChiSquare.Test.Statistic=5.717, ChiSquare.Test.PValue=0.016
+4. There is sufficient evidence to conclude of a statistically significant relationship between the categories of the categorical predictors and the Yes and No groups of the <span style="color: #FF0000">Recurred</span> target variable in 9 of 12 categorical predictors given their high chisquare statistic values with reported low p-values less than the significance level of 0.05.
+    * <span style="color: #FF0000">Risk</span>: ChiSquare.Test.Statistic=98.599, ChiSquare.Test.PValue=0.000
+    * <span style="color: #FF0000">Response</span>: ChiSquare.Test.Statistic=90.866, ChiSquare.Test.PValue=0.000
+    * <span style="color: #FF0000">Adenopathy</span>: ChiSquare.Test.Statistic=73.585, ChiSquare.Test.PValue=0.000
+    * <span style="color: #FF0000">N</span>: ChiSquare.Test.Statistic=73.176, ChiSquare.Test.PValue=0.000
+    * <span style="color: #FF0000">T</span>: ChiSquare.Test.Statistic=62.205, ChiSquare.Test.PValue=0.000   
+    * <span style="color: #FF0000">Stage</span>: ChiSquare.Test.Statistic=44.963, ChiSquare.Test.PValue=0.000
+    * <span style="color: #FF0000">Focality</span>: ChiSquare.Test.Statistic=32.859, ChiSquare.Test.PValue=0.000
+    * <span style="color: #FF0000">Gender</span>: ChiSquare.Test.Statistic=17.787, ChiSquare.Test.PValue=0.000
+    * <span style="color: #FF0000">Smoking</span>: ChiSquare.Test.Statistic=14.460, ChiSquare.Test.PValue=0.001
+5. There is marginal evidence to conclude of a statistically significant relationship between the categories of the categorical predictors and the Yes and No groups of the <span style="color: #FF0000">Recurred</span> target variable in 1 of 12 categorical predictors given its sufficiently high chisquare statistic values with reported low p-values near the significance level of 0.10.    
+    * <span style="color: #FF0000">Physical_Examination</span>: ChiSquare.Test.Statistic=2.413, ChiSquare.Test.PValue=0.120
+
 
 
 
@@ -6036,20 +6038,20 @@ display(thyroid_cancer_categorical_summary.sort_values(by=['ChiSquare.Test.PValu
 1. A total of 6 of the 16 predictors were excluded from the dataset based on the data preprocessing and exploration findings 
 2. There were 3 categorical predictors excluded from the dataset after having been observed with extremely low variance containing categories with very few or almost no variations across observations that may have limited predictive power or drive increased model complexity without performance gains:
     * <span style="color: #FF0000">Hx_Smoking</span>: 
-        * **189** <span style="color: #FF0000">Hx_Smoking=No</span>: 92.65%
-        * **15** <span style="color: #FF0000">Hx_Smoking=Yes</span>: 7.35%
+        * **193** <span style="color: #FF0000">Hx_Smoking=No</span>: 94.61%
+        * **11** <span style="color: #FF0000">Hx_Smoking=Yes</span>: 5.39%
     * <span style="color: #FF0000">Hx_Radiotherapy</span>: 
-        * **199** <span style="color: #FF0000">Hx_Radiotherapy=No</span>: 97.55%
-        * **15** <span style="color: #FF0000">Hx_Radiotherapy=Yes</span>: 2.45%
+        * **202** <span style="color: #FF0000">Hx_Radiotherapy=No</span>: 99.02%
+        * **2** <span style="color: #FF0000">Hx_Radiotherapy=Yes</span>: 0.98%
     * <span style="color: #FF0000">M</span>: 
-        * **192** <span style="color: #FF0000">M=M0</span>: 94.12%
-        * **12** <span style="color: #FF0000">M=M1</span>: 5.88%
+        * **194** <span style="color: #FF0000">M=M0</span>: 95.10%
+        * **10** <span style="color: #FF0000">M=M1</span>: 4.90%
 2. There was 1 categorical predictor excluded from the dataset after having been observed with high pairwise collinearity (Phi.Coefficient>0.70) with other 2 predictors that might provide redundant information, leading to potential instability in regression models.
-    * <span style="color: #FF0000">N</span> was highly associated with <span style="color: #FF0000">Adenopathy</span>: Phi.Coefficient = +0.827
-    * <span style="color: #FF0000">N</span> was highly associated with <span style="color: #FF0000">Risk</span>: Phi.Coefficient = +0.751
+    * <span style="color: #FF0000">N</span> and <span style="color: #FF0000">Adenopathy</span>: Phi.Coefficient = +0.805
+    * <span style="color: #FF0000">N</span> and <span style="color: #FF0000">Risk</span>: Phi.Coefficient = +0.726
 3. Another 2 categorical predictors were excluded from the dataset for not exhibiting a statistically significant association with the Yes and No groups of the <span style="color: #FF0000">Recurred</span> target variable, indicating weak predictive value.
-    * <span style="color: #FF0000">Thyroid_Function</span>: ChiSquare.Test.Statistic=2.962, ChiSquare.Test.PValue=0.085
-    * <span style="color: #FF0000">Pathology</span>: ChiSquare.Test.Statistic=0.891, ChiSquare.Test.PValue=0.345   
+    * <span style="color: #FF0000">Thyroid_Function</span>: ChiSquare.Test.Statistic=0.967, ChiSquare.Test.PValue=0.325
+    * <span style="color: #FF0000">Pathology</span>: ChiSquare.Test.Statistic=0.132, ChiSquare.Test.PValue=0.717  
 4. The **preprocessed train data (final)** subset is comprised of:
     * **204 rows** (observations)
         * **143 Recurred=No**: 70.10%
