@@ -60,7 +60,7 @@ This project explores different **Ensemble Learning** approaches which combine t
 
 [Ensemble Learning](https://www.manning.com/books/ensemble-methods-for-machine-learning) is a machine learning technique that improves predictive accuracy by combining multiple models to leverage their collective strengths. Traditional machine learning models often struggle with either high bias, which leads to overly simplistic predictions, or high variance, which makes them too sensitive to fluctuations in the data. Ensemble learning addresses these challenges by aggregating the outputs of several models, creating a more robust and reliable predictor. In classification problems, this can be done through majority voting, weighted averaging, or more advanced meta-learning techniques. The key advantage of ensemble learning is its ability to reduce both bias and variance, leading to better generalization on unseen data. However, this comes at the cost of increased computational complexity and interpretability, as managing multiple models requires more resources and makes it harder to explain predictions.
 
-[Bagging](https://www.manning.com/books/ensemble-methods-for-machine-learning), or Bootstrap Aggregating, is an ensemble learning technique that reduces model variance by training multiple instances of the same algorithm on different randomly sampled subsets of the training data. The fundamental problem bagging aims to solve is overfitting, particularly in high-variance models. By generating multiple bootstrap samples—random subsets created through sampling with replacement — bagging ensures that each model is trained on slightly different data, making the overall prediction more stable. In classification problems, the final output is obtained by majority voting among the individual models, while in regression, their predictions are averaged. Bagging is particularly effective when dealing with noisy datasets, as it smooths out individual model errors. However, its effectiveness is limited for low-variance models, and the requirement to train multiple models increases computational cost.
+[Bagging (Bootstrap Aggregating)](https://www.manning.com/books/ensemble-methods-for-machine-learning) is an ensemble learning technique that reduces model variance by training multiple instances of the same algorithm on different randomly sampled subsets of the training data. The fundamental problem bagging aims to solve is overfitting, particularly in high-variance models. By generating multiple bootstrap samples—random subsets created through sampling with replacement — bagging ensures that each model is trained on slightly different data, making the overall prediction more stable. In classification problems, the final output is obtained by majority voting among the individual models, while in regression, their predictions are averaged. Bagging is particularly effective when dealing with noisy datasets, as it smooths out individual model errors. However, its effectiveness is limited for low-variance models, and the requirement to train multiple models increases computational cost.
 
 [Boosting](https://www.manning.com/books/ensemble-methods-for-machine-learning) is an ensemble learning method that builds a strong classifier by training models sequentially, where each new model focuses on correcting the mistakes of its predecessors. Boosting assigns higher weights to misclassified instances, ensuring that subsequent models pay more attention to these hard-to-classify cases. The motivation behind boosting is to reduce both bias and variance by iteratively refining weak learners — models that perform only slightly better than random guessing — until they collectively form a strong classifier. In classification tasks, predictions are refined by combining weighted outputs of multiple weak models, typically decision stumps or shallow trees. This makes boosting highly effective in uncovering complex patterns in data. However, the sequential nature of boosting makes it computationally expensive compared to bagging, and it is more prone to overfitting if the number of weak learners is too high.
 
@@ -6655,7 +6655,7 @@ def model_performance_evaluation(y_true, y_pred):
 
 ## 1.7. Bagged Model Development <a class="anchor" id="1.7"></a>
 
-[Bagging](https://www.manning.com/books/ensemble-methods-for-machine-learning), or Bootstrap Aggregating, is an ensemble learning technique that reduces model variance by training multiple instances of the same algorithm on different randomly sampled subsets of the training data. The fundamental problem bagging aims to solve is overfitting, particularly in high-variance models. By generating multiple bootstrap samples—random subsets created through sampling with replacement — bagging ensures that each model is trained on slightly different data, making the overall prediction more stable. In classification problems, the final output is obtained by majority voting among the individual models, while in regression, their predictions are averaged. Bagging is particularly effective when dealing with noisy datasets, as it smooths out individual model errors. However, its effectiveness is limited for low-variance models, and the requirement to train multiple models increases computational cost.
+[Bagging (Boostrap Aggregating)](https://www.manning.com/books/ensemble-methods-for-machine-learning) is an ensemble learning technique that reduces model variance by training multiple instances of the same algorithm on different randomly sampled subsets of the training data. The fundamental problem bagging aims to solve is overfitting, particularly in high-variance models. By generating multiple bootstrap samples—random subsets created through sampling with replacement — bagging ensures that each model is trained on slightly different data, making the overall prediction more stable. In classification problems, the final output is obtained by majority voting among the individual models, while in regression, their predictions are averaged. Bagging is particularly effective when dealing with noisy datasets, as it smooths out individual model errors. However, its effectiveness is limited for low-variance models, and the requirement to train multiple models increases computational cost.
 
 
 ### 1.7.1 Random Forest <a class="anchor" id="1.7.1"></a>
@@ -6666,7 +6666,7 @@ def model_performance_evaluation(y_true, y_pred):
 2. The model contains 4 hyperparameters for tuning:
     * <span style="color: #FF0000">criterion</span> = function to measure the quality of a split made to vary between gini and entropy
     * <span style="color: #FF0000">max_depth</span> = maximum depth of the tree made to vary between 3 and 6
-    * <span style="color: #FF0000">min_samples_leaf</span> = minimum number of samples required to split an internal node made to vary between 5 and 10
+    * <span style="color: #FF0000">min_samples_leaf</span> = minimum number of samples required to be at a leaf node made to vary between 5 and 10
     * <span style="color: #FF0000">n_estimators</span> = number of base estimators in the ensemble made to vary between 100 and 200
 3. A special hyperparameter (<span style="color: #FF0000">class_weight</span> = balanced) was fixed to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
 4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for: 
@@ -7610,7 +7610,7 @@ joblib.dump(bagged_rf_optimal,
 2. The model contains 4 hyperparameters for tuning:
     * <span style="color: #FF0000">criterion</span> = function to measure the quality of a split made to vary between gini and entropy
     * <span style="color: #FF0000">max_depth</span> = maximum depth of the tree made to vary between 3 and 6
-    * <span style="color: #FF0000">min_samples_leaf</span> = minimum number of samples required to split an internal node made to vary between 5 and 10
+    * <span style="color: #FF0000">min_samples_leaf</span> = minimum number of samples required to be at a leaf node made to vary between 5 and 10
     * <span style="color: #FF0000">n_estimators</span> = number of base estimators in the ensemble made to vary between 100 and 200
 3. A special hyperparameter (<span style="color: #FF0000">class_weight</span> = balanced) was fixed to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
 4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for: 
@@ -8554,7 +8554,7 @@ joblib.dump(bagged_et_optimal,
 2. The model contains 4 hyperparameters for tuning:
     * <span style="color: #FF0000">criterion</span> = function to measure the quality of a split made to vary between gini and entropy
     * <span style="color: #FF0000">max_depth</span> = maximum depth of the tree made to vary between 3 and 6
-    * <span style="color: #FF0000">min_samples_leaf</span> = minimum number of samples required to split an internal node made to vary between 5 and 10
+    * <span style="color: #FF0000">min_samples_leaf</span> = minimum number of samples required to be at a leaf node made to vary between 5 and 10
     * <span style="color: #FF0000">n_estimators</span> = number of base estimators in the ensemble made to vary between 100 and 200
 3. A special hyperparameter (<span style="color: #FF0000">class_weight</span> = balanced) was fixed to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
 4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for: 
@@ -11410,6 +11410,30 @@ joblib.dump(bagged_bsvm_optimal,
 
 [AdaBoost (Adaptive Boosting)](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.AdaBoostClassifier.html) is a boosting technique that combines multiple weak learners — typically decision stumps (shallow trees) — to form a strong classifier. It works by iteratively training weak models, assigning higher weights to misclassified instances so that subsequent models focus on difficult cases. At each iteration, a new weak model is trained, and its predictions are combined using a weighted voting mechanism. This process continues until a stopping criterion is met, such as a predefined number of iterations or performance threshold. AdaBoost is advantageous because it improves accuracy without overfitting if regularized properly. It performs well with clean data and can transform weak classifiers into strong ones. However, it is sensitive to noisy data and outliers, as misclassified points receive higher importance, leading to potential overfitting. Additionally, training can be slow for large datasets, and performance depends on the choice of base learner, typically decision trees.
 
+1. The [adaboost](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.AdaBoostClassifier.html) model from the <mark style="background-color: #CCECFF"><b>sklearn.ensemble</b></mark> Python library API was implemented. 
+2. The model contains 3 hyperparameters for tuning:
+    * <span style="color: #FF0000">estimator_max_depth</span> = maximum depth of the tree made to vary between 3 and 6
+    * <span style="color: #FF0000">learning_rate</span> = weight applied to each classifier at each boosting iteration made to vary between 0.01 and 0.10
+    * <span style="color: #FF0000">n_estimators</span> = maximum number of estimators at which boosting is terminated made to vary between 50 and 100
+3. No hyperparameter was defined in the model to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for: 
+    * <span style="color: #FF0000">estimator_max_depth</span> = 2
+    * <span style="color: #FF0000">learning_rate</span> = 0.01
+    * <span style="color: #FF0000">n_estimators</span> = 50
+5. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9019
+    * **Precision** = 0.8059
+    * **Recall** = 0.8852
+    * **F1 Score** = 0.8437
+    * **AUROC** = 0.8971
+6. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9130
+    * **Precision** = 0.8181
+    * **Recall** = 0.9000
+    * **F1 Score** = 0.8571
+    * **AUROC** = 0.9091
+7. Sufficiently comparable apparent and independent validation model performance observed that might be indicative of the absence of excessive model overfitting.
+
 
 
 ```python
@@ -12325,6 +12349,32 @@ joblib.dump(boosted_ab_optimal,
 
 [Gradient Boosting](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html) builds an ensemble of decision trees sequentially, where each new tree corrects the mistakes of the previous ones by optimizing a loss function. Unlike AdaBoost, which reweights misclassified instances, Gradient Boosting fits each new tree to the residual errors of the previous model, gradually improving predictions. This process continues until a stopping criterion, such as a set number of trees, is met. The key advantages of Gradient Boosting include its flexibility to model complex relationships and strong predictive performance, often outperforming bagging methods. It can handle both numeric and categorical data well. However, it is prone to overfitting if not carefully tuned, especially with deep trees and too many iterations. It is also computationally expensive due to sequential training, and hyperparameter tuning (e.g., learning rate, number of trees, tree depth) can be challenging and time-consuming.
 
+1. The [gradient boosting](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html) model from the <mark style="background-color: #CCECFF"><b>sklearn.ensemble</b></mark> Python library API was implemented. 
+2. The model contains 4 hyperparameters for tuning:
+    * <span style="color: #FF0000">learning_rate</span> = shrinking proportion of the contribution from each tree made to vary between 0.01 and 0.10
+    * <span style="color: #FF0000">max_depth</span> = maximum depth of the tree made to vary between 3 and 6
+    * <span style="color: #FF0000">min_samples_leaf</span> = minimum number of samples required to be at a leaf node made to vary between 5 and 10
+    * <span style="color: #FF0000">n_estimators</span> = number of boosting stages to perform made to vary between 50 and 100
+3. No hyperparameter was defined in the model to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for:
+    * <span style="color: #FF0000">learning_rate</span> = 0.10
+    * <span style="color: #FF0000">max_depth</span> = 3
+    * <span style="color: #FF0000">min_samples_leaf</span> = 10
+    * <span style="color: #FF0000">n_estimators</span> = 50
+5. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9460
+    * **Precision** = 0.9032
+    * **Recall** = 0.9180
+    * **F1 Score** = 0.9105
+    * **AUROC** = 0.9380
+6. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8985
+    * **Precision** = 0.8095
+    * **Recall** = 0.8500
+    * **F1 Score** = 0.8292
+    * **AUROC** = 0.8841
+7. Relatively large difference in apparent and independent validation model performance observed that might be indicative of the presence of moderate model overfitting.
+
 
 
 ```python
@@ -13237,6 +13287,32 @@ joblib.dump(boosted_gb_optimal,
 ### 1.8.3 XGBoost <a class="anchor" id="1.8.3"></a>
 
 [XGBoost (Extreme Gradient Boosting)](https://xgboost.readthedocs.io/en/stable/python/index.html) is an optimized version of Gradient Boosting that introduces additional regularization and computational efficiencies. It builds decision trees sequentially, with each new tree correcting the residual errors of the previous ones, but it incorporates advanced techniques such as shrinkage (learning rate), column subsampling, and L1/L2 regularization to prevent overfitting. Additionally, XGBoost employs parallelization, reducing training time significantly compared to standard Gradient Boosting. It is widely used in machine learning competitions due to its superior accuracy and efficiency. The key advantages include its ability to handle missing data, built-in regularization for better generalization, and fast training through parallelization. However, XGBoost requires careful hyperparameter tuning to achieve optimal performance, and the model can become overly complex, making interpretation difficult. It is also memory-intensive, especially for large datasets, and can be challenging to deploy efficiently in real-time applications.
+
+1. The [xgboost](https://xgboost.readthedocs.io/en/stable/python/index.html) model from the <mark style="background-color: #CCECFF"><b>xgboost</b></mark> Python library API was implemented. 
+2. The model contains 4 hyperparameters for tuning:
+    * <span style="color: #FF0000">learning_rate</span> = step size at which weights are updated during training made to vary between 0.01 and 0.10
+    * <span style="color: #FF0000">max_depth</span> = maximum depth of the tree made to vary between 3 and 6
+    * <span style="color: #FF0000">gamma</span> = minimum loss reduction required to make a further split in a tree made to vary between 0.10 and 0.20
+    * <span style="color: #FF0000">n_estimators</span> = number of boosting stages to perform made to vary between 50 and 100
+3.  A special hyperparameter (<span style="color: #FF0000">scale_pos_weight</span> = 2.0) was fixed to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for:
+    * <span style="color: #FF0000">learning_rate</span> = 0.01
+    * <span style="color: #FF0000">max_depth</span> = 3
+    * <span style="color: #FF0000">gamma</span> 0.10
+    * <span style="color: #FF0000">n_estimators</span> = 50
+5. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9068
+    * **Precision** = 0.8181
+    * **Recall** = 0.8852
+    * **F1 Score** = 0.8503
+    * **AUROC** = 0.9006
+6. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9130
+    * **Precision** = 0.8181
+    * **Recall** = 0.9000
+    * **F1 Score** = 0.8571
+    * **AUROC** = 0.9091
+7. Sufficiently comparable apparent and independent validation model performance observed that might be indicative of the absence of excessive model overfitting.
 
 
 
@@ -14181,7 +14257,33 @@ joblib.dump(boosted_xgb_optimal,
 
 ### 1.8.4 Light GBM <a class="anchor" id="1.8.4"></a>
 
-[LightGBM (Light Gradient Boosting Machine)](https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.LGBMClassifier.html) is a variation of Gradient Boosting designed for efficiency and scalability. Unlike traditional boosting methods that grow trees level by level, LightGBM grows trees leaf-wise, choosing the most informative splits, leading to faster convergence. It also uses histogram-based binning to speed up computations. These optimizations allow LightGBM to train on large datasets efficiently while maintaining high accuracy. Its advantages include faster training speed, reduced memory usage, and strong predictive performance, particularly for large datasets with many features. However, LightGBM can overfit more easily than XGBoost if not properly tuned, and it may not perform as well on small datasets. Additionally, its handling of categorical variables requires careful preprocessing, and the leaf-wise tree growth can sometimes lead to instability if not controlled properly.
+[Light GBM (Light Gradient Boosting Machine)](https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.LGBMClassifier.html) is a variation of Gradient Boosting designed for efficiency and scalability. Unlike traditional boosting methods that grow trees level by level, LightGBM grows trees leaf-wise, choosing the most informative splits, leading to faster convergence. It also uses histogram-based binning to speed up computations. These optimizations allow LightGBM to train on large datasets efficiently while maintaining high accuracy. Its advantages include faster training speed, reduced memory usage, and strong predictive performance, particularly for large datasets with many features. However, LightGBM can overfit more easily than XGBoost if not properly tuned, and it may not perform as well on small datasets. Additionally, its handling of categorical variables requires careful preprocessing, and the leaf-wise tree growth can sometimes lead to instability if not controlled properly.
+
+1. The [light gbm](https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.LGBMClassifier.html) model from the <mark style="background-color: #CCECFF"><b>light</b></mark> Python library API was implemented. 
+2. The model contains 4 hyperparameters for tuning:
+    * <span style="color: #FF0000">learning_rate</span> = step size at which weights are updated during training made to vary between 0.01 and 0.10
+    * <span style="color: #FF0000">min_child_samples</span> = minimum number of data needed in a child 3 and 6
+    * <span style="color: #FF0000">num_leaves</span> = maximum tree leaves for base learners made to vary between 8 and 16
+    * <span style="color: #FF0000">n_estimators</span> = number of boosted trees to fit made to vary between 50 and 100
+3.  A special hyperparameter (<span style="color: #FF0000">scale_pos_weight</span> = 2.0) was fixed to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for:
+    * <span style="color: #FF0000">learning_rate</span> = 0.01
+    * <span style="color: #FF0000">min_child_samples</span> = 6
+    * <span style="color: #FF0000">num_leaves</span> 16
+    * <span style="color: #FF0000">n_estimators</span> = 100
+5. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9362
+    * **Precision** = 0.8870
+    * **Recall** = 0.9016
+    * **F1 Score** = 0.8943
+    * **AUROC** = 0.9263
+6. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8985
+    * **Precision** = 0.8421
+    * **Recall** = 0.8000
+    * **F1 Score** = 0.8205
+    * **AUROC** = 0.8693
+7. Relatively large difference in apparent and independent validation model performance observed that might be indicative of the presence of moderate model overfitting.
 
 
 
@@ -14222,7 +14324,7 @@ boosted_lgbm_pipeline = Pipeline([
 ##################################
 boosted_lgbm_hyperparameter_grid = {
     'boosted_lgbm_model__learning_rate': [0.01, 0.10],
-    'boosted_lgbm_model__min_child_samples': [3, 5], 
+    'boosted_lgbm_model__min_child_samples': [3, 6], 
     'boosted_lgbm_model__num_leaves': [8, 16],
     'boosted_lgbm_model__n_estimators': [50, 100] 
 }
@@ -14722,7 +14824,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                        verbose=-1))]),
              n_jobs=-1,
              param_grid={&#x27;boosted_lgbm_model__learning_rate&#x27;: [0.01, 0.1],
-                         &#x27;boosted_lgbm_model__min_child_samples&#x27;: [3, 5],
+                         &#x27;boosted_lgbm_model__min_child_samples&#x27;: [3, 6],
                          &#x27;boosted_lgbm_model__n_estimators&#x27;: [50, 100],
                          &#x27;boosted_lgbm_model__num_leaves&#x27;: [8, 16]},
              scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-73" type="checkbox" ><label for="sk-estimator-id-73" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
@@ -14748,7 +14850,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                        verbose=-1))]),
              n_jobs=-1,
              param_grid={&#x27;boosted_lgbm_model__learning_rate&#x27;: [0.01, 0.1],
-                         &#x27;boosted_lgbm_model__min_child_samples&#x27;: [3, 5],
+                         &#x27;boosted_lgbm_model__min_child_samples&#x27;: [3, 6],
                          &#x27;boosted_lgbm_model__n_estimators&#x27;: [50, 100],
                          &#x27;boosted_lgbm_model__num_leaves&#x27;: [8, 16]},
              scoring=&#x27;f1&#x27;, verbose=1)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-74" type="checkbox" ><label for="sk-estimator-id-74" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>best_estimator_: Pipeline</div></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
@@ -14762,14 +14864,14 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;boosted_lgbm_model&#x27;,
                  LGBMClassifier(bagging_fraction=0.7, feature_fraction=0.7,
-                                learning_rate=0.01, min_child_samples=5,
+                                learning_rate=0.01, min_child_samples=6,
                                 num_leaves=16, random_state=987654321,
                                 scale_pos_weight=2.0, verbose=-1))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-75" type="checkbox" ><label for="sk-estimator-id-75" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
                                   &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-76" type="checkbox" ><label for="sk-estimator-id-76" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-77" type="checkbox" ><label for="sk-estimator-id-77" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-78" type="checkbox" ><label for="sk-estimator-id-78" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-79" type="checkbox" ><label for="sk-estimator-id-79" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-80" type="checkbox" ><label for="sk-estimator-id-80" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>LGBMClassifier</div></div></label><div class="sk-toggleable__content fitted"><pre>LGBMClassifier(bagging_fraction=0.7, feature_fraction=0.7, learning_rate=0.01,
-               min_child_samples=5, num_leaves=16, random_state=987654321,
+               min_child_samples=6, num_leaves=16, random_state=987654321,
                scale_pos_weight=2.0, verbose=-1)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
@@ -14808,7 +14910,7 @@ print(f"Best Light GBM Hyperparameters: {boosted_lgbm_grid_search.best_params_}"
 ```
 
     Best Boosted Model - Light GBM: 
-    Best Light GBM Hyperparameters: {'boosted_lgbm_model__learning_rate': 0.01, 'boosted_lgbm_model__min_child_samples': 5, 'boosted_lgbm_model__n_estimators': 100, 'boosted_lgbm_model__num_leaves': 16}
+    Best Light GBM Hyperparameters: {'boosted_lgbm_model__learning_rate': 0.01, 'boosted_lgbm_model__min_child_samples': 6, 'boosted_lgbm_model__n_estimators': 100, 'boosted_lgbm_model__num_leaves': 16}
     
 
 
@@ -14825,18 +14927,18 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8164
-    F1 Score on Training Data: 0.9194
+    F1 Score on Cross-Validated Data: 0.8182
+    F1 Score on Training Data: 0.8943
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
-             0.0       0.97      0.96      0.96       143
-             1.0       0.90      0.93      0.92        61
+             0.0       0.96      0.95      0.95       143
+             1.0       0.89      0.90      0.89        61
     
-        accuracy                           0.95       204
-       macro avg       0.94      0.95      0.94       204
-    weighted avg       0.95      0.95      0.95       204
+        accuracy                           0.94       204
+       macro avg       0.92      0.93      0.92       204
+    weighted avg       0.94      0.94      0.94       204
     
     
 
@@ -14882,17 +14984,17 @@ print("\nClassification Report on Validation Data:\n", classification_report(y_p
 
 ```
 
-    F1 Score on Validation Data: 0.8500
+    F1 Score on Validation Data: 0.8205
     
     Classification Report on Validation Data:
                    precision    recall  f1-score   support
     
-             0.0       0.94      0.94      0.94        49
-             1.0       0.85      0.85      0.85        20
+             0.0       0.92      0.94      0.93        49
+             1.0       0.84      0.80      0.82        20
     
-        accuracy                           0.91        69
-       macro avg       0.89      0.89      0.89        69
-    weighted avg       0.91      0.91      0.91        69
+        accuracy                           0.90        69
+       macro avg       0.88      0.87      0.87        69
+    weighted avg       0.90      0.90      0.90        69
     
     
 
@@ -14971,35 +15073,35 @@ display(boosted_lgbm_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.950980</td>
+      <td>0.936275</td>
       <td>boosted_lgbm_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.904762</td>
+      <td>0.887097</td>
       <td>boosted_lgbm_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.934426</td>
+      <td>0.901639</td>
       <td>boosted_lgbm_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.919355</td>
+      <td>0.894309</td>
       <td>boosted_lgbm_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.946234</td>
+      <td>0.926344</td>
       <td>boosted_lgbm_optimal</td>
       <td>train</td>
     </tr>
@@ -15054,35 +15156,35 @@ display(boosted_lgbm_optimal_validation)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.913043</td>
+      <td>0.898551</td>
       <td>boosted_lgbm_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.850000</td>
+      <td>0.842105</td>
       <td>boosted_lgbm_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Recall</td>
-      <td>0.850000</td>
+      <td>0.800000</td>
       <td>boosted_lgbm_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.850000</td>
+      <td>0.820513</td>
       <td>boosted_lgbm_optimal</td>
       <td>validation</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.894388</td>
+      <td>0.869388</td>
       <td>boosted_lgbm_optimal</td>
       <td>validation</td>
     </tr>
@@ -15112,6 +15214,32 @@ joblib.dump(boosted_lgbm_optimal,
 ### 1.8.5 CatBoost <a class="anchor" id="1.8.5"></a>
 
 [CatBoost (Categorical Boosting)](https://catboost.ai/docs/en/concepts/python-reference_catboostclassifier) is a boosting algorithm optimized for categorical data. Unlike other gradient boosting methods that require categorical variables to be manually encoded, CatBoost handles them natively, reducing preprocessing effort and improving performance. It builds decision trees iteratively, like other boosting methods, but uses ordered boosting to prevent target leakage and enhance generalization. The main advantages of CatBoost are its ability to handle categorical data without extensive preprocessing, high accuracy with minimal tuning, and robustness against overfitting due to built-in regularization. Additionally, it is relatively fast and memory-efficient. However, CatBoost can still be slower than LightGBM on very large datasets, and while it requires less tuning, improper parameter selection can lead to suboptimal performance. Its internal mechanics, such as ordered boosting, make interpretation more complex compared to simpler models.
+
+1. The [catboost](https://catboost.ai/docs/en/concepts/python-reference_catboostclassifier) model from the <mark style="background-color: #CCECFF"><b>catboost</b></mark> Python library API was implemented. 
+2. The model contains 4 hyperparameters for tuning:
+    * <span style="color: #FF0000">learning_rate</span> = step size at which weights are updated during training made to vary between 0.01 and 0.10
+    * <span style="color: #FF0000">max_depth</span> = maximum depth of each decision tree in the boosting process made to vary between 3 and 6
+    * <span style="color: #FF0000">num_leaves</span> = maximum tree leaves for base learners made to vary between 8 and 16
+    * <span style="color: #FF0000">iterations</span> = number of boosted trees to fit made to vary between 50 and 100
+3.  A special hyperparameter (<span style="color: #FF0000">scale_pos_weight</span> = 2.0) was fixed to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for:
+    * <span style="color: #FF0000">learning_rate</span> = 0.01
+    * <span style="color: #FF0000">min_child_samples</span> = 3
+    * <span style="color: #FF0000">num_leaves</span> 8
+    * <span style="color: #FF0000">n_estimators</span> = 50
+5. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9019
+    * **Precision** = 0.8059
+    * **Recall** = 0.8852
+    * **F1 Score** = 0.8437
+    * **AUROC** = 0.8971
+6. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9130
+    * **Precision** = 0.8181
+    * **Recall** = 0.9000
+    * **F1 Score** = 0.8571
+    * **AUROC** = 0.9091
+7. Sufficiently comparable apparent and independent validation model performance observed that might be indicative of the absence of excessive model overfitting.
 
 
 
@@ -27144,8 +27272,8 @@ ensemble_train_validation_all_performance_F1_plot
     </tr>
     <tr>
       <th>boosted_lgbm_optimal</th>
-      <td>0.919355</td>
-      <td>0.850000</td>
+      <td>0.894309</td>
+      <td>0.820513</td>
     </tr>
     <tr>
       <th>boosted_cb_optimal</th>
@@ -27466,8 +27594,8 @@ ensemble_train_validation_performance_F1_plot
     </tr>
     <tr>
       <th>boosted_lgbm_optimal</th>
-      <td>0.919355</td>
-      <td>0.850000</td>
+      <td>0.894309</td>
+      <td>0.820513</td>
     </tr>
     <tr>
       <th>boosted_cb_optimal</th>
@@ -27640,11 +27768,11 @@ ensemble_train_validation_performance_all_plot_validation
     </tr>
     <tr>
       <th>boosted_lgbm_optimal</th>
-      <td>0.913043</td>
-      <td>0.850000</td>
-      <td>0.85</td>
-      <td>0.850000</td>
-      <td>0.894388</td>
+      <td>0.898551</td>
+      <td>0.842105</td>
+      <td>0.80</td>
+      <td>0.820513</td>
+      <td>0.869388</td>
     </tr>
     <tr>
       <th>boosted_cb_optimal</th>
@@ -28211,35 +28339,35 @@ display(ensemble_test_performance)
     <tr>
       <th>40</th>
       <td>Accuracy</td>
-      <td>0.901099</td>
+      <td>0.912088</td>
       <td>boosted_lgbm_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>41</th>
       <td>Precision</td>
-      <td>0.875000</td>
+      <td>0.880000</td>
       <td>boosted_lgbm_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>42</th>
       <td>Recall</td>
-      <td>0.777778</td>
+      <td>0.814815</td>
       <td>boosted_lgbm_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>43</th>
       <td>F1</td>
-      <td>0.823529</td>
+      <td>0.846154</td>
       <td>boosted_lgbm_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>44</th>
       <td>AUROC</td>
-      <td>0.865451</td>
+      <td>0.883970</td>
       <td>boosted_lgbm_optimal</td>
       <td>test</td>
     </tr>
@@ -28478,11 +28606,11 @@ ensemble_test_performance_all_plot_test
     </tr>
     <tr>
       <th>boosted_lgbm_optimal</th>
-      <td>0.901099</td>
-      <td>0.875000</td>
-      <td>0.777778</td>
-      <td>0.823529</td>
-      <td>0.865451</td>
+      <td>0.912088</td>
+      <td>0.880000</td>
+      <td>0.814815</td>
+      <td>0.846154</td>
+      <td>0.883970</td>
     </tr>
     <tr>
       <th>boosted_cb_optimal</th>
@@ -28632,9 +28760,9 @@ ensemble_overall_performance_F1_plot
     </tr>
     <tr>
       <th>boosted_lgbm_optimal</th>
-      <td>0.919355</td>
-      <td>0.850000</td>
-      <td>0.823529</td>
+      <td>0.894309</td>
+      <td>0.820513</td>
+      <td>0.846154</td>
     </tr>
     <tr>
       <th>boosted_cb_optimal</th>
