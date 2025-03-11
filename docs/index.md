@@ -17080,6 +17080,30 @@ joblib.dump(stacked_baselearner_knn_optimal,
 
 [Support Vector Machine (SVM)](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html) is a powerful classification algorithm that finds an optimal decision boundary — called a hyperplane — that maximizes the margin between two classes. The algorithm works by identifying the most influential data points, known as support vectors, that define this boundary. If the data is not linearly separable, SVM can use kernel functions to map it into a higher-dimensional space where separation is possible. The main advantages of SVM include strong theoretical guarantees, effectiveness in high-dimensional spaces, and robustness against overfitting when properly regularized. It performs well when the margin between classes is clear and works effectively with small to medium-sized datasets. However, SVM has notable limitations: it is computationally expensive, making it impractical for very large datasets; it requires careful tuning of hyperparameters such as the kernel type and regularization strength; and it is not easily interpretable, as decision boundaries in high-dimensional space can be difficult to visualize.
 
+1. The [support vector machine](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html) model from the <mark style="background-color: #CCECFF"><b>sklearn.svm</b></mark> Python library API was implemented. 
+2. The model contains 3 hyperparameters for tuning:
+    * <span style="color: #FF0000">C</span> = inverse of regularization strength made to vary between 0.1 and 1.0
+    * <span style="color: #FF0000">kernel</span> = kernel type to be used in the algorithm made to vary between linear and rbf
+    * <span style="color: #FF0000">gamma</span> = kernel coefficient made to vary between scale and auto
+3. A special hyperparameter (<span style="color: #FF0000">class_weight</span> = balanced) was fixed to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for: 
+    * <span style="color: #FF0000">C</span> = 1.0
+    * <span style="color: #FF0000">kernel</span> = linear
+    * <span style="color: #FF0000">gamma</span> = scale
+5. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9019
+    * **Precision** = 0.8059
+    * **Recall** = 0.8852
+    * **F1 Score** = 0.8437
+    * **AUROC** = 0.8971
+6. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9130
+    * **Precision** = 0.8181
+    * **Recall** = 0.9000
+    * **F1 Score** = 0.8571
+    * **AUROC** = 0.9091
+7. Sufficiently comparable apparent and independent validation model performance observed that might be indicative of the absence of excessive model overfitting.
+
 
 
 ```python
@@ -19829,6 +19853,30 @@ joblib.dump(stacked_baselearner_nn_optimal,
 
 [Decision Tree](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html) is a hierarchical classification model that recursively splits data based on feature values, forming a tree-like structure where each node represents a decision rule and each leaf represents a class label. The tree is built using a greedy algorithm that selects the best feature at each step based on criteria such as information gain or Gini impurity. The main advantages of decision trees include their interpretability, as the decision-making process can be easily visualized and understood, and their ability to model non-linear relationships without requiring extensive feature engineering. They also handle both numerical and categorical data well. However, decision trees are prone to overfitting, especially when deep trees are grown without pruning. Small changes in the dataset can lead to entirely different structures, making them unstable. Additionally, they tend to perform poorly on highly complex problems where relationships between variables are intricate, making ensemble methods such as Random Forest or Gradient Boosting more effective in practice.
 
+1. The [decision tree](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html) model from the <mark style="background-color: #CCECFF"><b>sklearn.tree</b></mark> Python library API was implemented. 
+2. The model contains 4 hyperparameters for tuning:
+    * <span style="color: #FF0000">criterion</span> = function to measure the quality of a split made to vary between gini and entropy
+    * <span style="color: #FF0000">max_depth</span> = maximum depth of the tree made to vary between 3 and 6
+    * <span style="color: #FF0000">min_samples_leaf</span> = minimum number of samples required to be at a leaf node made to vary between 5 and 10
+3. A special hyperparameter (<span style="color: #FF0000">class_weight</span> = balanced) was fixed to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for: 
+    * <span style="color: #FF0000">criterion</span> = gini
+    * <span style="color: #FF0000">max_depth</span> = 6
+    * <span style="color: #FF0000">min_samples_leaf</span> = 5
+5. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8970
+    * **Precision** = 0.7500
+    * **Recall** = 0.9836
+    * **F1 Score** = 0.8510
+    * **AUROC** = 0.9218
+6. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8550
+    * **Precision** = 0.6666
+    * **Recall** = 1.0000
+    * **F1 Score** = 0.8000
+    * **AUROC** = 0.8979
+7. Sufficiently comparable apparent and independent validation model performance observed that might be indicative of the absence of excessive model overfitting.
+
 
 
 ```python
@@ -20745,6 +20793,26 @@ joblib.dump(stacked_baselearner_dt_optimal,
 ### 1.9.6 Meta Learner - Logistic Regression <a class="anchor" id="1.9.6"></a>
 
 [Logistic Regression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) is a linear classification algorithm that estimates the probability of a binary outcome using the logistic (sigmoid) function. It assumes a linear relationship between the predictor variables and the log-odds of the target class. The algorithm involves calculating a weighted sum of input features, applying the sigmoid function to transform the result into a probability, and assigning a class label based on a threshold (typically 0.5). Logistic regression is simple, interpretable, and computationally efficient, making it a popular choice for baseline models and problems where relationships between features and the target variable are approximately linear. It also provides insight into feature importance through its learned coefficients. However, logistic regression has limitations: it struggles with non-linear relationships unless feature engineering or polynomial terms are used, it is sensitive to multicollinearity, and it assumes independence between predictor variables, which may not always hold in real-world data. Additionally, it may perform poorly when classes are highly imbalanced, requiring techniques such as weighting or resampling to improve predictions.
+
+1. The [logistic regression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) model from the <mark style="background-color: #CCECFF"><b>sklearn.linear_model</b></mark> Python library API was implemented. 
+2. The model contains 3 fixed hyperparameters:
+    * <span style="color: #FF0000">C</span> = inverse of regularization strength held constant at a value of 1.0
+    * <span style="color: #FF0000">penalty</span> = penalty norm held constant at a value of l2
+    * <span style="color: #FF0000">solver</span> = algorithm used in the optimization problem held constant at a value of lbfgs
+3. A special hyperparameter (<span style="color: #FF0000">class_weight</span> = balanced) was fixed to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9068
+    * **Precision** = 0.8088
+    * **Recall** = 0.9016
+    * **F1 Score** = 0.8527
+    * **AUROC** = 0.9053
+5. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9130
+    * **Precision** = 0.8181
+    * **Recall** = 0.9000
+    * **F1 Score** = 0.8571
+    * **AUROC** = 0.9091
+6. Sufficiently comparable apparent and independent validation model performance observed that might be indicative of the absence of excessive model overfitting.
 
 
 
@@ -22510,6 +22578,30 @@ joblib.dump(blended_baselearner_knn_optimal,
 ### 1.10.2 Base Learner - Support Vector Machine <a class="anchor" id="1.10.2"></a>
 
 [Support Vector Machine (SVM)](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html) is a powerful classification algorithm that finds an optimal decision boundary — called a hyperplane — that maximizes the margin between two classes. The algorithm works by identifying the most influential data points, known as support vectors, that define this boundary. If the data is not linearly separable, SVM can use kernel functions to map it into a higher-dimensional space where separation is possible. The main advantages of SVM include strong theoretical guarantees, effectiveness in high-dimensional spaces, and robustness against overfitting when properly regularized. It performs well when the margin between classes is clear and works effectively with small to medium-sized datasets. However, SVM has notable limitations: it is computationally expensive, making it impractical for very large datasets; it requires careful tuning of hyperparameters such as the kernel type and regularization strength; and it is not easily interpretable, as decision boundaries in high-dimensional space can be difficult to visualize.
+
+1. The [support vector machine](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html) model from the <mark style="background-color: #CCECFF"><b>sklearn.svm</b></mark> Python library API was implemented. 
+2. The model contains 3 hyperparameters for tuning:
+    * <span style="color: #FF0000">C</span> = inverse of regularization strength made to vary between 0.1 and 1.0
+    * <span style="color: #FF0000">kernel</span> = kernel type to be used in the algorithm made to vary between linear and rbf
+    * <span style="color: #FF0000">gamma</span> = kernel coefficient made to vary between scale and auto
+3. A special hyperparameter (<span style="color: #FF0000">class_weight</span> = balanced) was fixed to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for: 
+    * <span style="color: #FF0000">C</span> = 1.0
+    * <span style="color: #FF0000">kernel</span> = linear
+    * <span style="color: #FF0000">gamma</span> = scale
+5. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9019
+    * **Precision** = 0.8059
+    * **Recall** = 0.8852
+    * **F1 Score** = 0.8437
+    * **AUROC** = 0.8971
+6. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9130
+    * **Precision** = 0.8181
+    * **Recall** = 0.9000
+    * **F1 Score** = 0.8571
+    * **AUROC** = 0.9091
+7. Sufficiently comparable apparent and independent validation model performance observed that might be indicative of the absence of excessive model overfitting.
 
 
 
@@ -25260,6 +25352,30 @@ joblib.dump(blended_baselearner_nn_optimal,
 
 [Decision Tree](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html) is a hierarchical classification model that recursively splits data based on feature values, forming a tree-like structure where each node represents a decision rule and each leaf represents a class label. The tree is built using a greedy algorithm that selects the best feature at each step based on criteria such as information gain or Gini impurity. The main advantages of decision trees include their interpretability, as the decision-making process can be easily visualized and understood, and their ability to model non-linear relationships without requiring extensive feature engineering. They also handle both numerical and categorical data well. However, decision trees are prone to overfitting, especially when deep trees are grown without pruning. Small changes in the dataset can lead to entirely different structures, making them unstable. Additionally, they tend to perform poorly on highly complex problems where relationships between variables are intricate, making ensemble methods such as Random Forest or Gradient Boosting more effective in practice.
 
+1. The [decision tree](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html) model from the <mark style="background-color: #CCECFF"><b>sklearn.tree</b></mark> Python library API was implemented. 
+2. The model contains 4 hyperparameters for tuning:
+    * <span style="color: #FF0000">criterion</span> = function to measure the quality of a split made to vary between gini and entropy
+    * <span style="color: #FF0000">max_depth</span> = maximum depth of the tree made to vary between 3 and 6
+    * <span style="color: #FF0000">min_samples_leaf</span> = minimum number of samples required to be at a leaf node made to vary between 5 and 10
+3. A special hyperparameter (<span style="color: #FF0000">class_weight</span> = balanced) was fixed to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for: 
+    * <span style="color: #FF0000">criterion</span> = gini
+    * <span style="color: #FF0000">max_depth</span> = 6
+    * <span style="color: #FF0000">min_samples_leaf</span> = 5
+5. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8970
+    * **Precision** = 0.7500
+    * **Recall** = 0.9836
+    * **F1 Score** = 0.8510
+    * **AUROC** = 0.9218
+6. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8550
+    * **Precision** = 0.6666
+    * **Recall** = 1.0000
+    * **F1 Score** = 0.8000
+    * **AUROC** = 0.8979
+7. Sufficiently comparable apparent and independent validation model performance observed that might be indicative of the absence of excessive model overfitting.
+
 
 
 ```python
@@ -26176,6 +26292,26 @@ joblib.dump(blended_baselearner_dt_optimal,
 ### 1.10.6 Meta Learner - Logistic Regression <a class="anchor" id="1.10.6"></a>
 
 [Logistic Regression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) is a linear classification algorithm that estimates the probability of a binary outcome using the logistic (sigmoid) function. It assumes a linear relationship between the predictor variables and the log-odds of the target class. The algorithm involves calculating a weighted sum of input features, applying the sigmoid function to transform the result into a probability, and assigning a class label based on a threshold (typically 0.5). Logistic regression is simple, interpretable, and computationally efficient, making it a popular choice for baseline models and problems where relationships between features and the target variable are approximately linear. It also provides insight into feature importance through its learned coefficients. However, logistic regression has limitations: it struggles with non-linear relationships unless feature engineering or polynomial terms are used, it is sensitive to multicollinearity, and it assumes independence between predictor variables, which may not always hold in real-world data. Additionally, it may perform poorly when classes are highly imbalanced, requiring techniques such as weighting or resampling to improve predictions.
+
+1. The [logistic regression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) model from the <mark style="background-color: #CCECFF"><b>sklearn.linear_model</b></mark> Python library API was implemented. 
+2. The model contains 3 fixed hyperparameters:
+    * <span style="color: #FF0000">C</span> = inverse of regularization strength held constant at a value of 1.0
+    * <span style="color: #FF0000">penalty</span> = penalty norm held constant at a value of l2
+    * <span style="color: #FF0000">solver</span> = algorithm used in the optimization problem held constant at a value of lbfgs
+3. A special hyperparameter (<span style="color: #FF0000">class_weight</span> = balanced) was fixed to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9068
+    * **Precision** = 0.8000
+    * **Recall** = 0.9180
+    * **F1 Score** = 0.8549
+    * **AUROC** = 0.9100
+5. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9275
+    * **Precision** = 0.8260
+    * **Recall** = 0.9500
+    * **F1 Score** = 0.8837
+    * **AUROC** = 0.9341
+6. Sufficiently comparable apparent and independent validation model performance observed that might be indicative of the absence of excessive model overfitting.
 
 
 
