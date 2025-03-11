@@ -11415,7 +11415,7 @@ joblib.dump(bagged_bsvm_optimal,
     * <span style="color: #FF0000">estimator_max_depth</span> = maximum depth of the tree made to vary between 3 and 6
     * <span style="color: #FF0000">learning_rate</span> = weight applied to each classifier at each boosting iteration made to vary between 0.01 and 0.10
     * <span style="color: #FF0000">n_estimators</span> = maximum number of estimators at which boosting is terminated made to vary between 50 and 100
-3. No hyperparameter was defined in the model to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+3. No any hyperparameter was defined in the model to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
 4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for: 
     * <span style="color: #FF0000">estimator_max_depth</span> = 2
     * <span style="color: #FF0000">learning_rate</span> = 0.01
@@ -12355,7 +12355,7 @@ joblib.dump(boosted_ab_optimal,
     * <span style="color: #FF0000">max_depth</span> = maximum depth of the tree made to vary between 3 and 6
     * <span style="color: #FF0000">min_samples_leaf</span> = minimum number of samples required to be at a leaf node made to vary between 5 and 10
     * <span style="color: #FF0000">n_estimators</span> = number of boosting stages to perform made to vary between 50 and 100
-3. No hyperparameter was defined in the model to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+3. No any hyperparameter was defined in the model to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
 4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for:
     * <span style="color: #FF0000">learning_rate</span> = 0.10
     * <span style="color: #FF0000">max_depth</span> = 3
@@ -16170,6 +16170,30 @@ joblib.dump(boosted_cb_optimal,
 
 [K-Nearest Neighbors (KNN)](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html) is a non-parametric classification algorithm that makes predictions based on the majority class among the k-nearest training samples in feature space. It does not create an explicit model during training; instead, it stores the entire dataset and computes distances between a query point and all training samples during inference. The algorithm follows three key steps: (1) compute the distance between the query point and all training samples (typically using Euclidean distance), (2) identify the k closest points, and (3) assign the most common class among them as the predicted label. KNN is advantageous because it is simple, requires minimal training time, and can model complex decision boundaries when provided with sufficient data. However, it has significant drawbacks: it is computationally expensive for large datasets since distances must be computed for every prediction, it is sensitive to irrelevant or redundant features, and it requires careful selection of k, as a small k can make the model too sensitive to noise while a large k can overly smooth decision boundaries.
 
+1. The [k-nearest neighbors](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html) model from the <mark style="background-color: #CCECFF"><b>sklearn.ensemble</b></mark> Python library API was implemented. 
+2. The model contains 3 hyperparameters for tuning:
+    * <span style="color: #FF0000">n_neighbors</span> = number of neighbors to use made to vary between 3 and 5
+    * <span style="color: #FF0000">weights</span> = weight function used in prediction made to vary between uniform and distance
+    * <span style="color: #FF0000">metric</span> = metric to use for distance computation made to vary between minkowski and euclidean
+3. No any hyperparameter was defined in the model to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for: 
+    * <span style="color: #FF0000">n_neighbors</span> = 3
+    * <span style="color: #FF0000">weights</span> = uniform
+    * <span style="color: #FF0000">metric</span> = minkowski
+5. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9215
+    * **Precision** = 0.9090
+    * **Recall** = 0.8196
+    * **F1 Score** = 0.8620
+    * **AUROC** = 0.8923
+6. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8115
+    * **Precision** = 0.7058
+    * **Recall** = 0.6000
+    * **F1 Score** = 0.6486
+    * **AUROC** = 0.7489
+7. Relatively large difference in apparent and independent validation model performance observed that might be indicative of the presence of moderate model overfitting.
+
 
 
 ```python
@@ -18019,6 +18043,30 @@ joblib.dump(stacked_baselearner_svm_optimal,
 
 [Ridge Classifier](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.RidgeClassifier.html) is a variation of logistic regression that incorporates L2 regularization to prevent overfitting by penalizing large coefficients in the decision boundary equation. It assumes a linear relationship between the predictor variables and the target class, estimating class probabilities using the logistic function. The key steps include fitting a linear model while adding a penalty term to shrink coefficient values, which reduces variance and improves generalization. Ridge Classifier is particularly useful when dealing with collinear features, as it distributes the importance among correlated variables instead of assigning extreme weights to a few. The advantages of Ridge Classifier include its efficiency, interpretability, and ability to handle high-dimensional data with multicollinearity. However, it has limitations: it assumes a linear decision boundary, making it unsuitable for complex, non-linear relationships, and the regularization parameter requires tuning to balance bias and variance effectively. Additionally, it does not perform feature selection, meaning all input features contribute to the decision-making process, which may reduce interpretability in some cases.
 
+1. The [ridge classifier](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.RidgeClassifier.html) model from the <mark style="background-color: #CCECFF"><b>sklearn.linear_model</b></mark> Python library API was implemented. 
+2. The model contains 3 hyperparameters for tuning:
+    * <span style="color: #FF0000">alpha</span> = regularization strength made to vary between 1.0 and 2.0
+    * <span style="color: #FF0000">solver</span> = solver to use in the computational routines made to vary between sag and saga
+    * <span style="color: #FF0000">tol</span> = precision of the solution made to vary between 1e-3 and 1e-4
+3. A special hyperparameter (<span style="color: #FF0000">class_weight</span> = balanced) was fixed to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for: 
+    * <span style="color: #FF0000">alpha</span> = 2.0
+    * <span style="color: #FF0000">solver</span> = saga
+    * <span style="color: #FF0000">tol</span> = 1e-4
+5. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8872
+    * **Precision** = 0.7638
+    * **Recall** = 0.9016
+    * **F1 Score** = 0.8270
+    * **AUROC** = 0.8913
+6. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8985
+    * **Precision** = 0.7826
+    * **Recall** = 0.9000
+    * **F1 Score** = 0.8372
+    * **AUROC** = 0.8989
+7. Sufficiently comparable apparent and independent validation model performance observed that might be indicative of the absence of excessive model overfitting.
+
 
 
 ```python
@@ -18932,6 +18980,30 @@ joblib.dump(stacked_baselearner_rc_optimal,
 ### 1.9.4 Base Learner - Neural Network <a class="anchor" id="1.9.4"></a>
 
 [Neural Network](https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html) is a classification algorithm inspired by the human brain, consisting of layers of interconnected neurons that transform input features through weighted connections and activation functions. It learns patterns in data through backpropagation, where the network adjusts its internal weights to minimize classification error. The process involves an input layer receiving data, multiple hidden layers extracting hierarchical features, and an output layer producing a final prediction. The key advantages of neural networks include their ability to model highly complex, non-linear relationships, making them suitable for image, text, and speech classification tasks. They are also highly scalable, capable of handling massive datasets. However, neural networks have several challenges: they require substantial computational resources, especially for deep architectures; they need large amounts of labeled data for effective training; and they are often difficult to interpret due to their "black box" nature. Additionally, hyperparameter tuning, including choosing the number of layers, neurons, and activation functions, is non-trivial and requires careful optimization to prevent overfitting or underfitting.
+
+1. The [neural network](https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html) model from the <mark style="background-color: #CCECFF"><b>sklearn.neural_network</b></mark> Python library API was implemented. 
+2. The model contains 3 hyperparameters for tuning:
+    * <span style="color: #FF0000">hidden_layer_sizes</span> = ith element represents the number of neurons in the ith hidden layer made to vary between (50,) and (100,)
+    * <span style="color: #FF0000">activation</span> = activation function for the hidden layer made to vary between relu and tanh
+    * <span style="color: #FF0000">alpha</span> = strength of the L2 regularization term made to vary between 0.0001 and 0.001
+3. No hyperparameter was defined in the model to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for: 
+    * <span style="color: #FF0000">hidden_layer_sizes</span> = (50,)
+    * <span style="color: #FF0000">activation</span> = relu
+    * <span style="color: #FF0000">alpha</span> = 0.0001
+5. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8921
+    * **Precision** = 0.8095
+    * **Recall** = 0.8360
+    * **F1 Score** = 0.8225
+    * **AUROC** = 0.8760
+6. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8840
+    * **Precision** = 0.7727
+    * **Recall** = 0.8500
+    * **F1 Score** = 0.8095
+    * **AUROC** = 0.8739
+7. Sufficiently comparable apparent and independent validation model performance observed that might be indicative of the absence of excessive model overfitting.
 
 
 
@@ -21669,6 +21741,30 @@ display(stacked_metalearner_lr_optimal_validation)
 
 [K-Nearest Neighbors (KNN)](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html) is a non-parametric classification algorithm that makes predictions based on the majority class among the k-nearest training samples in feature space. It does not create an explicit model during training; instead, it stores the entire dataset and computes distances between a query point and all training samples during inference. The algorithm follows three key steps: (1) compute the distance between the query point and all training samples (typically using Euclidean distance), (2) identify the k closest points, and (3) assign the most common class among them as the predicted label. KNN is advantageous because it is simple, requires minimal training time, and can model complex decision boundaries when provided with sufficient data. However, it has significant drawbacks: it is computationally expensive for large datasets since distances must be computed for every prediction, it is sensitive to irrelevant or redundant features, and it requires careful selection of k, as a small k can make the model too sensitive to noise while a large k can overly smooth decision boundaries.
 
+1. The [k-nearest neighbors](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html) model from the <mark style="background-color: #CCECFF"><b>sklearn.ensemble</b></mark> Python library API was implemented. 
+2. The model contains 3 hyperparameters for tuning:
+    * <span style="color: #FF0000">n_neighbors</span> = number of neighbors to use made to vary between 3 and 5
+    * <span style="color: #FF0000">weights</span> = weight function used in prediction made to vary between uniform and distance
+    * <span style="color: #FF0000">metric</span> = metric to use for distance computation made to vary between minkowski and euclidean
+3. No any hyperparameter was defined in the model to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for: 
+    * <span style="color: #FF0000">n_neighbors</span> = 3
+    * <span style="color: #FF0000">weights</span> = uniform
+    * <span style="color: #FF0000">metric</span> = minkowski
+5. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9215
+    * **Precision** = 0.9090
+    * **Recall** = 0.8196
+    * **F1 Score** = 0.8620
+    * **AUROC** = 0.8923
+6. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8115
+    * **Precision** = 0.7058
+    * **Recall** = 0.6000
+    * **F1 Score** = 0.6486
+    * **AUROC** = 0.7489
+7. Relatively large difference in apparent and independent validation model performance observed that might be indicative of the presence of moderate model overfitting.
+
 
 
 ```python
@@ -23518,6 +23614,30 @@ joblib.dump(blended_baselearner_svm_optimal,
 
 [Ridge Classifier](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.RidgeClassifier.html) is a variation of logistic regression that incorporates L2 regularization to prevent overfitting by penalizing large coefficients in the decision boundary equation. It assumes a linear relationship between the predictor variables and the target class, estimating class probabilities using the logistic function. The key steps include fitting a linear model while adding a penalty term to shrink coefficient values, which reduces variance and improves generalization. Ridge Classifier is particularly useful when dealing with collinear features, as it distributes the importance among correlated variables instead of assigning extreme weights to a few. The advantages of Ridge Classifier include its efficiency, interpretability, and ability to handle high-dimensional data with multicollinearity. However, it has limitations: it assumes a linear decision boundary, making it unsuitable for complex, non-linear relationships, and the regularization parameter requires tuning to balance bias and variance effectively. Additionally, it does not perform feature selection, meaning all input features contribute to the decision-making process, which may reduce interpretability in some cases.
 
+1. The [ridge classifier](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.RidgeClassifier.html) model from the <mark style="background-color: #CCECFF"><b>sklearn.linear_model</b></mark> Python library API was implemented. 
+2. The model contains 3 hyperparameters for tuning:
+    * <span style="color: #FF0000">alpha</span> = regularization strength made to vary between 1.0 and 2.0
+    * <span style="color: #FF0000">solver</span> = solver to use in the computational routines made to vary between sag and saga
+    * <span style="color: #FF0000">tol</span> = precision of the solution made to vary between 1e-3 and 1e-4
+3. A special hyperparameter (<span style="color: #FF0000">class_weight</span> = balanced) was fixed to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for: 
+    * <span style="color: #FF0000">alpha</span> = 2.0
+    * <span style="color: #FF0000">solver</span> = saga
+    * <span style="color: #FF0000">tol</span> = 1e-4
+5. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8872
+    * **Precision** = 0.7638
+    * **Recall** = 0.9016
+    * **F1 Score** = 0.8270
+    * **AUROC** = 0.8913
+6. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8985
+    * **Precision** = 0.7826
+    * **Recall** = 0.9000
+    * **F1 Score** = 0.8372
+    * **AUROC** = 0.8989
+7. Sufficiently comparable apparent and independent validation model performance observed that might be indicative of the absence of excessive model overfitting.
+
 
 
 ```python
@@ -24431,6 +24551,30 @@ joblib.dump(blended_baselearner_rc_optimal,
 ### 1.10.4 Base Learner - Neural Network <a class="anchor" id="1.10.4"></a>
 
 [Neural Network](https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html) is a classification algorithm inspired by the human brain, consisting of layers of interconnected neurons that transform input features through weighted connections and activation functions. It learns patterns in data through backpropagation, where the network adjusts its internal weights to minimize classification error. The process involves an input layer receiving data, multiple hidden layers extracting hierarchical features, and an output layer producing a final prediction. The key advantages of neural networks include their ability to model highly complex, non-linear relationships, making them suitable for image, text, and speech classification tasks. They are also highly scalable, capable of handling massive datasets. However, neural networks have several challenges: they require substantial computational resources, especially for deep architectures; they need large amounts of labeled data for effective training; and they are often difficult to interpret due to their "black box" nature. Additionally, hyperparameter tuning, including choosing the number of layers, neurons, and activation functions, is non-trivial and requires careful optimization to prevent overfitting or underfitting.
+
+1. The [neural network](https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html) model from the <mark style="background-color: #CCECFF"><b>sklearn.neural_network</b></mark> Python library API was implemented. 
+2. The model contains 3 hyperparameters for tuning:
+    * <span style="color: #FF0000">hidden_layer_sizes</span> = ith element represents the number of neurons in the ith hidden layer made to vary between (50,) and (100,)
+    * <span style="color: #FF0000">activation</span> = activation function for the hidden layer made to vary between relu and tanh
+    * <span style="color: #FF0000">alpha</span> = strength of the L2 regularization term made to vary between 0.0001 and 0.001
+3. No hyperparameter was defined in the model to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for: 
+    * <span style="color: #FF0000">hidden_layer_sizes</span> = (50,)
+    * <span style="color: #FF0000">activation</span> = relu
+    * <span style="color: #FF0000">alpha</span> = 0.0001
+5. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8921
+    * **Precision** = 0.8095
+    * **Recall** = 0.8360
+    * **F1 Score** = 0.8225
+    * **AUROC** = 0.8760
+6. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8840
+    * **Precision** = 0.7727
+    * **Recall** = 0.8500
+    * **F1 Score** = 0.8095
+    * **AUROC** = 0.8739
+7. Sufficiently comparable apparent and independent validation model performance observed that might be indicative of the absence of excessive model overfitting.
 
 
 
@@ -27143,6 +27287,54 @@ display(blended_metalearner_lr_optimal_validation)
 
 ## 1.11. Consolidated Summary<a class="anchor" id="1.11"></a>
 
+1. The **Blended Model** developed from training a **Meta Learner** by combining predictions from multiple **Base Learners** was selected as the final model by demonstrating the best validation **F1 Score** with minimal overfitting :
+    * **Apparent F1 Score Performance** = 0.8549
+    * **Independent Validation F1 Score Performance** = 0.8837
+    * **Independent Test F1 Score Performance** = 0.8571
+2. The final model configuration is described as follows:
+    * **Base Learner**: [k-nearest neighbors](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html) with optimal hyperparameters:
+        * <span style="color: #FF0000">n_neighbors</span> = 3
+        * <span style="color: #FF0000">weights</span> = uniform
+        * <span style="color: #FF0000">metric</span> = minkowski
+    * **Base Learner**: [support vector machine](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html) with optimal hyperparameters:
+        * <span style="color: #FF0000">C</span> = 1.0
+        * <span style="color: #FF0000">kernel</span> = linear
+        * <span style="color: #FF0000">gamma</span> = scale
+    * **Base Learner**: [ridge classifier](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.RidgeClassifier.html) with optimal hyperparameters:
+        * <span style="color: #FF0000">alpha</span> = 2.0
+        * <span style="color: #FF0000">solver</span> = saga
+        * <span style="color: #FF0000">tol</span> = 1e-4
+    * **Base Learner**: [neural network](https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html) with optimal hyperparameters:
+        * <span style="color: #FF0000">hidden_layer_sizes</span> = (50,)
+        * <span style="color: #FF0000">activation</span> = relu
+        * <span style="color: #FF0000">alpha</span> = 0.0001
+    * **Base Learner**: [decision tree](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html) with optimal hyperparameters:
+        * <span style="color: #FF0000">criterion</span> = gini
+        * <span style="color: #FF0000">max_depth</span> = 6
+        * <span style="color: #FF0000">min_samples_leaf</span> = 5
+    * **Meta Learner**: [logistic regression model](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) with optimal hyperparameters:
+        * <span style="color: #FF0000">C</span> = 1.0
+        * <span style="color: #FF0000">penalty</span> = l2
+        * <span style="color: #FF0000">solver</span> = lbfgs
+3. Only 2 of the 5 base learners demonstrated a significant contribution to the final prediction with positive values noted in terms of the permutation-based importance:
+    * **Base Learner**: [ridge classifier](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.RidgeClassifier.html)
+    * **Base Learner**: [support vector machine](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html)
+4. The remaining 3 base learners have not demonstrated significant contribution to the final prediction with negative values noted in terms of the permutation-based importance
+    * **Base Learner**: [decision tree](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html)
+    * **Base Learner**: [k-nearest neighbors](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html)
+    * **Base Learner**: [neural network](https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html)
+5. For each of the significantly contributing base learners, the predictors with positive permutation-based importance are given as follows:
+    * **Base Learner**: [ridge classifier](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.RidgeClassifier.html)
+        * <span style="color: #FF0000">Age</span>
+        * <span style="color: #FF0000">T</span>
+        * <span style="color: #FF0000">Focality</span>
+        * <span style="color: #FF0000">Smoking</span>
+        * <span style="color: #FF0000">Response</span>
+    * **Base Learner**: [support vector machine](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html)
+        * <span style="color: #FF0000">Age</span>
+        * <span style="color: #FF0000">T</span>
+
+
 
 ```python
 ##################################
@@ -29081,14 +29273,13 @@ perm_importance_blended_baselearner_dt_optimal = compute_permutation_importance(
 ```python
 ##################################
 # Computing the permutation importance
-# for the Neural Network base learner
+# for the KNN base learner
 ##################################
-perm_importance_blended_baselearner_nn_optimal = compute_permutation_importance(blended_baselearner_nn_optimal, 
-                                                                                X_preprocessed_train, 
-                                                                                y_preprocessed_train_encoded, 
-                                                                                "Optimal Blended Base Learner Neural Network",
-                                                                                feature_names=feature_names)
-
+perm_importance_blended_baselearner_knn_optimal = compute_permutation_importance(blended_baselearner_knn_optimal, 
+                                                                                 X_preprocessed_train, 
+                                                                                 y_preprocessed_train_encoded, 
+                                                                                 "Optimal Blended Base Learner KNN",
+                                                                                 feature_names=feature_names)
 ```
 
 
@@ -29101,13 +29292,13 @@ perm_importance_blended_baselearner_nn_optimal = compute_permutation_importance(
 ```python
 ##################################
 # Computing the permutation importance
-# for the KNN base learner
+# for the Neural Network base learner
 ##################################
-perm_importance_blended_baselearner_knn_optimal = compute_permutation_importance(blended_baselearner_knn_optimal, 
-                                                                                 X_preprocessed_train, 
-                                                                                 y_preprocessed_train_encoded, 
-                                                                                 "Optimal Blended Base Learner KNN",
-                                                                                 feature_names=feature_names)
+perm_importance_blended_baselearner_nn_optimal = compute_permutation_importance(blended_baselearner_nn_optimal, 
+                                                                                X_preprocessed_train, 
+                                                                                y_preprocessed_train_encoded, 
+                                                                                "Optimal Blended Base Learner Neural Network",
+                                                                                feature_names=feature_names)
 
 ```
 
@@ -29116,6 +29307,12 @@ perm_importance_blended_baselearner_knn_optimal = compute_permutation_importance
 ![png](output_563_0.png)
     
 
+
+
+```python
+
+
+```
 
 # 2. Summary <a class="anchor" id="Summary"></a>
 
