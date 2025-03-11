@@ -3909,7 +3909,7 @@ y_test.to_csv(os.path.join("..", DATASETS_FINAL_TEST_TARGET_PATH, "y_test.csv"),
 
 ### 1.4.2 Data Profiling <a class="anchor" id="1.4.2"></a>
 
-1. No distributional anomalies were obseerved for the numeric predictor <span style="color: #FF0000">Age</span>.
+1. No significant distributional anomalies were observed for the numeric predictor <span style="color: #FF0000">Age</span>.
 2. 9 categorical predictors were observed with categories consisting of too few cases that risk poor generalization and cross-validation issues:
     * <span style="color: #FF0000">Thyroid_Function</span>: 
         * **171** <span style="color: #FF0000">Thyroid_Function=Euthyroid</span>: 83.82%
@@ -6662,6 +6662,31 @@ def model_performance_evaluation(y_true, y_pred):
 
 [Random Forest](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html) is an ensemble learning method that builds multiple decision trees and combines their outputs to improve prediction accuracy and robustness in binary classification. Instead of relying on a single decision tree, it aggregates multiple trees, reducing overfitting and increasing generalizability. The algorithm works by training individual decision trees on bootstrapped samples of the dataset, where each tree is trained on a slightly different subset of data. Additionally, at each decision node, a random subset of features is considered for splitting, adding further diversity among the trees. The final classification is determined by majority voting across all trees. The main advantages of Random Forest include its resilience to overfitting, ability to handle high-dimensional data, and robustness against noisy data. However, it has limitations, such as higher computational cost due to multiple trees and reduced interpretability compared to a single decision tree. It can also struggle with highly imbalanced data unless additional techniques like class weighting are applied.
 
+1. The [random forest](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html) model from the <mark style="background-color: #CCECFF"><b>sklearn.ensemble</b></mark> Python library API was implemented. 
+2. The model contains 4 hyperparameters for tuning:
+    * <span style="color: #FF0000">criterion</span> = function to measure the quality of a split made to vary between gini and entropy
+    * <span style="color: #FF0000">max_depth</span> = maximum depth of the tree made to vary between 3 and 6
+    * <span style="color: #FF0000">min_samples_leaf</span> = minimum number of samples required to split an internal node made to vary between 5 and 10
+    * <span style="color: #FF0000">n_estimators</span> = number of base estimators in the ensemble made to vary between 100 and 200
+3. A special hyperparameter (<span style="color: #FF0000">class_weight</span> = balanced) was fixed to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for: 
+    * <span style="color: #FF0000">criterion</span> = entropy
+    * <span style="color: #FF0000">max_depth</span> = 6
+    * <span style="color: #FF0000">min_samples_leaf</span> = 10
+    * <span style="color: #FF0000">n_estimators</span> = 200
+5. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8985
+    * **Precision** = 0.7826
+    * **Recall** = 0.9000
+    * **F1 Score** = 0.8372
+    * **AUROC** = 0.8989
+6. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8985
+    * **Precision** = 0.7826
+    * **Recall** = 0.9000
+    * **F1 Score** = 0.8372
+    * **AUROC** = 0.8989
+7. Sufficiently comparable apparent and independent validation model performance observed that might be indicative of the absence of excessive model overfitting.
 
 
 
@@ -6698,7 +6723,7 @@ bagged_rf_pipeline = Pipeline([
 ##################################
 bagged_rf_hyperparameter_grid = {
     'bagged_rf_model__criterion': ['gini', 'entropy'],
-    'bagged_rf_model__max_depth': [3, 5],
+    'bagged_rf_model__max_depth': [3, 6],
     'bagged_rf_model__min_samples_leaf': [5, 10],
     'bagged_rf_model__n_estimators': [100, 200]
 }
@@ -7195,7 +7220,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;bagged_rf_model__criterion&#x27;: [&#x27;gini&#x27;, &#x27;entropy&#x27;],
-                         &#x27;bagged_rf_model__max_depth&#x27;: [3, 5],
+                         &#x27;bagged_rf_model__max_depth&#x27;: [3, 6],
                          &#x27;bagged_rf_model__min_samples_leaf&#x27;: [5, 10],
                          &#x27;bagged_rf_model__n_estimators&#x27;: [100, 200]},
              scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" ><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
@@ -7218,7 +7243,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                random_state=987654321))]),
              n_jobs=-1,
              param_grid={&#x27;bagged_rf_model__criterion&#x27;: [&#x27;gini&#x27;, &#x27;entropy&#x27;],
-                         &#x27;bagged_rf_model__max_depth&#x27;: [3, 5],
+                         &#x27;bagged_rf_model__max_depth&#x27;: [3, 6],
                          &#x27;bagged_rf_model__min_samples_leaf&#x27;: [5, 10],
                          &#x27;bagged_rf_model__n_estimators&#x27;: [100, 200]},
              scoring=&#x27;f1&#x27;, verbose=1)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox" ><label for="sk-estimator-id-2" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>best_estimator_: Pipeline</div></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
@@ -7232,14 +7257,14 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;bagged_rf_model&#x27;,
                  RandomForestClassifier(class_weight=&#x27;balanced&#x27;,
-                                        criterion=&#x27;entropy&#x27;, max_depth=5,
+                                        criterion=&#x27;entropy&#x27;, max_depth=6,
                                         min_samples_leaf=10, n_estimators=200,
                                         random_state=987654321))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox" ><label for="sk-estimator-id-3" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
                                   &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-4" type="checkbox" ><label for="sk-estimator-id-4" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-5" type="checkbox" ><label for="sk-estimator-id-5" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-6" type="checkbox" ><label for="sk-estimator-id-6" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-7" type="checkbox" ><label for="sk-estimator-id-7" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-8" type="checkbox" ><label for="sk-estimator-id-8" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>RandomForestClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.ensemble.RandomForestClassifier.html">?<span>Documentation for RandomForestClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>RandomForestClassifier(class_weight=&#x27;balanced&#x27;, criterion=&#x27;entropy&#x27;,
-                       max_depth=5, min_samples_leaf=10, n_estimators=200,
+                       max_depth=6, min_samples_leaf=10, n_estimators=200,
                        random_state=987654321)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
@@ -7276,7 +7301,7 @@ print(f"Best Random Forest Hyperparameters: {bagged_rf_grid_search.best_params_}
 ```
 
     Best Bagged Model - Random Forest: 
-    Best Random Forest Hyperparameters: {'bagged_rf_model__criterion': 'entropy', 'bagged_rf_model__max_depth': 5, 'bagged_rf_model__min_samples_leaf': 10, 'bagged_rf_model__n_estimators': 200}
+    Best Random Forest Hyperparameters: {'bagged_rf_model__criterion': 'entropy', 'bagged_rf_model__max_depth': 6, 'bagged_rf_model__min_samples_leaf': 10, 'bagged_rf_model__n_estimators': 200}
     
 
 
@@ -7580,6 +7605,32 @@ joblib.dump(bagged_rf_optimal,
 ### 1.7.2 Extra Trees <a class="anchor" id="1.7.2"></a>
 
 [Extra Trees (Extremely Randomized Trees)](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html) is a variation of Random Forest that introduces more randomness into tree construction to improve generalization. Similar to Random Forest, it builds multiple decision trees on bootstrapped datasets, but it differs in how it determines splits—rather than selecting the best split based on information gain or Gini impurity, Extra Trees splits randomly at each node from a subset of features. This extra randomness can prevent overfitting and make the model more robust to small variations in data. The key advantages of Extra Trees include its speed, as it does not need to search for the best split at each node, and its ability to handle large datasets efficiently. However, since it relies on random splits, it may not perform as well as Random Forest on some datasets, especially when strong feature interactions exist. Additionally, its randomness can make the model harder to interpret and tune effectively.
+
+1. The [extra trees](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html) model from the <mark style="background-color: #CCECFF"><b>sklearn.ensemble</b></mark> Python library API was implemented. 
+2. The model contains 4 hyperparameters for tuning:
+    * <span style="color: #FF0000">criterion</span> = function to measure the quality of a split made to vary between gini and entropy
+    * <span style="color: #FF0000">max_depth</span> = maximum depth of the tree made to vary between 3 and 6
+    * <span style="color: #FF0000">min_samples_leaf</span> = minimum number of samples required to split an internal node made to vary between 5 and 10
+    * <span style="color: #FF0000">n_estimators</span> = number of base estimators in the ensemble made to vary between 100 and 200
+3. A special hyperparameter (<span style="color: #FF0000">class_weight</span> = balanced) was fixed to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for: 
+    * <span style="color: #FF0000">criterion</span> = entropy
+    * <span style="color: #FF0000">max_depth</span> = 6
+    * <span style="color: #FF0000">min_samples_leaf</span> = 10
+    * <span style="color: #FF0000">n_estimators</span> = 200
+5. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8921
+    * **Precision** = 0.7746
+    * **Recall** = 0.9016
+    * **F1 Score** = 0.8333
+    * **AUROC** = 0.8948
+6. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8985
+    * **Precision** = 0.7826
+    * **Recall** = 0.9000
+    * **F1 Score** = 0.8372
+    * **AUROC** = 0.8989
+7. Sufficiently comparable apparent and independent validation model performance observed that might be indicative of the absence of excessive model overfitting.
 
 
 
@@ -8498,6 +8549,32 @@ joblib.dump(bagged_et_optimal,
 ### 1.7.3 Bagged Decision Trees <a class="anchor" id="1.7.3"></a>
 
 [Bagged](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.BaggingClassifier.html) [Decision Trees](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html) is an ensemble method that reduces overfitting by training multiple decision trees on different bootstrap samples and aggregating their predictions. Unlike Random Forest, all features are considered when finding the best split at each node, making it less random but still improving stability compared to a single decision tree. The process involves drawing multiple random subsets of the training data (with replacement), training a decision tree on each subset, and combining the predictions using majority voting for classification. This technique helps to reduce variance and prevent overfitting, leading to more stable and accurate predictions. The main advantage of Bagged Decision Trees is that they perform well on complex datasets without requiring deep tuning. However, the downside is that they require significant computational power and memory, as multiple trees must be trained and stored. Additionally, unlike boosting methods, bagging does not inherently improve bias, meaning the performance is still dependent on the base decision tree's predictive power.
+
+1. The [bagging classifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.BaggingClassifier.html) and [decision tree](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html) models from the <mark style="background-color: #CCECFF"><b>sklearn.ensemble</b></mark> and <mark style="background-color: #CCECFF"><b>sklearn.tree</b></mark> Python library APIs were implemented. 
+2. The model contains 4 hyperparameters for tuning:
+    * <span style="color: #FF0000">criterion</span> = function to measure the quality of a split made to vary between gini and entropy
+    * <span style="color: #FF0000">max_depth</span> = maximum depth of the tree made to vary between 3 and 6
+    * <span style="color: #FF0000">min_samples_leaf</span> = minimum number of samples required to split an internal node made to vary between 5 and 10
+    * <span style="color: #FF0000">n_estimators</span> = number of base estimators in the ensemble made to vary between 100 and 200
+3. A special hyperparameter (<span style="color: #FF0000">class_weight</span> = balanced) was fixed to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for: 
+    * <span style="color: #FF0000">criterion</span> = gini
+    * <span style="color: #FF0000">max_depth</span> = 6
+    * <span style="color: #FF0000">min_samples_leaf</span> = 5
+    * <span style="color: #FF0000">n_estimators</span> = 200
+5. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9019
+    * **Precision** = 0.7971
+    * **Recall** = 0.9016
+    * **F1 Score** = 0.8461
+    * **AUROC** = 0.9018
+6. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9130
+    * **Precision** = 0.8181
+    * **Recall** = 0.9000
+    * **F1 Score** = 0.8571
+    * **AUROC** = 0.9091
+7. Sufficiently comparable apparent and independent validation model performance observed that might be indicative of the absence of excessive model overfitting.
 
 
 
@@ -9427,6 +9504,32 @@ joblib.dump(bagged_bdt_optimal,
 
 [Bagged](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.BaggingClassifier.html) [Logistic Regression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) applies bootstrap aggregation (bagging) to logistic regression, improving its stability and generalization. Logistic regression is inherently a high-bias model, meaning it can underperform on complex, non-linear data. Bagging helps by training multiple logistic regression models on different bootstrap samples and averaging their probability outputs for final classification. This reduces variance and improves robustness, especially when dealing with small datasets prone to fluctuations. The main advantage is that it stabilizes logistic regression by reducing overfitting without adding significant complexity. Additionally, it works well when the relationship between features and the target variable is approximately linear. However, since logistic regression is a weak learner, bagging does not dramatically boost performance on highly non-linear problems. It is also computationally expensive compared to a single logistic regression model, and unlike boosting, it does not correct the inherent bias of logistic regression.
 
+1. The [bagging classifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.BaggingClassifier.html) and [logistic regression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) models from the <mark style="background-color: #CCECFF"><b>sklearn.ensemble</b></mark> and <mark style="background-color: #CCECFF"><b>sklearn.linear_model</b></mark> Python library APIs were implemented. 
+2. The model contains 4 hyperparameters for tuning:
+    * <span style="color: #FF0000">C</span> = inverse of regularization strength made to vary between 0.1 and 1.0
+    * <span style="color: #FF0000">penalty</span> = penalty norm made to vary between l1 and l2
+    * <span style="color: #FF0000">solver</span> = algorithm used in the optimization problem made to vary between liblinear and saga
+    * <span style="color: #FF0000">n_estimators</span> = number of base estimators in the ensemble made to vary between 100 and 200
+3. A special hyperparameter (<span style="color: #FF0000">class_weight</span> = balanced) was fixed to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for: 
+    * <span style="color: #FF0000">C</span> = 1.0
+    * <span style="color: #FF0000">penalty</span> = l1
+    * <span style="color: #FF0000">solver</span> = liblinear
+    * <span style="color: #FF0000">n_estimators</span> = 200
+5. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8921
+    * **Precision** = 0.7746
+    * **Recall** = 0.9016
+    * **F1 Score** = 0.8333
+    * **AUROC** = 0.8948
+6. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.8985
+    * **Precision** = 0.7826
+    * **Recall** = 0.9000
+    * **F1 Score** = 0.8372
+    * **AUROC** = 0.8989
+7. Sufficiently comparable apparent and independent validation model performance observed that might be indicative of the absence of excessive model overfitting.
+
 
 
 ```python
@@ -10352,6 +10455,32 @@ joblib.dump(bagged_blr_optimal,
 ### 1.7.5 Bagged Support Vector Machine <a class="anchor" id="1.7.5"></a>
 
 [Bagged](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.BaggingClassifier.html) [Support Vector Machine](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html) is an ensemble method that applies bagging to multiple SVM classifiers trained on different bootstrap samples, reducing variance while maintaining SVM's strong classification capabilities. SVM works by finding an optimal decision boundary (hyperplane) that maximizes the margin between different classes. However, a single SVM can be sensitive to small changes in data, especially when working with noisy datasets. By training multiple SVM models on different subsets and aggregating their predictions (majority voting), bagging stabilizes the decision boundary and enhances robustness. This approach is particularly useful when dealing with high-dimensional datasets with complex relationships. The key advantages include improved generalization, reduced overfitting, and better handling of noisy data. However, SVM is computationally intensive, and bagging increases the overall training time significantly, especially for large datasets. Additionally, combining multiple SVM models makes interpretation difficult, and performance gains may not always justify the added computational cost.
+
+1. The [bagging classifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.BaggingClassifier.html) and [support vector machine](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html) models from the <mark style="background-color: #CCECFF"><b>sklearn.ensemble</b></mark> and <mark style="background-color: #CCECFF"><b>sklearn.svm</b></mark> Python library APIs were implemented. 
+2. The model contains 4 hyperparameters for tuning:
+    * <span style="color: #FF0000">C</span> = inverse of regularization strength made to vary between 0.1 and 1.0
+    * <span style="color: #FF0000">kernel</span> = kernel type to be used in the algorithm made to vary between linear and rbf
+    * <span style="color: #FF0000">gamma</span> = kernel coefficient made to vary between scale and auto
+    * <span style="color: #FF0000">n_estimators</span> = number of base estimators in the ensemble made to vary between 100 and 200
+3. A special hyperparameter (<span style="color: #FF0000">class_weight</span> = balanced) was fixed to address the minimal 2:1 class imbalance observed between the No and Yes <span style="color: #FF0000">Recurred</span> categories.
+4. Hyperparameter tuning was conducted using the 5-cycle 5-fold cross-validation method with optimal model performance using the F1 score determined for: 
+    * <span style="color: #FF0000">C</span> = 1.0
+    * <span style="color: #FF0000">kernel</span> = linear
+    * <span style="color: #FF0000">gamma</span> = scale
+    * <span style="color: #FF0000">n_estimators</span> = 100
+5. The apparent model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9068
+    * **Precision** = 0.8088
+    * **Recall** = 0.9016
+    * **F1 Score** = 0.8527
+    * **AUROC** = 0.9053
+6. The independent validation model performance of the optimal model is summarized as follows:
+    * **Accuracy** = 0.9130
+    * **Precision** = 0.8181
+    * **Recall** = 0.9000
+    * **F1 Score** = 0.8571
+    * **AUROC** = 0.9091
+7. Sufficiently comparable apparent and independent validation model performance observed that might be indicative of the absence of excessive model overfitting.
 
 
 
@@ -19607,7 +19736,7 @@ stacked_baselearner_dt_pipeline = Pipeline([
 ##################################
 stacked_baselearner_dt_hyperparameter_grid = {
     'stacked_baselearner_dt_model__criterion': ['gini', 'entropy'],
-    'stacked_baselearner_dt_model__max_depth': [3, 5],
+    'stacked_baselearner_dt_model__max_depth': [3, 6],
     'stacked_baselearner_dt_model__min_samples_leaf': [5, 10]
 }
 
@@ -20104,7 +20233,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
              n_jobs=-1,
              param_grid={&#x27;stacked_baselearner_dt_model__criterion&#x27;: [&#x27;gini&#x27;,
                                                                      &#x27;entropy&#x27;],
-                         &#x27;stacked_baselearner_dt_model__max_depth&#x27;: [3, 5],
+                         &#x27;stacked_baselearner_dt_model__max_depth&#x27;: [3, 6],
                          &#x27;stacked_baselearner_dt_model__min_samples_leaf&#x27;: [5,
                                                                             10]},
              scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-121" type="checkbox" ><label for="sk-estimator-id-121" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
@@ -20128,7 +20257,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
              n_jobs=-1,
              param_grid={&#x27;stacked_baselearner_dt_model__criterion&#x27;: [&#x27;gini&#x27;,
                                                                      &#x27;entropy&#x27;],
-                         &#x27;stacked_baselearner_dt_model__max_depth&#x27;: [3, 5],
+                         &#x27;stacked_baselearner_dt_model__max_depth&#x27;: [3, 6],
                          &#x27;stacked_baselearner_dt_model__min_samples_leaf&#x27;: [5,
                                                                             10]},
              scoring=&#x27;f1&#x27;, verbose=1)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-122" type="checkbox" ><label for="sk-estimator-id-122" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>best_estimator_: Pipeline</div></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
@@ -20141,15 +20270,14 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;stacked_baselearner_dt_model&#x27;,
-                 DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;,
-                                        criterion=&#x27;entropy&#x27;, max_depth=5,
+                 DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;, max_depth=6,
                                         min_samples_leaf=5,
                                         random_state=987654321))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-123" type="checkbox" ><label for="sk-estimator-id-123" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
-                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-124" type="checkbox" ><label for="sk-estimator-id-124" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-125" type="checkbox" ><label for="sk-estimator-id-125" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-126" type="checkbox" ><label for="sk-estimator-id-126" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-127" type="checkbox" ><label for="sk-estimator-id-127" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-128" type="checkbox" ><label for="sk-estimator-id-128" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>DecisionTreeClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.tree.DecisionTreeClassifier.html">?<span>Documentation for DecisionTreeClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;, criterion=&#x27;entropy&#x27;,
-                       max_depth=5, min_samples_leaf=5, random_state=987654321)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-124" type="checkbox" ><label for="sk-estimator-id-124" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-125" type="checkbox" ><label for="sk-estimator-id-125" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-126" type="checkbox" ><label for="sk-estimator-id-126" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-127" type="checkbox" ><label for="sk-estimator-id-127" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-128" type="checkbox" ><label for="sk-estimator-id-128" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>DecisionTreeClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.tree.DecisionTreeClassifier.html">?<span>Documentation for DecisionTreeClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;, max_depth=6, min_samples_leaf=5,
+                       random_state=987654321)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
 
@@ -20185,7 +20313,7 @@ print(f"Best Stacked Base Learner Decision Trees Hyperparameters: {stacked_basel
 ```
 
     Best Stacked Base Learner Decision Trees: 
-    Best Stacked Base Learner Decision Trees Hyperparameters: {'stacked_baselearner_dt_model__criterion': 'entropy', 'stacked_baselearner_dt_model__max_depth': 5, 'stacked_baselearner_dt_model__min_samples_leaf': 5}
+    Best Stacked Base Learner Decision Trees Hyperparameters: {'stacked_baselearner_dt_model__criterion': 'gini', 'stacked_baselearner_dt_model__max_depth': 6, 'stacked_baselearner_dt_model__min_samples_leaf': 5}
     
 
 
@@ -20202,7 +20330,7 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8100
+    F1 Score on Cross-Validated Data: 0.8099
     F1 Score on Training Data: 0.8511
     
     Classification Report on Train Data:
@@ -25039,7 +25167,7 @@ blended_baselearner_dt_pipeline = Pipeline([
 ##################################
 blended_baselearner_dt_hyperparameter_grid = {
     'blended_baselearner_dt_model__criterion': ['gini', 'entropy'],
-    'blended_baselearner_dt_model__max_depth': [3, 5],
+    'blended_baselearner_dt_model__max_depth': [3, 6],
     'blended_baselearner_dt_model__min_samples_leaf': [5, 10]
 }
 
@@ -25536,7 +25664,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
              n_jobs=-1,
              param_grid={&#x27;blended_baselearner_dt_model__criterion&#x27;: [&#x27;gini&#x27;,
                                                                      &#x27;entropy&#x27;],
-                         &#x27;blended_baselearner_dt_model__max_depth&#x27;: [3, 5],
+                         &#x27;blended_baselearner_dt_model__max_depth&#x27;: [3, 6],
                          &#x27;blended_baselearner_dt_model__min_samples_leaf&#x27;: [5,
                                                                             10]},
              scoring=&#x27;f1&#x27;, verbose=1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-162" type="checkbox" ><label for="sk-estimator-id-162" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>GridSearchCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(cv=RepeatedStratifiedKFold(n_repeats=5, n_splits=5, random_state=987654321),
@@ -25560,7 +25688,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
              n_jobs=-1,
              param_grid={&#x27;blended_baselearner_dt_model__criterion&#x27;: [&#x27;gini&#x27;,
                                                                      &#x27;entropy&#x27;],
-                         &#x27;blended_baselearner_dt_model__max_depth&#x27;: [3, 5],
+                         &#x27;blended_baselearner_dt_model__max_depth&#x27;: [3, 6],
                          &#x27;blended_baselearner_dt_model__min_samples_leaf&#x27;: [5,
                                                                             10]},
              scoring=&#x27;f1&#x27;, verbose=1)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-163" type="checkbox" ><label for="sk-estimator-id-163" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>best_estimator_: Pipeline</div></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;categorical_preprocessor&#x27;,
@@ -25573,15 +25701,14 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;blended_baselearner_dt_model&#x27;,
-                 DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;,
-                                        criterion=&#x27;entropy&#x27;, max_depth=5,
+                 DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;, max_depth=6,
                                         min_samples_leaf=5,
                                         random_state=987654321))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-164" type="checkbox" ><label for="sk-estimator-id-164" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
-                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-165" type="checkbox" ><label for="sk-estimator-id-165" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-166" type="checkbox" ><label for="sk-estimator-id-166" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-167" type="checkbox" ><label for="sk-estimator-id-167" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-168" type="checkbox" ><label for="sk-estimator-id-168" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-169" type="checkbox" ><label for="sk-estimator-id-169" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>DecisionTreeClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.tree.DecisionTreeClassifier.html">?<span>Documentation for DecisionTreeClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;, criterion=&#x27;entropy&#x27;,
-                       max_depth=5, min_samples_leaf=5, random_state=987654321)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-165" type="checkbox" ><label for="sk-estimator-id-165" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-166" type="checkbox" ><label for="sk-estimator-id-166" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-167" type="checkbox" ><label for="sk-estimator-id-167" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-168" type="checkbox" ><label for="sk-estimator-id-168" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-169" type="checkbox" ><label for="sk-estimator-id-169" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>DecisionTreeClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.tree.DecisionTreeClassifier.html">?<span>Documentation for DecisionTreeClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>DecisionTreeClassifier(class_weight=&#x27;balanced&#x27;, max_depth=6, min_samples_leaf=5,
+                       random_state=987654321)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
 
@@ -25617,7 +25744,7 @@ print(f"Best Blended Base Learner Decision Trees Hyperparameters: {blended_basel
 ```
 
     Best Blended Base Learner Decision Trees: 
-    Best Blended Base Learner Decision Trees Hyperparameters: {'blended_baselearner_dt_model__criterion': 'entropy', 'blended_baselearner_dt_model__max_depth': 5, 'blended_baselearner_dt_model__min_samples_leaf': 5}
+    Best Blended Base Learner Decision Trees Hyperparameters: {'blended_baselearner_dt_model__criterion': 'gini', 'blended_baselearner_dt_model__max_depth': 6, 'blended_baselearner_dt_model__min_samples_leaf': 5}
     
 
 
@@ -25634,7 +25761,7 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Cross-Validated Data: 0.8100
+    F1 Score on Cross-Validated Data: 0.8099
     F1 Score on Training Data: 0.8511
     
     Classification Report on Train Data:
@@ -26485,17 +26612,17 @@ print("\nClassification Report on Train Data:\n", classification_report(y_prepro
 
 ```
 
-    F1 Score on Training Data: 0.8485
+    F1 Score on Training Data: 0.8550
     
     Classification Report on Train Data:
                    precision    recall  f1-score   support
     
              0.0       0.96      0.90      0.93       143
-             1.0       0.79      0.92      0.85        61
+             1.0       0.80      0.92      0.85        61
     
-        accuracy                           0.90       204
+        accuracy                           0.91       204
        macro avg       0.88      0.91      0.89       204
-    weighted avg       0.91      0.90      0.90       204
+    weighted avg       0.91      0.91      0.91       204
     
     
 
@@ -26630,14 +26757,14 @@ display(blended_metalearner_lr_optimal_train)
     <tr>
       <th>0</th>
       <td>Accuracy</td>
-      <td>0.901961</td>
+      <td>0.906863</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Precision</td>
-      <td>0.788732</td>
+      <td>0.800000</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>train</td>
     </tr>
@@ -26651,14 +26778,14 @@ display(blended_metalearner_lr_optimal_train)
     <tr>
       <th>3</th>
       <td>F1</td>
-      <td>0.848485</td>
+      <td>0.854962</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>train</td>
     </tr>
     <tr>
       <th>4</th>
       <td>AUROC</td>
-      <td>0.906569</td>
+      <td>0.910065</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>train</td>
     </tr>
@@ -27082,7 +27209,7 @@ ensemble_train_validation_all_performance_F1_plot
     </tr>
     <tr>
       <th>blended_metalearner_lr_optimal</th>
-      <td>0.848485</td>
+      <td>0.854962</td>
       <td>0.883721</td>
     </tr>
   </tbody>
@@ -27354,7 +27481,7 @@ ensemble_train_validation_performance_F1_plot
     </tr>
     <tr>
       <th>blended_metalearner_lr_optimal</th>
-      <td>0.848485</td>
+      <td>0.854962</td>
       <td>0.883721</td>
     </tr>
   </tbody>
@@ -27718,35 +27845,35 @@ display(ensemble_test_all_performance)
     <tr>
       <th>105</th>
       <td>Accuracy</td>
-      <td>0.923077</td>
+      <td>0.912088</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>106</th>
       <td>Precision</td>
-      <td>0.833333</td>
+      <td>0.827586</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>107</th>
       <td>Recall</td>
-      <td>0.925926</td>
+      <td>0.888889</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>108</th>
       <td>F1</td>
-      <td>0.877193</td>
+      <td>0.857143</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>109</th>
       <td>AUROC</td>
-      <td>0.923900</td>
+      <td>0.905382</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
@@ -28189,35 +28316,35 @@ display(ensemble_test_performance)
     <tr>
       <th>105</th>
       <td>Accuracy</td>
-      <td>0.923077</td>
+      <td>0.912088</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>106</th>
       <td>Precision</td>
-      <td>0.833333</td>
+      <td>0.827586</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>107</th>
       <td>Recall</td>
-      <td>0.925926</td>
+      <td>0.888889</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>108</th>
       <td>F1</td>
-      <td>0.877193</td>
+      <td>0.857143</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
     <tr>
       <th>109</th>
       <td>AUROC</td>
-      <td>0.923900</td>
+      <td>0.905382</td>
       <td>blended_metalearner_lr_optimal</td>
       <td>test</td>
     </tr>
@@ -28375,11 +28502,11 @@ ensemble_test_performance_all_plot_test
     </tr>
     <tr>
       <th>blended_metalearner_lr_optimal</th>
-      <td>0.923077</td>
-      <td>0.833333</td>
-      <td>0.925926</td>
-      <td>0.877193</td>
-      <td>0.923900</td>
+      <td>0.912088</td>
+      <td>0.827586</td>
+      <td>0.888889</td>
+      <td>0.857143</td>
+      <td>0.905382</td>
     </tr>
   </tbody>
 </table>
@@ -28523,9 +28650,9 @@ ensemble_overall_performance_F1_plot
     </tr>
     <tr>
       <th>blended_metalearner_lr_optimal</th>
-      <td>0.848485</td>
+      <td>0.854962</td>
       <td>0.883721</td>
-      <td>0.877193</td>
+      <td>0.857143</td>
     </tr>
   </tbody>
 </table>
