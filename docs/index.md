@@ -4478,7 +4478,7 @@ thyroid_cancer_train_column_filtered.head()
 
 
 
-### 1.4.3 Category Aggregration and Encoding <a class="anchor" id="1.4.8"></a>
+### 1.4.3 Category Aggregration and Encoding <a class="anchor" id="1.4.3"></a>
 
 1. Category aggregation was applied to the previously identified categorical predictors observed with many levels (high-cardinality) containing only a few observations to improve model stability during cross-validation and enhance generalization:
     * <span style="color: #FF0000">Thyroid_Function</span>: 
@@ -27287,11 +27287,13 @@ display(blended_metalearner_lr_optimal_validation)
 
 ## 1.11. Consolidated Summary<a class="anchor" id="1.11"></a>
 
-1. The **Blended Model** developed from training a **Meta Learner** by combining predictions from multiple **Base Learners** was selected as the final model by demonstrating the best validation **F1 Score** with minimal overfitting :
+1. Among 12 candidate models, the **Blended Model** developed from training a **Meta Learner** by combining predictions from multiple **Base Learners** was selected as the final model by demonstrating the best **F1 Score** for the independent validation data with minimal overfitting :
     * **Apparent F1 Score Performance** = 0.8549
     * **Independent Validation F1 Score Performance** = 0.8837
     * **Independent Test F1 Score Performance** = 0.8571
-2. The final model configuration is described as follows:
+2. The final model similarly demonstrated consistently high **F1 Score** for the test data :
+    * **Independent Test F1 Score Performance** = 0.8571
+3. The final model configuration is described as follows:
     * **Base Learner**: [k-nearest neighbors](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html) with optimal hyperparameters:
         * <span style="color: #FF0000">n_neighbors</span> = 3
         * <span style="color: #FF0000">weights</span> = uniform
@@ -27316,14 +27318,14 @@ display(blended_metalearner_lr_optimal_validation)
         * <span style="color: #FF0000">C</span> = 1.0
         * <span style="color: #FF0000">penalty</span> = l2
         * <span style="color: #FF0000">solver</span> = lbfgs
-3. Only 2 of the 5 base learners demonstrated a significant contribution to the final prediction with positive values noted in terms of the permutation-based importance:
+4. Only 2 of the 5 base learners demonstrated a significant contribution to the final prediction with positive values noted in terms of the permutation-based importance:
     * **Base Learner**: [ridge classifier](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.RidgeClassifier.html)
     * **Base Learner**: [support vector machine](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html)
-4. The remaining 3 base learners have not demonstrated significant contribution to the final prediction with negative values noted in terms of the permutation-based importance
+5. The remaining 3 base learners have not demonstrated significant contribution to the final prediction with negative values noted in terms of the permutation-based importance
     * **Base Learner**: [decision tree](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html)
     * **Base Learner**: [k-nearest neighbors](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html)
     * **Base Learner**: [neural network](https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html)
-5. For each of the significantly contributing base learners, the predictors with positive permutation-based importance are given as follows:
+6. For each of the significantly contributing base learners, the predictors with positive permutation-based importance are given as follows:
     * **Base Learner**: [ridge classifier](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.RidgeClassifier.html)
         * <span style="color: #FF0000">Age</span>
         * <span style="color: #FF0000">T</span>
@@ -29308,13 +29310,9 @@ perm_importance_blended_baselearner_nn_optimal = compute_permutation_importance(
     
 
 
-
-```python
-
-
-```
-
 # 2. Summary <a class="anchor" id="Summary"></a>
+
+![Project59_Summary.png](9a16e43f-a70a-483b-b5f9-93e422dcbc00.png)
 
 # 3. References <a class="anchor" id="References"></a>
 * **[Book]** [Ensemble Methods for Machine Learning](https://www.manning.com/books/ensemble-methods-for-machine-learning) by Gautam Kunapuli
@@ -29335,11 +29333,15 @@ perm_importance_blended_baselearner_nn_optimal = compute_permutation_importance(
 * **[Python Library API]** [sklearn.linear_model](https://scikit-learn.org/stable/modules/classes.html#module-sklearn.linear_model) by Scikit-Learn Team
 * **[Python Library API]** [sklearn.preprocessing](https://scikit-learn.org/stable/modules/classes.html#module-sklearn.preprocessing) by Scikit-Learn Team
 * **[Python Library API]** [scipy](https://docs.scipy.org/doc/scipy/) by SciPy Team
-* **[Python Library API]** [sklearn.tree](https://scikit-learn.org/stable/modules/tree.html) by Scikit-Learn Team
+* **[Python Library API]** [sklearn.tree](https://scikit-learn.org/stable/modules/tree.html) by Schttps://scikit-learn.org/stable/api/sklearn.neighbors.htmlikit-Learn Team
 * **[Python Library API]** [sklearn.ensemble](https://scikit-learn.org/stable/modules/ensemble.html) by Scikit-Learn Team
 * **[Python Library API]** [sklearn.svm](https://scikit-learn.org/stable/modules/svm.html) by Scikit-Learn Team
 * **[Python Library API]** [sklearn.metrics](https://scikit-learn.org/stable/modules/model_evaluation.html) by Scikit-Learn Team
-* **[Python Library API]** [sklearn.model_selection](https://scikit-learn.org/stable/model_selection.html) by Scikit-Learn Team
+* **[Python Library API]** [sklearn.neighbors](https://scikit-learn.org/stable/api/sklearn.neighbors.html) by Scikit-Learn Team
+* **[Python Library API]** [sklearn.neural_network](https://scikit-learn.org/stable/api/sklearn.neural_network.html) by Scikit-Learn Team
+* **[Python Library API]** [xgboost](https://xgboost.readthedocs.io/en/stable/python/index.html) by XGBoost Team
+* **[Python Library API]** [lightgbm](https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.LGBMClassifier.html) by LightGBM Team
+* **[Python Library API]** [catboost](https://catboost.ai/docs/en/concepts/python-reference_catboostclassifier) by CatBoost Team
 * **[Python Library API]** [imblearn.over_sampling](https://imbalanced-learn.org/stable/over_sampling.html) by Imbalanced-Learn Team
 * **[Python Library API]** [imblearn.under_sampling](https://imbalanced-learn.org/stable/under_sampling.html) by Imbalanced-Learn Team
 * **[Python Library API]** [StatsModels](https://www.statsmodels.org/stable/index.html) by StatsModels Team
