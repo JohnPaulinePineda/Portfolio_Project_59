@@ -3587,6 +3587,10 @@ display(thyroid_cancer_baseline.shape)
 
 
 ```python
+##################################
+# Obtaining the distribution of
+# of the target variable
+##################################
 print('Target Variable Breakdown: ')
 thyroid_cancer_breakdown = thyroid_cancer_baseline.groupby('Recurred', observed=True).size().reset_index(name='Count')
 thyroid_cancer_breakdown['Percentage'] = (thyroid_cancer_breakdown['Count'] / len(thyroid_cancer_baseline)) * 100
@@ -6046,13 +6050,13 @@ display(thyroid_cancer_categorical_summary.sort_values(by=['ChiSquare.Test.PValu
     * <span style="color: #FF0000">M</span>: 
         * **194** <span style="color: #FF0000">M=M0</span>: 95.10%
         * **10** <span style="color: #FF0000">M=M1</span>: 4.90%
-2. There was 1 categorical predictor excluded from the dataset after having been observed with high pairwise collinearity (Phi.Coefficient>0.70) with other 2 predictors that might provide redundant information, leading to potential instability in regression models.
+3. There was 1 categorical predictor excluded from the dataset after having been observed with high pairwise collinearity (Phi.Coefficient>0.70) with other 2 predictors that might provide redundant information, leading to potential instability in regression models.
     * <span style="color: #FF0000">N</span> and <span style="color: #FF0000">Adenopathy</span>: Phi.Coefficient = +0.805
     * <span style="color: #FF0000">N</span> and <span style="color: #FF0000">Risk</span>: Phi.Coefficient = +0.726
-3. Another 2 categorical predictors were excluded from the dataset for not exhibiting a statistically significant association with the Yes and No groups of the <span style="color: #FF0000">Recurred</span> target variable, indicating weak predictive value.
+4. Another 2 categorical predictors were excluded from the dataset for not exhibiting a statistically significant association with the Yes and No groups of the <span style="color: #FF0000">Recurred</span> target variable, indicating weak predictive value.
     * <span style="color: #FF0000">Thyroid_Function</span>: ChiSquare.Test.Statistic=0.967, ChiSquare.Test.PValue=0.325
     * <span style="color: #FF0000">Pathology</span>: ChiSquare.Test.Statistic=0.132, ChiSquare.Test.PValue=0.717  
-4. The **preprocessed train data (final)** subset is comprised of:
+5. The **preprocessed train data (final)** subset is comprised of:
     * **204 rows** (observations)
         * **143 Recurred=No**: 70.10%
         * **61 Recurred=Yes**: 29.90%
@@ -15336,56 +15340,56 @@ boosted_cb_grid_search.fit(X_preprocessed_train, y_preprocessed_train_encoded)
 ```
 
     Fitting 25 folds for each of 16 candidates, totalling 400 fits
-    0:	learn: 0.6891722	total: 142ms	remaining: 6.93s
-    1:	learn: 0.6834783	total: 143ms	remaining: 3.43s
-    2:	learn: 0.6782963	total: 144ms	remaining: 2.25s
-    3:	learn: 0.6734680	total: 145ms	remaining: 1.67s
-    4:	learn: 0.6687357	total: 146ms	remaining: 1.31s
-    5:	learn: 0.6634680	total: 147ms	remaining: 1.08s
-    6:	learn: 0.6585557	total: 148ms	remaining: 908ms
-    7:	learn: 0.6543455	total: 149ms	remaining: 783ms
-    8:	learn: 0.6494274	total: 150ms	remaining: 683ms
-    9:	learn: 0.6445245	total: 151ms	remaining: 603ms
-    10:	learn: 0.6403235	total: 152ms	remaining: 538ms
-    11:	learn: 0.6356199	total: 152ms	remaining: 483ms
-    12:	learn: 0.6312758	total: 154ms	remaining: 437ms
-    13:	learn: 0.6272985	total: 155ms	remaining: 398ms
-    14:	learn: 0.6234670	total: 156ms	remaining: 364ms
-    15:	learn: 0.6188170	total: 157ms	remaining: 333ms
-    16:	learn: 0.6149020	total: 158ms	remaining: 307ms
-    17:	learn: 0.6107420	total: 159ms	remaining: 283ms
-    18:	learn: 0.6069101	total: 160ms	remaining: 261ms
-    19:	learn: 0.6029967	total: 161ms	remaining: 241ms
-    20:	learn: 0.5990690	total: 162ms	remaining: 224ms
-    21:	learn: 0.5950791	total: 163ms	remaining: 208ms
-    22:	learn: 0.5910606	total: 164ms	remaining: 193ms
-    23:	learn: 0.5872759	total: 165ms	remaining: 179ms
-    24:	learn: 0.5831229	total: 166ms	remaining: 166ms
-    25:	learn: 0.5800303	total: 168ms	remaining: 155ms
-    26:	learn: 0.5767067	total: 169ms	remaining: 144ms
-    27:	learn: 0.5733769	total: 170ms	remaining: 133ms
-    28:	learn: 0.5702532	total: 171ms	remaining: 124ms
-    29:	learn: 0.5673687	total: 172ms	remaining: 114ms
-    30:	learn: 0.5645879	total: 173ms	remaining: 106ms
-    31:	learn: 0.5613671	total: 174ms	remaining: 97.6ms
-    32:	learn: 0.5583988	total: 175ms	remaining: 90ms
-    33:	learn: 0.5553886	total: 176ms	remaining: 82.7ms
-    34:	learn: 0.5518851	total: 177ms	remaining: 75.7ms
-    35:	learn: 0.5491829	total: 178ms	remaining: 69.2ms
-    36:	learn: 0.5464052	total: 179ms	remaining: 63ms
-    37:	learn: 0.5437216	total: 181ms	remaining: 57ms
-    38:	learn: 0.5410767	total: 182ms	remaining: 51.2ms
-    39:	learn: 0.5383734	total: 183ms	remaining: 45.6ms
-    40:	learn: 0.5354526	total: 184ms	remaining: 40.3ms
-    41:	learn: 0.5326437	total: 185ms	remaining: 35.1ms
-    42:	learn: 0.5296890	total: 186ms	remaining: 30.2ms
-    43:	learn: 0.5267096	total: 187ms	remaining: 25.5ms
-    44:	learn: 0.5244612	total: 188ms	remaining: 20.9ms
-    45:	learn: 0.5216877	total: 189ms	remaining: 16.5ms
-    46:	learn: 0.5186363	total: 190ms	remaining: 12.1ms
-    47:	learn: 0.5158441	total: 191ms	remaining: 7.98ms
-    48:	learn: 0.5132195	total: 193ms	remaining: 3.93ms
-    49:	learn: 0.5104675	total: 193ms	remaining: 0us
+    0:	learn: 0.6891722	total: 117ms	remaining: 5.73s
+    1:	learn: 0.6834783	total: 118ms	remaining: 2.83s
+    2:	learn: 0.6782963	total: 119ms	remaining: 1.86s
+    3:	learn: 0.6734680	total: 120ms	remaining: 1.38s
+    4:	learn: 0.6687357	total: 121ms	remaining: 1.09s
+    5:	learn: 0.6634680	total: 122ms	remaining: 894ms
+    6:	learn: 0.6585557	total: 123ms	remaining: 754ms
+    7:	learn: 0.6543455	total: 124ms	remaining: 650ms
+    8:	learn: 0.6494274	total: 124ms	remaining: 567ms
+    9:	learn: 0.6445245	total: 125ms	remaining: 501ms
+    10:	learn: 0.6403235	total: 126ms	remaining: 447ms
+    11:	learn: 0.6356199	total: 127ms	remaining: 402ms
+    12:	learn: 0.6312758	total: 128ms	remaining: 363ms
+    13:	learn: 0.6272985	total: 129ms	remaining: 331ms
+    14:	learn: 0.6234670	total: 130ms	remaining: 302ms
+    15:	learn: 0.6188170	total: 130ms	remaining: 277ms
+    16:	learn: 0.6149020	total: 131ms	remaining: 255ms
+    17:	learn: 0.6107420	total: 132ms	remaining: 235ms
+    18:	learn: 0.6069101	total: 132ms	remaining: 216ms
+    19:	learn: 0.6029967	total: 133ms	remaining: 200ms
+    20:	learn: 0.5990690	total: 134ms	remaining: 185ms
+    21:	learn: 0.5950791	total: 135ms	remaining: 172ms
+    22:	learn: 0.5910606	total: 135ms	remaining: 159ms
+    23:	learn: 0.5872759	total: 136ms	remaining: 147ms
+    24:	learn: 0.5831229	total: 137ms	remaining: 137ms
+    25:	learn: 0.5800303	total: 138ms	remaining: 127ms
+    26:	learn: 0.5767067	total: 139ms	remaining: 118ms
+    27:	learn: 0.5733769	total: 139ms	remaining: 110ms
+    28:	learn: 0.5702532	total: 140ms	remaining: 101ms
+    29:	learn: 0.5673687	total: 141ms	remaining: 93.9ms
+    30:	learn: 0.5645879	total: 142ms	remaining: 86.8ms
+    31:	learn: 0.5613671	total: 142ms	remaining: 80ms
+    32:	learn: 0.5583988	total: 143ms	remaining: 73.7ms
+    33:	learn: 0.5553886	total: 144ms	remaining: 67.6ms
+    34:	learn: 0.5518851	total: 144ms	remaining: 61.8ms
+    35:	learn: 0.5491829	total: 145ms	remaining: 56.4ms
+    36:	learn: 0.5464052	total: 146ms	remaining: 51.3ms
+    37:	learn: 0.5437216	total: 147ms	remaining: 46.4ms
+    38:	learn: 0.5410767	total: 148ms	remaining: 41.7ms
+    39:	learn: 0.5383734	total: 148ms	remaining: 37.1ms
+    40:	learn: 0.5354526	total: 149ms	remaining: 32.7ms
+    41:	learn: 0.5326437	total: 150ms	remaining: 28.5ms
+    42:	learn: 0.5296890	total: 151ms	remaining: 24.5ms
+    43:	learn: 0.5267096	total: 152ms	remaining: 20.7ms
+    44:	learn: 0.5244612	total: 153ms	remaining: 17ms
+    45:	learn: 0.5216877	total: 154ms	remaining: 13.3ms
+    46:	learn: 0.5186363	total: 154ms	remaining: 9.84ms
+    47:	learn: 0.5158441	total: 155ms	remaining: 6.46ms
+    48:	learn: 0.5132195	total: 156ms	remaining: 3.18ms
+    49:	learn: 0.5104675	total: 157ms	remaining: 0us
     
 
 
@@ -15822,7 +15826,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Stage&#x27;,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;boosted_cb_model&#x27;,
-                                        &lt;catboost.core.CatBoostClassifier object at 0x000002AD5551D3D0&gt;)]),
+                                        &lt;catboost.core.CatBoostClassifier object at 0x0000011429733560&gt;)]),
              n_jobs=-1,
              param_grid={&#x27;boosted_cb_model__iterations&#x27;: [50, 100],
                          &#x27;boosted_cb_model__learning_rate&#x27;: [0.01, 0.1],
@@ -15844,7 +15848,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                           &#x27;Stage&#x27;,
                                                                           &#x27;Response&#x27;])])),
                                        (&#x27;boosted_cb_model&#x27;,
-                                        &lt;catboost.core.CatBoostClassifier object at 0x000002AD5551D3D0&gt;)]),
+                                        &lt;catboost.core.CatBoostClassifier object at 0x0000011429733560&gt;)]),
              n_jobs=-1,
              param_grid={&#x27;boosted_cb_model__iterations&#x27;: [50, 100],
                          &#x27;boosted_cb_model__learning_rate&#x27;: [0.01, 0.1],
@@ -15860,11 +15864,11 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                    &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;,
                                                    &#x27;Response&#x27;])])),
                 (&#x27;boosted_cb_model&#x27;,
-                 &lt;catboost.core.CatBoostClassifier object at 0x000002AD56518A70&gt;)])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-83" type="checkbox" ><label for="sk-estimator-id-83" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
+                 &lt;catboost.core.CatBoostClassifier object at 0x0000011428FE71A0&gt;)])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-83" type="checkbox" ><label for="sk-estimator-id-83" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>categorical_preprocessor: ColumnTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for categorical_preprocessor: ColumnTransformer</span></a></div></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(force_int_remainder_cols=False, remainder=&#x27;passthrough&#x27;,
                   transformers=[(&#x27;cat&#x27;, OrdinalEncoder(),
                                  [&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;,
                                   &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;,
-                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-84" type="checkbox" ><label for="sk-estimator-id-84" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-85" type="checkbox" ><label for="sk-estimator-id-85" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-86" type="checkbox" ><label for="sk-estimator-id-86" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-87" type="checkbox" ><label for="sk-estimator-id-87" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-88" type="checkbox" ><label for="sk-estimator-id-88" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>CatBoostClassifier</div></div></label><div class="sk-toggleable__content fitted"><pre>&lt;catboost.core.CatBoostClassifier object at 0x000002AD56518A70&gt;</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
+                                  &#x27;Stage&#x27;, &#x27;Response&#x27;])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-84" type="checkbox" ><label for="sk-estimator-id-84" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Gender&#x27;, &#x27;Smoking&#x27;, &#x27;Physical_Examination&#x27;, &#x27;Adenopathy&#x27;, &#x27;Focality&#x27;, &#x27;Risk&#x27;, &#x27;T&#x27;, &#x27;Stage&#x27;, &#x27;Response&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-85" type="checkbox" ><label for="sk-estimator-id-85" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OrdinalEncoder</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.OrdinalEncoder.html">?<span>Documentation for OrdinalEncoder</span></a></div></label><div class="sk-toggleable__content fitted"><pre>OrdinalEncoder()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-86" type="checkbox" ><label for="sk-estimator-id-86" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>remainder</div></div></label><div class="sk-toggleable__content fitted"><pre>[&#x27;Age&#x27;]</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-87" type="checkbox" ><label for="sk-estimator-id-87" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>passthrough</div></div></label><div class="sk-toggleable__content fitted"><pre>passthrough</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-88" type="checkbox" ><label for="sk-estimator-id-88" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>CatBoostClassifier</div></div></label><div class="sk-toggleable__content fitted"><pre>&lt;catboost.core.CatBoostClassifier object at 0x0000011428FE71A0&gt;</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
 
 
 
